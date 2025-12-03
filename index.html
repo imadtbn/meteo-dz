@@ -2282,6 +2282,68 @@
             utils: utils,
             cities: ALGERIAN_CITIES
         };
+
+
+async function handleCityChange(cityName, lat = null, lon = null) {
+    try {
+        // تحديث حالة التطبيق
+        appState.city = cityName;
+        appState.loading = true;
+
+        // إظهار مؤشر التحميل
+        document.getElementById('weatherLoading').style.display = 'block';
+
+        // إذا لم يتم تمرير lat/lon نبحث عنها
+        if (!lat || !lon) {
+            const geoRes = await weatherAPI.getCoordinates(cityName);
+            if (!geoRes || geoRes.length === 0) {
+                alert("لم يتم العثور على إحداثيات المدينة");
+                return;
+            }
+            lat = geoRes[0].lat;
+            lon = geoRes[0].lon;
+        }
+
+        appState.coords = { lat, lon };
+
+        // جلب الطقس
+        const data = await weatherAPI.getWeather(lat, lon);
+        if (!data) {
+            alert("فشل جلب بيانات الطقس");
+            return;
+        }
+
+        appState.weather = data;
+
+        // تحديث الواجهة
+        ui.renderWeather(data);
+        ui.renderHourly(data.hourly);
+        ui.renderDaily(data.daily);
+
+        // تحديث النشرة الإخبارية
+        try {
+            const news = await newsAPI.getWeatherNews(cityName);
+            ui.renderNews(news);
+        } catch (err) {
+            console.warn("News error:", err);
+        }
+
+        // تحديث الخريطة
+        mapController.updateMap(lat, lon);
+        mapController.updateWeatherLayer(lat, lon);
+
+        // إخفاء قائمة البحث
+        document.getElementById("searchResults").style.display = "none";
+
+    } catch (error) {
+        console.error("Error in handleCityChange:", error);
+        alert("حدث خطأ أثناء تحديث الطقس");
+    } finally {
+        appState.loading = false;
+        document.getElementById('weatherLoading').style.display = 'none';
+    }
+}
+
     </script>
 </body>
 </html>
