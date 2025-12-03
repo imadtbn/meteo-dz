@@ -1,26 +1,24 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>موقع الطقس الجزائري - تنبؤات حقيقية مباشرة</title>
-
+    
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800&display=swap"
-        rel="stylesheet">
-
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
+    
     <!-- Leaflet CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-
+    
     <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
+    
     <style>
         :root {
             --primary-blue: #1e40af;
@@ -33,13 +31,13 @@
             --algeria-green: #006233;
             --algeria-red: #d21034;
         }
-
+        
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-
+        
         body {
             font-family: 'Cairo', sans-serif;
             background-color: var(--light-bg);
@@ -48,12 +46,12 @@
             transition: background-color 0.3s, color 0.3s;
             overflow-x: hidden;
         }
-
+        
         .dark-mode {
             background-color: var(--dark-bg);
             color: #e2e8f0;
         }
-
+        
         /* Header Styles */
         header {
             background: linear-gradient(135deg, var(--algeria-green), var(--primary-blue));
@@ -64,7 +62,7 @@
             top: 0;
             z-index: 1000;
         }
-
+        
         .header-container {
             display: flex;
             justify-content: space-between;
@@ -72,22 +70,22 @@
             max-width: 1400px;
             margin: 0 auto;
         }
-
+        
         .logo {
             display: flex;
             align-items: center;
             gap: 10px;
         }
-
+        
         .logo i {
             font-size: 2rem;
         }
-
+        
         .logo h1 {
             font-size: 1.8rem;
             font-weight: 700;
         }
-
+        
         .logo .algeria-flag {
             display: inline-block;
             width: 30px;
@@ -96,7 +94,7 @@
             position: relative;
             margin-right: 10px;
         }
-
+        
         .logo .algeria-flag::before {
             content: '★';
             position: absolute;
@@ -106,13 +104,13 @@
             left: 50%;
             transform: translate(-50%, -50%);
         }
-
+        
         nav ul {
             display: flex;
             list-style: none;
             gap: 2rem;
         }
-
+        
         nav a {
             color: white;
             text-decoration: none;
@@ -122,22 +120,21 @@
             padding: 0.5rem 1rem;
             border-radius: 5px;
         }
-
-        nav a:hover,
-        nav a.active {
+        
+        nav a:hover, nav a.active {
             background-color: rgba(255, 255, 255, 0.1);
         }
-
+        
         .header-controls {
             display: flex;
             align-items: center;
             gap: 1rem;
         }
-
+        
         .search-container {
             position: relative;
         }
-
+        
         .search-container input {
             padding: 0.5rem 1rem 0.5rem 2.5rem;
             border: none;
@@ -147,11 +144,11 @@
             width: 250px;
             font-family: 'Cairo', sans-serif;
         }
-
+        
         .search-container input::placeholder {
             color: rgba(255, 255, 255, 0.7);
         }
-
+        
         .search-container i {
             position: absolute;
             left: 15px;
@@ -159,7 +156,7 @@
             transform: translateY(-50%);
             color: white;
         }
-
+        
         .theme-toggle {
             background: none;
             border: none;
@@ -167,24 +164,22 @@
             font-size: 1.5rem;
             cursor: pointer;
         }
-
+        
         /* Loading Spinner */
         .spinner {
             display: inline-block;
             width: 30px;
             height: 30px;
-            border: 3px solid rgba(255, 255, 255, .3);
+            border: 3px solid rgba(255,255,255,.3);
             border-radius: 50%;
             border-top-color: white;
             animation: spin 1s ease-in-out infinite;
         }
-
+        
         @keyframes spin {
-            to {
-                transform: rotate(360deg);
-            }
+            to { transform: rotate(360deg); }
         }
-
+        
         /* Alert Banner */
         .alert-banner {
             background-color: var(--algeria-red);
@@ -197,19 +192,12 @@
             align-items: center;
             animation: slideDown 0.5s ease-out;
         }
-
+        
         @keyframes slideDown {
-            from {
-                transform: translateY(-100%);
-                opacity: 0;
-            }
-
-            to {
-                transform: translateY(0);
-                opacity: 1;
-            }
+            from { transform: translateY(-100%); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
         }
-
+        
         .alert-close {
             background: none;
             border: none;
@@ -217,27 +205,27 @@
             font-size: 1.2rem;
             cursor: pointer;
         }
-
+        
         /* Main Content */
         main {
             max-width: 1400px;
             margin: 2rem auto;
             padding: 0 2rem;
         }
-
+        
         .hero-section {
             display: grid;
             grid-template-columns: 2fr 1fr;
             gap: 2rem;
             margin-bottom: 3rem;
         }
-
+        
         @media (max-width: 992px) {
             .hero-section {
                 grid-template-columns: 1fr;
             }
         }
-
+        
         /* Current Weather Card */
         .current-weather {
             background: linear-gradient(135deg, var(--algeria-green), var(--primary-blue));
@@ -249,7 +237,7 @@
             overflow: hidden;
             min-height: 300px;
         }
-
+        
         .current-weather::before {
             content: '';
             position: absolute;
@@ -257,79 +245,79 @@
             right: -50%;
             width: 200%;
             height: 200%;
-            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px);
             background-size: 20px 20px;
             opacity: 0.3;
         }
-
+        
         .weather-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 1.5rem;
         }
-
+        
         .location h2 {
             font-size: 2rem;
             margin-bottom: 0.5rem;
         }
-
+        
         .last-update {
             font-size: 0.9rem;
             opacity: 0.8;
         }
-
+        
         .current-temp {
             display: flex;
             align-items: center;
             justify-content: space-between;
             margin-bottom: 2rem;
         }
-
+        
         .temp-main {
             text-align: center;
         }
-
+        
         .temp-main .temp {
             font-size: 5rem;
             font-weight: 700;
             line-height: 1;
         }
-
+        
         .temp-main .condition {
             font-size: 1.5rem;
             margin-top: 0.5rem;
         }
-
+        
         .weather-icon {
             font-size: 6rem;
         }
-
+        
         .weather-details {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
             gap: 1rem;
             margin-top: 2rem;
         }
-
+        
         @media (max-width: 768px) {
             .weather-details {
                 grid-template-columns: repeat(2, 1fr);
             }
         }
-
+        
         .detail-item {
             text-align: center;
             padding: 1rem;
             background-color: rgba(255, 255, 255, 0.1);
             border-radius: 10px;
         }
-
+        
         .detail-item i {
             font-size: 1.5rem;
             margin-bottom: 0.5rem;
         }
-
+        
         /* News Ticker */
         .news-ticker {
             background-color: white;
@@ -338,11 +326,11 @@
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
             height: fit-content;
         }
-
+        
         .dark-mode .news-ticker {
             background-color: #1e293b;
         }
-
+        
         .ticker-header {
             display: flex;
             justify-content: space-between;
@@ -351,16 +339,16 @@
             border-bottom: 2px solid #e2e8f0;
             padding-bottom: 0.5rem;
         }
-
+        
         .dark-mode .ticker-header {
             border-bottom-color: #334155;
         }
-
+        
         .ticker-header h3 {
             font-size: 1.3rem;
             color: var(--algeria-green);
         }
-
+        
         .live-badge {
             background-color: var(--algeria-red);
             color: white;
@@ -369,46 +357,46 @@
             font-size: 0.8rem;
             font-weight: 600;
         }
-
+        
         .ticker-content {
             max-height: 300px;
             overflow-y: auto;
         }
-
+        
         .news-item {
             padding: 1rem 0;
             border-bottom: 1px solid #e2e8f0;
         }
-
+        
         .dark-mode .news-item {
             border-bottom-color: #334155;
         }
-
+        
         .news-item:last-child {
             border-bottom: none;
         }
-
+        
         .news-item h4 {
             font-size: 1.1rem;
             margin-bottom: 0.5rem;
             color: #1e293b;
         }
-
+        
         .dark-mode .news-item h4 {
             color: #e2e8f0;
         }
-
+        
         .news-item p {
             font-size: 0.9rem;
             color: #64748b;
             margin-bottom: 0.5rem;
         }
-
+        
         .news-time {
             font-size: 0.8rem;
             color: var(--algeria-green);
         }
-
+        
         /* Forecast Section */
         .section-header {
             display: flex;
@@ -416,14 +404,14 @@
             align-items: center;
             margin-bottom: 1.5rem;
         }
-
+        
         .section-header h2 {
             font-size: 1.8rem;
             color: var(--algeria-green);
             position: relative;
             padding-right: 1rem;
         }
-
+        
         .section-header h2::after {
             content: '';
             position: absolute;
@@ -433,7 +421,7 @@
             height: 3px;
             background-color: var(--algeria-green);
         }
-
+        
         .btn {
             background-color: var(--algeria-green);
             color: white;
@@ -445,41 +433,41 @@
             cursor: pointer;
             transition: background-color 0.3s;
         }
-
+        
         .btn:hover {
             background-color: var(--primary-blue);
         }
-
+        
         .btn:disabled {
             opacity: 0.6;
             cursor: not-allowed;
         }
-
+        
         .forecast-container {
             display: grid;
             grid-template-columns: repeat(7, 1fr);
             gap: 1rem;
             margin-bottom: 3rem;
         }
-
+        
         @media (max-width: 1200px) {
             .forecast-container {
                 grid-template-columns: repeat(4, 1fr);
             }
         }
-
+        
         @media (max-width: 768px) {
             .forecast-container {
                 grid-template-columns: repeat(2, 1fr);
             }
         }
-
+        
         @media (max-width: 480px) {
             .forecast-container {
                 grid-template-columns: 1fr;
             }
         }
-
+        
         .forecast-card {
             background-color: white;
             border-radius: 15px;
@@ -488,49 +476,49 @@
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
             transition: transform 0.3s, box-shadow 0.3s;
         }
-
+        
         .dark-mode .forecast-card {
             background-color: #1e293b;
         }
-
+        
         .forecast-card:hover {
             transform: translateY(-5px);
             box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
         }
-
+        
         .forecast-day {
             font-weight: 700;
             margin-bottom: 0.5rem;
             color: var(--algeria-green);
         }
-
+        
         .forecast-date {
             font-size: 0.9rem;
             color: #64748b;
             margin-bottom: 1rem;
         }
-
+        
         .forecast-icon {
             font-size: 3rem;
             margin: 1rem 0;
         }
-
+        
         .forecast-temp {
             display: flex;
             justify-content: space-between;
             margin-top: 1rem;
         }
-
+        
         .high-temp {
             color: var(--algeria-red);
             font-weight: 700;
         }
-
+        
         .low-temp {
             color: var(--primary-blue);
             font-weight: 700;
         }
-
+        
         /* Weather Map */
         .weather-map-container {
             background-color: white;
@@ -539,11 +527,11 @@
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
             margin-bottom: 3rem;
         }
-
+        
         .dark-mode .weather-map-container {
             background-color: #1e293b;
         }
-
+        
         .map-wrapper {
             height: 500px;
             border-radius: 10px;
@@ -551,23 +539,23 @@
             margin-top: 1rem;
             border: 1px solid #e2e8f0;
         }
-
+        
         .dark-mode .map-wrapper {
             border-color: #334155;
         }
-
+        
         #weatherMap {
             width: 100%;
             height: 100%;
         }
-
+        
         .map-controls {
             display: flex;
             gap: 0.5rem;
             margin-top: 1rem;
             flex-wrap: wrap;
         }
-
+        
         .map-btn {
             background-color: #e2e8f0;
             border: none;
@@ -577,17 +565,17 @@
             cursor: pointer;
             transition: background-color 0.3s;
         }
-
+        
         .dark-mode .map-btn {
             background-color: #334155;
             color: #e2e8f0;
         }
-
+        
         .map-btn.active {
             background-color: var(--algeria-green);
             color: white;
         }
-
+        
         /* Gallery */
         .gallery-container {
             background-color: white;
@@ -596,18 +584,18 @@
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
             margin-bottom: 3rem;
         }
-
+        
         .dark-mode .gallery-container {
             background-color: #1e293b;
         }
-
+        
         .gallery-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
             gap: 1rem;
             margin-top: 1.5rem;
         }
-
+        
         .gallery-item {
             border-radius: 10px;
             overflow: hidden;
@@ -615,34 +603,34 @@
             height: 200px;
             cursor: pointer;
         }
-
+        
         .gallery-item img {
             width: 100%;
             height: 100%;
             object-fit: cover;
             transition: transform 0.5s;
         }
-
+        
         .gallery-item:hover img {
             transform: scale(1.1);
         }
-
+        
         .gallery-overlay {
             position: absolute;
             bottom: 0;
             right: 0;
             left: 0;
-            background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+            background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
             color: white;
             padding: 1rem;
             transform: translateY(100%);
             transition: transform 0.3s;
         }
-
+        
         .gallery-item:hover .gallery-overlay {
             transform: translateY(0);
         }
-
+        
         /* Weather Stats */
         .stats-grid {
             display: grid;
@@ -650,19 +638,19 @@
             gap: 1.5rem;
             margin-bottom: 3rem;
         }
-
+        
         @media (max-width: 992px) {
             .stats-grid {
                 grid-template-columns: repeat(2, 1fr);
             }
         }
-
+        
         @media (max-width: 576px) {
             .stats-grid {
                 grid-template-columns: 1fr;
             }
         }
-
+        
         .stat-card {
             background-color: white;
             border-radius: 15px;
@@ -670,28 +658,28 @@
             text-align: center;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
         }
-
+        
         .dark-mode .stat-card {
             background-color: #1e293b;
         }
-
+        
         .stat-icon {
             font-size: 2.5rem;
             margin-bottom: 1rem;
             color: var(--algeria-green);
         }
-
+        
         .stat-value {
             font-size: 2rem;
             font-weight: 700;
             margin-bottom: 0.5rem;
         }
-
+        
         .stat-label {
             color: #64748b;
             font-size: 1rem;
         }
-
+        
         /* Weather Tips */
         .tips-container {
             display: grid;
@@ -699,43 +687,43 @@
             gap: 1.5rem;
             margin-bottom: 3rem;
         }
-
+        
         @media (max-width: 992px) {
             .tips-container {
                 grid-template-columns: repeat(2, 1fr);
             }
         }
-
+        
         @media (max-width: 576px) {
             .tips-container {
                 grid-template-columns: 1fr;
             }
         }
-
+        
         .tip-card {
             background-color: white;
             border-radius: 15px;
             padding: 1.5rem;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
         }
-
+        
         .dark-mode .tip-card {
             background-color: #1e293b;
         }
-
+        
         .tip-icon {
             font-size: 2.5rem;
             margin-bottom: 1rem;
             color: var(--success-green);
         }
-
+        
         .tip-title {
             font-size: 1.2rem;
             font-weight: 700;
             margin-bottom: 0.8rem;
             color: var(--algeria-green);
         }
-
+        
         /* Footer */
         footer {
             background-color: var(--algeria-green);
@@ -743,7 +731,7 @@
             padding: 3rem 2rem 1.5rem;
             margin-top: 3rem;
         }
-
+        
         .footer-content {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -751,26 +739,26 @@
             max-width: 1400px;
             margin: 0 auto;
         }
-
+        
         @media (max-width: 992px) {
             .footer-content {
                 grid-template-columns: repeat(2, 1fr);
             }
         }
-
+        
         @media (max-width: 576px) {
             .footer-content {
                 grid-template-columns: 1fr;
             }
         }
-
+        
         .footer-column h3 {
             font-size: 1.3rem;
             margin-bottom: 1.5rem;
             position: relative;
             padding-bottom: 0.5rem;
         }
-
+        
         .footer-column h3::after {
             content: '';
             position: absolute;
@@ -780,31 +768,31 @@
             height: 3px;
             background-color: white;
         }
-
+        
         .footer-column ul {
             list-style: none;
         }
-
+        
         .footer-column ul li {
             margin-bottom: 0.8rem;
         }
-
+        
         .footer-column ul li a {
             color: #cbd5e1;
             text-decoration: none;
             transition: color 0.3s;
         }
-
+        
         .footer-column ul li a:hover {
             color: white;
         }
-
+        
         .social-links {
             display: flex;
             gap: 1rem;
             margin-top: 1rem;
         }
-
+        
         .social-links a {
             display: flex;
             align-items: center;
@@ -817,11 +805,11 @@
             text-decoration: none;
             transition: background-color 0.3s;
         }
-
+        
         .social-links a:hover {
             background-color: rgba(255, 255, 255, 0.3);
         }
-
+        
         .copyright {
             text-align: center;
             margin-top: 3rem;
@@ -830,47 +818,42 @@
             color: rgba(255, 255, 255, 0.8);
             font-size: 0.9rem;
         }
-
+        
         /* Responsive Design */
         @media (max-width: 768px) {
             .header-container {
                 flex-direction: column;
                 gap: 1rem;
             }
-
+            
             nav ul {
                 flex-wrap: wrap;
                 justify-content: center;
             }
-
+            
             .search-container input {
                 width: 200px;
             }
-
+            
             main {
                 padding: 0 1rem;
             }
         }
-
+        
         /* Utility Classes */
         .hidden {
             display: none !important;
         }
-
+        
         .fade-in {
             animation: fadeIn 0.5s ease-in;
         }
-
+        
         @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-
-            to {
-                opacity: 1;
-            }
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
-
+        
         /* Chart Container */
         .chart-container {
             background-color: white;
@@ -880,11 +863,11 @@
             margin-bottom: 3rem;
             height: 400px;
         }
-
+        
         .dark-mode .chart-container {
             background-color: #1e293b;
         }
-
+        
         /* Mobile Menu */
         .mobile-menu-btn {
             display: none;
@@ -894,29 +877,29 @@
             font-size: 1.5rem;
             cursor: pointer;
         }
-
+        
         @media (max-width: 768px) {
             .mobile-menu-btn {
                 display: block;
             }
-
+            
             nav {
                 width: 100%;
                 max-height: 0;
                 overflow: hidden;
                 transition: max-height 0.3s ease-out;
             }
-
+            
             nav.active {
                 max-height: 300px;
             }
-
+            
             nav ul {
                 flex-direction: column;
                 padding-top: 1rem;
             }
         }
-
+        
         /* API Status */
         .api-status {
             position: fixed;
@@ -928,16 +911,16 @@
             border-radius: 20px;
             font-size: 0.9rem;
             z-index: 1000;
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 3px 10px rgba(0,0,0,0.2);
             display: flex;
             align-items: center;
             gap: 0.5rem;
         }
-
+        
         .api-status.error {
             background-color: var(--algeria-red);
         }
-
+        
         /* City Suggestions */
         .city-suggestions {
             position: absolute;
@@ -946,67 +929,67 @@
             left: 0;
             background-color: white;
             border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
             max-height: 200px;
             overflow-y: auto;
             z-index: 1000;
         }
-
+        
         .dark-mode .city-suggestions {
             background-color: #1e293b;
             color: white;
         }
-
+        
         .city-suggestion-item {
             padding: 0.7rem 1rem;
             cursor: pointer;
             border-bottom: 1px solid #e2e8f0;
         }
-
+        
         .dark-mode .city-suggestion-item {
             border-bottom-color: #334155;
         }
-
+        
         .city-suggestion-item:hover {
             background-color: #f1f5f9;
         }
-
+        
         .dark-mode .city-suggestion-item:hover {
             background-color: #334155;
         }
-
+        
         /* Hourly Forecast */
         .hourly-forecast {
             overflow-x: auto;
             padding: 1rem 0;
             margin-bottom: 2rem;
         }
-
+        
         .hourly-container {
             display: flex;
             gap: 1rem;
             min-width: 100%;
         }
-
+        
         .hourly-card {
             min-width: 120px;
             background-color: white;
             border-radius: 10px;
             padding: 1rem;
             text-align: center;
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+            box-shadow: 0 3px 10px rgba(0,0,0,0.05);
         }
-
+        
         .dark-mode .hourly-card {
             background-color: #1e293b;
         }
-
+        
         .hourly-time {
             font-weight: 600;
             margin-bottom: 0.5rem;
             color: var(--algeria-green);
         }
-
+        
         /* News Grid */
         .news-grid {
             display: grid;
@@ -1014,49 +997,49 @@
             gap: 1.5rem;
             margin-top: 1.5rem;
         }
-
+        
         .news-card {
             background-color: white;
             border-radius: 15px;
             overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
             transition: transform 0.3s;
         }
-
+        
         .dark-mode .news-card {
             background-color: #1e293b;
         }
-
+        
         .news-card:hover {
             transform: translateY(-5px);
         }
-
+        
         .news-image {
             height: 180px;
             overflow: hidden;
         }
-
+        
         .news-image img {
             width: 100%;
             height: 100%;
             object-fit: cover;
             transition: transform 0.5s;
         }
-
+        
         .news-card:hover .news-image img {
             transform: scale(1.05);
         }
-
+        
         .news-content {
             padding: 1.5rem;
         }
-
+        
         .news-content h3 {
             font-size: 1.2rem;
             margin-bottom: 0.8rem;
             color: var(--algeria-green);
         }
-
+        
         .news-meta {
             display: flex;
             justify-content: space-between;
@@ -1064,64 +1047,8 @@
             font-size: 0.9rem;
             color: #64748b;
         }
-
-        /* إضافة هذا الكود في قسم CSS */
-
-.location-btn {
-    background: none;
-    border: none;
-    color: white;
-    font-size: 1.5rem;
-    cursor: pointer;
-    padding: 0.5rem;
-    border-radius: 50%;
-    transition: all 0.3s ease;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 40px;
-    height: 40px;
-}
-
-.location-btn:hover {
-    background-color: rgba(255, 255, 255, 0.1);
-    transform: scale(1.1);
-}
-
-.location-btn:active {
-    transform: scale(0.95);
-}
-
-.location-btn.loading {
-    animation: pulse 1.5s infinite;
-}
-
-@keyframes pulse {
-    0% { opacity: 1; }
-    50% { opacity: 0.5; }
-    100% { opacity: 1; }
-}
-
-.location-btn.error {
-    color: var(--algeria-red);
-}
-
-.location-btn.success {
-    color: #4ade80;
-}
-
-/* تحسين التصميم للجوال */
-@media (max-width: 768px) {
-    .location-btn {
-        font-size: 1.3rem;
-        width: 36px;
-        height: 36px;
-    }
-}
-
     </style>
 </head>
-
 <body>
     <!-- API Status Indicator -->
     <div class="api-status" id="apiStatus">
@@ -1143,11 +1070,11 @@
                 <i class="fas fa-cloud-sun"></i>
                 <h1>الطقس الجزائري</h1>
             </div>
-
+            
             <button class="mobile-menu-btn" id="mobileMenuBtn">
                 <i class="fas fa-bars"></i>
             </button>
-
+            
             <nav id="mainNav">
                 <ul>
                     <li><a href="#home" class="active">الرئيسية</a></li>
@@ -1158,20 +1085,13 @@
                     <li><a href="#contact">اتصل بنا</a></li>
                 </ul>
             </nav>
-
+            
             <div class="header-controls">
                 <div class="search-container">
                     <i class="fas fa-search"></i>
                     <input type="text" id="searchInput" placeholder="ابحث عن مدينة جزائرية...">
                     <div class="city-suggestions hidden" id="citySuggestions"></div>
                 </div>
-                <!-- إضافة زر تحديد الموقع -->
-<!-- زر تحديد الموقع -->
-<button class="location-btn" id="getLocationBtn" title="تحديد موقعي">
-    <i class="fas fa-location-dot"></i>
-</button>
-
-
                 <button class="theme-toggle" id="themeToggle">
                     <i class="fas fa-moon"></i>
                 </button>
@@ -1195,7 +1115,7 @@
                         </button>
                     </div>
                 </div>
-
+                
                 <div class="current-temp">
                     <div class="temp-main">
                         <div class="temp" id="currentTemp">--°</div>
@@ -1205,12 +1125,12 @@
                         <i class="fas fa-sun"></i>
                     </div>
                 </div>
-
+                
                 <div class="weather-details" id="weatherDetails">
                     <!-- سيتم ملؤها بواسطة JavaScript -->
                 </div>
             </div>
-
+            
             <div class="news-ticker">
                 <div class="ticker-header">
                     <h3>آخر الأخبار الجوية</h3>
@@ -1227,7 +1147,7 @@
             <div class="section-header">
                 <h2>تنبؤات 24 ساعة القادمة</h2>
             </div>
-
+            
             <div class="hourly-forecast">
                 <div class="hourly-container" id="hourlyForecast">
                     <!-- سيتم ملؤها بواسطة JavaScript -->
@@ -1241,7 +1161,7 @@
                 <h2>تنبؤات 7 أيام القادمة</h2>
                 <button class="btn" id="viewFullForecast">عرض التفاصيل الكاملة</button>
             </div>
-
+            
             <div class="forecast-container" id="forecastContainer">
                 <!-- سيتم ملؤها بواسطة JavaScript -->
             </div>
@@ -1258,7 +1178,7 @@
                     <button class="map-btn" data-layer="clouds">☁️ الغطاء السحابي</button>
                 </div>
             </div>
-
+            
             <div class="weather-map-container">
                 <div class="map-wrapper">
                     <div id="weatherMap"></div>
@@ -1271,7 +1191,7 @@
             <div class="section-header">
                 <h2>مخطط درجات الحرارة للأسبوع</h2>
             </div>
-
+            
             <div class="chart-container">
                 <canvas id="temperatureChart"></canvas>
             </div>
@@ -1282,7 +1202,7 @@
             <div class="section-header">
                 <h2>إحصائيات الطقس الحالية</h2>
             </div>
-
+            
             <div class="stats-grid" id="statsGrid">
                 <!-- سيتم ملؤها بواسطة JavaScript -->
             </div>
@@ -1294,7 +1214,7 @@
                 <h2>أخبار الطقس والمناخ</h2>
                 <button class="btn" id="refreshNews">تحديث الأخبار</button>
             </div>
-
+            
             <div class="news-grid" id="newsGrid">
                 <!-- سيتم ملؤها بواسطة JavaScript -->
             </div>
@@ -1306,7 +1226,7 @@
                 <h2>معرض الصور الجوية</h2>
                 <button class="btn" id="uploadPhoto">رفع صورة</button>
             </div>
-
+            
             <div class="gallery-container">
                 <div class="gallery-grid" id="galleryGrid">
                     <!-- سيتم ملؤها بواسطة JavaScript -->
@@ -1319,7 +1239,7 @@
             <div class="section-header">
                 <h2>نصائح طقسية</h2>
             </div>
-
+            
             <div class="tips-container">
                 <div class="tip-card">
                     <div class="tip-icon">
@@ -1351,8 +1271,7 @@
         <div class="footer-content">
             <div class="footer-column">
                 <h3>الطقس الجزائري</h3>
-                <p>منصة متكاملة للتنبؤات الجوية المباشرة للجزائر باستخدام OpenWeatherMap API وخرائط Leaflet التفاعلية.
-                </p>
+                <p>منصة متكاملة للتنبؤات الجوية المباشرة للجزائر باستخدام OpenWeatherMap API وخرائط Leaflet التفاعلية.</p>
                 <div class="social-links">
                     <a href="#"><i class="fab fa-twitter"></i></a>
                     <a href="#"><i class="fab fa-facebook-f"></i></a>
@@ -1360,7 +1279,7 @@
                     <a href="#"><i class="fab fa-youtube"></i></a>
                 </div>
             </div>
-
+            
             <div class="footer-column">
                 <h3>مدن رئيسية</h3>
                 <ul>
@@ -1372,7 +1291,7 @@
                     <li><a href="#" data-city="Setif">سطيف</a></li>
                 </ul>
             </div>
-
+            
             <div class="footer-column">
                 <h3>خدماتنا</h3>
                 <ul>
@@ -1384,7 +1303,7 @@
                     <li><a href="#">بيانات تاريخية</a></li>
                 </ul>
             </div>
-
+            
             <div class="footer-column">
                 <h3>اتصل بنا</h3>
                 <ul>
@@ -1395,17 +1314,16 @@
                 </ul>
             </div>
         </div>
-
+        
         <div class="copyright">
             <p>© 2024 الطقس الجزائري. جميع الحقوق محفوظة.</p>
-            <p>بيانات الطقس مقدمة من <a href="https://openweathermap.org" style="color:#fff;">OpenWeatherMap</a> | خرائط
-                من <a href="https://leafletjs.com" style="color:#fff;">Leaflet</a></p>
+            <p>بيانات الطقس مقدمة من <a href="https://openweathermap.org" style="color:#fff;">OpenWeatherMap</a> | خرائط من <a href="https://leafletjs.com" style="color:#fff;">Leaflet</a></p>
         </div>
     </footer>
 
     <!-- Leaflet JS -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-
+    
     <!-- JavaScript -->
     <script>
         // ============== CONFIGURATION ==============
@@ -1567,9 +1485,9 @@
 
             formatTime(timestamp) {
                 const date = new Date(timestamp * 1000);
-                return date.toLocaleTimeString('ar-SA', {
-                    hour: '2-digit',
-                    minute: '2-digit'
+                return date.toLocaleTimeString('ar-SA', { 
+                    hour: '2-digit', 
+                    minute: '2-digit' 
                 });
             },
 
@@ -1640,14 +1558,14 @@
                     const response = await fetch(
                         `${CONFIG.BASE_URL}/weather?q=${city},${CONFIG.DEFAULT_COUNTRY}&appid=${CONFIG.API_KEY}&units=${appState.units}&lang=ar`
                     );
-
+                    
                     if (!response.ok) throw new Error('Network response was not ok');
-
+                    
                     const data = await response.json();
                     appState.currentWeather = data;
                     utils.updateApiStatus('connected');
                     utils.setLoading(false);
-
+                    
                     return data;
                 } catch (error) {
                     console.error('Error fetching current weather:', error);
@@ -1662,9 +1580,9 @@
                     const response = await fetch(
                         `${CONFIG.BASE_URL}/forecast?q=${city},${CONFIG.DEFAULT_COUNTRY}&appid=${CONFIG.API_KEY}&units=${appState.units}&lang=ar&cnt=40`
                     );
-
+                    
                     if (!response.ok) throw new Error('Network response was not ok');
-
+                    
                     const data = await response.json();
                     appState.forecast = data;
                     return data;
@@ -1679,9 +1597,9 @@
                     const response = await fetch(
                         `${CONFIG.NEWS_URL}?apikey=${CONFIG.NEWS_API_KEY}&q=weather&country=dz&language=ar&category=top`
                     );
-
+                    
                     if (!response.ok) throw new Error('News API error');
-
+                    
                     const data = await response.json();
                     return data.results || [];
                 } catch (error) {
@@ -1703,14 +1621,14 @@
                         title: "تحذير من رياح نشطة على المناطق الساحلية الجزائرية",
                         description: "تصل سرعة الرياح إلى 45 كم/س مع احتمال تشكل أمواج عالية على سواحل وهران وعنابة",
                         image_url: "https://images.unsplash.com/photo-1534088568595-a066f410bcda?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
-                        pubDate: new Date(Date.now() - 2 * 60 * 60 * 1000).toISOString(),
+                        pubDate: new Date(Date.now() - 2*60*60*1000).toISOString(),
                         source_id: "coastal-alert"
                     },
                     {
                         title: "استمرار موجة الحر على المنطقة الجنوبية",
                         description: "درجات الحرارة تتجاوز 45° في تمنراست وأدرار مع نصح بعدم التعرض المباشر للشمس",
                         image_url: "https://images.unsplash.com/photo-1519692933481-e162a57d6721?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
-                        pubDate: new Date(Date.now() - 4 * 60 * 60 * 1000).toISOString(),
+                        pubDate: new Date(Date.now() - 4*60*60*1000).toISOString(),
                         source_id: "south-alert"
                     }
                 ];
@@ -1721,26 +1639,26 @@
         const ui = {
             updateCurrentWeather(weatherData) {
                 if (!weatherData) return;
-
+                
                 // Find Arabic city name
                 const cityInfo = ALGERIAN_CITIES.find(c => c.name_en === weatherData.name);
                 const cityName = cityInfo ? cityInfo.name : weatherData.name;
-
+                
                 elements.currentCity.textContent = `${cityName}، الجزائر`;
                 elements.currentTemp.textContent = `${Math.round(weatherData.main.temp)}°`;
-
+                
                 const condition = weatherData.weather[0].description;
                 elements.currentCondition.textContent = utils.translateCondition(condition);
-
+                
                 const iconClass = utils.getWeatherIcon(weatherData.weather[0].icon);
                 elements.weatherIcon.innerHTML = `<i class="${iconClass}"></i>`;
-
+                
                 const now = new Date();
                 elements.updateTime.textContent = now.toLocaleTimeString('ar-SA', {
                     hour: '2-digit',
                     minute: '2-digit'
                 });
-
+                
                 this.updateWeatherDetails(weatherData);
                 this.updateWeatherStats(weatherData);
             },
@@ -1764,19 +1682,19 @@
                         <div>الضغط ${weatherData.main.pressure} hPa</div>
                     </div>
                 `;
-
+                
                 elements.weatherDetails.innerHTML = details;
             },
 
             updateHourlyForecast(forecastData) {
                 if (!forecastData || !forecastData.list) return;
-
+                
                 const hourlyData = forecastData.list.slice(0, 8);
                 const hourlyHTML = hourlyData.map(hour => {
                     const time = new Date(hour.dt * 1000);
                     const timeString = time.getHours() + ':00';
                     const iconClass = utils.getWeatherIcon(hour.weather[0].icon);
-
+                    
                     return `
                         <div class="hourly-card">
                             <div class="hourly-time">${timeString}</div>
@@ -1790,19 +1708,19 @@
                         </div>
                     `;
                 }).join('');
-
+                
                 elements.hourlyForecast.innerHTML = hourlyHTML;
             },
 
             updateForecast(forecastData) {
                 if (!forecastData || !forecastData.list) return;
-
+                
                 // Group by day
                 const dailyForecasts = {};
                 forecastData.list.forEach(item => {
                     const date = new Date(item.dt * 1000);
                     const dateKey = date.toDateString();
-
+                    
                     if (!dailyForecasts[dateKey]) {
                         dailyForecasts[dateKey] = {
                             temp_min: item.main.temp_min,
@@ -1815,7 +1733,7 @@
                         dailyForecasts[dateKey].temp_max = Math.max(dailyForecasts[dateKey].temp_max, item.main.temp_max);
                     }
                 });
-
+                
                 // Get next 7 days
                 const forecastHTML = Object.values(dailyForecasts)
                     .slice(0, 7)
@@ -1824,7 +1742,7 @@
                         const dayName = utils.formatDate(day.dt).split(' ')[0];
                         const dateString = `${date.getDate()}/${date.getMonth() + 1}`;
                         const iconClass = utils.getWeatherIcon(day.weather.icon);
-
+                        
                         return `
                             <div class="forecast-card fade-in">
                                 <div class="forecast-day">${dayName}</div>
@@ -1840,7 +1758,7 @@
                             </div>
                         `;
                     }).join('');
-
+                
                 elements.forecastContainer.innerHTML = forecastHTML;
             },
 
@@ -1875,26 +1793,26 @@
                         <div class="stat-label">الرؤية</div>
                     </div>
                 `;
-
+                
                 elements.statsGrid.innerHTML = statsHTML;
             },
 
             updateTemperatureChart(forecastData) {
                 if (!forecastData) return;
-
+                
                 const ctx = document.getElementById('temperatureChart').getContext('2d');
-
+                
                 // Destroy previous chart if exists
                 if (ui.temperatureChart) {
                     ui.temperatureChart.destroy();
                 }
-
+                
                 // Prepare data for next 7 days
                 const dailyTemps = {};
                 forecastData.list.forEach(item => {
                     const date = new Date(item.dt * 1000);
                     const dateKey = date.toDateString();
-
+                    
                     if (!dailyTemps[dateKey]) {
                         dailyTemps[dateKey] = {
                             max: item.main.temp_max,
@@ -1906,17 +1824,17 @@
                         dailyTemps[dateKey].min = Math.min(dailyTemps[dateKey].min, item.main.temp_min);
                     }
                 });
-
+                
                 const sortedDays = Object.values(dailyTemps)
                     .sort((a, b) => a.date - b.date)
                     .slice(0, 7);
-
-                const labels = sortedDays.map(day =>
+                
+                const labels = sortedDays.map(day => 
                     `${day.date.getDate()}/${day.date.getMonth() + 1}`
                 );
                 const maxTemps = sortedDays.map(day => Math.round(day.max));
                 const minTemps = sortedDays.map(day => Math.round(day.min));
-
+                
                 ui.temperatureChart = new Chart(ctx, {
                     type: 'line',
                     data: {
@@ -1970,7 +1888,7 @@
                                     font: {
                                         family: 'Cairo'
                                     },
-                                    callback: function (value) {
+                                    callback: function(value) {
                                         return value + '°';
                                     }
                                 }
@@ -1983,7 +1901,7 @@
             async updateNews() {
                 const news = await weatherAPI.getNews();
                 appState.news = news;
-
+                
                 // Update news ticker
                 const tickerHTML = news.slice(0, 3).map(item => `
                     <div class="news-item">
@@ -1992,9 +1910,9 @@
                         <div class="news-time">منذ قليل</div>
                     </div>
                 `).join('');
-
+                
                 elements.newsTicker.innerHTML = tickerHTML;
-
+                
                 // Update news grid
                 const gridHTML = news.map(item => `
                     <div class="news-card">
@@ -2011,7 +1929,7 @@
                         </div>
                     </div>
                 `).join('');
-
+                
                 elements.newsGrid.innerHTML = gridHTML;
             },
 
@@ -2021,7 +1939,7 @@
                     title: `منظر لمدينة ${city.name}`,
                     location: city.name
                 }));
-
+                
                 const galleryHTML = galleryImages.map(image => `
                     <div class="gallery-item">
                         <img src="${image.src}" alt="${image.title}" loading="lazy">
@@ -2031,7 +1949,7 @@
                         </div>
                     </div>
                 `).join('');
-
+                
                 elements.galleryGrid.innerHTML = galleryHTML;
             }
         };
@@ -2041,16 +1959,16 @@
             initMap() {
                 // Initialize map centered on Algeria
                 appState.map = L.map('weatherMap').setView([28.0339, 1.6596], 6);
-
+                
                 // Add OpenStreetMap tile layer
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                     attribution: '© OpenStreetMap contributors',
                     maxZoom: 18
                 }).addTo(appState.map);
-
+                
                 // Add weather overlay
                 this.addWeatherLayer('temperature');
-
+                
                 // Add markers for Algerian cities
                 this.addCityMarkers();
             },
@@ -2062,11 +1980,11 @@
                         appState.map.removeLayer(layer);
                     }
                 });
-
+                
                 let weatherLayer;
                 const opacity = 0.6;
-
-                switch (layerType) {
+                
+                switch(layerType) {
                     case 'temperature':
                         weatherLayer = L.tileLayer(
                             `https://tile.openweathermap.org/map/temp_new/{z}/{x}/{y}.png?appid=${CONFIG.API_KEY}`,
@@ -2092,7 +2010,7 @@
                         );
                         break;
                 }
-
+                
                 if (weatherLayer) {
                     weatherLayer.addTo(appState.map);
                 }
@@ -2102,7 +2020,7 @@
                 // Clear existing markers
                 appState.markers.forEach(marker => appState.map.removeLayer(marker));
                 appState.markers = [];
-
+                
                 // Add markers for major Algerian cities
                 ALGERIAN_CITIES.forEach(city => {
                     const marker = L.marker([city.lat, city.lon])
@@ -2121,7 +2039,7 @@
                                 </button>
                             </div>
                         `);
-
+                    
                     appState.markers.push(marker);
                 });
             },
@@ -2129,7 +2047,7 @@
             switchMapLayer(layerType) {
                 appState.activeMapLayer = layerType;
                 this.addWeatherLayer(layerType);
-
+                
                 elements.mapBtns.forEach(btn => {
                     btn.classList.remove('active');
                     if (btn.dataset.layer === layerType) {
@@ -2162,8 +2080,8 @@
                 // Mobile menu
                 elements.mobileMenuBtn.addEventListener('click', () => {
                     elements.mainNav.classList.toggle('active');
-                    elements.mobileMenuBtn.innerHTML = elements.mainNav.classList.contains('active')
-                        ? '<i class="fas fa-times"></i>'
+                    elements.mobileMenuBtn.innerHTML = elements.mainNav.classList.contains('active') 
+                        ? '<i class="fas fa-times"></i>' 
                         : '<i class="fas fa-bars"></i>';
                 });
 
@@ -2174,11 +2092,11 @@
                         elements.citySuggestions.classList.add('hidden');
                         return;
                     }
-
-                    const filteredCities = ALGERIAN_CITIES.filter(city =>
+                    
+                    const filteredCities = ALGERIAN_CITIES.filter(city => 
                         city.name.includes(query) || city.name_en.toLowerCase().includes(query)
                     );
-
+                    
                     if (filteredCities.length > 0) {
                         elements.citySuggestions.innerHTML = filteredCities.map(city => `
                             <div class="city-suggestion-item" data-city="${city.name_en}">
@@ -2241,11 +2159,11 @@
 
                 // Smooth scrolling
                 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-                    anchor.addEventListener('click', function (e) {
+                    anchor.addEventListener('click', function(e) {
                         e.preventDefault();
                         const targetId = this.getAttribute('href');
                         if (targetId === '#') return;
-
+                        
                         const targetElement = document.querySelector(targetId);
                         if (targetElement) {
                             window.scrollTo({
@@ -2266,32 +2184,32 @@
                 try {
                     elements.alertText.textContent = `جاري تحديث بيانات الطقس لـ ${cityName}...`;
                     elements.alertBanner.style.display = 'flex';
-
+                    
                     const currentWeather = await weatherAPI.getCurrentWeather(cityName);
                     if (currentWeather) {
                         appState.currentCity = cityName;
                         ui.updateCurrentWeather(currentWeather);
-
+                        
                         const forecast = await weatherAPI.getForecast(cityName);
                         if (forecast) {
                             ui.updateHourlyForecast(forecast);
                             ui.updateForecast(forecast);
                             ui.updateTemperatureChart(forecast);
                         }
-
+                        
                         // Center map on selected city
                         const cityInfo = ALGERIAN_CITIES.find(c => c.name_en === cityName);
                         if (cityInfo && appState.map) {
                             appState.map.setView([cityInfo.lat, cityInfo.lon], 10);
                         }
-
+                        
                         const arabicName = cityInfo ? cityInfo.name : cityName;
                         elements.alertText.textContent = `تم تحديث بيانات الطقس لـ ${arabicName}`;
-
+                        
                         setTimeout(() => {
                             elements.alertBanner.style.display = 'none';
                         }, 3000);
-
+                        
                         utils.showNotification(`تم تحديث بيانات الطقس لـ ${arabicName}`, 'success');
                     }
                 } catch (error) {
@@ -2310,34 +2228,34 @@
                     document.body.classList.add('dark-mode');
                     elements.themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
                 }
-
+                
                 // Initialize events
                 events.init();
-
+                
                 // Show loading message
                 elements.alertText.textContent = 'جاري تحميل بيانات الطقس للجزائر...';
-
+                
                 // Load initial weather data
                 const weatherData = await weatherAPI.getCurrentWeather(appState.currentCity);
                 if (weatherData) {
                     ui.updateCurrentWeather(weatherData);
-
+                    
                     const forecastData = await weatherAPI.getForecast(appState.currentCity);
                     if (forecastData) {
                         ui.updateHourlyForecast(forecastData);
                         ui.updateForecast(forecastData);
                         ui.updateTemperatureChart(forecastData);
                     }
-
+                    
                     // Initialize map
                     mapManager.initMap();
-
+                    
                     // Load news
                     await ui.updateNews();
-
+                    
                     // Update gallery
                     ui.updateGallery();
-
+                    
                     // Hide alert after 3 seconds
                     setTimeout(() => {
                         elements.alertText.textContent = 'بيانات الطقس محدثة للجزائر';
@@ -2345,7 +2263,7 @@
                             elements.alertBanner.style.display = 'none';
                         }, 2000);
                     }, 1000);
-
+                    
                     utils.showNotification('تم تحميل بيانات الطقس للجزائر', 'success');
                 }
             } catch (error) {
@@ -2364,466 +2282,6 @@
             utils: utils,
             cities: ALGERIAN_CITIES
         };
-
-        // ============== LOCATION SERVICE ==============
-const locationService = {
-    // DOM Element للزر
-    locationBtn: null,
-    
-    // تهيئة زر تحديد الموقع
-    init() {
-        this.locationBtn = document.getElementById('getLocationBtn');
-        if (!this.locationBtn) {
-            console.error('زر تحديد الموقع غير موجود');
-            return;
-        }
-        
-        this.setupEventListeners();
-        this.checkLocationPermission();
-    },
-    
-    // إعداد مستمعي الأحداث
-    setupEventListeners() {
-        this.locationBtn.addEventListener('click', () => {
-            this.getCurrentLocation();
-        });
-    },
-    
-    // التحقق من صلاحية الموقع
-    checkLocationPermission() {
-        if ('permissions' in navigator) {
-            navigator.permissions.query({ name: 'geolocation' })
-                .then(permissionStatus => {
-                    permissionStatus.onchange = () => {
-                        this.updateButtonState(permissionStatus.state);
-                    };
-                    this.updateButtonState(permissionStatus.state);
-                })
-                .catch(() => {
-                    // في حالة عدم دعم permissions API
-                    this.updateButtonState('prompt');
-                });
-        } else {
-            this.updateButtonState('prompt');
-        }
-    },
-    
-    // تحديث حالة الزر حسب الصلاحية
-    updateButtonState(state) {
-        const btn = this.locationBtn;
-        btn.classList.remove('loading', 'error', 'success');
-        
-        switch(state) {
-            case 'granted':
-                btn.title = 'تحديد موقعي الحالي (مسموح)';
-                btn.style.color = '#4ade80';
-                break;
-            case 'denied':
-                btn.title = 'تحديد موقعي الحالي (محظور)';
-                btn.style.color = 'var(--algeria-red)';
-                btn.classList.add('error');
-                break;
-            case 'prompt':
-            default:
-                btn.title = 'تحديد موقعي الحالي';
-                btn.style.color = 'white';
-                break;
-        }
-    },
-    
-    // الحصول على الموقع الحالي
-    getCurrentLocation() {
-        // التحقق من دعم geolocation
-        if (!navigator.geolocation) {
-            utils.showNotification('متصفحك لا يدعم تحديد الموقع الجغرافي', 'error');
-            return;
-        }
-        
-        // عرض حالة التحميل
-        this.setLoadingState(true);
-        utils.showNotification('جاري تحديد موقعك...', 'info');
-        
-        // خيارات تحديد الموقع
-        const options = {
-            enableHighAccuracy: true, // دقة عالية
-            timeout: 10000, // 10 ثواني كحد أقصى
-            maximumAge: 0 // لا تستخدم بيانات مخزنة
-        };
-        
-        // طلب الموقع
-        navigator.geolocation.getCurrentPosition(
-            (position) => this.onLocationSuccess(position),
-            (error) => this.onLocationError(error),
-            options
-        );
-    },
-    
-    // عند نجاح الحصول على الموقع
-    async onLocationSuccess(position) {
-        const { latitude, longitude } = position.coords;
-        console.log(`الموقع: ${latitude}, ${longitude}`);
-        
-        // تحديث حالة الزر
-        this.setLoadingState(false);
-        this.locationBtn.classList.add('success');
-        
-        // الحصول على اسم المدينة من الإحداثيات
-        try {
-            const city = await this.reverseGeocode(latitude, longitude);
-            if (city) {
-                // تحديث الطقس للمدينة الجديدة
-                events.handleCityChange(city);
-                utils.showNotification(`تم تحديد موقعك: ${city}`, 'success');
-            } else {
-                // إذا لم نجد مدينة، استخدم الإحداثيات مباشرة
-                await this.getWeatherByCoordinates(latitude, longitude);
-            }
-        } catch (error) {
-            console.error('خطأ في reverse geocoding:', error);
-            await this.getWeatherByCoordinates(latitude, longitude);
-        }
-    },
-    
-    // عند فشل الحصول على الموقع
-    onLocationError(error) {
-        this.setLoadingState(false);
-        this.locationBtn.classList.add('error');
-        
-        let message = 'فشل تحديد الموقع';
-        
-        switch(error.code) {
-            case error.PERMISSION_DENIED:
-                message = 'تم رفض صلاحية الموقع. يرجى السماح بالوصول إلى الموقع في إعدادات المتصفح.';
-                break;
-            case error.POSITION_UNAVAILABLE:
-                message = 'معلومات الموقع غير متاحة.';
-                break;
-            case error.TIMEOUT:
-                message = 'انتهت مهلة طلب الموقع.';
-                break;
-            case error.UNKNOWN_ERROR:
-                message = 'حدث خطأ غير معروف أثناء تحديد الموقع.';
-                break;
-        }
-        
-        utils.showNotification(message, 'error');
-        console.error('خطأ في تحديد الموقع:', error.message);
-    },
-    
-    // تعيين حالة التحميل
-    setLoadingState(isLoading) {
-        const btn = this.locationBtn;
-        btn.disabled = isLoading;
-        
-        if (isLoading) {
-            btn.classList.add('loading');
-            btn.innerHTML = '<div class="spinner"></div>';
-        } else {
-            btn.classList.remove('loading');
-            btn.innerHTML = '<i class="fas fa-location-crosshairs"></i>';
-        }
-    },
-    
-    // عكس تحديد الموقع للحصول على اسم المدينة
-    async reverseGeocode(lat, lon) {
-        try {
-            const response = await fetch(
-                `https://api.openweathermap.org/geo/1.0/reverse?lat=${lat}&lon=${lon}&limit=1&appid=${CONFIG.API_KEY}`
-            );
-            
-            if (!response.ok) throw new Error('Network response was not ok');
-            
-            const data = await response.json();
-            
-            if (data && data.length > 0) {
-                const city = data[0];
-                
-                // البحث عن المدينة في قائمة المدن الجزائرية
-                const algerianCity = ALGERIAN_CITIES.find(c => 
-                    c.name_en.toLowerCase() === city.name.toLowerCase() ||
-                    Math.abs(c.lat - lat) < 0.5 && Math.abs(c.lon - lon) < 0.5
-                );
-                
-                if (algerianCity) {
-                    return algerianCity.name_en;
-                }
-                
-                // إذا لم تكن المدينة جزائرية، استخدم اسم المدينة من API
-                return city.name;
-            }
-            
-            return null;
-        } catch (error) {
-            console.error('خطأ في reverse geocoding:', error);
-            throw error;
-        }
-    },
-    
-    // الحصول على الطقس باستخدام الإحداثيات
-    async getWeatherByCoordinates(lat, lon) {
-        try {
-            const response = await fetch(
-                `${CONFIG.BASE_URL}/weather?lat=${lat}&lon=${lon}&appid=${CONFIG.API_KEY}&units=${appState.units}&lang=ar`
-            );
-            
-            if (!response.ok) throw new Error('Network response was not ok');
-            
-            const weatherData = await response.json();
-            
-            if (weatherData) {
-                // تحديث واجهة المستخدم ببيانات الطقس
-                appState.currentWeather = weatherData;
-                ui.updateCurrentWeather(weatherData);
-                
-                // الحصول على التنبؤات
-                const forecast = await weatherAPI.getForecast(weatherData.name);
-                if (forecast) {
-                    ui.updateHourlyForecast(forecast);
-                    ui.updateForecast(forecast);
-                    ui.updateTemperatureChart(forecast);
-                }
-                
-                // تحديث الخريطة
-                if (appState.map) {
-                    appState.map.setView([lat, lon], 10);
-                    mapManager.updateMapWithWeatherData();
-                }
-                
-                utils.showNotification(`تم تحديث الطقس لموقعك الحالي`, 'success');
-            }
-        } catch (error) {
-            console.error('خطأ في جلب الطقس بالإحداثيات:', error);
-            utils.showNotification('فشل في جلب بيانات الطقس للموقع الحالي', 'error');
-        }
-    },
-    
-    // تحديث موقع الخريطة للإحداثيات
-    updateMapToCoordinates(lat, lon) {
-        if (appState.map) {
-            // إضافة علامة للموقع الحالي
-            if (appState.currentLocationMarker) {
-                appState.map.removeLayer(appState.currentLocationMarker);
-            }
-            
-            // إنشاء أيقونة خاصة للموقع الحالي
-            const currentLocationIcon = L.divIcon({
-                className: 'current-location-marker',
-                html: '<div style="background-color: #d21034; width: 20px; height: 20px; border-radius: 50%; border: 3px solid white; box-shadow: 0 2px 5px rgba(0,0,0,0.3);"></div>',
-                iconSize: [26, 26],
-                iconAnchor: [13, 13]
-            });
-            
-            // إضافة العلامة
-            appState.currentLocationMarker = L.marker([lat, lon], { icon: currentLocationIcon })
-                .addTo(appState.map)
-                .bindPopup('<b>موقعك الحالي</b>')
-                .openPopup();
-            
-            // توسيط الخريطة على الموقع
-            appState.map.setView([lat, lon], 12);
-            
-            // إضافة دائرة للموقع
-            if (appState.locationCircle) {
-                appState.map.removeLayer(appState.locationCircle);
-            }
-            
-            appState.locationCircle = L.circle([lat, lon], {
-                color: '#d21034',
-                fillColor: '#d21034',
-                fillOpacity: 0.1,
-                radius: 500
-            }).addTo(appState.map);
-        }
-    }
-};
-
-// ============== CSS إضافي للعلامة على الخريطة ==============
-// أضف هذا في قسم CSS
-const locationMarkerStyles = `
-    .current-location-marker {
-        animation: pulse-dot 2s infinite;
-    }
-    
-    @keyframes pulse-dot {
-        0% { transform: scale(1); }
-        50% { transform: scale(1.2); }
-        100% { transform: scale(1); }
-    }
-    
-    .leaflet-div-icon {
-        background: transparent;
-        border: none;
-    }
-`;
-
-// إضافة الأنماط إلى head
-if (!document.querySelector('#location-marker-styles')) {
-    const style = document.createElement('style');
-    style.id = 'location-marker-styles';
-    style.textContent = locationMarkerStyles;
-    document.head.appendChild(style);
-}
-
-// ============== تعديل دالة onLocationSuccess ==============
-// تحديث الدالة لتشمل تحديث الخريطة
-locationService.onLocationSuccess = async function(position) {
-    const { latitude, longitude } = position.coords;
-    console.log(`الموقع: ${latitude}, ${longitude}`);
-    
-    // تحديث حالة الزر
-    this.setLoadingState(false);
-    this.locationBtn.classList.add('success');
-    
-    // تحديث الخريطة أولاً
-    this.updateMapToCoordinates(latitude, longitude);
-    
-    // الحصول على اسم المدينة من الإحداثيات
-    try {
-        const city = await this.reverseGeocode(latitude, longitude);
-        if (city) {
-            // تحديث الطقس للمدينة الجديدة
-            events.handleCityChange(city);
-            utils.showNotification(`تم تحديد موقعك: ${city}`, 'success');
-        } else {
-            // إذا لم نجد مدينة، استخدم الإحداثيات مباشرة
-            await this.getWeatherByCoordinates(latitude, longitude);
-        }
-    } catch (error) {
-        console.error('خطأ في reverse geocoding:', error);
-        await this.getWeatherByCoordinates(latitude, longitude);
-    }
-};
-
-// ============== تعديل دالة getWeatherByCoordinates ==============
-// تحديث الدالة لتشمل تحديث الخريطة
-locationService.getWeatherByCoordinates = async function(lat, lon) {
-    try {
-        const response = await fetch(
-            `${CONFIG.BASE_URL}/weather?lat=${lat}&lon=${lon}&appid=${CONFIG.API_KEY}&units=${appState.units}&lang=ar`
-        );
-        
-        if (!response.ok) throw new Error('Network response was not ok');
-        
-        const weatherData = await response.json();
-        
-        if (weatherData) {
-            // تحديث واجهة المستخدم ببيانات الطقس
-            appState.currentWeather = weatherData;
-            ui.updateCurrentWeather(weatherData);
-            
-            // الحصول على التنبؤات
-            const forecast = await weatherAPI.getForecast(weatherData.name);
-            if (forecast) {
-                ui.updateHourlyForecast(forecast);
-                ui.updateForecast(forecast);
-                ui.updateTemperatureChart(forecast);
-            }
-            
-            // تحديث الخريطة
-            this.updateMapToCoordinates(lat, lon);
-            
-            utils.showNotification(`تم تحديث الطقس لموقعك الحالي`, 'success');
-        }
-    } catch (error) {
-        console.error('خطأ في جلب الطقس بالإحداثيات:', error);
-        utils.showNotification('فشل في جلب بيانات الطقس للموقع الحالي', 'error');
-    }
-};
-
-// ============== تهيئة خدمة الموقع ==============
-// أضف هذا في دالة init الرئيسية
-async function init() {
-    try {
-        // ... الكود الحالي ...
-        
-        // تهيئة خدمة تحديد الموقع
-        locationService.init();
-        
-        // ... باقي الكود ...
-    } catch (error) {
-        console.error('Initialization error:', error);
-        utils.showNotification('حدث خطأ في تهيئة التطبيق', 'error');
-    }
-}
-
-// ============== تعديل appState ==============
-// أضف هذه الخصائص إلى appState
-let appState = {
-    // ... الخصائص الحالية ...
-    currentLocationMarker: null,
-    locationCircle: null,
-    // ... باقي الخصائص ...
-};
-
-// ============== كود بديل مبسط إذا أردت نسخة أبسط ==============
-
-// نسخة مبسطة من زر تحديد الموقع
-const simpleLocationBtn = {
-    init() {
-        const btn = document.getElementById('getLocationBtn');
-        if (!btn) return;
-        
-        btn.addEventListener('click', () => {
-            this.getLocation();
-        });
-    },
-    
-    getLocation() {
-        if (!navigator.geolocation) {
-            alert('متصفحك لا يدعم تحديد الموقع');
-            return;
-        }
-        
-        const btn = document.getElementById('getLocationBtn');
-        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
-        btn.disabled = true;
-        
-        navigator.geolocation.getCurrentPosition(
-            (position) => {
-                const lat = position.coords.latitude;
-                const lon = position.coords.longitude;
-                
-                // تحديث الواجهة
-                btn.innerHTML = '<i class="fas fa-location-crosshairs"></i>';
-                btn.disabled = false;
-                
-                // جلب الطقس بالإحداثيات
-                fetch(`${CONFIG.BASE_URL}/weather?lat=${lat}&lon=${lon}&appid=${CONFIG.API_KEY}&units=metric&lang=ar`)
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.name) {
-                            events.handleCityChange(data.name);
-                            alert(`تم تحديد موقعك: ${data.name}`);
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Error:', error);
-                        alert('فشل في جلب بيانات الطقس');
-                    });
-            },
-            (error) => {
-                btn.innerHTML = '<i class="fas fa-location-crosshairs"></i>';
-                btn.disabled = false;
-                
-                let message = 'فشل تحديد الموقع';
-                if (error.code === error.PERMISSION_DENIED) {
-                    message = 'يجب السماح بالوصول إلى الموقع';
-                }
-                alert(message);
-            },
-            { timeout: 10000 }
-        );
-    }
-};
-
-// اختر أي نسخة تريد استخدامها:
-// 1. locationService (الكامل مع جميع المميزات)
-// 2. simpleLocationBtn (المبسطة)
-
-// في دالة init الرئيسية:
-// locationService.init(); // للنسخة الكاملة
-// simpleLocationBtn.init(); // للنسخة المبسطة
     </script>
 </body>
-
 </html>
