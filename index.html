@@ -20,6 +20,7 @@
 
     <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
 
     <style>
         :root {
@@ -1170,7 +1171,7 @@
             <div class="header-controls">
                 <div class="search-container">
                     <i class="fas fa-search"></i>
-                    <input type="text" id="searchInput" placeholder="ابحث عن مدينة جزائرية...">
+                    <input type="text" id="searchInput" placeholder="ابحث عن مدينة ...">
                     <div class="city-suggestions hidden" id="citySuggestions"></div>
                 </div>
 
@@ -1815,24 +1816,34 @@
         }
 
         // تحديث الرسم البياني
+        // تحديث الرسم البياني مع درجات الحرارة العليا والدنيا وعرض القيم
         function updateTemperatureChart(data) {
             const ctx = temperatureChartElement.getContext('2d');
 
-            // تجميع بيانات 5 أيام
             const labels = [];
-            const temps = [];
+            const maxTemps = [];
+            const minTemps = [];
 
-            for (let i = 0; i < 5; i++) {
-                const dayData = data.list.filter(item => {
-                    const date = new Date(item.dt * 1000);
-                    return date.getHours() === 12; // درجات الحرارة عند الظهر
-                })[i];
+            // تجميع بيانات 7 أيام
+            const dailyData = {};
 
-                if (dayData) {
-                    const date = new Date(dayData.dt * 1000);
-                    labels.push(date.toLocaleDateString('ar-DZ', { weekday: 'short' }));
-                    temps.push(Math.round(dayData.main.temp));
+            data.list.forEach(item => {
+                const date = new Date(item.dt * 1000);
+                const dayString = date.toLocaleDateString('ar-DZ', { weekday: 'short' });
+
+                if (!dailyData[dayString]) {
+                    dailyData[dayString] = { temps: [] };
                 }
+                dailyData[dayString].temps.push(item.main.temp);
+            });
+
+            let dayCount = 0;
+            for (const [day, info] of Object.entries(dailyData)) {
+                if (dayCount >= 7) break;
+                labels.push(day);
+                maxTemps.push(Math.round(Math.max(...info.temps)));
+                minTemps.push(Math.round(Math.min(...info.temps)));
+                dayCount++;
             }
 
             if (temperatureChart) {
@@ -1843,22 +1854,66 @@
                 type: 'line',
                 data: {
                     labels: labels,
-                    datasets: [{
-                        label: 'درجة الحرارة',
-                        data: temps,
-                        borderColor: '#10b981',
-                        backgroundColor: 'rgba(16, 185, 129, 0.1)',
-                        borderWidth: 3,
-                        fill: true,
-                        tension: 0.4
-                    }]
+                    datasets: [
+                        {
+                            label: 'درجة الحرارة العليا',
+                            data: maxTemps,
+                            borderColor: '#dc2626', // أحمر
+                            backgroundColor: 'rgba(220, 38, 38, 0.1)',
+                            borderWidth: 3,
+                            fill: true,
+                            tension: 0.4,
+                            pointRadius: 5,
+                            pointHoverRadius: 7,
+                            pointBackgroundColor: '#dc2626',
+                            pointBorderColor: '#fff',
+                            datalabels: {
+                                align: 'top',
+                                anchor: 'end',
+                                color: '#dc2626',
+                                font: { weight: 'bold', size: 12 }
+                            }
+                        },
+                        {
+                            label: 'درجة الحرارة الدنيا',
+                            data: minTemps,
+                            borderColor: '#3b82f6', // أزرق
+                            backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                            borderWidth: 3,
+                            fill: true,
+                            tension: 0.4,
+                            pointRadius: 5,
+                            pointHoverRadius: 7,
+                            pointBackgroundColor: '#3b82f6',
+                            pointBorderColor: '#fff',
+                            datalabels: {
+                                align: 'bottom',
+                                anchor: 'start',
+                                color: '#3b82f6',
+                                font: { weight: 'bold', size: 12 }
+                            }
+                        }
+                    ]
                 },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
                     plugins: {
                         legend: {
-                            display: false
+                            position: 'top',
+                            labels: {
+                                font: { size: 14 }
+                            }
+                        },
+                        tooltip: {
+                            enabled: true,
+                            mode: 'index',
+                            intersect: false,
+                            callbacks: {
+                                label: function (context) {
+                                    return context.dataset.label + ': ' + context.parsed.y + '°C';
+                                }
+                            }
                         }
                     },
                     scales: {
@@ -1879,7 +1934,8 @@
                             }
                         }
                     }
-                }
+                },
+                plugins: [ChartDataLabels] // تأكد من إضافة مكتبة ChartDataLabels
             });
         }
 
@@ -2478,41 +2534,41 @@
 
         // تحسين اختيار المدن بالـ GPS (Smart Geolocation)
         function smartLocateUser() {
-    if (!navigator.geolocation) {
-        alert("المتصفح لا يدعم GPS");
-        return;
-    }
+            if (!navigator.geolocation) {
+                alert("المتصفح لا يدعم GPS");
+                return;
+            }
 
-    navigator.geolocation.getCurrentPosition(async (pos) => {
-        const lat = pos.coords.latitude;
-        const lon = pos.coords.longitude;
+            navigator.geolocation.getCurrentPosition(async (pos) => {
+                const lat = pos.coords.latitude;
+                const lon = pos.coords.longitude;
 
-        // تحديث الخريطة
-        weatherMap.setView([lat, lon], 12);
-        addWeatherMarker(lat, lon, "موقعي الحالي");
+                // تحديث الخريطة
+                weatherMap.setView([lat, lon], 12);
+                addWeatherMarker(lat, lon, "موقعي الحالي");
 
-        // جلب اسم المنطقة عبر Reverse Geocoding
-        const url = `https://api.openweathermap.org/geo/1.0/reverse?lat=${lat}&lon=${lon}&limit=1&appid=${OPENWEATHER_API_KEY}`;
-        const res = await fetch(url);
-        const data = await res.json();
+                // جلب اسم المنطقة عبر Reverse Geocoding
+                const url = `https://api.openweathermap.org/geo/1.0/reverse?lat=${lat}&lon=${lon}&limit=1&appid=${OPENWEATHER_API_KEY}`;
+                const res = await fetch(url);
+                const data = await res.json();
 
-        let cityName =
-            data[0]?.local_names?.ar ||
-            data[0]?.name ||
-            "موقع غير معروف";
+                let cityName =
+                    data[0]?.local_names?.ar ||
+                    data[0]?.name ||
+                    "موقع غير معروف";
 
-        searchInput.value = cityName;
+                searchInput.value = cityName;
 
-        updateWeatherForCity({ name: cityName, lat, lon });
+                updateWeatherForCity({ name: cityName, lat, lon });
 
-    }, (err) => {
-        alert("تعذّر تحديد الموقع. يرجى تفعيل GPS.");
-        console.error(err);
-    }, {
-        enableHighAccuracy: true,
-        timeout: 7000
-    });
-}
+            }, (err) => {
+                alert("تعذّر تحديد الموقع. يرجى تفعيل GPS.");
+                console.error(err);
+            }, {
+                enableHighAccuracy: true,
+                timeout: 7000
+            });
+        }
 
     </script>
 
