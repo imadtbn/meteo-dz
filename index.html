@@ -2678,22 +2678,55 @@ weather algeria, algeria forecast, algeria weather map, meteo algerie, meteo dz,
         }
 
         // زر الصعود للأعلى 
-        document.addEventListener("DOMContentLoaded", () => {
-            const toTopBtn = document.getElementById('toTopBtn');
+// زر الصعود للأعلى
+function setupScrollToTopButton() {
+  const toTopBtn = document.getElementById('toTopBtn');
+  
+  // الاستماع لحدث scroll على window
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 200) {
+      toTopBtn.classList.add('show');
+    } else {
+      toTopBtn.classList.remove('show');
+    }
+  });
+  
+  // حدث النقر على الزر
+  toTopBtn.addEventListener('click', () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  });
+}
 
-            window.addEventListener('scroll', () => {
-                if (window.scrollY > 200) {
-                    toTopBtn.classList.add('show');
-                } else {
-                    toTopBtn.classList.remove('show');
-                }
-            });
+// استدعاء الدالة في initApp
+async function initApp() {
+  showAlert('جارٍ تحميل بيانات الطقس...', 'info');
 
-            toTopBtn.addEventListener('click', () => {
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            });
-        });
+  // إضافة Event Listeners
+  setupEventListeners();
 
+  // تهيئة الخريطة
+  initMap();
+
+  // جلب بيانات الطقس الحالي
+  await fetchWeatherData();
+
+  // جلب الأخبار
+  await fetchWeatherNews();
+
+  // تحميل معرض الصور
+  loadGallery();
+
+  // اختبار اتصال API
+  testAPIConnection();
+
+  // إعداد زر الصعود للأعلى
+  setupScrollToTopButton();
+
+  hideAlert();
+}
 
     </script>
 
