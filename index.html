@@ -6,15 +6,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>موقع الطقس الجزائري - تنبؤات حقيقية مباشرة</title>
 
-  <!-- ضبط العرض للهواتف -->
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <!-- ضبط العرض للهواتف -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-<meta name="msvalidate.01" content="9BCA38377A234DCCEB9991EAD1A2F6C2" />
+    <meta name="msvalidate.01" content="9BCA38377A234DCCEB9991EAD1A2F6C2" />
 
-  <!-- أيقونة الموقع -->
-  <link rel="icon" href="icon1.webp" alt="icon" type="image/png" loading="lazy" class="welcome-logo">
-  <link rel="icon" href="https://raw.githubusercontent.com/imadtbn/meteo-dz/refs/heads/main/icon1.webp" type="image/png">
+    <!-- أيقونة الموقع -->
+    <link rel="icon" href="images/icon1.webp" alt="icon" type="image/png" loading="lazy" class="welcome-logo">
+    <link rel="icon" href="https://raw.githubusercontent.com/imadtbn/meteo-dz/refs/heads/main/images/icon1.webp"
+        type="image/png">
 
 
     <!-- Fonts -->
@@ -39,7 +40,7 @@
     <meta name="description"
         content="تنبؤات الطقس في الجزائر لحظة بلحظة، خرائط تفاعلية، تحذيرات جوية، أخبار الطقس، توقعات 7 أيام، وواجهة سريعة وسهلة.">
 
-        <meta name="google-site-verification" content="f5Xi4oFx0v5dN6iPZd9qCw-7vnc3vIbAeYF9jr4vwVM" />
+    <meta name="google-site-verification" content="f5Xi4oFx0v5dN6iPZd9qCw-7vnc3vIbAeYF9jr4vwVM" />
 
     <!-- Keywords (اختياري) -->
     <meta name="keywords" content="
@@ -72,13 +73,13 @@ weather algeria, algeria forecast, algeria weather map, meteo algerie, meteo dz,
     <meta property="og:description" content="توقعات مفصلة لجميع ولايات الجزائر مع خرائط تفاعلية وتنبيهات جوية دقيقة.">
     <meta property="og:url" content="https://imadtbn.github.io/meteo-dz/">
     <meta property="og:type" content="website">
-    <meta property="og:image" content="https://imadtbn.github.io/meteo-dz/assets/img/banner.jpg">
+    <meta property="og:image" content="https://raw.githubusercontent.com/imadtbn/meteo-dz/refs/heads/main/images/icon1.webp">
 
     <!-- Twitter Cards -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="الطقس الجزائري – توقعات دقيقة">
     <meta name="twitter:description" content="تحديثات الأحوال الجوية في الجزائر مع خرائط وبيانات لحظية.">
-    <meta name="twitter:image" content="https://imadtbn.github.io/meteo-dz/assets/img/banner.jpg">
+    <meta name="twitter:image" content="https://raw.githubusercontent.com/imadtbn/meteo-dz/refs/heads/main/images/icon1.webp">
 
     <!-- Structured Data - JSON-LD -->
     <script type="application/ld+json">
@@ -641,6 +642,40 @@ weather algeria, algeria forecast, algeria weather map, meteo algerie, meteo dz,
             margin-top: 1rem;
             border: 1px solid #e2e8f0;
         }
+
+        .map-legend {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 12px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+            font-size: 14px;
+            z-index: 1000;
+            direction: rtl;
+        }
+
+        .map-legend h4 {
+            margin: 0 0 6px 0;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .map-legend .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-bottom: 4px;
+        }
+
+        .map-legend .color-box {
+            width: 25px;
+            height: 14px;
+            display: inline-block;
+            border: 1px solid #333;
+        }
+
 
         .dark-mode .map-wrapper {
             border-color: #334155;
@@ -1264,6 +1299,19 @@ weather algeria, algeria forecast, algeria weather map, meteo algerie, meteo dz,
             transform: scale(1.1);
             background: #0078d4;
         }
+
+        .logo-icon {
+            width: 40px;
+            /* عرض الصورة */
+            height: 40px;
+            /* ارتفاع الصورة */
+            border-radius: 50%;
+            /* يجعل الصورة دائرية */
+            object-fit: cover;
+            /* لضمان ملء الدائرة بشكل متناسق */
+            border: 2px solid white;
+            /* اختياري: لإضافة إطار حول الدائرة */
+        }
     </style>
 
 </head>
@@ -1286,10 +1334,9 @@ weather algeria, algeria forecast, algeria weather map, meteo algerie, meteo dz,
         <div class="header-container">
             <div class="logo">
                 <div class="algeria-flag"></div>
-                <i class="fas fa-cloud-sun"></i>
+                <img src="images/icon1.webp" alt="طقس" class="logo-icon">
                 <h1>الطقس الجزائري</h1>
             </div>
-
             <button class="mobile-menu-btn" id="mobileMenuBtn">
                 <i class="fas fa-bars"></i>
             </button>
@@ -1380,11 +1427,6 @@ weather algeria, algeria forecast, algeria weather map, meteo algerie, meteo dz,
                 <div class="ticker-content" id="newsTicker"></div>
                 <div class="news-grid" id="newsGrid"></div>
                 <button class="btn" id="refreshNews">تحديث الأخبار</button>
-
-                <div class="ticker-content" id="newsTicker">
-                    <!-- سيتم ملؤها بواسطة JavaScript -->
-                </div>
-
             </div>
         </section>
 
@@ -1429,6 +1471,10 @@ weather algeria, algeria forecast, algeria weather map, meteo algerie, meteo dz,
                 <div class="map-wrapper">
                     <div id="weatherMap"></div>
                 </div>
+            </div>
+
+            <div id="mapLegend" class="map-legend">
+                <!-- سيتم ملء المفتاح ديناميكياً حسب الطبقة -->
             </div>
         </section>
 
@@ -2258,94 +2304,98 @@ weather algeria, algeria forecast, algeria weather map, meteo algerie, meteo dz,
             }
         }
 
-        // البحث عن المدن
-        function searchCities(query) {
-            const filteredCities = algerianCities.filter(city =>
-                city.name.toLowerCase().includes(query.toLowerCase())
+        // وظيفة عرض الاقتراحات
+        function renderSuggestions(list) {
+            if (!list || list.length === 0) {
+                citySuggestions.classList.add('hidden');
+                return;
+            }
+
+            citySuggestions.innerHTML = list.map(city => `
+        <div class="city-suggestion-item"
+            data-lat="${city.lat}"
+            data-lon="${city.lon}"
+            data-name="${city.name}">
+            ${city.name}
+        </div>
+    `).join('');
+
+            citySuggestions.classList.remove('hidden');
+        }
+
+        // البحث الجغرافي الخارجي (OpenWeather)
+        async function fetchGeoCities(query) {
+            try {
+                const url = `https://api.openweathermap.org/geo/1.0/direct?q=${encodeURIComponent(query)}&limit=5&appid=${OPENWEATHER_API_KEY}`;
+                const res = await fetch(url);
+                const data = await res.json();
+
+                return data.map(c => ({
+                    name: c.local_names?.ar || c.name,
+                    lat: c.lat,
+                    lon: c.lon
+                }));
+            } catch (e) {
+                console.error("Geo Search Error:", e);
+                return [];
+            }
+        }
+
+        // البحث الموحد (محلي + خارجي)
+        async function unifiedSearch(query) {
+            // محاولة البحث المحلي أولاً
+            const local = algerianCities.filter(c =>
+                c.name.toLowerCase().includes(query.toLowerCase())
             );
 
-            if (filteredCities.length > 0) {
-                citySuggestions.innerHTML = filteredCities.map(city => `
-                <div class="city-suggestion-item" data-lat="${city.lat}" data-lon="${city.lon}">
-                    ${city.name}
-                </div>
-            `).join('');
+            if (local.length > 0) {
+                renderSuggestions(local);
+                return;
+            }
 
-                citySuggestions.classList.remove('hidden');
+            // إن لم توجد نتائج: استعمال API
+            const external = await fetchGeoCities(query);
+            renderSuggestions(external);
+        }
 
-                // إضافة event listeners للاقتراحات
-                document.querySelectorAll('.city-suggestion-item').forEach(item => {
-                    item.addEventListener('click', function () {
-                        const lat = parseFloat(this.dataset.lat);
-                        const lon = parseFloat(this.dataset.lon);
-                        const cityName = this.textContent;
+        // Debounce لمنع spam على API
+        function debounce(fn, delay = 350) {
+            let timer;
+            return function (...args) {
+                clearTimeout(timer);
+                timer = setTimeout(() => fn.apply(this, args), delay);
+            };
+        }
 
-                        searchInput.value = cityName;
-                        citySuggestions.classList.add('hidden');
-
-                        updateWeatherForCity({ name: cityName, lat, lon });
-
-                        // تحديث الخريطة
-                        if (weatherMap) {
-                            weatherMap.setView([lat, lon], 8);
-                            addWeatherMarker(lat, lon, cityName);
-                        }
-                    });
-                });
-            } else {
+        // مستمع الكتابة في مربع البحث
+        searchInput.addEventListener('input', debounce((e) => {
+            const q = e.target.value.trim();
+            if (q.length < 2) {
                 citySuggestions.classList.add('hidden');
+                return;
             }
-        }
+            unifiedSearch(q);
+        }, 300));
 
-        // 2البحث عن المدن
-        async function searchCities(query) {
-            try {
-                const url =
-                    `https://api.openweathermap.org/geo/1.0/direct?q=${encodeURIComponent(query)}&limit=5&appid=${OPENWEATHER_API_KEY}`;
+        // Event Delegation للتعامل مع النقر على أي اقتراح دون listeners متكررين
+        citySuggestions.addEventListener('click', (e) => {
+            const item = e.target.closest(".city-suggestion-item");
+            if (!item) return;
 
-                const response = await fetch(url);
-                const results = await response.json();
+            const lat = parseFloat(item.dataset.lat);
+            const lon = parseFloat(item.dataset.lon);
+            const name = item.dataset.name;
 
-                if (results.length === 0) {
-                    citySuggestions.classList.add('hidden');
-                    return;
-                }
+            searchInput.value = name;
+            citySuggestions.classList.add('hidden');
 
-                citySuggestions.innerHTML = results.map(city => `
-            <div class="city-suggestion-item"
-                data-lat="${city.lat}"
-                data-lon="${city.lon}"
-                data-name="${city.local_names?.ar || city.name}">
-                
-                ${city.local_names?.ar || city.name} — ${city.country}
-            </div>
-        `).join('');
+            updateWeatherForCity({ name, lat, lon });
 
-                citySuggestions.classList.remove('hidden');
-
-                document.querySelectorAll('.city-suggestion-item').forEach(item => {
-                    item.addEventListener('click', function () {
-
-                        const lat = parseFloat(this.dataset.lat);
-                        const lon = parseFloat(this.dataset.lon);
-                        const name = this.dataset.name;
-
-                        searchInput.value = name;
-                        citySuggestions.classList.add('hidden');
-
-                        updateWeatherForCity({ name, lat, lon });
-
-                        if (weatherMap) {
-                            weatherMap.setView([lat, lon], 10);
-                            addWeatherMarker(lat, lon, name);
-                        }
-                    });
-                });
-
-            } catch (err) {
-                console.error("Search error:", err);
+            if (weatherMap) {
+                weatherMap.setView([lat, lon], 10);
+                addWeatherMarker(lat, lon, name);
             }
-        }
+        });
 
 
         // تحديث الطقس لمدينة محددة
@@ -2426,95 +2476,107 @@ weather algeria, algeria forecast, algeria weather map, meteo algerie, meteo dz,
         }
 
         // تهيئة الخريطة
+        // ===============
+        // 1) Initialize Map
+        // ===============
         function initMap() {
             weatherMap = L.map('weatherMap').setView([currentLocation.lat, currentLocation.lon], 6);
 
-            // إضافة طبقة الخريطة الأساسية
+            // Base map
             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                 attribution: '© OpenStreetMap contributors',
                 maxZoom: 18
             }).addTo(weatherMap);
 
-            // إضافة علامة للموقع الحالي
+            // أول Marker فقط
             addWeatherMarker(currentLocation.lat, currentLocation.lon, 'الجزائر العاصمة');
 
-            // إضافة النقر على الخريطة
-            weatherMap.on('click', async (e) => {
-                const lat = e.latlng.lat;
-                const lon = e.latlng.lng;
-
-                try {
-                    // الحصول على بيانات الطقس للموقع المنقور
-                    const weatherUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&appid=${OPENWEATHER_API_KEY}&lang=ar`;
-                    const response = await fetch(weatherUrl);
-                    const data = await response.json();
-
-                    if (response.ok) {
-                        // إضافة نافذة منبثقة بالمعلومات
-                        L.popup()
-                            .setLatLng([lat, lon])
-                            .setContent(`
-                            <div style="direction: rtl; text-align: right;">
-                                <h3>${data.name}</h3>
-                                <p><strong>درجة الحرارة:</strong> ${Math.round(data.main.temp)}°C</p>
-                                <p><strong>الحالة:</strong> ${data.weather[0].description}</p>
-                                <p><strong>الرطوبة:</strong> ${data.main.humidity}%</p>
-                                <p><strong>الرياح:</strong> ${Math.round(data.wind.speed * 3.6)} كم/س</p>
-                                <button onclick="updateWeatherForLocation(${lat}, ${lon}, '${data.name}')" 
-                                        style="background: var(--algeria-green); color: white; border: none; padding: 5px 10px; border-radius: 5px; cursor: pointer; margin-top: 10px;">
-                                    عرض التفاصيل
-                                </button>
-                            </div>
-                        `)
-                            .openOn(weatherMap);
-                    }
-                } catch (error) {
-                    console.error('Error fetching weather for clicked location:', error);
-                }
-            });
+            // Click to get weather
+            weatherMap.on('click', handleMapClick);
         }
 
-        // إضافة علامة على الخريطة
-        function addWeatherMarker(lat, lon, title) {
-            // إزالة العلامات القديمة
-            weatherMap.eachLayer(layer => {
-                if (layer instanceof L.Marker) {
-                    weatherMap.removeLayer(layer);
-                }
-            });
 
-            // إضافة علامة جديدة
+        // ===============
+        // 2) Handle Map Click
+        // ===============
+        async function handleMapClick(e) {
+            const lat = e.latlng.lat;
+            const lon = e.latlng.lng;
+
+            try {
+                const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&appid=${OPENWEATHER_API_KEY}&lang=ar`;
+                const response = await fetch(url);
+                const data = await response.json();
+
+                if (response.ok) {
+                    L.popup()
+                        .setLatLng([lat, lon])
+                        .setContent(`
+                    <div style="direction: rtl; text-align: right;">
+                        <h3>${data.name}</h3>
+                        <p><strong>درجة الحرارة:</strong> ${Math.round(data.main.temp)}°C</p>
+                        <p><strong>الحالة:</strong> ${data.weather[0].description}</p>
+                        <p><strong>الرطوبة:</strong> ${data.main.humidity}%</p>
+                        <p><strong>الرياح:</strong> ${Math.round(data.wind.speed * 3.6)} كم/س</p>
+
+                        <button onclick="updateWeatherForLocation(${lat}, ${lon}, '${data.name}')"
+                            style="background: var(--algeria-green); color: white; border: none; padding: 5px 10px; border-radius: 5px; cursor: pointer; margin-top: 10px;">
+                            عرض التفاصيل
+                        </button>
+                    </div>
+                `)
+                        .openOn(weatherMap);
+                }
+            } catch (error) {
+                console.error('Error fetching weather for clicked location:', error);
+            }
+        }
+
+
+        // ===============
+        // 3) Add Marker (بدون إزالة كل العلامات)
+        // ===============
+        function addWeatherMarker(lat, lon, title) {
             const marker = L.marker([lat, lon]).addTo(weatherMap);
             marker.bindPopup(`<b>${title}</b><br>انقر على الخريطة للحصول على معلومات الطقس`);
         }
 
-        // تحديث طبقة الخريطة
+
+        // ===============
+        // 4) Map Layer Switching (النسخة الذهبية)
+        // ===============
+        const tileLayers = {};
+
         function updateMapLayer() {
-            if (!weatherMap) return;
-
-            // إزالة الطبقات القديمة
-            if (weatherMap.currentTileLayer) {
-                weatherMap.removeLayer(weatherMap.currentTileLayer);
-            }
-
-            // روابط طبقات OpenWeatherMap
-            const layers = {
+            const urls = {
                 temperature: `https://tile.openweathermap.org/map/temp_new/{z}/{x}/{y}.png?appid=${OPENWEATHER_API_KEY}`,
                 precipitation: `https://tile.openweathermap.org/map/precipitation_new/{z}/{x}/{y}.png?appid=${OPENWEATHER_API_KEY}`,
                 wind: `https://tile.openweathermap.org/map/wind_new/{z}/{x}/{y}.png?appid=${OPENWEATHER_API_KEY}`,
                 clouds: `https://tile.openweathermap.org/map/clouds_new/{z}/{x}/{y}.png?appid=${OPENWEATHER_API_KEY}`
             };
 
-            // إنشاء الطبقة الجديدة
-            const selectedLayer = layers[currentLayer];
+            const key = currentLayer;
 
-            weatherMap.currentTileLayer = L.tileLayer(selectedLayer, {
-                opacity: 0.6,
-                attribution: '© OpenWeatherMap'
+            // إنشاء الطبقة لو غير موجودة
+            if (!tileLayers[key]) {
+                tileLayers[key] = L.tileLayer(urls[key], {
+                    opacity: 0.6,
+                    maxZoom: 18,
+                    attribution: '© OpenWeatherMap'
+                });
+            }
+
+            // إزالة الطبقات الأخرى
+            Object.keys(tileLayers).forEach(k => {
+                if (weatherMap.hasLayer(tileLayers[k])) {
+                    weatherMap.removeLayer(tileLayers[k]);
+                }
             });
 
-            weatherMap.currentTileLayer.addTo(weatherMap);
+            // إضافة الطبقة المطلوبة
+            tileLayers[key].addTo(weatherMap);
         }
+
 
         // بعد تضمين leaflet.markercluster.js و CSS
         const markers = L.markerClusterGroup({ chunkedLoading: true, chunkProgress: updateProgress });
@@ -2683,56 +2745,122 @@ weather algeria, algeria forecast, algeria weather map, meteo algerie, meteo dz,
             });
         }
 
-        // زر الصعود للأعلى 
-// زر الصعود للأعلى
-function setupScrollToTopButton() {
-  const toTopBtn = document.getElementById('toTopBtn');
-  
-  // الاستماع لحدث scroll على window
-  window.addEventListener('scroll', () => {
-    if (window.scrollY > 200) {
-      toTopBtn.classList.add('show');
-    } else {
-      toTopBtn.classList.remove('show');
-    }
-  });
-  
-  // حدث النقر على الزر
-  toTopBtn.addEventListener('click', () => {
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth'
-    });
-  });
-}
+        // تحديث المفتاح حسب الطبقة الحالية  
+        function updateMapLegend() {
+            const legend = document.getElementById('mapLegend');
+            let html = '';
 
-// استدعاء الدالة في initApp
-async function initApp() {
-  showAlert('جارٍ تحميل بيانات الطقس...', 'info');
+            switch (currentLayer) {
+                case 'temperature':
+                    html = `<h4>درجة الحرارة (°C)</h4>
+                    <div class="gradient-bar" style="background: linear-gradient(to right, #0000FF, #00BFFF, #00FF7F, #FFD700, #FF4500);"></div>
+                    <div class="legend-labels">
+                        <span>≤0°</span>
+                        <span>10°</span>
+                        <span>20°</span>
+                        <span>30°</span>
+                        <span>>30°</span>
+                    </div>`;
+                    break;
+                case 'precipitation':
+                    html = `<h4>هطول الأمطار (مم)</h4>
+                    <div class="gradient-bar" style="background: linear-gradient(to right, #FFFFFF, #ADD8E6, #1E90FF, #0000FF);"></div>
+                    <div class="legend-labels">
+                        <span>0</span>
+                        <span>5</span>
+                        <span>20</span>
+                        <span>≥20</span>
+                    </div>`;
+                    break;
+                case 'wind':
+                    html = `<h4>سرعة الرياح (كم/س)</h4>
+                    <div class="gradient-bar" style="background: linear-gradient(to right, #00FF00, #FFFF00, #FFA500, #FF0000);"></div>
+                    <div class="legend-labels">
+                        <span>0-10</span>
+                        <span>20</span>
+                        <span>40</span>
+                        <span>≥50</span>
+                    </div>`;
+                    break;
+                case 'clouds':
+                    html = `<h4>الغطاء السحابي (%)</h4>
+                    <div class="gradient-bar" style="background: linear-gradient(to right, #FFFFFF, #CCCCCC, #888888, #555555);"></div>
+                    <div class="legend-labels">
+                        <span>0%</span>
+                        <span>25%</span>
+                        <span>50%</span>
+                        <span>75%</span>
+                        <span>100%</span>
+                    </div>`;
+                    break;
+            }
 
-  // إضافة Event Listeners
-  setupEventListeners();
+            legend.innerHTML = html;
+        }
 
-  // تهيئة الخريطة
-  initMap();
+        // تحديث المفتاح عند تغيير الطبقة
+        document.querySelectorAll('.map-btn').forEach(btn => {
+            btn.addEventListener('click', function () {
+                document.querySelectorAll('.map-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                currentLayer = this.dataset.layer;
+                updateMapLayer();
+                updateMapLegend();
+            });
+        });
 
-  // جلب بيانات الطقس الحالي
-  await fetchWeatherData();
+        // تفعيل المفتاح عند تحميل الصفحة
+        updateMapLegend();
 
-  // جلب الأخبار
-  await fetchWeatherNews();
+        // زر الصعود للأعلى
+        function setupScrollToTopButton() {
+            const toTopBtn = document.getElementById('toTopBtn');
 
-  // تحميل معرض الصور
-  loadGallery();
+            // الاستماع لحدث scroll على window
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 200) {
+                    toTopBtn.classList.add('show');
+                } else {
+                    toTopBtn.classList.remove('show');
+                }
+            });
 
-  // اختبار اتصال API
-  testAPIConnection();
+            // حدث النقر على الزر
+            toTopBtn.addEventListener('click', () => {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            });
+        }
 
-  // إعداد زر الصعود للأعلى
-  setupScrollToTopButton();
+        // استدعاء الدالة في initApp
+        async function initApp() {
+            showAlert('جارٍ تحميل بيانات الطقس...', 'info');
 
-  hideAlert();
-}
+            // إضافة Event Listeners
+            setupEventListeners();
+
+            // تهيئة الخريطة
+            initMap();
+
+            // جلب بيانات الطقس الحالي
+            await fetchWeatherData();
+
+            // جلب الأخبار
+            await fetchWeatherNews();
+
+            // تحميل معرض الصور
+            loadGallery();
+
+            // اختبار اتصال API
+            testAPIConnection();
+
+            // إعداد زر الصعود للأعلى
+            setupScrollToTopButton();
+
+            hideAlert();
+        }
 
     </script>
 
