@@ -73,13 +73,15 @@ weather algeria, algeria forecast, algeria weather map, meteo algerie, meteo dz,
     <meta property="og:description" content="توقعات مفصلة لجميع ولايات الجزائر مع خرائط تفاعلية وتنبيهات جوية دقيقة.">
     <meta property="og:url" content="https://imadtbn.github.io/meteo-dz/">
     <meta property="og:type" content="website">
-    <meta property="og:image" content="https://raw.githubusercontent.com/imadtbn/meteo-dz/refs/heads/main/images/icon1.webp">
+    <meta property="og:image"
+        content="https://raw.githubusercontent.com/imadtbn/meteo-dz/refs/heads/main/images/icon1.webp">
 
     <!-- Twitter Cards -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="الطقس الجزائري – توقعات دقيقة">
     <meta name="twitter:description" content="تحديثات الأحوال الجوية في الجزائر مع خرائط وبيانات لحظية.">
-    <meta name="twitter:image" content="https://raw.githubusercontent.com/imadtbn/meteo-dz/refs/heads/main/images/icon1.webp">
+    <meta name="twitter:image"
+        content="https://raw.githubusercontent.com/imadtbn/meteo-dz/refs/heads/main/images/icon1.webp">
 
     <!-- Structured Data - JSON-LD -->
     <script type="application/ld+json">
@@ -1751,14 +1753,23 @@ weather algeria, algeria forecast, algeria weather map, meteo algerie, meteo dz,
             document.querySelectorAll('[data-city]').forEach(link => {
                 link.addEventListener('click', (e) => {
                     e.preventDefault();
-                    const cityName = e.target.dataset.city;
-                    const city = algerianCities.find(c => c.name.includes(cityName) || cityName.includes(c.name));
+                    const cityKey = e.target.dataset.city;
+                    const cityName = cityMap[cityKey];
+                    const city = algerianCities.find(c => c.name === cityName);
                     if (city) {
                         searchInput.value = city.name;
                         updateWeatherForCity(city);
                     }
                 });
             });
+            const cityMap = {
+                "Algiers": "الجزائر العاصمة",
+                "Oran": "وهران",
+                "Constantine": "قسنطينة",
+                "Annaba": "عنابة",
+                "Blida": "البليدة",
+                "Setif": "سطيف"
+            };
 
             // أزرار التحكم في الخريطة
             document.querySelectorAll('.map-btn').forEach(btn => {
