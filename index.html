@@ -1744,8 +1744,6 @@ weather algeria, algeria forecast, algeria weather map, meteo algerie, meteo dz,
                 }
             });
 
-
-
             // تحديد الموقع الجغرافي
             locationBtn.addEventListener('click', getCurrentLocation);
 
@@ -2315,6 +2313,28 @@ weather algeria, algeria forecast, algeria weather map, meteo algerie, meteo dz,
             }
         }
 
+        //الة البحث الديناميكي عبر Nominatim
+        async function dynamicSearchCities(query) {
+            const url = `https://nominatim.openstreetmap.org/search?format=json&addressdetails=1&limit=8&q=${encodeURIComponent(query)}`;
+
+            const response = await fetch(url, {
+                headers: {
+                    'User-Agent': 'meteo-dz/1.0'
+                }
+            });
+
+            const data = await response.json();
+
+            return data.map(place => ({
+                name: place.display_name,
+                lat: place.lat,
+                lon: place.lon,
+                city: place.address.city || place.address.town || place.address.village || "",
+                admin: place.address.state || "",
+                country: place.address.country || ""
+            }));
+        }
+
         // وظيفة عرض الاقتراحات
         function renderSuggestions(list) {
             if (!list || list.length === 0) {
@@ -2332,6 +2352,64 @@ weather algeria, algeria forecast, algeria weather map, meteo algerie, meteo dz,
     `).join('');
 
             citySuggestions.classList.remove('hidden');
+        }
+
+        //وظيفة عرض الاقتراحات2
+        async function handleSearchInput(e) {
+            const query = e.target.value.trim();
+
+            if (query.length < 2) {
+                citySuggestions.classList.add('hidden');
+                return;
+            }
+
+            const results = await dynamicSearchCities(query);
+
+            renderDynamicSuggestions(results);
+        }
+
+        //عرض الاقتراحات بصيغة Google Maps
+        function renderDynamicSuggestions(list) {
+            if (!list || list.length === 0) {
+                citySuggestions.classList.add('hidden');
+                return;
+            }
+
+            citySuggestions.innerHTML = list.map(place => `
+        <div class="city-suggestion-item"
+            data-lat="${place.lat}"
+            data-lon="${place.lon}"
+            data-name="${place.city || place.name}">
+            
+            <div style="font-weight:600;">
+                ${place.city || place.name}
+            </div>
+
+            <div style="font-size:13px; color:#6b7280;">
+                ${place.admin} – ${place.country}
+            </div>
+        </div>
+    `).join('');
+
+            citySuggestions.classList.remove('hidden');
+
+            document.querySelectorAll('.city-suggestion-item').forEach(item => {
+                item.addEventListener('click', function () {
+                    const lat = parseFloat(this.dataset.lat);
+                    const lon = parseFloat(this.dataset.lon);
+                    const cityName = this.dataset.name;
+
+                    searchInput.value = cityName;
+                    citySuggestions.classList.add('hidden');
+
+                    updateWeatherForCity({ name: cityName, lat, lon });
+
+                    if (weatherMap) {
+                        weatherMap.setView([lat, lon], 9);
+                        addWeatherMarker(lat, lon, cityName);
+                    }
+                });
+            });
         }
 
         // البحث الجغرافي الخارجي (OpenWeather)
