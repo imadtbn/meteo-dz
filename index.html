@@ -1334,6 +1334,183 @@ weather algeria, algeria forecast, algeria weather map, meteo algerie, meteo dz,
         }
     </style>
 
+<style>
+    /* تحسينات لقسم حالة البحر */
+.sea-forecast {
+    background-color: white;
+    border-radius: 15px;
+    padding: 1.5rem;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    margin-bottom: 2rem;
+}
+
+.dark-mode .sea-forecast {
+    background-color: #1e293b;
+}
+
+.sea-forecast h2 {
+    font-size: 1.8rem;
+    color: var(--algeria-green);
+    margin-bottom: 1.5rem;
+    position: relative;
+    padding-right: 1rem;
+}
+
+.sea-forecast h2::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    bottom: -5px;
+    width: 50px;
+    height: 3px;
+    background-color: var(--algeria-green);
+}
+
+.sea-forecast .weather-details {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+@media (max-width: 768px) {
+    .sea-forecast .weather-details {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 480px) {
+    .sea-forecast .weather-details {
+        grid-template-columns: 1fr;
+    }
+}
+
+.sea-forecast .detail-item {
+    background: linear-gradient(135deg, #1a56db, #3b82f6);
+    color: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    text-align: center;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.sea-forecast .detail-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(59, 130, 246, 0.3);
+}
+
+.sea-forecast .detail-item i {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.sea-forecast .detail-item .detail-value {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+.sea-forecast .detail-item .detail-label {
+    font-size: 1rem;
+    opacity: 0.9;
+}
+
+/* ألوان مختلفة لكل عنصر */
+.sea-forecast .detail-item:nth-child(1) {
+    background: linear-gradient(135deg, #0e7490, #06b6d4);
+}
+
+.sea-forecast .detail-item:nth-child(2) {
+    background: linear-gradient(135deg, #7c3aed, #8b5cf6);
+}
+
+.sea-forecast .detail-item:nth-child(3) {
+    background: linear-gradient(135deg, #059669, #10b981);
+}
+
+/* حالة عدم توفر البيانات */
+.sea-forecast .detail-item.no-data {
+    background: linear-gradient(135deg, #6b7280, #9ca3af);
+    grid-column: 1 / -1;
+}
+
+.sea-forecast .detail-item.no-data i {
+    font-size: 3rem;
+}
+
+.sea-forecast .detail-item.no-data .detail-value {
+    font-size: 1.5rem;
+    margin-top: 0.5rem;
+}
+
+/* مؤشرات للقيم */
+.wave-indicator {
+    width: 100%;
+    height: 8px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+    margin-top: 10px;
+    overflow: hidden;
+}
+
+.wave-indicator-fill {
+    height: 100%;
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 4px;
+    transition: width 0.5s ease;
+}
+
+/* تلميحات إضافية */
+.sea-tips {
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.sea-tips h4 {
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+    color: white;
+}
+
+.sea-tips ul {
+    list-style: none;
+    padding-right: 1rem;
+}
+
+.sea-tips li {
+    margin-bottom: 0.5rem;
+    font-size: 0.95rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.sea-tips li i {
+    color: #fbbf24;
+}
+
+/* تحسينات للوضع الداكن */
+.dark-mode .sea-forecast .detail-item {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.dark-mode .sea-forecast .detail-item:hover {
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+}
+
+/* تأثيرات خاصة للأمواج */
+@keyframes wave-animation {
+    0%, 100% { transform: translateX(0); }
+    50% { transform: translateX(-10px); }
+}
+
+.sea-forecast .detail-item:nth-child(1) i {
+    animation: wave-animation 2s ease-in-out infinite;
+}
+</style>
 </head>
 
 <body>
@@ -1460,10 +1637,9 @@ weather algeria, algeria forecast, algeria weather map, meteo algerie, meteo dz,
             </div>
         </section>
 
-
         <!-- حالة البحر -->
         <section>
-            <div class="section-header">
+            <div class="sea-forecast">
                 <h2>حالة البحر</h2>
             </div>
             <div class="sea-forecast">
@@ -1532,16 +1708,16 @@ weather algeria, algeria forecast, algeria weather map, meteo algerie, meteo dz,
         </section>
 
         <!-- News Section -->
-        <section id="news">
-            <div class="section-header">
-                <h2>أخبار الطقس والمناخ</h2>
-                <button class="btn" id="refreshNews">تحديث الأخبار</button>
-            </div>
+<div class="section-header">
+    <h2>أخبار الطقس والمناخ</h2>
 
-            <div class="news-grid" id="newsGrid">
-                <!-- سيتم ملؤها بواسطة JavaScript -->
-            </div>
-        </section>
+    <div style="display:flex; gap:10px;">
+        <button class="btn" id="localNewsBtn">الأخبار المحلية</button>
+        <button class="btn" id="alertsBtn">التنبيهات الجوية</button>
+        <button class="btn" id="refreshNews">تحديث</button>
+    </div>
+</div>
+
 
         <!-- Gallery -->
         <section id="gallery">
@@ -2023,43 +2199,108 @@ weather algeria, algeria forecast, algeria weather map, meteo algerie, meteo dz,
         `).join('');
         }
 
-        function updateMarineConditions(data) {
-            const seaStateElement = document.getElementById("seaState");
-
-            if (!data || !data.wave_height) {
-                seaStateElement.innerHTML = `
-            <div class="detail-item">
+function updateMarineConditions(data) {
+    const seaStateElement = document.getElementById("seaState");
+    
+    if (!seaStateElement) {
+        console.error('seaState element not found');
+        return;
+    }
+    
+    // تنظيف المحتوى السابق
+    seaStateElement.innerHTML = '';
+    
+    if (!data || (!data.wave_height && !data.wave_direction && !data.wave_period)) {
+        // حالة عدم توفر البيانات
+        seaStateElement.innerHTML = `
+            <div class="detail-item no-data">
                 <i class="fas fa-water"></i>
-                <div class="detail-value">—</div>
-                <div class="detail-label">حالة البحر</div>
+                <div class="detail-value">بيانات البحر غير متوفرة</div>
+                <div class="detail-label">سيتم تحديثها قريباً</div>
             </div>
         `;
-                return;
-            }
-
-            const wave = data.wave_height;   // بالأمتار
-            const waveDir = data.wave_direction || "—";
-            const wavePeriod = data.wave_period || "—";
-
-            seaStateElement.innerHTML = `
-        <div class="detail-item">
-            <i class="fas fa-water"></i>
-            <div class="detail-value">${wave} م</div>
-            <div class="detail-label">ارتفاع الموج</div>
-        </div>
-        <div class="detail-item">
-            <i class="fas fa-compass"></i>
-            <div class="detail-value">${waveDir}°</div>
-            <div class="detail-label">اتجاه الموج</div>
-        </div>
-        <div class="detail-item">
-            <i class="fas fa-clock"></i>
-            <div class="detail-value">${wavePeriod} ث</div>
-            <div class="detail-label">فترة الموج</div>
-        </div>
-    `;
+        return;
+    }
+    
+    // عرض البيانات المتوفرة
+    let html = '';
+    
+    if (data.wave_height !== undefined) {
+        const waveHeight = parseFloat(data.wave_height);
+        const wavePercentage = Math.min((waveHeight / 5) * 100, 100); // افتراض أن 5m هو الحد الأقصى
+        html += `
+            <div class="detail-item">
+                <i class="fas fa-water"></i>
+                <div class="detail-value">${waveHeight.toFixed(1)} م</div>
+                <div class="detail-label">ارتفاع الموج</div>
+                <div class="wave-indicator">
+                    <div class="wave-indicator-fill" style="width: ${wavePercentage}%"></div>
+                </div>
+            </div>
+        `;
+    }
+    
+    if (data.wave_direction !== undefined) {
+        const direction = parseInt(data.wave_direction);
+        const directionText = getWindDirection(direction);
+        html += `
+            <div class="detail-item">
+                <i class="fas fa-compass" style="transform: rotate(${direction}deg)"></i>
+                <div class="detail-value">${directionText}</div>
+                <div class="detail-label">اتجاه الموج</div>
+                <div class="detail-sub">${direction}°</div>
+            </div>
+        `;
+    }
+    
+    if (data.wave_period !== undefined) {
+        const period = parseFloat(data.wave_period);
+        html += `
+            <div class="detail-item">
+                <i class="fas fa-clock"></i>
+                <div class="detail-value">${period.toFixed(1)} ث</div>
+                <div class="detail-label">فترة الموج</div>
+            </div>
+        `;
+    }
+    
+    // إضافة تلميحات حسب حالة البحر
+    if (data.wave_height) {
+        const tips = getSeaTips(data.wave_height);
+        if (tips) {
+            html += `
+                <div class="sea-tips">
+                    <h4>توصيات:</h4>
+                    <ul>
+                        ${tips.map(tip => `<li><i class="fas fa-info-circle"></i> ${tip}</li>`).join('')}
+                    </ul>
+                </div>
+            `;
         }
+    }
+    
+    seaStateElement.innerHTML = html;
+}
 
+// دالة مساعدة للحصول على اتجاه الرياح
+function getWindDirection(degrees) {
+    const directions = ['شمال', 'شمال شرق', 'شرق', 'جنوب شرق', 'جنوب', 'جنوب غرب', 'غرب', 'شمال غرب'];
+    const index = Math.round((degrees % 360) / 45) % 8;
+    return directions[index];
+}
+
+// دالة مساعدة للحصول على تلميحات حسب ارتفاع الأمواج
+function getSeaTips(waveHeight) {
+    if (waveHeight < 0.5) {
+        return ['البحر هادئ جداً', 'مثالي للسباحة والأنشطة البحرية'];
+    } else if (waveHeight < 1.5) {
+        return ['الهادئ إلى متوسط', 'مناسب لمعظم الأنشطة البحرية'];
+    } else if (waveHeight < 2.5) {
+        return ['البحر مضطرب', 'احذر عند السباحة', 'غير مناسب للقوارب الصغيرة'];
+    } else {
+        return ['البحر عالي الموج', 'تجنب الأنشطة البحرية', 'خطر على السباحة'];
+    }
+}
 
         // تحديث أيقونة الطقس
         function updateWeatherIcon(weatherId, iconCode) {
@@ -3121,6 +3362,38 @@ weather algeria, algeria forecast, algeria weather map, meteo algerie, meteo dz,
 
             hideAlert();
         }
+            // لب أخبار محلية للطقس من الموقع الرسمي الحكومي الديوان الوطني للأرصاد الجوية
+
+
+async function loadLocalNews() {
+    const response = await fetch("onm-news.php");
+    const data = await response.json();
+    
+    const container = document.getElementById("newsGrid");
+    container.innerHTML = "";
+
+    if (!Array.isArray(data)) {
+        container.innerHTML = "<p>تعذر جلب الأخبار.</p>";
+        return;
+    }
+
+    data.forEach(item => {
+        container.innerHTML += `
+            <div class="news-card">
+                <div class="news-content">
+                    <h3>${item.title}</h3>
+                    <p>${item.description}</p>
+                    <div class="news-meta">
+                        <span>${item.time}</span>
+                        <span>ONM</span>
+                    </div>
+                </div>
+            </div>`;
+    });
+}
+
+document.getElementById("localNewsBtn").addEventListener("click", loadLocalNews);
+document.getElementById("refreshNews").addEventListener("click", loadLocalNews);
 
     </script>
 
