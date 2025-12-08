@@ -1510,6 +1510,68 @@ weather algeria, algeria forecast, algeria weather map, meteo algerie, meteo dz,
 .sea-forecast .detail-item:nth-child(1) i {
     animation: wave-animation 2s ease-in-out infinite;
 }
+
+/* تنسيق container */
+#weatherTips {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.2rem;
+    margin-top: 2rem;
+}
+
+/* بطاقة كل نصيحة */
+#weatherTips .tip-card {
+    background: linear-gradient(145deg, #ffffff, #f0f4f8);
+    border-radius: 15px;
+    padding: 1.2rem 1rem;
+    box-shadow: 0 6px 15px rgba(0,0,0,0.08);
+    text-align: center;
+    transition: transform 0.3s, box-shadow 0.3s, background 0.3s;
+    cursor: default;
+}
+
+/* تأثير hover */
+#weatherTips .tip-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 25px rgba(0,0,0,0.15);
+    background: linear-gradient(145deg, #f0f8ff, #e0f0ff);
+}
+
+/* أيقونة النصيحة */
+#weatherTips .tip-icon {
+    font-size: 2.5rem;
+    margin-bottom: 0.7rem;
+    color: #10b981;
+    background: linear-gradient(135deg, #d1fae5, #10b981);
+    width: 60px;
+    height: 60px;
+    line-height: 60px;
+    border-radius: 50%;
+    display: inline-block;
+    transition: transform 0.3s, background 0.3s;
+}
+
+/* تأثير عند hover */
+#weatherTips .tip-card:hover .tip-icon {
+    transform: scale(1.2) rotate(10deg);
+    background: linear-gradient(135deg, #a7f3d0, #059669);
+}
+
+/* عنوان النصيحة */
+#weatherTips .tip-title {
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-bottom: 0.6rem;
+    color: #1e3a8a;
+}
+
+/* نص النصيحة */
+#weatherTips p {
+    font-size: 0.95rem;
+    color: #334155;
+    line-height: 1.4;
+}
+
 </style>
 </head>
 
@@ -1599,6 +1661,11 @@ weather algeria, algeria forecast, algeria weather map, meteo algerie, meteo dz,
                 <div class="weather-details" id="weatherDetails">
                     <!-- سيتم ملؤها بواسطة JavaScript -->
                 </div>
+
+                  <!-- قسم النصائح الديناميكي -->
+        <div class="tips-container" id="weatherTips">
+            <!-- سيتم ملؤها بواسطة JavaScript -->
+        </div>
             </div>
 
             <div class="news-ticker">
@@ -2032,6 +2099,8 @@ weather algeria, algeria forecast, algeria weather map, meteo algerie, meteo dz,
 
                 currentWeatherData = weatherData;
                 updateCurrentWeather(weatherData);
+                updateWeatherTips(weatherData); 
+
 
                 // جلب توقعات 5 أيام (كل 3 ساعات)
                 const forecastUrl = `https://api.openweathermap.org/data/2.5/forecast?lat=${currentLocation.lat}&lon=${currentLocation.lon}&units=metric&appid=${OPENWEATHER_API_KEY}&lang=ar`;
@@ -3363,6 +3432,91 @@ function getSeaTips(waveHeight) {
             hideAlert();
         }
 
+        // تحديث نصائح الطقس ديناميكيًا
+function updateWeatherTips(data) {
+    const tipsContainer = document.querySelector('.tips-container');
+    const temp = data.main.temp; // درجة الحرارة
+    const weatherId = data.weather[0].id; // حالة الطقس
+    const windSpeed = data.wind.speed * 3.6; // سرعة الرياح بالكيلومتر/ساعة
+
+    const tips = [];
+
+    // حماية من الشمس
+    if (weatherId === 800 || (weatherId > 800 && weatherId < 900) && temp > 25) {
+        tips.push({
+            icon: 'fas fa-sun',
+            title: 'حماية من الشمس',
+            text: 'مؤشر الأشعة فوق البنفسجية مرتفع. استخدم واقي الشمس وارتدِ قبعة ونظارات شمسية.'
+        });
+    }
+
+    // ترطيب الجسم
+    if (temp > 28) {
+        tips.push({
+            icon: 'fas fa-tint',
+            title: 'ترطيب الجسم',
+            text: 'اشرب الكثير من الماء لتجنب الجفاف، خصوصًا مع ارتفاع درجات الحرارة.'
+        });
+    }
+
+    // البرد الشديد
+    if (temp < 10) {
+        tips.push({
+            icon: 'fas fa-snowflake',
+            title: 'الوقاية من البرد',
+            text: 'درجات الحرارة منخفضة. ارتدِ ملابس دافئة واحمِ يديك وقدميك.'
+        });
+    }
+
+    // الأمطار
+    if (weatherId >= 500 && weatherId < 600) {
+        tips.push({
+            icon: 'fas fa-umbrella',
+            title: 'استعد للأمطار',
+            text: 'توقع هطول أمطار. احمل مظلتك وتجنب المناطق المنخفضة أثناء القيادة.'
+        });
+    }
+
+    // الرياح القوية
+    if (windSpeed > 50) {
+        tips.push({
+            icon: 'fas fa-wind',
+            title: 'الرياح القوية',
+            text: 'سرعة الرياح عالية. ثبّت الأشياء في الخارج وتوخى الحذر أثناء الخروج.'
+        });
+    }
+
+    // فصل الربيع (أبريل-يونيو)
+    const month = new Date().getMonth() + 1;
+    if (month >= 4 && month <= 6) {
+        tips.push({
+            icon: 'fas fa-seedling',
+            title: 'فصل الربيع',
+            text: 'الأحوال الجوية قد تتغير بسرعة. ارتدِ ملابس قابلة للتعديل وحافظ على ترطيب بشرتك.'
+        });
+    }
+
+    // موجات الحرارة
+    if (temp > 35) {
+        tips.push({
+            icon: 'fas fa-temperature-high',
+            title: 'موجات الحرارة',
+            text: 'تجنّب التعرض المباشر للشمس خلال فترة الظهيرة واشرب سوائل باردة بانتظام.'
+        });
+    }
+
+    // توليد HTML
+    tipsContainer.innerHTML = tips.map(tip => `
+        <div class="tip-card">
+            <div class="tip-icon">
+                <i class="${tip.icon}"></i>
+            </div>
+            <h3 class="tip-title">${tip.title}</h3>
+            <p>${tip.text}</p>
+        </div>
+    `).join('');
+}
+
     </script>
 
     <script>
@@ -3388,4 +3542,3 @@ function getSeaTips(waveHeight) {
 </body>
 
 </html>
-
