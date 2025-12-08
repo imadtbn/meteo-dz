@@ -1334,245 +1334,251 @@ weather algeria, algeria forecast, algeria weather map, meteo algerie, meteo dz,
         }
     </style>
 
-<style>
-    /* تحسينات لقسم حالة البحر */
-.sea-forecast {
-    background-color: white;
-    border-radius: 15px;
-    padding: 1.5rem;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-    margin-bottom: 2rem;
-}
+    <style>
+        /* تحسينات لقسم حالة البحر */
+        .sea-forecast {
+            background-color: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            margin-bottom: 2rem;
+        }
 
-.dark-mode .sea-forecast {
-    background-color: #1e293b;
-}
+        .dark-mode .sea-forecast {
+            background-color: #1e293b;
+        }
 
-.sea-forecast h2 {
-    font-size: 1.8rem;
-    color: var(--algeria-green);
-    margin-bottom: 1.5rem;
-    position: relative;
-    padding-right: 1rem;
-}
+        .sea-forecast h2 {
+            font-size: 1.8rem;
+            color: var(--algeria-green);
+            margin-bottom: 1.5rem;
+            position: relative;
+            padding-right: 1rem;
+        }
 
-.sea-forecast h2::after {
-    content: '';
-    position: absolute;
-    right: 0;
-    bottom: -5px;
-    width: 50px;
-    height: 3px;
-    background-color: var(--algeria-green);
-}
+        .sea-forecast h2::after {
+            content: '';
+            position: absolute;
+            right: 0;
+            bottom: -5px;
+            width: 50px;
+            height: 3px;
+            background-color: var(--algeria-green);
+        }
 
-.sea-forecast .weather-details {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1rem;
-    margin-top: 1rem;
-}
+        .sea-forecast .weather-details {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-top: 1rem;
+        }
 
-@media (max-width: 768px) {
-    .sea-forecast .weather-details {
-        grid-template-columns: repeat(2, 1fr);
-    }
-}
+        @media (max-width: 768px) {
+            .sea-forecast .weather-details {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
 
-@media (max-width: 480px) {
-    .sea-forecast .weather-details {
-        grid-template-columns: 1fr;
-    }
-}
+        @media (max-width: 480px) {
+            .sea-forecast .weather-details {
+                grid-template-columns: 1fr;
+            }
+        }
 
-.sea-forecast .detail-item {
-    background: linear-gradient(135deg, #1a56db, #3b82f6);
-    color: white;
-    border-radius: 12px;
-    padding: 1.5rem;
-    text-align: center;
-    transition: all 0.3s ease;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-}
+        .sea-forecast .detail-item {
+            background: linear-gradient(135deg, #1a56db, #3b82f6);
+            color: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
 
-.sea-forecast .detail-item:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 20px rgba(59, 130, 246, 0.3);
-}
+        .sea-forecast .detail-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(59, 130, 246, 0.3);
+        }
 
-.sea-forecast .detail-item i {
-    font-size: 2.5rem;
-    margin-bottom: 1rem;
-    color: rgba(255, 255, 255, 0.9);
-}
+        .sea-forecast .detail-item i {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: rgba(255, 255, 255, 0.9);
+        }
 
-.sea-forecast .detail-item .detail-value {
-    font-size: 2rem;
-    font-weight: 700;
-    margin-bottom: 0.5rem;
-}
+        .sea-forecast .detail-item .detail-value {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
 
-.sea-forecast .detail-item .detail-label {
-    font-size: 1rem;
-    opacity: 0.9;
-}
+        .sea-forecast .detail-item .detail-label {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
 
-/* ألوان مختلفة لكل عنصر */
-.sea-forecast .detail-item:nth-child(1) {
-    background: linear-gradient(135deg, #0e7490, #06b6d4);
-}
+        /* ألوان مختلفة لكل عنصر */
+        .sea-forecast .detail-item:nth-child(1) {
+            background: linear-gradient(135deg, #0e7490, #06b6d4);
+        }
 
-.sea-forecast .detail-item:nth-child(2) {
-    background: linear-gradient(135deg, #7c3aed, #8b5cf6);
-}
+        .sea-forecast .detail-item:nth-child(2) {
+            background: linear-gradient(135deg, #7c3aed, #8b5cf6);
+        }
 
-.sea-forecast .detail-item:nth-child(3) {
-    background: linear-gradient(135deg, #059669, #10b981);
-}
+        .sea-forecast .detail-item:nth-child(3) {
+            background: linear-gradient(135deg, #059669, #10b981);
+        }
 
-/* حالة عدم توفر البيانات */
-.sea-forecast .detail-item.no-data {
-    background: linear-gradient(135deg, #6b7280, #9ca3af);
-    grid-column: 1 / -1;
-}
+        /* حالة عدم توفر البيانات */
+        .sea-forecast .detail-item.no-data {
+            background: linear-gradient(135deg, #6b7280, #9ca3af);
+            grid-column: 1 / -1;
+        }
 
-.sea-forecast .detail-item.no-data i {
-    font-size: 3rem;
-}
+        .sea-forecast .detail-item.no-data i {
+            font-size: 3rem;
+        }
 
-.sea-forecast .detail-item.no-data .detail-value {
-    font-size: 1.5rem;
-    margin-top: 0.5rem;
-}
+        .sea-forecast .detail-item.no-data .detail-value {
+            font-size: 1.5rem;
+            margin-top: 0.5rem;
+        }
 
-/* مؤشرات للقيم */
-.wave-indicator {
-    width: 100%;
-    height: 8px;
-    background: rgba(255, 255, 255, 0.2);
-    border-radius: 4px;
-    margin-top: 10px;
-    overflow: hidden;
-}
+        /* مؤشرات للقيم */
+        .wave-indicator {
+            width: 100%;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 4px;
+            margin-top: 10px;
+            overflow: hidden;
+        }
 
-.wave-indicator-fill {
-    height: 100%;
-    background: rgba(255, 255, 255, 0.8);
-    border-radius: 4px;
-    transition: width 0.5s ease;
-}
+        .wave-indicator-fill {
+            height: 100%;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 4px;
+            transition: width 0.5s ease;
+        }
 
-/* تلميحات إضافية */
-.sea-tips {
-    margin-top: 1.5rem;
-    padding-top: 1.5rem;
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
-}
+        /* تلميحات إضافية */
+        .sea-tips {
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
 
-.sea-tips h4 {
-    font-size: 1.2rem;
-    margin-bottom: 1rem;
-    color: white;
-}
+        .sea-tips h4 {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            color: white;
+        }
 
-.sea-tips ul {
-    list-style: none;
-    padding-right: 1rem;
-}
+        .sea-tips ul {
+            list-style: none;
+            padding-right: 1rem;
+        }
 
-.sea-tips li {
-    margin-bottom: 0.5rem;
-    font-size: 0.95rem;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-}
+        .sea-tips li {
+            margin-bottom: 0.5rem;
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
 
-.sea-tips li i {
-    color: #fbbf24;
-}
+        .sea-tips li i {
+            color: #fbbf24;
+        }
 
-/* تحسينات للوضع الداكن */
-.dark-mode .sea-forecast .detail-item {
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
+        /* تحسينات للوضع الداكن */
+        .dark-mode .sea-forecast .detail-item {
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
 
-.dark-mode .sea-forecast .detail-item:hover {
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-}
+        .dark-mode .sea-forecast .detail-item:hover {
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
 
-/* تأثيرات خاصة للأمواج */
-@keyframes wave-animation {
-    0%, 100% { transform: translateX(0); }
-    50% { transform: translateX(-10px); }
-}
+        /* تأثيرات خاصة للأمواج */
+        @keyframes wave-animation {
 
-.sea-forecast .detail-item:nth-child(1) i {
-    animation: wave-animation 2s ease-in-out infinite;
-}
+            0%,
+            100% {
+                transform: translateX(0);
+            }
 
-/* تنسيق container */
-#weatherTips {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 1.2rem;
-    margin-top: 2rem;
-}
+            50% {
+                transform: translateX(-10px);
+            }
+        }
 
-/* بطاقة كل نصيحة */
-#weatherTips .tip-card {
-    background: linear-gradient(145deg, #ffffff, #f0f4f8);
-    border-radius: 15px;
-    padding: 1.2rem 1rem;
-    box-shadow: 0 6px 15px rgba(0,0,0,0.08);
-    text-align: center;
-    transition: transform 0.3s, box-shadow 0.3s, background 0.3s;
-    cursor: default;
-}
+        .sea-forecast .detail-item:nth-child(1) i {
+            animation: wave-animation 2s ease-in-out infinite;
+        }
 
-/* تأثير hover */
-#weatherTips .tip-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 12px 25px rgba(0,0,0,0.15);
-    background: linear-gradient(145deg, #f0f8ff, #e0f0ff);
-}
+        /* تنسيق container */
+        #weatherTips {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1.2rem;
+            margin-top: 2rem;
+        }
 
-/* أيقونة النصيحة */
-#weatherTips .tip-icon {
-    font-size: 2.5rem;
-    margin-bottom: 0.7rem;
-    color: #10b981;
-    background: linear-gradient(135deg, #d1fae5, #10b981);
-    width: 60px;
-    height: 60px;
-    line-height: 60px;
-    border-radius: 50%;
-    display: inline-block;
-    transition: transform 0.3s, background 0.3s;
-}
+        /* بطاقة كل نصيحة */
+        #weatherTips .tip-card {
+            background: linear-gradient(145deg, #ffffff, #f0f4f8);
+            border-radius: 15px;
+            padding: 1.2rem 1rem;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08);
+            text-align: center;
+            transition: transform 0.3s, box-shadow 0.3s, background 0.3s;
+            cursor: default;
+        }
 
-/* تأثير عند hover */
-#weatherTips .tip-card:hover .tip-icon {
-    transform: scale(1.2) rotate(10deg);
-    background: linear-gradient(135deg, #a7f3d0, #059669);
-}
+        /* تأثير hover */
+        #weatherTips .tip-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);
+            background: linear-gradient(145deg, #f0f8ff, #e0f0ff);
+        }
 
-/* عنوان النصيحة */
-#weatherTips .tip-title {
-    font-size: 1.2rem;
-    font-weight: 700;
-    margin-bottom: 0.6rem;
-    color: #1e3a8a;
-}
+        /* أيقونة النصيحة */
+        #weatherTips .tip-icon {
+            font-size: 2.5rem;
+            margin-bottom: 0.7rem;
+            color: #10b981;
+            background: linear-gradient(135deg, #d1fae5, #10b981);
+            width: 60px;
+            height: 60px;
+            line-height: 60px;
+            border-radius: 50%;
+            display: inline-block;
+            transition: transform 0.3s, background 0.3s;
+        }
 
-/* نص النصيحة */
-#weatherTips p {
-    font-size: 0.95rem;
-    color: #334155;
-    line-height: 1.4;
-}
+        /* تأثير عند hover */
+        #weatherTips .tip-card:hover .tip-icon {
+            transform: scale(1.2) rotate(10deg);
+            background: linear-gradient(135deg, #a7f3d0, #059669);
+        }
 
-</style>
+        /* عنوان النصيحة */
+        #weatherTips .tip-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 0.6rem;
+            color: #1e3a8a;
+        }
+
+        /* نص النصيحة */
+        #weatherTips p {
+            font-size: 0.95rem;
+            color: #334155;
+            line-height: 1.4;
+        }
+    </style>
 </head>
 
 <body>
@@ -1662,10 +1668,10 @@ weather algeria, algeria forecast, algeria weather map, meteo algerie, meteo dz,
                     <!-- سيتم ملؤها بواسطة JavaScript -->
                 </div>
 
-                  <!-- قسم النصائح الديناميكي -->
-        <div class="tips-container" id="weatherTips">
-            <!-- سيتم ملؤها بواسطة JavaScript -->
-        </div>
+                <!-- قسم النصائح الديناميكي -->
+                <div class="tips-container" id="weatherTips">
+                    <!-- سيتم ملؤها بواسطة JavaScript -->
+                </div>
             </div>
 
             <div class="news-ticker">
@@ -1775,15 +1781,15 @@ weather algeria, algeria forecast, algeria weather map, meteo algerie, meteo dz,
         </section>
 
         <!-- News Section -->
-<div class="section-header">
-    <h2>أخبار الطقس والمناخ</h2>
+        <div class="section-header">
+            <h2>أخبار الطقس والمناخ</h2>
 
-    <div style="display:flex; gap:10px;">
-        <button class="btn" id="localNewsBtn">الأخبار المحلية</button>
-        <button class="btn" id="alertsBtn">التنبيهات الجوية</button>
-        <button class="btn" id="refreshNews">تحديث</button>
-    </div>
-</div>
+            <div style="display:flex; gap:10px;">
+                <button class="btn" id="localNewsBtn">الأخبار المحلية</button>
+                <button class="btn" id="alertsBtn">التنبيهات الجوية</button>
+                <button class="btn" id="refreshNews">تحديث</button>
+            </div>
+        </div>
 
 
         <!-- Gallery -->
@@ -2099,7 +2105,9 @@ weather algeria, algeria forecast, algeria weather map, meteo algerie, meteo dz,
 
                 currentWeatherData = weatherData;
                 updateCurrentWeather(weatherData);
-                updateWeatherTips(weatherData); 
+                updateWeatherTips(weatherData);
+                loadGalleryDynamic(weatherData.weather[0].id);
+
 
 
                 // جلب توقعات 5 أيام (كل 3 ساعات)
@@ -2268,36 +2276,36 @@ weather algeria, algeria forecast, algeria weather map, meteo algerie, meteo dz,
         `).join('');
         }
 
-function updateMarineConditions(data) {
-    const seaStateElement = document.getElementById("seaState");
-    
-    if (!seaStateElement) {
-        console.error('seaState element not found');
-        return;
-    }
-    
-    // تنظيف المحتوى السابق
-    seaStateElement.innerHTML = '';
-    
-    if (!data || (!data.wave_height && !data.wave_direction && !data.wave_period)) {
-        // حالة عدم توفر البيانات
-        seaStateElement.innerHTML = `
+        function updateMarineConditions(data) {
+            const seaStateElement = document.getElementById("seaState");
+
+            if (!seaStateElement) {
+                console.error('seaState element not found');
+                return;
+            }
+
+            // تنظيف المحتوى السابق
+            seaStateElement.innerHTML = '';
+
+            if (!data || (!data.wave_height && !data.wave_direction && !data.wave_period)) {
+                // حالة عدم توفر البيانات
+                seaStateElement.innerHTML = `
             <div class="detail-item no-data">
                 <i class="fas fa-water"></i>
                 <div class="detail-value">بيانات البحر غير متوفرة</div>
                 <div class="detail-label">سيتم تحديثها قريباً</div>
             </div>
         `;
-        return;
-    }
-    
-    // عرض البيانات المتوفرة
-    let html = '';
-    
-    if (data.wave_height !== undefined) {
-        const waveHeight = parseFloat(data.wave_height);
-        const wavePercentage = Math.min((waveHeight / 5) * 100, 100); // افتراض أن 5m هو الحد الأقصى
-        html += `
+                return;
+            }
+
+            // عرض البيانات المتوفرة
+            let html = '';
+
+            if (data.wave_height !== undefined) {
+                const waveHeight = parseFloat(data.wave_height);
+                const wavePercentage = Math.min((waveHeight / 5) * 100, 100); // افتراض أن 5m هو الحد الأقصى
+                html += `
             <div class="detail-item">
                 <i class="fas fa-water"></i>
                 <div class="detail-value">${waveHeight.toFixed(1)} م</div>
@@ -2307,12 +2315,12 @@ function updateMarineConditions(data) {
                 </div>
             </div>
         `;
-    }
-    
-    if (data.wave_direction !== undefined) {
-        const direction = parseInt(data.wave_direction);
-        const directionText = getWindDirection(direction);
-        html += `
+            }
+
+            if (data.wave_direction !== undefined) {
+                const direction = parseInt(data.wave_direction);
+                const directionText = getWindDirection(direction);
+                html += `
             <div class="detail-item">
                 <i class="fas fa-compass" style="transform: rotate(${direction}deg)"></i>
                 <div class="detail-value">${directionText}</div>
@@ -2320,24 +2328,24 @@ function updateMarineConditions(data) {
                 <div class="detail-sub">${direction}°</div>
             </div>
         `;
-    }
-    
-    if (data.wave_period !== undefined) {
-        const period = parseFloat(data.wave_period);
-        html += `
+            }
+
+            if (data.wave_period !== undefined) {
+                const period = parseFloat(data.wave_period);
+                html += `
             <div class="detail-item">
                 <i class="fas fa-clock"></i>
                 <div class="detail-value">${period.toFixed(1)} ث</div>
                 <div class="detail-label">فترة الموج</div>
             </div>
         `;
-    }
-    
-    // إضافة تلميحات حسب حالة البحر
-    if (data.wave_height) {
-        const tips = getSeaTips(data.wave_height);
-        if (tips) {
-            html += `
+            }
+
+            // إضافة تلميحات حسب حالة البحر
+            if (data.wave_height) {
+                const tips = getSeaTips(data.wave_height);
+                if (tips) {
+                    html += `
                 <div class="sea-tips">
                     <h4>توصيات:</h4>
                     <ul>
@@ -2345,31 +2353,31 @@ function updateMarineConditions(data) {
                     </ul>
                 </div>
             `;
+                }
+            }
+
+            seaStateElement.innerHTML = html;
         }
-    }
-    
-    seaStateElement.innerHTML = html;
-}
 
-// دالة مساعدة للحصول على اتجاه الرياح
-function getWindDirection(degrees) {
-    const directions = ['شمال', 'شمال شرق', 'شرق', 'جنوب شرق', 'جنوب', 'جنوب غرب', 'غرب', 'شمال غرب'];
-    const index = Math.round((degrees % 360) / 45) % 8;
-    return directions[index];
-}
+        // دالة مساعدة للحصول على اتجاه الرياح
+        function getWindDirection(degrees) {
+            const directions = ['شمال', 'شمال شرق', 'شرق', 'جنوب شرق', 'جنوب', 'جنوب غرب', 'غرب', 'شمال غرب'];
+            const index = Math.round((degrees % 360) / 45) % 8;
+            return directions[index];
+        }
 
-// دالة مساعدة للحصول على تلميحات حسب ارتفاع الأمواج
-function getSeaTips(waveHeight) {
-    if (waveHeight < 0.5) {
-        return ['البحر هادئ جداً', 'مثالي للسباحة والأنشطة البحرية'];
-    } else if (waveHeight < 1.5) {
-        return ['الهادئ إلى متوسط', 'مناسب لمعظم الأنشطة البحرية'];
-    } else if (waveHeight < 2.5) {
-        return ['البحر مضطرب', 'احذر عند السباحة', 'غير مناسب للقوارب الصغيرة'];
-    } else {
-        return ['البحر عالي الموج', 'تجنب الأنشطة البحرية', 'خطر على السباحة'];
-    }
-}
+        // دالة مساعدة للحصول على تلميحات حسب ارتفاع الأمواج
+        function getSeaTips(waveHeight) {
+            if (waveHeight < 0.5) {
+                return ['البحر هادئ جداً', 'مثالي للسباحة والأنشطة البحرية'];
+            } else if (waveHeight < 1.5) {
+                return ['الهادئ إلى متوسط', 'مناسب لمعظم الأنشطة البحرية'];
+            } else if (waveHeight < 2.5) {
+                return ['البحر مضطرب', 'احذر عند السباحة', 'غير مناسب للقوارب الصغيرة'];
+            } else {
+                return ['البحر عالي الموج', 'تجنب الأنشطة البحرية', 'خطر على السباحة'];
+            }
+        }
 
         // تحديث أيقونة الطقس
         function updateWeatherIcon(weatherId, iconCode) {
@@ -2684,8 +2692,6 @@ function getSeaTips(waveHeight) {
                     ];
                 }
 
-
-
                 // تحديث شبكة الأخبار
                 updateNewsGrid(newsData);
 
@@ -2746,42 +2752,56 @@ function getSeaTips(waveHeight) {
         }
 
         // تحميل معرض الصور
-        function loadGallery() {
-            const weatherImages = [
-                {
-                    url: 'https://images.unsplash.com/photo-1592210454359-9043f067919b?q=80&w=1000',
-                    title: 'سماء صافية في الصحراء'
-                },
-                {
-                    url: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?q=80&w=1000',
-                    title: 'قمم جبال الأطلس'
-                },
-                {
-                    url: 'https://images.unsplash.com/photo-1534088568595-a066f410bcda?q=80&w=1000',
-                    title: 'سواحل البحر المتوسط'
-                },
-                {
-                    url: 'https://images.unsplash.com/photo-1515694346937-94d85e41e6f0?q=80&w=1000',
-                    title: 'غابات الشمال'
-                },
-                {
-                    url: 'https://images.unsplash.com/photo-1496450681664-3df85efbd29f?q=80&w=1000',
-                    title: 'عواصف رعدية'
-                },
-                {
-                    url: 'https://images.unsplash.com/photo-1543968996-ee822b8176ba?q=80&w=1000',
-                    title: 'ضباب الصباح'
-                }
-            ];
 
-            galleryGrid.innerHTML = weatherImages.map(image => `
-            <div class="gallery-item">
-                <img src="${image.url}" alt="${image.title}">
-                <div class="gallery-overlay">
-                    <h4>${image.title}</h4>
-                </div>
+        function loadGalleryDynamic(weatherId) {
+            const category = getWeatherCategory(weatherId);
+            const images = dynamicWeatherImages[category] || dynamicWeatherImages.clear;
+
+            galleryGrid.innerHTML = images.map(image => `
+        <div class="gallery-item fade-in">
+            <img src="${image.url}" alt="${image.title}">
+            <div class="gallery-overlay">
+                <h4>${image.title}</h4>
             </div>
-        `).join('');
+        </div>
+    `).join('');
+        }
+        // صور ديناميكية حسب حالة الطقس
+        const dynamicWeatherImages = {
+            clear: [
+                { url: "https://images.unsplash.com/photo-1592210454359-9043f067919b?q=80&w=1000", title: "سماء صافية" },
+                { url: "https://images.unsplash.com/photo-1501973801540-537f08ccae7b?q=80&w=1000", title: "شمس مشرقة" }
+            ],
+            clouds: [
+                { url: "https://images.unsplash.com/photo-1505583712945-c73f92e242fd?q=80&w=1000", title: "غيوم كثيفة" },
+                { url: "https://images.unsplash.com/photo-1520607162513-77705c0f0d4a?q=80&w=1000", title: "سماء غائمة" }
+            ],
+            rain: [
+                { url: "https://images.unsplash.com/photo-1526674183561-4f3fbf0f5d1f?q=80&w=1000", title: "أمطار غزيرة" },
+                { url: "https://images.unsplash.com/photo-1501594907352-04cda38ebc29?q=80&w=1000", title: "طقس ممطر" }
+            ],
+            thunder: [
+                { url: "https://images.unsplash.com/photo-1500673922987-e212871fec22?q=80&w=1000", title: "عاصفة رعدية" },
+                { url: "https://images.unsplash.com/photo-1496450681664-3df85efbd29f?q=80&w=1000", title: "برق في السماء" }
+            ],
+            snow: [
+                { url: "https://images.unsplash.com/photo-1480796927426-f609979314bd?q=80&w=1000", title: "ثلوج" },
+                { url: "https://images.unsplash.com/photo-1608889175121-cc4154786e7b?q=80&w=1000", title: "طقس ثلجي" }
+            ],
+            fog: [
+                { url: "https://images.unsplash.com/photo-1543968996-ee822b8176ba?q=80&w=1000", title: "ضباب كثيف" },
+                { url: "https://images.unsplash.com/photo-1500375592092-40eb2168fd21?q=80&w=1000", title: "صباح ضبابي" }
+            ]
+        };
+
+        function getWeatherCategory(weatherId) {
+            if (weatherId >= 200 && weatherId < 300) return "thunder";
+            if (weatherId >= 300 && weatherId < 600) return "rain";
+            if (weatherId >= 600 && weatherId < 700) return "snow";
+            if (weatherId >= 700 && weatherId < 800) return "fog";
+            if (weatherId === 800) return "clear";
+            if (weatherId > 800) return "clouds";
+            return "clear";
         }
 
         // معالجة البحث عن المدن
@@ -3433,80 +3453,80 @@ function getSeaTips(waveHeight) {
         }
 
         // تحديث نصائح الطقس ديناميكيًا
-function updateWeatherTips(data) {
-    const tipsContainer = document.querySelector('.tips-container');
-    const temp = data.main.temp; // درجة الحرارة
-    const weatherId = data.weather[0].id; // حالة الطقس
-    const windSpeed = data.wind.speed * 3.6; // سرعة الرياح بالكيلومتر/ساعة
+        function updateWeatherTips(data) {
+            const tipsContainer = document.querySelector('.tips-container');
+            const temp = data.main.temp; // درجة الحرارة
+            const weatherId = data.weather[0].id; // حالة الطقس
+            const windSpeed = data.wind.speed * 3.6; // سرعة الرياح بالكيلومتر/ساعة
 
-    const tips = [];
+            const tips = [];
 
-    // حماية من الشمس
-    if (weatherId === 800 || (weatherId > 800 && weatherId < 900) && temp > 25) {
-        tips.push({
-            icon: 'fas fa-sun',
-            title: 'حماية من الشمس',
-            text: 'مؤشر الأشعة فوق البنفسجية مرتفع. استخدم واقي الشمس وارتدِ قبعة ونظارات شمسية.'
-        });
-    }
+            // حماية من الشمس
+            if (weatherId === 800 || (weatherId > 800 && weatherId < 900) && temp > 25) {
+                tips.push({
+                    icon: 'fas fa-sun',
+                    title: 'حماية من الشمس',
+                    text: 'مؤشر الأشعة فوق البنفسجية مرتفع. استخدم واقي الشمس وارتدِ قبعة ونظارات شمسية.'
+                });
+            }
 
-    // ترطيب الجسم
-    if (temp > 28) {
-        tips.push({
-            icon: 'fas fa-tint',
-            title: 'ترطيب الجسم',
-            text: 'اشرب الكثير من الماء لتجنب الجفاف، خصوصًا مع ارتفاع درجات الحرارة.'
-        });
-    }
+            // ترطيب الجسم
+            if (temp > 28) {
+                tips.push({
+                    icon: 'fas fa-tint',
+                    title: 'ترطيب الجسم',
+                    text: 'اشرب الكثير من الماء لتجنب الجفاف، خصوصًا مع ارتفاع درجات الحرارة.'
+                });
+            }
 
-    // البرد الشديد
-    if (temp < 10) {
-        tips.push({
-            icon: 'fas fa-snowflake',
-            title: 'الوقاية من البرد',
-            text: 'درجات الحرارة منخفضة. ارتدِ ملابس دافئة واحمِ يديك وقدميك.'
-        });
-    }
+            // البرد الشديد
+            if (temp < 10) {
+                tips.push({
+                    icon: 'fas fa-snowflake',
+                    title: 'الوقاية من البرد',
+                    text: 'درجات الحرارة منخفضة. ارتدِ ملابس دافئة واحمِ يديك وقدميك.'
+                });
+            }
 
-    // الأمطار
-    if (weatherId >= 500 && weatherId < 600) {
-        tips.push({
-            icon: 'fas fa-umbrella',
-            title: 'استعد للأمطار',
-            text: 'توقع هطول أمطار. احمل مظلتك وتجنب المناطق المنخفضة أثناء القيادة.'
-        });
-    }
+            // الأمطار
+            if (weatherId >= 500 && weatherId < 600) {
+                tips.push({
+                    icon: 'fas fa-umbrella',
+                    title: 'استعد للأمطار',
+                    text: 'توقع هطول أمطار. احمل مظلتك وتجنب المناطق المنخفضة أثناء القيادة.'
+                });
+            }
 
-    // الرياح القوية
-    if (windSpeed > 50) {
-        tips.push({
-            icon: 'fas fa-wind',
-            title: 'الرياح القوية',
-            text: 'سرعة الرياح عالية. ثبّت الأشياء في الخارج وتوخى الحذر أثناء الخروج.'
-        });
-    }
+            // الرياح القوية
+            if (windSpeed > 50) {
+                tips.push({
+                    icon: 'fas fa-wind',
+                    title: 'الرياح القوية',
+                    text: 'سرعة الرياح عالية. ثبّت الأشياء في الخارج وتوخى الحذر أثناء الخروج.'
+                });
+            }
 
-    // فصل الربيع (أبريل-يونيو)
-    const month = new Date().getMonth() + 1;
-    if (month >= 4 && month <= 6) {
-        tips.push({
-            icon: 'fas fa-seedling',
-            title: 'فصل الربيع',
-            text: 'الأحوال الجوية قد تتغير بسرعة. ارتدِ ملابس قابلة للتعديل وحافظ على ترطيب بشرتك.'
-        });
-    }
+            // فصل الربيع (أبريل-يونيو)
+            const month = new Date().getMonth() + 1;
+            if (month >= 4 && month <= 6) {
+                tips.push({
+                    icon: 'fas fa-seedling',
+                    title: 'فصل الربيع',
+                    text: 'الأحوال الجوية قد تتغير بسرعة. ارتدِ ملابس قابلة للتعديل وحافظ على ترطيب بشرتك.'
+                });
+            }
 
-    // موجات الحرارة
-    if (temp > 35) {
-        tips.push({
-            icon: 'fas fa-temperature-high',
-            title: 'موجات الحرارة',
-            text: 'تجنّب التعرض المباشر للشمس خلال فترة الظهيرة واشرب سوائل باردة بانتظام.'
-        });
-    }
+            // موجات الحرارة
+            if (temp > 35) {
+                tips.push({
+                    icon: 'fas fa-temperature-high',
+                    title: 'موجات الحرارة',
+                    text: 'تجنّب التعرض المباشر للشمس خلال فترة الظهيرة واشرب سوائل باردة بانتظام.'
+                });
+            }
 
-    // توليد HTML
-    tipsContainer.innerHTML = tips.map(tip => `
+            // توليد HTML
+            tipsContainer.innerHTML = tips.map(tip => `
         <div class="tip-card">
             <div class="tip-icon">
                 <i class="${tip.icon}"></i>
@@ -3515,7 +3535,7 @@ function updateWeatherTips(data) {
             <p>${tip.text}</p>
         </div>
     `).join('');
-}
+        }
 
     </script>
 
