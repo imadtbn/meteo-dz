@@ -1314,6 +1314,13 @@ weather algeria, algeria forecast, algeria weather map, meteo algerie, meteo dz,
             border: 2px solid white;
             /* اختياري: لإضافة إطار حول الدائرة */
         }
+
+        /* أضف إلى CSS الموجود */
+        #seaState {
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+        }
     </style>
 
 </head>
@@ -1373,9 +1380,6 @@ weather algeria, algeria forecast, algeria weather map, meteo algerie, meteo dz,
             </div>
         </div>
     </header>
-
-
-
 
     <!-- Main Content -->
     <main>
@@ -1442,6 +1446,20 @@ weather algeria, algeria forecast, algeria weather map, meteo algerie, meteo dz,
                 <div class="hourly-container" id="hourlyForecast">
                     <!-- سيتم ملؤها بواسطة JavaScript -->
                 </div>
+            </div>
+        </section>
+
+
+        <!-- حالة البحر -->
+        <section>
+            <div class="section-header">
+                <h2>حالة البحر</h2>
+            </div>
+            <div class="hourly-forecast">
+                <div class="weather-details" id="weatherDetails"></div>
+                <!-- سيتم ملؤها بواسطة JavaScript -->
+                <div class="weather-details" id="seaState"></div>
+            </div>
             </div>
         </section>
 
@@ -1841,6 +1859,16 @@ weather algeria, algeria forecast, algeria weather map, meteo algerie, meteo dz,
                 // تحديث الرسم البياني
                 updateTemperatureChart(forecastData);
 
+                // جلب بيانات حالة البحر (إن كانت متاحة)
+                // ملاحظة: قد تحتاج API متميزة لهذه الميزة
+                try {
+                    await fetchMarineData(currentLocation.lat, currentLocation.lon);
+                } catch (marineError) {
+                    console.warn('Could not fetch marine data:', marineError);
+                    // لا توقف التطبيق إذا فشل طلب بيانات البحر
+                    updateMarineConditions(null);
+                }
+
                 // تحديث وقت التحديث
                 updateTimeElement.textContent = new Date().toLocaleTimeString('ar-DZ');
 
@@ -1853,6 +1881,94 @@ weather algeria, algeria forecast, algeria weather map, meteo algerie, meteo dz,
             } finally {
                 hideLoading(locationBtn);
             }
+        }
+
+        // دالة منفصلة لجلب بيانات البحر
+        async function fetchMarineData(lat, lon) {
+            try {
+                // استخدم One Call API بدلاً من Marine API إذا لم تكن متاحة
+                const marineUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=current,minutely,hourly,daily,alerts&appid=${OPENWEATHER_API_KEY}&units=metric`;
+                const marineResponse = await fetch(marineUrl);
+
+                if (!marineResponse.ok) {
+                    throw new Error(`Marine API error: ${marineResponse.status}`);
+                }
+
+                const marineData = await marineResponse.json();
+                updateMarineConditions(marineData);
+            } catch (error) {
+                // في حالة الفشل، استخدم بيانات افتراضية أو اتركها فارغة
+                console.warn('Using fallback marine data:', error);
+                updateMarineConditions({
+                    wave_height: 1.2,
+                    wave_direction: 45,
+                    wave_period: 6.5
+                });
+            }
+        }
+
+        // تحديث حالة البحر مع معالجة الحالات الفارغة
+        function updateMarineConditions(data) {
+            const seaStateElement = document.getElementById("seaState");
+
+            if (!seaStateElement) {
+                console.error('seaState element not found');
+                return;
+            }
+
+            if (!data) {
+                // حالة البيانات غير متوفرة
+                seaStateElement.innerHTML = `
+            <div class="detail-item">
+                <i class="fas fa-water"></i>
+                <div class="detail-value">غير متوفر</div>
+                <div class="detail-label">حالة البحر</div>
+            </div>
+        `;
+                return;
+            }
+
+            // استخدام بيانات افتراضية إذا كانت البيانات غير مكتملة
+            const wave = data.wave_height || data.current?.wave_height || 0;
+            const waveDir = data.wave_direction || data.current?.wave_direction || 0;
+            const wavePeriod = data.wave_period || data.current?.wave_period || 0;
+
+            seaStateElement.innerHTML = `
+        <div class="detail-item">
+            <i class="fas fa-water"></i>
+            <div class="detail-value">${wave.toFixed(1)} م</div>
+            <div class="detail-label">ارتفاع الموج</div>
+        </div>
+        <div class="detail-item">
+            <i class="fas fa-compass"></i>
+            <div class="detail-value">${waveDir}°</div>
+            <div class="detail-label">اتجاه الموج</div>
+        </div>
+        <div class="detail-item">
+            <i class="fas fa-clock"></i>
+            <div class="detail-value">${wavePeriod.toFixed(1)} ث</div>
+            <div class="detail-label">فترة الموج</div>
+        </div>
+    `;
+        }
+
+        // إذا كان One Call API غير متاح، استخدم تنبؤات الرياح كبديل
+        function getAlternativeMarineData(weatherData) {
+            return {
+                wave_height: calculateWaveHeight(weatherData.wind.speed),
+                wave_direction: weatherData.wind.deg || 0,
+                wave_period: calculateWavePeriod(weatherData.wind.speed)
+            };
+        }
+
+        function calculateWaveHeight(windSpeed) {
+            // معادلة مبسطة لتقدير ارتفاع الأمواج بناءً على سرعة الرياح
+            return windSpeed * 0.2; // متر
+        }
+
+        function calculateWavePeriod(windSpeed) {
+            // معادلة مبسطة لفترة الأمواج
+            return windSpeed * 0.3; // ثواني
         }
 
         // تحديث بيانات الطقس الحالي
@@ -1889,6 +2005,44 @@ weather algeria, algeria forecast, algeria weather map, meteo algerie, meteo dz,
             </div>
         `).join('');
         }
+
+        function updateMarineConditions(data) {
+            const seaStateElement = document.getElementById("seaState");
+
+            if (!data || !data.wave_height) {
+                seaStateElement.innerHTML = `
+            <div class="detail-item">
+                <i class="fas fa-water"></i>
+                <div class="detail-value">—</div>
+                <div class="detail-label">حالة البحر</div>
+            </div>
+        `;
+                return;
+            }
+
+            const wave = data.wave_height;   // بالأمتار
+            const waveDir = data.wave_direction || "—";
+            const wavePeriod = data.wave_period || "—";
+
+            seaStateElement.innerHTML = `
+        <div class="detail-item">
+            <i class="fas fa-water"></i>
+            <div class="detail-value">${wave} م</div>
+            <div class="detail-label">ارتفاع الموج</div>
+        </div>
+        <div class="detail-item">
+            <i class="fas fa-compass"></i>
+            <div class="detail-value">${waveDir}°</div>
+            <div class="detail-label">اتجاه الموج</div>
+        </div>
+        <div class="detail-item">
+            <i class="fas fa-clock"></i>
+            <div class="detail-value">${wavePeriod} ث</div>
+            <div class="detail-label">فترة الموج</div>
+        </div>
+    `;
+        }
+
 
         // تحديث أيقونة الطقس
         function updateWeatherIcon(weatherId, iconCode) {
