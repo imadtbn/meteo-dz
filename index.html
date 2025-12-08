@@ -3362,38 +3362,6 @@ function getSeaTips(waveHeight) {
 
             hideAlert();
         }
-            // لب أخبار محلية للطقس من الموقع الرسمي الحكومي الديوان الوطني للأرصاد الجوية
-
-
-async function loadLocalNews() {
-    const response = await fetch("onm-news.php");
-    const data = await response.json();
-    
-    const container = document.getElementById("newsGrid");
-    container.innerHTML = "";
-
-    if (!Array.isArray(data)) {
-        container.innerHTML = "<p>تعذر جلب الأخبار.</p>";
-        return;
-    }
-
-    data.forEach(item => {
-        container.innerHTML += `
-            <div class="news-card">
-                <div class="news-content">
-                    <h3>${item.title}</h3>
-                    <p>${item.description}</p>
-                    <div class="news-meta">
-                        <span>${item.time}</span>
-                        <span>ONM</span>
-                    </div>
-                </div>
-            </div>`;
-    });
-}
-
-document.getElementById("localNewsBtn").addEventListener("click", loadLocalNews);
-document.getElementById("refreshNews").addEventListener("click", loadLocalNews);
 
     </script>
 
@@ -3420,3 +3388,4 @@ document.getElementById("refreshNews").addEventListener("click", loadLocalNews);
 </body>
 
 </html>
+
