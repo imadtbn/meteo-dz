@@ -115,7 +115,7 @@ const Notify = {
     init() {
         this.element = document.getElementById('alertBanner');
         this.text = document.getElementById('alertText');
-        document.getElementById('closeAlert') ? .addEventListener('click', () => this.hide());
+        document.getElementById('closeAlert')?.addEventListener('click', () => this.hide());
     },
 
     show(message, type = 'info', duration = 5000) {
@@ -129,7 +129,7 @@ const Notify = {
     },
 
     hide() {
-        this.element ? .classList.remove('visible');
+        this.element?.classList.remove('visible');
         if (this.timer) clearTimeout(this.timer);
     },
 
@@ -461,12 +461,12 @@ const UI = {
             this.elements.currentTemp.textContent = `${Math.round(data.main.temp)}°`;
         }
         if (this.elements.currentCondition) {
-            this.elements.currentCondition.textContent = data.weather[0] ? .description || 'غير معروف';
+            this.elements.currentCondition.textContent = data.weather[0]?.description || 'غير معروف';
         }
 
         // Update weather icon
-        const isDay = data.weather[0] ? .icon ? .includes('d') ? ? true;
-        const weatherInfo = WeatherService.getWeatherIcon(data.weather[0] ? .id, isDay);
+        const isDay = data.weather[0]?.icon?.includes('d') ? ? true;
+        const weatherInfo = WeatherService.getWeatherIcon(data.weather[0]?.id, isDay);
         if (this.elements.weatherIcon) {
             this.elements.weatherIcon.innerHTML = `<i class="${weatherInfo.icon}"></i>`;
             this.elements.weatherIcon.style.color = weatherInfo.color;
@@ -515,7 +515,7 @@ const UI = {
                 const hour = date.getHours();
                 const temp = Math.round(item.main.temp);
                 const isDay = hour >= 6 && hour < 18;
-                const weatherInfo = WeatherService.getWeatherIcon(item.weather[0] ? .id, isDay);
+                const weatherInfo = WeatherService.getWeatherIcon(item.weather[0]?.id, isDay);
 
                 return `
                     <div class="hourly-card">
@@ -548,8 +548,8 @@ const UI = {
                 };
             }
             dailyData[dayKey].temps.push(item.main.temp);
-            dailyData[dayKey].conditions.push(item.weather[0] ? .description || '');
-            dailyData[dayKey].weatherIds.push(item.weather[0] ? .id || 800);
+            dailyData[dayKey].conditions.push(item.weather[0]?.description || '');
+            dailyData[dayKey].weatherIds.push(item.weather[0]?.id || 800);
         });
 
         const dailyEntries = Object.values(dailyData).slice(0, 7);
@@ -629,7 +629,7 @@ const UI = {
         const temps = forecastData.list.map(item => item.main.temp);
         const maxTemp = Math.max(...temps);
         const minTemp = Math.min(...temps);
-        const rainItems = forecastData.list.filter(item => item.weather[0] ? .id >= 500 && item.weather[0] ? .id < 600);
+        const rainItems = forecastData.list.filter(item => item.weather[0]?.id >= 500 && item.weather[0]?.id < 600);
         const totalRain = rainItems.length * 2.5;
         const avgWind = forecastData.list.reduce((sum, item) => sum + item.wind.speed, 0) / forecastData.list.length;
 
@@ -641,7 +641,7 @@ const UI = {
 
     updateWeatherTips(data) {
         const temp = data.main.temp;
-        const weatherId = data.weather[0] ? .id || 800;
+        const weatherId = data.weather[0]?.id || 800;
         const windSpeed = (data.wind.speed || 0) * 3.6;
         const tips = [];
 
@@ -717,7 +717,7 @@ const UI = {
     },
 
     updateTemperatureChart(data) {
-        const ctx = this.elements.temperatureChart ? .getContext('2d');
+        const ctx = this.elements.temperatureChart?.getContext('2d');
         if (!ctx) return;
 
         const labels = [];
@@ -833,7 +833,7 @@ const MapService = {
 
             // Resize handler
             window.addEventListener('resize', () => {
-                setTimeout(() => this.map ? .invalidateSize(), 100);
+                setTimeout(() => this.map?.invalidateSize(), 100);
             });
         },
 
