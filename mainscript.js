@@ -1,4 +1,5 @@
 // ═══════════════════════════════════════════════════════════════
+
 //  الطقس الجزائري - Algeria Weather Pro
 //  إعادة بناء احترافية للكود JavaScript
 //  التاريخ: 2026-06-19
@@ -41,7 +42,7 @@ const AppState = {
     statsPeriod: 'daily',
     isLoading: false,
     lastUpdate: null,
-
+    
     init() {
         const cached = LocationCache.get();
         if (cached && cached.timestamp > Date.now() - CONFIG.CACHE_DURATION) {
@@ -49,16 +50,16 @@ const AppState = {
             console.log('[State] Loaded from cache:', cached.data.name);
             return cached.data;
         }
-        this.currentLocation = {...CONFIG.DEFAULT_LOCATION };
+        this.currentLocation = {...CONFIG.DEFAULT_LOCATION};
         console.log('[State] Using default location');
         return this.currentLocation;
     },
-
+    
     setLocation(location) {
         this.currentLocation = location;
         LocationCache.set(location);
     },
-
+    
     setWeather(data) {
         this.currentWeather = data;
         this.lastUpdate = Date.now();
@@ -70,7 +71,7 @@ const AppState = {
 // ============================================
 const LocationCache = {
     KEY: 'algeria_weather_location',
-
+    
     set(location) {
         try {
             localStorage.setItem(this.KEY, JSON.stringify({
@@ -82,7 +83,7 @@ const LocationCache = {
             console.warn('[Cache] Failed to save:', e);
         }
     },
-
+    
     get() {
         try {
             const raw = localStorage.getItem(this.KEY);
@@ -92,12 +93,12 @@ const LocationCache = {
             return null;
         }
     },
-
+    
     clear() {
         localStorage.removeItem(this.KEY);
         console.log('[Cache] Cleared');
     },
-
+    
     isValid() {
         const cached = this.get();
         return cached && (Date.now() - cached.timestamp < CONFIG.CACHE_DURATION);
@@ -111,13 +112,13 @@ const Notify = {
     element: null,
     text: null,
     timer: null,
-
+    
     init() {
         this.element = document.getElementById('alertBanner');
         this.text = document.getElementById('alertText');
         document.getElementById('closeAlert')?.addEventListener('click', () => this.hide());
     },
-
+    
     show(message, type = 'info', duration = 5000) {
         if (this.timer) clearTimeout(this.timer);
         this.text.textContent = message;
@@ -127,12 +128,12 @@ const Notify = {
         }
         console.log(`[Notify] ${type}: ${message}`);
     },
-
+    
     hide() {
         this.element?.classList.remove('visible');
         if (this.timer) clearTimeout(this.timer);
     },
-
+    
     loading(message) { this.show(message, 'info', 0); },
     success(message) { this.show(message, 'success', 3000); },
     error(message) { this.show(message, 'error', 6000); },
@@ -152,11 +153,12 @@ const GeoService = {
             Notify.loading('جارٍ تحديد موقعك...');
             navigator.geolocation.getCurrentPosition(
                 (position) => resolve(position),
-                (error) => reject(this.handleError(error)), { enableHighAccuracy: true, timeout: CONFIG.GEO_TIMEOUT, maximumAge: 0 }
+                (error) => reject(this.handleError(error)),
+                { enableHighAccuracy: true, timeout: CONFIG.GEO_TIMEOUT, maximumAge: 0 }
             );
         });
     },
-
+    
     handleError(error) {
         const errors = {
             1: 'تم رفض إذن الوصول إلى الموقع. يرجى السماح بالوصول من إعدادات المتصفح.',
@@ -166,7 +168,7 @@ const GeoService = {
         };
         return new Error(errors[error.code] || errors[0]);
     },
-
+    
     async reverseGeocode(lat, lon) {
         try {
             const url = `${CONFIG.GEO_API_URL}/reverse?lat=${lat}&lon=${lon}&limit=1&appid=${CONFIG.OPENWEATHER_API_KEY}`;
@@ -180,7 +182,7 @@ const GeoService = {
             return this.reverseGeocodeNominatim(lat, lon);
         }
     },
-
+    
     async reverseGeocodeNominatim(lat, lon) {
         try {
             const url = `${CONFIG.NOMINATIM_URL}/reverse?format=json&lat=${lat}&lon=${lon}&zoom=10&addressdetails=1&accept-language=ar`;
@@ -193,61 +195,50 @@ const GeoService = {
             return this.createFallbackLocation(lat, lon);
         }
     },
-
+    
     parseGeocodeData(data, lat, lon) {
         const localNames = data.local_names || {};
         const name = localNames.ar || localNames.fr || data.name || 'موقع غير معروف';
         const state = data.state || '';
         return {
-            lat,
-            lon,
-            name,
-            state,
+            lat, lon, name, state,
             country: localNames.ar || data.country || 'الجزائر',
             displayName: this.buildDisplayName(name, state, 'الجزائر')
         };
     },
-
+    
     parseNominatimData(data, lat, lon) {
         const addr = data.address || {};
         const city = addr.city || addr.town || addr.village || addr.hamlet || 'موقع غير معروف';
         const state = addr.state || addr.county || addr.district || '';
         const country = addr.country || 'الجزائر';
         return {
-            lat,
-            lon,
-            name: city,
-            state,
-            country,
+            lat, lon, name: city, state, country,
             displayName: this.buildDisplayName(city, state, country)
         };
     },
-
+    
     buildDisplayName(city, state, country) {
         const parts = [city];
         if (state && state !== city) parts.push(state);
         parts.push(country);
         return parts.join(' / ');
     },
-
+    
     createFallbackLocation(lat, lon) {
         return {
-            lat,
-            lon,
-            name: 'الموقع الحالي',
-            state: '',
-            country: 'الجزائر',
+            lat, lon, name: 'الموقع الحالي', state: '', country: 'الجزائر',
             displayName: 'الموقع الحالي / الجزائر'
         };
     },
-
+    
     async searchCities(query) {
         if (!query || query.length < 2) return [];
         const localResults = this.searchLocalCities(query);
         if (localResults.length > 0) return localResults;
         return this.searchNominatim(query);
     },
-
+    
     searchLocalCities(query) {
         const q = query.toLowerCase();
         return ALGERIAN_CITIES
@@ -257,7 +248,7 @@ const GeoService = {
                 displayName: this.buildDisplayName(city.name, city.state, 'الجزائر')
             }));
     },
-
+    
     async searchNominatim(query) {
         try {
             const url = `${CONFIG.NOMINATIM_URL}/search?format=json&addressdetails=1&limit=8&accept-language=ar&q=${encodeURIComponent(query)}`;
@@ -267,8 +258,7 @@ const GeoService = {
             return data.map(place => {
                 const addr = place.address || {};
                 return {
-                    lat: parseFloat(place.lat),
-                    lon: parseFloat(place.lon),
+                    lat: parseFloat(place.lat), lon: parseFloat(place.lon),
                     name: place.display_name.split(',')[0],
                     state: addr.state || addr.county || '',
                     country: addr.country || '',
@@ -281,6 +271,8 @@ const GeoService = {
         }
     }
 };
+
+
 
 
 // ============================================
@@ -361,7 +353,7 @@ const WeatherService = {
         }
         return response.json();
     },
-
+    
     async fetchForecast(location) {
         const url = `${CONFIG.API_BASE_URL}/forecast?lat=${location.lat}&lon=${location.lon}&units=metric&appid=${CONFIG.OPENWEATHER_API_KEY}&lang=ar`;
         const response = await fetch(url);
@@ -371,14 +363,14 @@ const WeatherService = {
         }
         return response.json();
     },
-
+    
     async fetchWeatherAtPoint(lat, lon) {
         const url = `${CONFIG.API_BASE_URL}/weather?lat=${lat}&lon=${lon}&units=metric&appid=${CONFIG.OPENWEATHER_API_KEY}&lang=ar`;
         const response = await fetch(url);
         if (!response.ok) throw new Error('Failed to fetch point weather');
         return response.json();
     },
-
+    
     getWeatherIcon(weatherId, isDay = true) {
         const icons = {
             thunder: { icon: 'fas fa-bolt', color: '#8e44ad' },
@@ -398,24 +390,26 @@ const WeatherService = {
         if (weatherId > 800) return icons.clouds;
         return icons.clear;
     },
-
+    
     getWindDirection(degrees) {
         const directions = ['شمال', 'شمال شرق', 'شرق', 'جنوب شرق', 'جنوب', 'جنوب غرب', 'غرب', 'شمال غرب'];
         return directions[Math.round((degrees % 360) / 45) % 8];
     },
-
+    
     calculateWaveHeight(windSpeed) {
         return (windSpeed * 0.2).toFixed(1);
     },
-
+    
     calculateWavePeriod(windSpeed) {
         return (windSpeed * 0.3).toFixed(1);
     },
-
+    
     formatTime(date) {
         return date.toLocaleTimeString('ar-DZ', { hour: '2-digit', minute: '2-digit' });
     }
 };
+
+
 
 
 // ============================================
@@ -423,11 +417,11 @@ const WeatherService = {
 // ============================================
 const UI = {
     elements: {},
-
+    
     init() {
         this.cacheElements();
     },
-
+    
     cacheElements() {
         const ids = [
             'alertBanner', 'alertText', 'closeAlert', 'siteHeader', 'mobileMenuBtn', 'mainNav',
@@ -444,10 +438,10 @@ const UI = {
             this.elements[id] = document.getElementById(id);
         });
     },
-
+    
     updateCurrentWeather(data, locationData) {
         if (!locationData) return;
-
+        
         // Update location display with full details
         if (this.elements.currentCity) {
             this.elements.currentCity.textContent = locationData.displayName || locationData.name;
@@ -455,7 +449,7 @@ const UI = {
         if (this.elements.currentCountry) {
             this.elements.currentCountry.textContent = locationData.country || 'الجزائر';
         }
-
+        
         // Update temperature and condition
         if (this.elements.currentTemp) {
             this.elements.currentTemp.textContent = `${Math.round(data.main.temp)}°`;
@@ -463,15 +457,15 @@ const UI = {
         if (this.elements.currentCondition) {
             this.elements.currentCondition.textContent = data.weather[0]?.description || 'غير معروف';
         }
-
+        
         // Update weather icon
-        const isDay = data.weather[0]?.icon?.includes('d') ? ? true;
+        const isDay = data.weather[0]?.icon?.includes('d') ?? true;
         const weatherInfo = WeatherService.getWeatherIcon(data.weather[0]?.id, isDay);
         if (this.elements.weatherIcon) {
             this.elements.weatherIcon.innerHTML = `<i class="${weatherInfo.icon}"></i>`;
             this.elements.weatherIcon.style.color = weatherInfo.color;
         }
-
+        
         // Update details grid
         const details = [
             { icon: 'fas fa-temperature-high', label: 'الإحساس', value: `${Math.round(data.main.feels_like)}°C` },
@@ -483,7 +477,7 @@ const UI = {
             { icon: 'fas fa-location-arrow', label: 'اتجاه الرياح', value: WeatherService.getWindDirection(data.wind.deg || 0) },
             { icon: 'fas fa-sun', label: 'UV', value: data.uvi || '--' }
         ];
-
+        
         if (this.elements.weatherDetails) {
             this.elements.weatherDetails.innerHTML = details.map(d => `
                 <div class="detail-card">
@@ -493,11 +487,11 @@ const UI = {
                 </div>
             `).join('');
         }
-
+        
         // Update cube temps
         this.updateCubeTemps(data.main.temp);
     },
-
+    
     updateCubeTemps(temp) {
         const temps = [temp, temp - 2, temp + 1, temp - 1, temp + 8, temp - 3];
         temps.forEach((t, i) => {
@@ -505,10 +499,10 @@ const UI = {
             if (el) el.textContent = `${Math.round(t)}°`;
         });
     },
-
+    
     updateHourlyForecast(data) {
         const hourlyData = data.list.slice(0, 8);
-
+        
         if (this.elements.hourlyForecast) {
             this.elements.hourlyForecast.innerHTML = hourlyData.map(item => {
                 const date = new Date(item.dt * 1000);
@@ -516,7 +510,7 @@ const UI = {
                 const temp = Math.round(item.main.temp);
                 const isDay = hour >= 6 && hour < 18;
                 const weatherInfo = WeatherService.getWeatherIcon(item.weather[0]?.id, isDay);
-
+                
                 return `
                     <div class="hourly-card">
                         <div class="hourly-time">${hour}:00</div>
@@ -528,22 +522,19 @@ const UI = {
             }).join('');
         }
     },
-
+    
     update7DayForecast(data) {
         const dailyData = {};
         const days = ['الأحد', 'الإثنين', 'الثلاثاء', 'الأربعاء', 'الخميس', 'الجمعة', 'السبت'];
-
+        
         data.list.forEach(item => {
             const date = new Date(item.dt * 1000);
             const dayKey = date.toDateString();
-
+            
             if (!dailyData[dayKey]) {
                 dailyData[dayKey] = {
-                    temps: [],
-                    conditions: [],
-                    weatherIds: [],
-                    date: date,
-                    dayName: days[date.getDay()],
+                    temps: [], conditions: [], weatherIds: [],
+                    date: date, dayName: days[date.getDay()],
                     dateStr: `${date.getDate()}/${date.getMonth() + 1}`
                 };
             }
@@ -551,9 +542,9 @@ const UI = {
             dailyData[dayKey].conditions.push(item.weather[0]?.description || '');
             dailyData[dayKey].weatherIds.push(item.weather[0]?.id || 800);
         });
-
+        
         const dailyEntries = Object.values(dailyData).slice(0, 7);
-
+        
         if (this.elements.forecastContainer) {
             this.elements.forecastContainer.innerHTML = dailyEntries.map(day => {
                 const maxTemp = Math.max(...day.temps);
@@ -561,7 +552,7 @@ const UI = {
                 const avgId = day.weatherIds[Math.floor(day.weatherIds.length / 2)];
                 const weatherInfo = WeatherService.getWeatherIcon(avgId);
                 const condition = day.conditions[Math.floor(day.conditions.length / 2)] || '';
-
+                
                 return `
                     <div class="forecast-card">
                         <div class="forecast-day">${day.dayName}</div>
@@ -577,16 +568,16 @@ const UI = {
             }).join('');
         }
     },
-
+    
     updateSeaState(data) {
         const waveHeight = WeatherService.calculateWaveHeight(data.wind.speed);
         const wavePeriod = WeatherService.calculateWavePeriod(data.wind.speed);
         const waveDir = WeatherService.getWindDirection(data.wind.deg || 0);
-
+        
         if (this.elements.waveHeight) this.elements.waveHeight.textContent = waveHeight;
         if (this.elements.waveDirection) this.elements.waveDirection.textContent = waveDir;
         if (this.elements.wavePeriod) this.elements.wavePeriod.textContent = wavePeriod;
-
+        
         // Update sea tips
         const height = parseFloat(waveHeight);
         let tips = [];
@@ -619,12 +610,12 @@ const UI = {
                 '<i class="fas fa-exclamation-triangle"></i> انتظر حتى تهدأ الأمواج'
             ];
         }
-
+        
         if (this.elements.seaTipsList) {
             this.elements.seaTipsList.innerHTML = tips.map(tip => `<li>${tip}</li>`).join('');
         }
     },
-
+    
     updateWeatherStats(currentData, forecastData) {
         const temps = forecastData.list.map(item => item.main.temp);
         const maxTemp = Math.max(...temps);
@@ -632,76 +623,55 @@ const UI = {
         const rainItems = forecastData.list.filter(item => item.weather[0]?.id >= 500 && item.weather[0]?.id < 600);
         const totalRain = rainItems.length * 2.5;
         const avgWind = forecastData.list.reduce((sum, item) => sum + item.wind.speed, 0) / forecastData.list.length;
-
+        
         if (this.elements.statMaxTemp) this.elements.statMaxTemp.textContent = `${Math.round(maxTemp)}°`;
         if (this.elements.statMinTemp) this.elements.statMinTemp.textContent = `${Math.round(minTemp)}°`;
         if (this.elements.statRain) this.elements.statRain.textContent = `${totalRain.toFixed(1)}mm`;
         if (this.elements.statWind) this.elements.statWind.textContent = `${Math.round(avgWind * 3.6)}km/h`;
     },
-
+    
     updateWeatherTips(data) {
         const temp = data.main.temp;
         const weatherId = data.weather[0]?.id || 800;
         const windSpeed = (data.wind.speed || 0) * 3.6;
         const tips = [];
-
+        
         if (temp > 35) {
-            tips.push({
-                icon: 'fas fa-temperature-high',
-                title: 'موجة حرارة شديدة',
+            tips.push({ icon: 'fas fa-temperature-high', title: 'موجة حرارة شديدة',
                 text: 'تجنب التعرض للشمس بين 11 صباحاً و4 مساءً. اشرب الماء باستمرار واستخدم واقي الشمس.',
-                severity: 'high'
-            });
+                severity: 'high' });
         }
         if (temp > 28) {
-            tips.push({
-                icon: 'fas fa-tint',
-                title: 'ترطيب الجسم',
+            tips.push({ icon: 'fas fa-tint', title: 'ترطيب الجسم',
                 text: 'اشرب 8-10 أكواب من الماء يومياً. تجنب المشروبات الكافيينة والسكرية.',
-                severity: 'medium'
-            });
+                severity: 'medium' });
         }
         if (temp < 10) {
-            tips.push({
-                icon: 'fas fa-snowflake',
-                title: 'موجة برد',
+            tips.push({ icon: 'fas fa-snowflake', title: 'موجة برد',
                 text: 'ارتدِ طبقات ملابس دافئة. احمِ يديك ورأسك. تجنب التعرض للرياح الباردة.',
-                severity: 'high'
-            });
+                severity: 'high' });
         }
         if (weatherId >= 500 && weatherId < 600) {
-            tips.push({
-                icon: 'fas fa-umbrella',
-                title: 'توقعات أمطار',
+            tips.push({ icon: 'fas fa-umbrella', title: 'توقعات أمطار',
                 text: 'احمل مظلة وارتدِ ملابس مقاومة للماء. تجنب القيادة في المناطق المنخفضة.',
-                severity: 'medium'
-            });
+                severity: 'medium' });
         }
         if (windSpeed > 50) {
-            tips.push({
-                icon: 'fas fa-wind',
-                title: 'رياح قوية',
+            tips.push({ icon: 'fas fa-wind', title: 'رياح قوية',
                 text: 'ثبت الأشياء في الخارج. تجنب الوقوف تحت الأشجار أو اللوحات الإعلانية.',
-                severity: 'high'
-            });
+                severity: 'high' });
         }
         if (weatherId >= 200 && weatherId < 300) {
-            tips.push({
-                icon: 'fas fa-bolt',
-                title: 'عواصف رعدية',
+            tips.push({ icon: 'fas fa-bolt', title: 'عواصف رعدية',
                 text: 'ابقَ في الداخل. تجنب استخدام الأجهزة الكهربائية. ابتعد عن النوافذ.',
-                severity: 'high'
-            });
+                severity: 'high' });
         }
         if (tips.length === 0) {
-            tips.push({
-                icon: 'fas fa-sun',
-                title: 'طقس معتدل',
+            tips.push({ icon: 'fas fa-sun', title: 'طقس معتدل',
                 text: 'الأحوال الجوية مستقرة. فرصة ممتازة للأنشطة الخارجية. استمتع بيومك!',
-                severity: 'low'
-            });
+                severity: 'low' });
         }
-
+        
         if (this.elements.weatherTips) {
             this.elements.weatherTips.innerHTML = tips.slice(0, 3).map(tip => `
                 <div class="tip-card">
@@ -715,23 +685,23 @@ const UI = {
             `).join('');
         }
     },
-
+    
     updateTemperatureChart(data) {
         const ctx = this.elements.temperatureChart?.getContext('2d');
         if (!ctx) return;
-
+        
         const labels = [];
         const maxTemps = [];
         const minTemps = [];
         const dailyData = {};
-
+        
         data.list.forEach(item => {
             const date = new Date(item.dt * 1000);
             const dayStr = date.toLocaleDateString('ar-DZ', { weekday: 'short' });
             if (!dailyData[dayStr]) dailyData[dayStr] = { temps: [] };
             dailyData[dayStr].temps.push(item.main.temp);
         });
-
+        
         let count = 0;
         for (const [day, info] of Object.entries(dailyData)) {
             if (count >= 7) break;
@@ -740,9 +710,9 @@ const UI = {
             minTemps.push(Math.round(Math.min(...info.temps)));
             count++;
         }
-
+        
         if (AppState.temperatureChart) AppState.temperatureChart.destroy();
-
+        
         AppState.temperatureChart = new Chart(ctx, {
             type: 'line',
             data: {
@@ -766,11 +736,11 @@ const UI = {
             }
         });
     },
-
+    
     setApiStatus(connected, message) {
         const status = this.elements.apiStatus;
         if (!status) return;
-
+        
         if (connected) {
             status.innerHTML = '<i class="fas fa-check-circle"></i><span>متصل</span>';
             status.classList.remove('error');
@@ -779,27 +749,27 @@ const UI = {
             status.classList.add('error');
         }
     },
-
+    
     setLoadingState(isLoading) {
         const btn = this.elements.refreshWeather;
         if (btn) {
             btn.disabled = isLoading;
-            btn.innerHTML = isLoading ?
-                '<span class="spinner"></span> جاري التحديث...' :
-                '<i class="fas fa-sync-alt"></i> تحديث البيانات';
+            btn.innerHTML = isLoading 
+                ? '<span class="spinner"></span> جاري التحديث...'
+                : '<i class="fas fa-sync-alt"></i> تحديث البيانات';
         }
         AppState.isLoading = isLoading;
     },
-
+    
     setLocationLoading(isLoading) {
         const btn = this.elements.locationBtn;
         if (btn) {
-            btn.innerHTML = isLoading ?
-                '<span class="spinner" style="width:16px;height:16px;border-width:2px;"></span>' :
-                '<i class="fas fa-location-crosshairs"></i>';
+            btn.innerHTML = isLoading 
+                ? '<span class="spinner" style="width:16px;height:16px;border-width:2px;"></span>'
+                : '<i class="fas fa-location-crosshairs"></i>';
         }
     },
-
+    
     updateTime() {
         if (this.elements.updateTime) {
             this.elements.updateTime.textContent = WeatherService.formatTime(new Date());
@@ -807,77 +777,76 @@ const UI = {
     }
 };
 
-
 // ============================================
 // 9. MAP SERVICE
 // ============================================
 const MapService = {
-        map: null,
-        marker: null,
-        popups: [],
-
-        init() {
-            const location = AppState.currentLocation || CONFIG.DEFAULT_LOCATION;
-            this.map = L.map('weatherMap').setView([location.lat, location.lon], 6);
-
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: '© OpenStreetMap',
-                maxZoom: 18
-            }).addTo(this.map);
-
-            this.updateLayer();
-            this.updateMarker(location.lat, location.lon, location.displayName || location.name);
-
-            // Click handler for weather at any point
-            this.map.on('click', (e) => this.handleMapClick(e));
-
-            // Resize handler
-            window.addEventListener('resize', () => {
-                setTimeout(() => this.map?.invalidateSize(), 100);
+    map: null,
+    marker: null,
+    popups: [],
+    
+    init() {
+        const location = AppState.currentLocation || CONFIG.DEFAULT_LOCATION;
+        this.map = L.map('weatherMap').setView([location.lat, location.lon], 6);
+        
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap',
+            maxZoom: 18
+        }).addTo(this.map);
+        
+        this.updateLayer();
+        this.updateMarker(location.lat, location.lon, location.displayName || location.name);
+        
+        // Click handler for weather at any point
+        this.map.on('click', (e) => this.handleMapClick(e));
+        
+        // Resize handler
+        window.addEventListener('resize', () => {
+            setTimeout(() => this.map?.invalidateSize(), 100);
+        });
+    },
+    
+    updateLayer() {
+        const urls = {
+            temperature: `${CONFIG.TILE_URL}/temp_new/{z}/{x}/{y}.png?appid=${CONFIG.OPENWEATHER_API_KEY}`,
+            precipitation: `${CONFIG.TILE_URL}/precipitation_new/{z}/{x}/{y}.png?appid=${CONFIG.OPENWEATHER_API_KEY}`,
+            wind: `${CONFIG.TILE_URL}/wind_new/{z}/{x}/{y}.png?appid=${CONFIG.OPENWEATHER_API_KEY}`,
+            clouds: `${CONFIG.TILE_URL}/clouds_new/{z}/{x}/{y}.png?appid=${CONFIG.OPENWEATHER_API_KEY}`
+        };
+        
+        const key = AppState.currentLayer;
+        
+        if (!AppState.tileLayers[key]) {
+            AppState.tileLayers[key] = L.tileLayer(urls[key], {
+                opacity: 0.6,
+                maxZoom: 18,
+                attribution: '© OpenWeatherMap'
             });
-        },
-
-        updateLayer() {
-            const urls = {
-                temperature: `${CONFIG.TILE_URL}/temp_new/{z}/{x}/{y}.png?appid=${CONFIG.OPENWEATHER_API_KEY}`,
-                precipitation: `${CONFIG.TILE_URL}/precipitation_new/{z}/{x}/{y}.png?appid=${CONFIG.OPENWEATHER_API_KEY}`,
-                wind: `${CONFIG.TILE_URL}/wind_new/{z}/{x}/{y}.png?appid=${CONFIG.OPENWEATHER_API_KEY}`,
-                clouds: `${CONFIG.TILE_URL}/clouds_new/{z}/{x}/{y}.png?appid=${CONFIG.OPENWEATHER_API_KEY}`
-            };
-
-            const key = AppState.currentLayer;
-
-            if (!AppState.tileLayers[key]) {
-                AppState.tileLayers[key] = L.tileLayer(urls[key], {
-                    opacity: 0.6,
-                    maxZoom: 18,
-                    attribution: '© OpenWeatherMap'
-                });
+        }
+        
+        Object.keys(AppState.tileLayers).forEach(k => {
+            if (this.map.hasLayer(AppState.tileLayers[k])) {
+                this.map.removeLayer(AppState.tileLayers[k]);
             }
-
-            Object.keys(AppState.tileLayers).forEach(k => {
-                if (this.map.hasLayer(AppState.tileLayers[k])) {
-                    this.map.removeLayer(AppState.tileLayers[k]);
-                }
-            });
-
-            AppState.tileLayers[key].addTo(this.map);
-            this.updateLegend();
-        },
-
-        updateLegend() {
-            const legend = document.getElementById('mapLegend');
-            if (!legend) return;
-
-            const legends = {
-                temperature: { title: 'درجة الحرارة (°C)', gradient: 'linear-gradient(to right, #0000FF, #00BFFF, #00FF7F, #FFD700, #FF4500)', labels: ['≤0°', '10°', '20°', '30°', '>30°'] },
-                precipitation: { title: 'هطول الأمطار (مم)', gradient: 'linear-gradient(to right, #FFFFFF, #ADD8E6, #1E90FF, #0000FF)', labels: ['0', '5', '20', '≥20'] },
-                wind: { title: 'سرعة الرياح (كم/س)', gradient: 'linear-gradient(to right, #00FF00, #FFFF00, #FFA500, #FF0000)', labels: ['0-10', '20', '40', '≥50'] },
-                clouds: { title: 'الغطاء السحابي (%)', gradient: 'linear-gradient(to right, #FFFFFF, #CCCCCC, #888888, #555555)', labels: ['0%', '25%', '50%', '75%', '100%'] }
-            };
-
-            const l = legends[AppState.currentLayer];
-            legend.innerHTML = `
+        });
+        
+        AppState.tileLayers[key].addTo(this.map);
+        this.updateLegend();
+    },
+    
+    updateLegend() {
+        const legend = document.getElementById('mapLegend');
+        if (!legend) return;
+        
+        const legends = {
+            temperature: { title: 'درجة الحرارة (°C)', gradient: 'linear-gradient(to right, #0000FF, #00BFFF, #00FF7F, #FFD700, #FF4500)', labels: ['≤0°', '10°', '20°', '30°', '>30°'] },
+            precipitation: { title: 'هطول الأمطار (مم)', gradient: 'linear-gradient(to right, #FFFFFF, #ADD8E6, #1E90FF, #0000FF)', labels: ['0', '5', '20', '≥20'] },
+            wind: { title: 'سرعة الرياح (كم/س)', gradient: 'linear-gradient(to right, #00FF00, #FFFF00, #FFA500, #FF0000)', labels: ['0-10', '20', '40', '≥50'] },
+            clouds: { title: 'الغطاء السحابي (%)', gradient: 'linear-gradient(to right, #FFFFFF, #CCCCCC, #888888, #555555)', labels: ['0%', '25%', '50%', '75%', '100%'] }
+        };
+        
+        const l = legends[AppState.currentLayer];
+        legend.innerHTML = `
             <h4>${l.title}</h4>
             <div class="legend-gradient" style="background: ${l.gradient};"></div>
             <div class="legend-labels">
@@ -966,6 +935,7 @@ const MapService = {
         }
     }
 };
+
 
 
 // ============================================
@@ -1581,3 +1551,4 @@ document.addEventListener('DOMContentLoaded', () => {
     console.log('%c[Algeria Weather Pro] Starting...', 'color: #d4a853; font-size: 14px; font-weight: bold;');
     App.init();
 });
+
