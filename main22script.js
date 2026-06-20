@@ -1,232 +1,4 @@
-// ============================================================
-//  Algeria Weather - Main Application Script
-//  Features: Geolocation, LocalStorage, Weather API, Maps, Charts
-// ============================================================
 
-// --- Configuration ---
-const CONFIG = {
-    API_KEY: 'YOUR_API_KEY_HERE', // استبدل بمفتاح OpenWeatherMap
-    DEFAULT_CITY: {
-        name: 'الجزائر العاصمة',
-        lat: 36.7538,
-        lon: 3.0588
-    },
-    STORAGE_KEYS: {
-        GEO_LOCATION: 'dz_weather_geo',
-        LAST_CITY: 'dz_weather_last_city',
-        FIRST_VISIT: 'dz_weather_first_visit'
-    },
-    ALGERIAN_CITIES: [{
-        name: 'الجزائر العاصمة',
-        lat: 36.7538,
-        lon: 3.0588,
-        region: 'الوسط'
-    }, {
-        name: 'وهران',
-        lat: 35.6971,
-        lon: -0.6308,
-        region: 'الغرب'
-    }, {
-        name: 'قسنطينة',
-        lat: 36.3650,
-        lon: 6.6147,
-        region: 'الشرق'
-    }, {
-        name: 'عنابة',
-        lat: 36.9184,
-        lon: 7.7591,
-        region: 'الشرق'
-    }, {
-        name: 'البليدة',
-        lat: 36.4801,
-        lon: 2.8319,
-        region: 'الوسط'
-    }, {
-        name: 'سطيف',
-        lat: 36.1898,
-        lon: 5.4108,
-        region: 'الشرق'
-    }, {
-        name: 'تمنراست',
-        lat: 22.7850,
-        lon: 5.5228,
-        region: 'الجنوب'
-    }, {
-        name: 'ورقلة',
-        lat: 31.9526,
-        lon: 5.3340,
-        region: 'الجنوب'
-    }, {
-        name: 'بسكرة',
-        lat: 34.8500,
-        lon: 5.7333,
-        region: 'الجنوب'
-    }, {
-        name: 'تيزي وزو',
-        lat: 36.7118,
-        lon: 4.0456,
-        region: 'الشمال'
-    }, {
-        name: 'بجاية',
-        lat: 36.7515,
-        lon: 5.0557,
-        region: 'الشمال'
-    }, {
-        name: 'سعيدة',
-        lat: 34.8303,
-        lon: 0.1517,
-        region: 'الغرب'
-    }, {
-        name: 'المدية',
-        lat: 36.2676,
-        lon: 2.7500,
-        region: 'الوسط'
-    }, {
-        name: 'تيارت',
-        lat: 35.3710,
-        lon: 1.3160,
-        region: 'الغرب'
-    }, {
-        name: 'الشلف',
-        lat: 36.1653,
-        lon: 1.3345,
-        region: 'الوسط'
-    }, {
-        name: 'سكيكدة',
-        lat: 36.8667,
-        lon: 6.9000,
-        region: 'الشرق'
-    }, {
-        name: 'جيجل',
-        lat: 36.8206,
-        lon: 5.7667,
-        region: 'الشرق'
-    }, {
-        name: 'أدرار',
-        lat: 27.8742,
-        lon: -0.2939,
-        region: 'الجنوب'
-    }, {
-        name: 'تندوف',
-        lat: 27.6717,
-        lon: -8.1474,
-        region: 'الجنوب'
-    }, {
-        name: 'إليزي',
-        lat: 26.4833,
-        lon: 8.4667,
-        region: 'الجنوب'
-    }]
-};
-
-// --- State Management ---
-const AppState = {
-    currentCity: null,
-    weatherData: null,
-    map: null,
-    chart: null,
-    isFirstVisit: false
-};
-
-// ============================================================
-//  GEOLOCATION & LOCAL STORAGE MODULE
-//  المطلوب: طلب الموقع عند أول استخدام + تخزين البيانات
-// ============================================================
-
-/**
- * Initialize Geolocation on first visit
- * يتحقق من زيارة المستخدم الأولى ويطلب الموقع الجغرافي
- */
-function initGeolocation() {
-    const hasVisited = localStorage.getItem(CONFIG.STORAGE_KEYS.FIRST_VISIT);
-    const storedGeo = localStorage.getItem(CONFIG.STORAGE_KEYS.GEO_LOCATION);
-
-    // تحديد ما إذا كانت هذه الزيارة الأولى
-    if (!hasVisited) {
-        AppState.isFirstVisit = true;
-        localStorage.setItem(CONFIG.STORAGE_KEYS.FIRST_VISIT, 'true');
-
-        // طلب الموقع الجغرافي فوراً عند أول زيارة
-        requestUserLocation();
-    } else if (storedGeo) {
-        // إذا كان الموقع مخزناً سابقاً، استخدمه
-        try {
-            const geoData = JSON.parse(storedGeo);
-            console.log('📍 Loaded stored location:', geoData);
-            loadWeatherForCoordinates(geoData.lat, geoData.lon, geoData.name || 'موقعك');
-        } catch (e) {
-            console.error('Error parsing stored geo data:', e);
-            loadDefaultCity();
-        }
-    } else {
-        // زيارة سابقة لكن بدون موقع مخزن
-        loadDefaultCity();
-    }
-}
-
-/**
- * Request user location via Browser Geolocation API
- * يطلب إذن المستخدم للوصول إلى الموقع الجغرافي
- */
-function requestUserLocation() {
-    if (!navigator.geolocation) {
-        showAlert('متصفحك لا يدعم تحديد الموقع الجغرافي', 'warning');
-        loadDefaultCity();
-        return;
-    }
-
-    showAlert('جاري طلب إذن الموقع الجغرافي...', 'info');
-
-    const options = {
-        enableHighAccuracy: true,
-        timeout: 10000,
-        maximumAge: 0
-    };
-
-    navigator.geolocation.getCurrentPosition(
-        // Success Callback
-        (position) => {
-            const geoData = {
-                lat: position.coords.latitude,
-                lon: position.coords.longitude,
-                accuracy: position.coords.accuracy,
-                timestamp: new Date().toISOString(),
-                name: 'موقعك الحالي'
-            };
-
-            // تخزين البيانات الجغرافية في المتصفح (localStorage)
-            localStorage.setItem(CONFIG.STORAGE_KEYS.GEO_LOCATION, JSON.stringify(geoData));
-
-            console.log('✅ Geolocation saved:', geoData);
-            showAlert('تم حفظ موقعك بنجاح!', 'success');
-
-            // تحميل بيانات الطقس للموقع المحدد
-            loadWeatherForCoordinates(geoData.lat, geoData.lon, geoData.name);
-
-            // تحديث زر الموقع
-            updateLocationButtonState(true);
-        },
-        // Error Callback
-        (error) => {
-            let message = 'تعذر تحديد الموقع';
-            switch (error.code) {
-                case error.PERMISSION_DENIED:
-                    message = 'تم رفض إذن الموقع. يمكنك البحث يدوياً.';
-                    break;
-                case error.POSITION_UNAVAILABLE:
-                    message = 'معلومات الموقع غير متوفرة حالياً.';
-                    break;
-                case error.TIMEOUT:
-                    message = 'انتهت مهلة طلب الموقع.';
-                    break;
-            }
-            console.warn('Geolocation error:', error);
-            showAlert(message, 'warning');
-            loadDefaultCity();
-        },
-        options
-    );
-}
 
 /**
  * Load weather for specific coordinates
@@ -321,6 +93,7 @@ async function fetchWeatherData(lat, lon) {
         updateStats(demoData.stats);
         updateTips(demoData.tips);
         updateCubeTemps();
+
 
         document.getElementById('updateTime').textContent = new Date().toLocaleTimeString('ar-DZ');
         showApiStatus(true);
@@ -492,31 +265,7 @@ function updateCubeTemps() {
 //  MAP MODULE (Leaflet)
 // ============================================================
 
-function initMap() {
-    if (AppState.map) return;
 
-    AppState.map = L.map('weatherMap').setView([36.7538, 3.0588], 6);
-
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '© OpenStreetMap',
-        maxZoom: 18
-    }).addTo(AppState.map);
-
-    CONFIG.ALGERIAN_CITIES.slice(0, 10).forEach(city => {
-        L.marker([city.lat, city.lon])
-            .addTo(AppState.map)
-            .bindPopup(`<<b>${city.name}</b><br>اضغط لعرض الطقس`)
-            .on('click', () => loadWeatherForCoordinates(city.lat, city.lon, city.name));
-    });
-}
-
-function updateMapLocation(lat, lon, name) {
-    if (!AppState.map) initMap();
-    AppState.map.setView([lat, lon], 10);
-    L.marker([lat, lon]).addTo(AppState.map)
-        .bindPopup(`<<b>${name}</b><br>موقعك الحالي`)
-        .openPopup();
-}
 
 // ============================================================
 //  CHART MODULE (Chart.js)
@@ -734,95 +483,6 @@ function showLoading(show) {
 //  EVENT LISTENERS
 // ============================================================
 
-function initEventListeners() {
-    // Location button
-    document.getElementById('locationBtn').addEventListener('click', () => {
-        requestUserLocation();
-    });
-
-    // Refresh button
-    document.getElementById('refreshWeather').addEventListener('click', () => {
-        if (AppState.currentCity) {
-            loadWeatherForCoordinates(AppState.currentCity.lat, AppState.currentCity.lon, AppState.currentCity.name);
-        }
-    });
-
-    // Close alert
-    document.getElementById('closeAlert').addEventListener('click', () => {
-        document.getElementById('alertBanner').classList.remove('visible');
-    });
-
-    // Mobile menu
-    document.getElementById('mobileMenuBtn').addEventListener('click', () => {
-        document.getElementById('mainNav').classList.toggle('active');
-    });
-
-    // Scroll to top
-    const scrollTop = document.getElementById('scrollTop');
-    window.addEventListener('scroll', () => {
-        if (window.scrollY > 500) {
-            scrollTop.classList.add('visible');
-        } else {
-            scrollTop.classList.remove('visible');
-        }
-    });
-    scrollTop.addEventListener('click', () => {
-        window.scrollTo({
-            top: 0,
-            behavior: 'smooth'
-        });
-    });
-
-    // Header scroll effect
-    const header = document.getElementById('siteHeader');
-    window.addEventListener('scroll', () => {
-        if (window.scrollY > 50) {
-            header.classList.add('scrolled');
-        } else {
-            header.classList.remove('scrolled');
-        }
-    });
-
-    // Map layer buttons
-    document.querySelectorAll('.map-btn').forEach(btn => {
-        btn.addEventListener('click', (e) => {
-            document.querySelectorAll('.map-btn').forEach(b => b.classList.remove('active'));
-            e.target.closest('.map-btn').classList.add('active');
-        });
-    });
-
-    // Stats tabs
-    document.querySelectorAll('.stats-tab').forEach(tab => {
-        tab.addEventListener('click', (e) => {
-            document.querySelectorAll('.stats-tab').forEach(t => t.classList.remove('active'));
-            e.target.classList.add('active');
-        });
-    });
-
-    // Footer city links
-    document.querySelectorAll('.footer-links a[data-city]').forEach(link => {
-        link.addEventListener('click', (e) => {
-            e.preventDefault();
-            const cityName = e.target.closest('a').dataset.city;
-            const city = CONFIG.ALGERIAN_CITIES.find(c =>
-                c.name.includes(cityName) || cityName.includes(c.name)
-            );
-            if (city) {
-                loadWeatherForCoordinates(city.lat, city.lon, city.name);
-                document.getElementById('home').scrollIntoView({
-                    behavior: 'smooth'
-                });
-            }
-        });
-    });
-
-    // Refresh news
-    document.getElementById('refreshNews').addEventListener('click', () => {
-        const newsGrid = document.getElementById('newsGrid');
-        newsGrid.innerHTML = '<div class="text-center" style="grid-column:1/-1;padding:2rem;"><div class="spinner"></div></div>';
-        setTimeout(() => initNews(), 1000);
-    });
-}
 
 function initNews() {
     const newsGrid = document.getElementById('newsGrid');
@@ -937,14 +597,12 @@ document.addEventListener('DOMContentLoaded', () => {
     console.log('🌤️ Algeria Weather App Initialized');
 
     initStarCanvas();
-    initMap();
     initSearch();
-    initEventListeners();
     initNews();
     initShader();
 
     // 🔑 CORE FEATURE: Request geolocation on first visit & store in localStorage
-    initGeolocation();
+
 
     // GSAP Animations
     if (window.gsap) {
