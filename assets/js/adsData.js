@@ -1,5 +1,4 @@
 // adsData.js
-
 document.addEventListener("DOMContentLoaded", function () {
     // حساب عدد إعلانات AdSense المتوفرة في الصفحة
     var adBlocks = document.querySelectorAll('ins.adsbygoogle');
