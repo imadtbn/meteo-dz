@@ -58,7 +58,6 @@
     <!--stylesheeet main-->
     <link rel="stylesheet" href="assets/css/style-main.css">
 
-
     <!-- Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=GA_MEASUREMENT_ID"></script>
     <script>
@@ -72,8 +71,8 @@
     </script>
 
     <!-- Google AdSense -->
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5656416032906373"
-     crossorigin="anonymous"></script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5656416032906373"
+        crossorigin="anonymous"></script>
 
     <script type="application/ld+json">
         {
@@ -255,384 +254,324 @@
             <div class="ad-container">
                 <span class="ad-label">إعلان</span>
                 <div class="ad-placeholder">
-                    <!-- AdSense 01 الإعلانات الصورية -->
-
-                    <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-8310657804532081"
-                        data-ad-slot="9966295018" data-ad-format="auto" data-full-width-responsive="true"></ins>
-
+                    <!-- إعلان داخل الخلاصة 01-->
+                    <ins class="adsbygoogle" style="display:block" data-ad-format="fluid"
+                        data-ad-layout-key="-fr+56+4k-d4+74" data-ad-client="ca-pub-5656416032906373"
+                        data-ad-slot="7867079394"></ins>
                 </div>
             </div>
-        </div>
 
-        <!--تنبؤات 24 ساعة-->
-        <section class="hourly-section">
+            <!--تنبؤات 24 ساعة-->
+            <section class="hourly-section">
+                <div class="container">
+                    <div class="section-header">
+                        <h2 class="section-title">تنبؤات 24 ساعة القادمة</h2>
+                    </div>
+                    <div class="hourly-scroll">
+                        <div class="hourly-container" id="hourlyForecast"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!--تنبؤات 7 أيام-->
+            <section class="forecast-section" id="forecast">
+                <div class="container">
+                    <div class="section-header">
+                        <h2 class="section-title">تنبؤات 7 أيام القادمة</h2>
+                        <div class="section-actions"><button class="btn btn-secondary btn-sm" id="viewFullForecast"><i
+                                    class="fas fa-expand"></i> عرض الكل</button></div>
+                    </div>
+                    <div class="forecast-grid" id="forecastContainer"></div>
+                </div>
+            </section>
+
+            <!--ads by google-->
             <div class="container">
-                <div class="section-header">
-                    <h2 class="section-title">تنبؤات 24 ساعة القادمة</h2>
-                </div>
-                <div class="hourly-scroll">
-                    <div class="hourly-container" id="hourlyForecast"></div>
-                </div>
-            </div>
-        </section>
-
-        <!--ads by google-->
-        <div class="container">
-            <div class="ad-container">
-                <span class="ad-label">إعلان</span>
-                <div class="ad-placeholder">
-                    <!-- AdSense 03 إعلان داخل الخلاصة-->
-
-                    <ins class="adsbygoogle" style="display:block" data-ad-format="auto"
-                        data-ad-layout-key="-fb+5w+4e-db+86" data-ad-client="ca-pub-8310657804532081"
-                        data-ad-slot="1315961685"></ins>
-
-                </div>
-            </div>
-        </div>
-
-        <!--تنبؤات 7 أيام-->
-        <section class="forecast-section" id="forecast">
-            <div class="container">
-                <div class="section-header">
-                    <h2 class="section-title">تنبؤات 7 أيام القادمة</h2>
-                    <div class="section-actions"><button class="btn btn-secondary btn-sm" id="viewFullForecast"><i
-                                class="fas fa-expand"></i> عرض الكل</button></div>
-                </div>
-                <div class="forecast-grid" id="forecastContainer"></div>
-            </div>
-        </section>
-
-        <!--ads by google-->
-        <div class="container">
-            <div class="ad-container">
-                <span class="ad-label">إعلان</span>
-                <div class="ad-placeholder">
-                    <!-- AdSense الإعلانات الصورية 04  -->
-
-                    <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-8310657804532081"
-                        data-ad-slot="3972494044" data-ad-format="auto" data-full-width-responsive="true"></ins>
-
-                </div>
-            </div>
-        </div>
-
-        <!--حالة البحر-->
-        <section class="sea-section">
-            <div class="container">
-                <div class="section-header">
-                    <h2 class="section-title">حالة البحر</h2>
-                </div>
-                <div class="sea-card">
-                    <div class="sea-grid" id="seaState">
-                        <div class="sea-item">
-                            <div class="sea-item-icon"><i class="fas fa-water"></i></div>
-                            <div class="sea-item-value" id="waveHeight">--</div>
-                            <div class="sea-item-label">ارتفاع الموج (م)</div>
-                        </div>
-                        <div class="sea-item">
-                            <div class="sea-item-icon"><i class="fas fa-compass"></i></div>
-                            <div class="sea-item-value" id="waveDirection">--</div>
-                            <div class="sea-item-label">اتجاه الموج</div>
-                        </div>
-                        <div class="sea-item">
-                            <div class="sea-item-icon"><i class="fas fa-clock"></i></div>
-                            <div class="sea-item-value" id="wavePeriod">--</div>
-                            <div class="sea-item-label">فترة الموج (ث)</div>
-                        </div>
-                    </div>
-                    <div class="sea-tips">
-                        <div class="sea-tips-title"><i class="fas fa-life-ring"></i>توصيات السلامة البحرية</div>
-                        <ul class="sea-tips-list" id="seaTipsList">
-                            <li><i class="fas fa-check"></i> تحقق من حالة البحر قبل الخروج</li>
-                            <li><i class="fas fa-check"></i> ارتدِ سترة النجاة دائماً</li>
-                            <li><i class="fas fa-check"></i> تجنب السباحة في الأمواج العالية</li>
-                            <li><i class="fas fa-check"></i> تابع تحذيرات الأرصاد الجوية</li>
-                        </ul>
+                <div class="ad-container">
+                    <span class="ad-label">إعلان</span>
+                    <div class="ad-placeholder">
+                        <!-- إعلانات صورية 01 -->
+                        <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-5656416032906373"
+                            data-ad-slot="3143411927" data-ad-format="auto" data-full-width-responsive="true"></ins>
                     </div>
                 </div>
             </div>
-        </section>
 
-        <!--ads by google-->
-        <div class="container">
-            <div class="ad-container">
-                <span class="ad-label">إعلان</span>
-                <div class="ad-placeholder">
-                    <!-- AdSense الإعلانات الصورية 05 -->
-
-                    <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-8310657804532081"
-                        data-ad-slot="6505685868" data-ad-format="auto" data-full-width-responsive="true"></ins>
-
-                </div>
-            </div>
-        </div>
-
-        <!--خريطة الطقس التفاعلية-->
-        <section class="map-section" id="maps">
-            <div class="container">
-                <div class="section-header">
-                    <h2 class="section-title">خريطة الطقس التفاعلية</h2>
-                    <div class="map-controls">
-                        <button class="map-btn active" data-layer="temperature"><i class="fas fa-temperature-high"></i>
-                            الحرارة</button>
-                        <button class="map-btn" data-layer="precipitation"><i class="fas fa-cloud-rain"></i>
-                            الأمطار</button>
-                        <button class="map-btn" data-layer="wind"><i class="fas fa-wind"></i> الرياح</button>
-                        <button class="map-btn" data-layer="clouds"><i class="fas fa-cloud"></i> السحب</button>
+            <!--حالة البحر-->
+            <section class="sea-section">
+                <div class="container">
+                    <div class="section-header">
+                        <h2 class="section-title">حالة البحر</h2>
                     </div>
-                </div>
-                <div class="map-container">
-                    <div class="map-wrapper">
-                        <div id="weatherMap"></div>
-                    </div>
-                    <div class="map-legend" id="mapLegend">
-                        <h4>درجة الحرارة (°C)</h4>
-                        <div class="legend-gradient"
-                            style="background:linear-gradient(to right,#0000FF,#00BFFF,#00FF7F,#FFD700,#FF4500)">
-                        </div>
-                        <div class="legend-labels">
-                            <span>≤0°</span><span>10°</span><span>20°</span><span>30°</span><span>>30°</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!--ads by google-->
-        <div class="container">
-            <div class="ad-container">
-                <span class="ad-label">إعلان</span>
-                <div class="ad-placeholder">
-                    <!-- AdSense 02 ضمن المقال -->
-
-                    <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-8310657804532081"
-                        data-ad-slot="9770159361" data-ad-format="auto" data-full-width-responsive="true"></ins>
-
-                </div>
-            </div>
-        </div>
-
-        <!--إحصائيات الطقس-->
-        <section class="stats-section" id="stats">
-            <div class="container">
-                <div class="section-header">
-                    <h2 class="section-title">إحصائيات الطقس</h2>
-                </div>
-                <div class="stats-tabs">
-                    <button class="stats-tab active" data-period="daily">يومية</button>
-                    <button class="stats-tab" data-period="weekly">أسبوعية</button>
-                    <button class="stats-tab" data-period="monthly">شهرية</button>
-                    <button class="stats-tab" data-period="yearly">سنوية</button>
-                </div>
-                <div class="stats-grid" id="statsGrid">
-                    <div class="stat-card">
-                        <div class="stat-icon"><i class="fas fa-temperature-high"></i></div>
-                        <div class="stat-value" id="statMaxTemp">--°</div>
-                        <div class="stat-label">أعلى درجة حرارة</div>
-                        <div class="stat-change up"><i class="fas fa-arrow-up"></i> +2°</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-icon"><i class="fas fa-temperature-low"></i></div>
-                        <div class="stat-value" id="statMinTemp">--°</div>
-                        <div class="stat-label">أدنى درجة حرارة</div>
-                        <div class="stat-change down"><i class="fas fa-arrow-down"></i> -1°</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-icon"><i class="fas fa-tint"></i></div>
-                        <div class="stat-value" id="statRain">--mm</div>
-                        <div class="stat-label">كمية الأمطار</div>
-                        <div class="stat-change up"><i class="fas fa-arrow-up"></i> +15%</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-icon"><i class="fas fa-wind"></i></div>
-                        <div class="stat-value" id="statWind">--km/h</div>
-                        <div class="stat-label">متوسط سرعة الرياح</div>
-                        <div class="stat-change down"><i class="fas fa-arrow-down"></i> -5%</div>
-                    </div>
-                </div>
-                <div class="chart-container"><canvas id="temperatureChart"></canvas></div>
-            </div>
-        </section>
-
-        <!--ads by google-->
-        <div class="container">
-            <div class="ad-container">
-                <span class="ad-label">إعلان</span>
-                <div class="ad-placeholder">
-                    <!-- AdSense الإعلانات الصورية 06 -->
-
-                    <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-8310657804532081"
-                        data-ad-slot="6461453831" data-ad-format="auto" data-full-width-responsive="true"></ins>
-
-                </div>
-            </div>
-        </div>
-        </div>
-
-        <!--نصائح طقسية-->
-        <section class="tips-section">
-            <div class="container">
-                <div class="section-header">
-                    <h2 class="section-title">نصائح طقسية</h2>
-                </div>
-                <div class="tips-grid" id="weatherTips">
-                    <div class="tip-card">
-                        <div class="tip-icon"><i class="fas fa-sun"></i></div>
-                        <h3 class="tip-title">حماية من الشمس</h3>
-                        <p class="tip-text">مؤشر الأشعة فوق البنفسجية مرتفع. استخدم واقي الشمس وارتدي نظارات شمسية
-                            وقبعة
-                            للحماية.</p><span class="tip-severity medium">تنبيه متوسط</span>
-                    </div>
-                    <div class="tip-card">
-                        <div class="tip-icon"><i class="fas fa-tint"></i></div>
-                        <h3 class="tip-title">ترطيب الجسم</h3>
-                        <p class="tip-text">اشرب 8-10 أكواب من الماء يومياً خاصة مع ارتفاع درجات الحرارة لتجنب
-                            الجفاف.
-                        </p><span class="tip-severity low">نصيحة عامة</span>
-                    </div>
-                    <div class="tip-card">
-                        <div class="tip-icon"><i class="fas fa-umbrella"></i></div>
-                        <h3 class="tip-title">استعد للأمطار</h3>
-                        <p class="tip-text">توقعات بهطول أمطار غداً. احمل مظلتك وتجنب القيادة في المناطق المنخفضة.
-                        </p>
-                        <span class="tip-severity medium">تنبيه متوسط</span>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!--ads by google-->
-        <div class="container">
-            <div class="ad-container">
-                <span class="ad-label">إعلان</span>
-                <div class="ad-placeholder">
-                    <!-- AdSense الإعلانات الصورية 07 -->
-
-                    <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-8310657804532081"
-                        data-ad-slot="1307988056" data-ad-format="auto" data-full-width-responsive="true"></ins>
-
-                </div>
-            </div>
-        </div>
-
-        <!--نشرات التحذير-->
-        <section class="warnings-section" id="warnings">
-            <div class="container">
-                <div class="section-header">
-                    <h2 class="section-title">نشرات التحذير</h2>
-                </div>
-                <div class="warnings-grid" id="warningsGrid">
-                    <div class="warning-card heat">
-                        <div class="warning-header">
-                            <div class="warning-icon heat"><i class="fas fa-temperature-high"></i></div>
-                            <div>
-                                <div class="warning-title">موجة حرارة</div>
-                                <div class="warning-status">الجنوب الجزائري</div>
+                    <div class="sea-card">
+                        <div class="sea-grid" id="seaState">
+                            <div class="sea-item">
+                                <div class="sea-item-icon"><i class="fas fa-water"></i></div>
+                                <div class="sea-item-value" id="waveHeight">--</div>
+                                <div class="sea-item-label">ارتفاع الموج (م)</div>
+                            </div>
+                            <div class="sea-item">
+                                <div class="sea-item-icon"><i class="fas fa-compass"></i></div>
+                                <div class="sea-item-value" id="waveDirection">--</div>
+                                <div class="sea-item-label">اتجاه الموج</div>
+                            </div>
+                            <div class="sea-item">
+                                <div class="sea-item-icon"><i class="fas fa-clock"></i></div>
+                                <div class="sea-item-value" id="wavePeriod">--</div>
+                                <div class="sea-item-label">فترة الموج (ث)</div>
                             </div>
                         </div>
-                        <p class="warning-text">توقعات بموجة حر شديدة في ولايات الجنوب مع درجات حرارة تتجاوز 45°C.
-                            تجنب
-                            التعرض المباشر للشمس.</p>
-                        <div class="warning-meta"><span class="warning-time"><i class="fas fa-clock"></i> منذ 2
-                                ساعة</span><span class="warning-badge active">تحذير نشط</span></div>
-                    </div>
-                    <div class="warning-card wind">
-                        <div class="warning-header">
-                            <div class="warning-icon wind"><i class="fas fa-wind"></i></div>
-                            <div>
-                                <div class="warning-title">رياح قوية</div>
-                                <div class="warning-status">السواحل الغربية</div>
-                            </div>
+                        <div class="sea-tips">
+                            <div class="sea-tips-title"><i class="fas fa-life-ring"></i>توصيات السلامة البحرية</div>
+                            <ul class="sea-tips-list" id="seaTipsList">
+                                <li><i class="fas fa-check"></i> تحقق من حالة البحر قبل الخروج</li>
+                                <li><i class="fas fa-check"></i> ارتدِ سترة النجاة دائماً</li>
+                                <li><i class="fas fa-check"></i> تجنب السباحة في الأمواج العالية</li>
+                                <li><i class="fas fa-check"></i> تابع تحذيرات الأرصاد الجوية</li>
+                            </ul>
                         </div>
-                        <p class="warning-text">رياح قوية قد تصل سرعتها إلى 70 كم/س على السواحل الغربية. احذر من
-                            الأجسام
-                            الطائرة.</p>
-                        <div class="warning-meta"><span class="warning-time"><i class="fas fa-clock"></i> منذ 4
-                                ساعات</span><span class="warning-badge watch">مراقبة</span></div>
-                    </div>
-                    <div class="warning-card sea">
-                        <div class="warning-header">
-                            <div class="warning-icon sea"><i class="fas fa-water"></i></div>
-                            <div>
-                                <div class="warning-title">بحر مضطرب</div>
-                                <div class="warning-status">البحر المتوسط</div>
-                            </div>
-                        </div>
-                        <p class="warning-text">ارتفاع الأمواج إلى 2.5 متر مع رياح شمالية غربية. غير مناسب للقوارب
-                            الصغيرة.</p>
-                        <div class="warning-meta"><span class="warning-time"><i class="fas fa-clock"></i> منذ 6
-                                ساعات</span><span class="warning-badge active">تحذير نشط</span></div>
-                    </div>
-                    <div class="warning-card cold">
-                        <div class="warning-header">
-                            <div class="warning-icon cold"><i class="fas fa-snowflake"></i></div>
-                            <div>
-                                <div class="warning-title">موجة برد</div>
-                                <div class="warning-status">الهضاب العليا</div>
-                            </div>
-                        </div>
-                        <p class="warning-text">انخفاض درجات الحرارة في المناطق الجبلية ليلاً. ارتدِ ملابس دافئة
-                            واحذر
-                            من الانزلاق.</p>
-                        <div class="warning-meta"><span class="warning-time"><i class="fas fa-clock"></i> منذ 8
-                                ساعات</span><span class="warning-badge safe">آمن</span></div>
                     </div>
                 </div>
-            </div>
-        </section>
+            </section>
 
-        <!--ads by google-->
-        <div class="container">
-            <div class="ad-container">
-                <span class="ad-label">إعلان</span>
-                <div class="ad-placeholder">
-                    <!-- AdSense الإعلانات الصورية 08 -->
-
-                    <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-8310657804532081"
-                        data-ad-slot="5542746534" data-ad-format="auto" data-full-width-responsive="true"></ins>
-
+            <!--خريطة الطقس التفاعلية-->
+            <section class="map-section" id="maps">
+                <div class="container">
+                    <div class="section-header">
+                        <h2 class="section-title">خريطة الطقس التفاعلية</h2>
+                        <div class="map-controls">
+                            <button class="map-btn active" data-layer="temperature"><i
+                                    class="fas fa-temperature-high"></i>
+                                الحرارة</button>
+                            <button class="map-btn" data-layer="precipitation"><i class="fas fa-cloud-rain"></i>
+                                الأمطار</button>
+                            <button class="map-btn" data-layer="wind"><i class="fas fa-wind"></i> الرياح</button>
+                            <button class="map-btn" data-layer="clouds"><i class="fas fa-cloud"></i> السحب</button>
+                        </div>
+                    </div>
+                    <div class="map-container">
+                        <div class="map-wrapper">
+                            <div id="weatherMap"></div>
+                        </div>
+                        <div class="map-legend" id="mapLegend">
+                            <h4>درجة الحرارة (°C)</h4>
+                            <div class="legend-gradient"
+                                style="background:linear-gradient(to right,#0000FF,#00BFFF,#00FF7F,#FFD700,#FF4500)">
+                            </div>
+                            <div class="legend-labels">
+                                <span>≤0°</span><span>10°</span><span>20°</span><span>30°</span><span>>30°</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
+            </section>
 
-        <!--أخبار الطقس-->
-        <section class="news-section" id="news">
+            <!--ads by google-->
             <div class="container">
-                <div class="section-header">
-                    <h2 class="section-title">أخبار الطقس والمناخ</h2>
-                    <div class="section-actions"><button class="btn btn-secondary btn-sm" id="refreshNews"><i
-                                class="fas fa-sync-alt"></i> تحديث</button></div>
-                </div>
-                <div class="news-grid" id="newsGrid"></div>
-            </div>
-        </section>
-
-        <!--ads by google-->
-        <div class="container">
-            <div class="ad-container">
-                <span class="ad-label">إعلان</span>
-                <div class="ad-placeholder">
-                    <!-- AdSense الإعلانات الصورية 09 -->
-
-                    <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-8310657804532081"
-                        data-ad-slot="7803975574" data-ad-format="auto" data-full-width-responsive="true"></ins>
-
+                <div class="ad-container">
+                    <span class="ad-label">إعلان</span>
+                    <div class="ad-placeholder">
+                        <!-- إعلان داخل الخلاصة 02-->
+                        <ins class="adsbygoogle" style="display:block" data-ad-format="fluid"
+                            data-ad-layout-key="-h9-h+8-jr+r8" data-ad-client="ca-pub-5656416032906373"
+                            data-ad-slot="8546947691"></ins>
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <!--
+            <!--إحصائيات الطقس-->
+            <section class="stats-section" id="stats">
+                <div class="container">
+                    <div class="section-header">
+                        <h2 class="section-title">إحصائيات الطقس</h2>
+                    </div>
+                    <div class="stats-tabs">
+                        <button class="stats-tab active" data-period="daily">يومية</button>
+                        <button class="stats-tab" data-period="weekly">أسبوعية</button>
+                        <button class="stats-tab" data-period="monthly">شهرية</button>
+                        <button class="stats-tab" data-period="yearly">سنوية</button>
+                    </div>
+                    <div class="stats-grid" id="statsGrid">
+                        <div class="stat-card">
+                            <div class="stat-icon"><i class="fas fa-temperature-high"></i></div>
+                            <div class="stat-value" id="statMaxTemp">--°</div>
+                            <div class="stat-label">أعلى درجة حرارة</div>
+                            <div class="stat-change up"><i class="fas fa-arrow-up"></i> +2°</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon"><i class="fas fa-temperature-low"></i></div>
+                            <div class="stat-value" id="statMinTemp">--°</div>
+                            <div class="stat-label">أدنى درجة حرارة</div>
+                            <div class="stat-change down"><i class="fas fa-arrow-down"></i> -1°</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon"><i class="fas fa-tint"></i></div>
+                            <div class="stat-value" id="statRain">--mm</div>
+                            <div class="stat-label">كمية الأمطار</div>
+                            <div class="stat-change up"><i class="fas fa-arrow-up"></i> +15%</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon"><i class="fas fa-wind"></i></div>
+                            <div class="stat-value" id="statWind">--km/h</div>
+                            <div class="stat-label">متوسط سرعة الرياح</div>
+                            <div class="stat-change down"><i class="fas fa-arrow-down"></i> -5%</div>
+                        </div>
+                    </div>
+                    <div class="chart-container"><canvas id="temperatureChart"></canvas></div>
+                </div>
+            </section>
+
+            <!--نصائح طقسية-->
+            <section class="tips-section">
+                <div class="container">
+                    <div class="section-header">
+                        <h2 class="section-title">نصائح طقسية</h2>
+                    </div>
+                    <div class="tips-grid" id="weatherTips">
+                        <div class="tip-card">
+                            <div class="tip-icon"><i class="fas fa-sun"></i></div>
+                            <h3 class="tip-title">حماية من الشمس</h3>
+                            <p class="tip-text">مؤشر الأشعة فوق البنفسجية مرتفع. استخدم واقي الشمس وارتدي نظارات شمسية
+                                وقبعة
+                                للحماية.</p><span class="tip-severity medium">تنبيه متوسط</span>
+                        </div>
+                        <div class="tip-card">
+                            <div class="tip-icon"><i class="fas fa-tint"></i></div>
+                            <h3 class="tip-title">ترطيب الجسم</h3>
+                            <p class="tip-text">اشرب 8-10 أكواب من الماء يومياً خاصة مع ارتفاع درجات الحرارة لتجنب
+                                الجفاف.
+                            </p><span class="tip-severity low">نصيحة عامة</span>
+                        </div>
+                        <div class="tip-card">
+                            <div class="tip-icon"><i class="fas fa-umbrella"></i></div>
+                            <h3 class="tip-title">استعد للأمطار</h3>
+                            <p class="tip-text">توقعات بهطول أمطار غداً. احمل مظلتك وتجنب القيادة في المناطق المنخفضة.
+                            </p>
+                            <span class="tip-severity medium">تنبيه متوسط</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!--ads by google-->
+            <div class="container">
+                <div class="ad-container">
+                    <span class="ad-label">إعلان</span>
+                    <div class="ad-placeholder">
+                        <!-- إعلانات صورية 02 -->
+                        <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-5656416032906373"
+                            data-ad-slot="1760836049" data-ad-format="auto" data-full-width-responsive="true"></ins>
+                    </div>
+                </div>
+            </div>
+
+            <!--نشرات التحذير-->
+            <section class="warnings-section" id="warnings">
+                <div class="container">
+                    <div class="section-header">
+                        <h2 class="section-title">نشرات التحذير</h2>
+                    </div>
+                    <div class="warnings-grid" id="warningsGrid">
+                        <div class="warning-card heat">
+                            <div class="warning-header">
+                                <div class="warning-icon heat"><i class="fas fa-temperature-high"></i></div>
+                                <div>
+                                    <div class="warning-title">موجة حرارة</div>
+                                    <div class="warning-status">الجنوب الجزائري</div>
+                                </div>
+                            </div>
+                            <p class="warning-text">توقعات بموجة حر شديدة في ولايات الجنوب مع درجات حرارة تتجاوز 45°C.
+                                تجنب
+                                التعرض المباشر للشمس.</p>
+                            <div class="warning-meta"><span class="warning-time"><i class="fas fa-clock"></i> منذ 2
+                                    ساعة</span><span class="warning-badge active">تحذير نشط</span></div>
+                        </div>
+                        <div class="warning-card wind">
+                            <div class="warning-header">
+                                <div class="warning-icon wind"><i class="fas fa-wind"></i></div>
+                                <div>
+                                    <div class="warning-title">رياح قوية</div>
+                                    <div class="warning-status">السواحل الغربية</div>
+                                </div>
+                            </div>
+                            <p class="warning-text">رياح قوية قد تصل سرعتها إلى 70 كم/س على السواحل الغربية. احذر من
+                                الأجسام
+                                الطائرة.</p>
+                            <div class="warning-meta"><span class="warning-time"><i class="fas fa-clock"></i> منذ 4
+                                    ساعات</span><span class="warning-badge watch">مراقبة</span></div>
+                        </div>
+                        <div class="warning-card sea">
+                            <div class="warning-header">
+                                <div class="warning-icon sea"><i class="fas fa-water"></i></div>
+                                <div>
+                                    <div class="warning-title">بحر مضطرب</div>
+                                    <div class="warning-status">البحر المتوسط</div>
+                                </div>
+                            </div>
+                            <p class="warning-text">ارتفاع الأمواج إلى 2.5 متر مع رياح شمالية غربية. غير مناسب للقوارب
+                                الصغيرة.</p>
+                            <div class="warning-meta"><span class="warning-time"><i class="fas fa-clock"></i> منذ 6
+                                    ساعات</span><span class="warning-badge active">تحذير نشط</span></div>
+                        </div>
+                        <div class="warning-card cold">
+                            <div class="warning-header">
+                                <div class="warning-icon cold"><i class="fas fa-snowflake"></i></div>
+                                <div>
+                                    <div class="warning-title">موجة برد</div>
+                                    <div class="warning-status">الهضاب العليا</div>
+                                </div>
+                            </div>
+                            <p class="warning-text">انخفاض درجات الحرارة في المناطق الجبلية ليلاً. ارتدِ ملابس دافئة
+                                واحذر
+                                من الانزلاق.</p>
+                            <div class="warning-meta"><span class="warning-time"><i class="fas fa-clock"></i> منذ 8
+                                    ساعات</span><span class="warning-badge safe">آمن</span></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!--أخبار الطقس-->
+            <section class="news-section" id="news">
+                <div class="container">
+                    <div class="section-header">
+                        <h2 class="section-title">أخبار الطقس والمناخ</h2>
+                        <div class="section-actions"><button class="btn btn-secondary btn-sm" id="refreshNews"><i
+                                    class="fas fa-sync-alt"></i> تحديث</button></div>
+                    </div>
+                    <div class="news-grid" id="newsGrid"></div>
+                </div>
+            </section>
+
+            <!--ads by google-->
+            <div class="container">
+                <div class="ad-container">
+                    <span class="ad-label">إعلان</span>
+                    <div class="ad-placeholder">
+                        <!-- إعلان داخل الخلاصة 03-->
+                        <ins class="adsbygoogle" style="display:block" data-ad-format="fluid"
+                            data-ad-layout-key="-h6-l+d-jc+qd" data-ad-client="ca-pub-5656416032906373"
+                            data-ad-slot="6152718642"></ins>
+                    </div>
+                </div>
+            </div>
+
+            <!--
          <section class="container">
             <div class="shader-container" id="shaderContainer"><canvas id="shaderCanvas"></canvas></div>
         </section>
         -->
 
-
     </main>
 
     <button class="scroll-top" id="scrollTop" title="العودة للأعلى"><i class="fas fa-arrow-up"></i></button>
     <div class="api-status" id="apiStatus"><i class="fas fa-check-circle"></i><span>متصل</span></div>
+
+    <!-- الإعلانات المتعددة 01-->
+    <div class="ad-container">
+        <ins class="adsbygoogle" style="display:block" data-ad-format="autorelaxed"
+            data-ad-client="ca-pub-5656416032906373" data-ad-slot="6528123169"></ins>
+    </div>
 
     <!--فوتر-->
     <footer class="site-footer" id="contact">
