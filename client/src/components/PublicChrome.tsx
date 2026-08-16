@@ -3,7 +3,7 @@ import { ArrowUpLeft, CloudSun, Search, Map, Landmark } from "lucide-react";
 import { Link } from "wouter";
 
 export function PublicHeader() {
-  return <header className="site-header"><Link href="/" className="brand"><img src="/manus-storage/atlas-mark_78817ed0.png" alt="رمز الطقس الجزائري" /><span>الطقس <b>العربي</b></span></Link><nav aria-label="التنقل الرئيسي"><Link href="/">الآن</Link><Link href="/wilayas">الولايات</Link><Link href="/arab-capitals">العواصم العربية</Link><Link href="/world-search"><Search size={14} /> بحث</Link><Link href="/weather-map"><Map size={14} /> الخريطة</Link></nav><a className="header-source" href="https://open-meteo.com/" target="_blank" rel="noreferrer">مصدر البيانات <ArrowUpLeft size={15} /></a></header>;
+  return <header className="site-header"><Link href="/" className="brand"><span className="brand-mark" aria-hidden="true"><CloudSun size={20} /></span><span>الطقس <b>العربي</b></span></Link><nav aria-label="التنقل الرئيسي"><Link href="/">الآن</Link><Link href="/wilayas">الولايات</Link><Link href="/arab-capitals">العواصم العربية</Link><Link href="/world-search"><Search size={14} /> بحث</Link><Link href="/weather-map"><Map size={14} /> الخريطة</Link></nav><a className="header-source" href="https://open-meteo.com/" target="_blank" rel="noreferrer">مصدر البيانات <ArrowUpLeft size={15} /></a></header>;
 }
 
 export function PublicFooter() {

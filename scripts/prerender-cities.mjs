@@ -63,7 +63,7 @@ const sitemap = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://w
 await writeFile(path.join(dist, "sitemap.xml"), sitemap);
 await writeFile(path.join(sourcePublic, "sitemap.xml"), sitemap);
 const basePath = process.env.DEPLOY_TARGET === "github" ? "/meteo-dz/" : "/";
-const manifest = { name: "الطقس العربي — مرصد الأطلس", short_name: "الطقس العربي", start_url: basePath, scope: basePath, display: "standalone", dir: "rtl", lang: "ar", theme_color: "#0C5B8C", background_color: "#F4F0E7", icons: [{ src: "/manus-storage/atlas-mark_78817ed0.png", sizes: "192x192", type: "image/png" }, { src: "/manus-storage/atlas-mark_78817ed0.png", sizes: "512x512", type: "image/png" }] };
+const manifest = { name: "الطقس العربي — مرصد الأطلس", short_name: "الطقس العربي", start_url: basePath, scope: basePath, display: "standalone", dir: "rtl", lang: "ar", theme_color: "#0C5B8C", background_color: "#F4F0E7", icons: [{ src: `${basePath}favicon.svg`, sizes: "any", type: "image/svg+xml", purpose: "any" }] };
 await writeFile(path.join(dist, "manifest.webmanifest"), JSON.stringify(manifest, null, 2));
 await writeFile(path.join(dist, "robots.txt"), `User-agent: *\nAllow: ${basePath}\nDisallow: ${basePath}api/\nSitemap: ${siteRoot}sitemap.xml\n`);
 

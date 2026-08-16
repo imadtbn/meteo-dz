@@ -1,6 +1,6 @@
 /** Style reminder: Atlas Observatory structures a weather visit from immediate reading to local context, never decorative noise. */
 import { lazy, Suspense, useEffect, useMemo, useState } from "react";
-import { ArrowLeft, ArrowUpLeft, Compass, Info, LocateFixed, MapPinned, RefreshCw, Waves } from "lucide-react";
+import { ArrowLeft, ArrowUpLeft, CloudSun, Compass, Info, LocateFixed, MapPinned, RefreshCw, Waves } from "lucide-react";
 import { Link } from "wouter";
 import { AdSlot } from "@/components/AdSlot";
 import { WeatherCard } from "@/components/WeatherCard";
@@ -76,10 +76,9 @@ export default function Home({ forcedCity, detail = false }: HomeProps) {
   };
 
   return <main dir="rtl">
-    <header className="site-header"><Link href="/" className="brand"><img src="/manus-storage/atlas-mark_78817ed0.png" alt="رمز الطقس الجزائري" /><span>الطقس <b>العربي</b></span></Link><nav aria-label="التنقل الرئيسي"><a href="#now">الآن</a><a href="#outlook">التوقعات</a><Link href="/wilayas">الولايات</Link><Link href="/arab-capitals">العواصم</Link><Link href="/world-search">بحث عالمي</Link><Link href="/weather-map">الخريطة</Link><a href="#marine">البحر</a></nav><a className="header-source" href="https://open-meteo.com/" target="_blank" rel="noreferrer">مصدر البيانات <ArrowUpLeft size={15} /></a></header>
+    <header className="site-header"><Link href="/" className="brand"><span className="brand-mark" aria-hidden="true"><CloudSun size={20} /></span><span>الطقس <b>العربي</b></span></Link><nav aria-label="التنقل الرئيسي"><a href="#now">الآن</a><a href="#outlook">التوقعات</a><Link href="/wilayas">الولايات</Link><Link href="/arab-capitals">العواصم</Link><Link href="/world-search">بحث عالمي</Link><Link href="/weather-map">الخريطة</Link><a href="#marine">البحر</a></nav><a className="header-source" href="https://open-meteo.com/" target="_blank" rel="noreferrer">مصدر البيانات <ArrowUpLeft size={15} /></a></header>
 
     <section className="hero-band">
-      <img className="hero-art" src="/manus-storage/atlas-hero-weather_edadd9be.jpg" alt="خريطة مناخية تجريدية للجزائر والبحر المتوسط" loading="lazy" decoding="async" fetchPriority="low" />
       <div className="hero-content"><span className="eyebrow">مرصد محلي · وقت الجزائر</span><h1>{detail ? <>حالة {city.name}<br />بوضوح، قبل أن تتحرك.</> : <>الطقس الذي تحتاجه<br />قبل أن تتحرك.</>}</h1><p>قراءة مباشرة، ساعات قادمة، وتفاصيل ساحلية موثقة، بلا ادعاءات أو أرقام غير قابلة للتحقق.</p></div>
       <div className="city-command" aria-label="اختيار المدينة"><MapPinned size={20} /><select value={city.slug} onChange={(event) => selectCity(event.target.value)} aria-label="اختر مدينة"><option value="" disabled>اختر مدينة</option>{ALGERIAN_CITIES.map((item) => <option key={item.slug} value={item.slug}>{item.name} — {item.region}</option>)}</select><button onClick={() => setLocationPrompt(true)} className="icon-button dark" aria-label="تحديد أقرب مدينة"><LocateFixed size={20} /></button></div>{locationPrompt && <div className="location-consent" role="dialog" aria-label="السماح بتحديد الموقع"><b>اعرض طقس منطقتك تلقائياً؟</b><p>سنستخدم موقعك التقريبي لاختيار أقرب ولاية فقط، ولن نخزنه أو نرسله إلى طرف ثالث.</p><div><button onClick={locate}>السماح</button><button className="location-consent__later" onClick={() => { localStorage.setItem("atlas-location-asked", "1"); setLocationPrompt(false); }}>ليس الآن</button></div></div>}
     </section>

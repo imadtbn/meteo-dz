@@ -9,5 +9,5 @@
   "theme_color": "#0C5B8C",
   "scope": "/",
   "description": "مرصد أطلس الطقس الجزائري والعربي والعالمي",
-  "icons": [{ "src": "/manus-storage/atlas-mark_78817ed0.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }]
+  "icons": [{ "src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }]
 }
