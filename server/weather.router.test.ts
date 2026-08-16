@@ -29,10 +29,18 @@ describe("weather proxy", () => {
     expect(result.items).toEqual([]);
   });
 
-  it("does not fabricate official alerts when the official feed is unavailable", async () => {
-    const result = await weatherRouter.officialAlerts({ input: { latitude: 36.75, longitude: 3.05 } });
+  it("reads the official ONM vigilance list without inventing a severity", async () => {
+    vi.spyOn(globalThis, "fetch").mockResolvedValue(new Response("<html>Vigilance infos : ORAN, SIDI-BEL-ABBES</html>", { status: 200 }));
+    const result = await weatherRouter.officialAlerts({ input: { latitude: 35.7, longitude: -0.6, slug: "oran" } });
+    expect(result.status).toBe("official_source");
+    expect(result.alerts[0]).toMatchObject({ title: "يقظة رسمية منشورة للولاية", severity: "official" });
+    expect(result.sourceUrl).toBe("https://www.meteo.dz/");
+  });
+
+  it("keeps an empty official alert state when the ONM source is unavailable", async () => {
+    vi.spyOn(globalThis, "fetch").mockResolvedValue(new Response("unavailable", { status: 503 }));
+    const result = await weatherRouter.officialAlerts({ input: { latitude: 36.75, longitude: 3.05, slug: "algiers" } });
     expect(result.alerts).toEqual([]);
     expect(result.status).toBe("source_only");
-    expect(result.sourceUrl).toContain("wmo.int");
   });
 });
