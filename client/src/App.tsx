@@ -1,7 +1,7 @@
 /** Style reminder: Atlas Observatory uses route-level pages that always preserve a clear route back to the current reading. */
 import { lazy, Suspense } from "react";
 import NotFound from "@/pages/NotFound";
-import { Route, Switch } from "wouter";
+import { Route, Router as WouterRouter, Switch } from "wouter";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import City from "./pages/City";
@@ -14,8 +14,10 @@ const WorldSearchPage = lazy(() => import("./pages/WorldSearch").then((module) =
 
 function Router() {
   // make sure to consider if you need authentication for certain routes
+  const base = import.meta.env.BASE_URL.replace(/\/$/, "") || "/";
   return (
-    <Suspense fallback={<div className="loading-card" dir="rtl">جارٍ فتح صفحة المرصد…</div>}>
+    <WouterRouter base={base}>
+      <Suspense fallback={<div className="loading-card" dir="rtl">جارٍ فتح صفحة المرصد…</div>}>
       <Switch>
       <Route path={"/"} component={() => <Home />} />
       <Route path={"/weather/:slug"} component={City} />
@@ -28,7 +30,8 @@ function Router() {
       {/* Final fallback route */}
       <Route component={NotFound} />
       </Switch>
-    </Suspense>
+      </Suspense>
+    </WouterRouter>
   );
 }
 
