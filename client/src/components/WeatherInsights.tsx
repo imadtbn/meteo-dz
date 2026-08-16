@@ -1,0 +1,18 @@
+/** Style reminder: insights are compact observatory notes—every warning has a source label and every tip is marked as guidance. */
+import { AlertTriangle, BarChart3, ExternalLink, Newspaper, ShieldCheck, Sun } from "lucide-react";
+import { trpc } from "@/lib/trpc";
+import type { AlgerianCity } from "@/data/cities";
+import type { WeatherReading } from "@/lib/weather";
+
+export function WeatherInsights({ city, reading }: { city: AlgerianCity; reading: WeatherReading }) {
+  const alerts = trpc.weather.officialAlerts.useQuery({ latitude: city.latitude, longitude: city.longitude }, { staleTime: 10 * 60_000 });
+  const news = trpc.weather.news.useQuery(undefined, { staleTime: 15 * 60_000 });
+  const rainiest = [...reading.daily].sort((a, b) => b.precipitationProbability - a.precipitationProbability)[0];
+  const warmest = [...reading.daily].sort((a, b) => b.max - a.max)[0];
+  const tips = [
+    reading.current.precipitation > 0 || rainiest?.precipitationProbability > 50 ? "احمل مظلة وراجع التحديث قبل الخروج." : "الأجواء جافة نسبياً؛ احرص على شرب الماء خلال النشاط الخارجي.",
+    reading.current.windSpeed > 30 ? "الرياح قوية؛ ثبّت الأشياء الخفيفة وتوخ الحذر في التنقل." : "الرياح ضمن مستوى معتدل وفق القراءة الحالية.",
+    warmest ? `أعلى قراءة متوقعة خلال الأيام القادمة: ${Math.round(warmest.max)}°.` : "تابع التحديثات قبل الرحلات الطويلة.",
+  ];
+  return <section className="insights-shell dashboard-shell"><div className="section-intro"><span>05 — قراءة أوسع</span><h2>نصيحة، إحصائية، ومصدر</h2><p>إرشاد آلي لا يحل محل النشرة الرسمية.</p></div><div className="insight-grid"><article className="insight-card insight-card--alert"><div className="insight-card__head"><AlertTriangle size={18} /><span>التحذير الرسمي</span></div>{alerts.data?.alerts.length ? <div><strong>يوجد تنبيه رسمي</strong><p>راجع تفاصيل الجهة المصدرة قبل اتخاذ القرار.</p></div> : <div><strong><ShieldCheck size={16} /> لا يوجد تنبيه رسمي معروض</strong><p>{alerts.data?.message ?? "جاري التحقق من المصدر الرسمي…"}</p><a href="https://severeweather.wmo.int/sources.html" target="_blank" rel="noreferrer">مصادر WMO <ExternalLink size={13} /></a></div>}</article><article className="insight-card"><div className="insight-card__head"><Sun size={18} /><span>نصائح طقسية</span></div><ul>{tips.map((tip) => <li key={tip}>{tip}</li>)}</ul></article><article className="insight-card"><div className="insight-card__head"><BarChart3 size={18} /><span>إحصائيات سريعة</span></div><div className="stat-lines"><span>متوسط الخمسة أيام <b>{Math.round(reading.daily.reduce((sum, day) => sum + day.max, 0) / Math.max(1, reading.daily.length))}°</b></span><span>أعلى احتمال مطر <b>{Math.round(rainiest?.precipitationProbability ?? 0)}%</b></span><span>المحسوس الآن <b>{Math.round(reading.current.apparentTemperature)}°</b></span></div></article><article className="insight-card"><div className="insight-card__head"><Newspaper size={18} /><span>أخبار الطقس والمناخ</span></div>{news.data?.items?.length ? <div className="news-list">{news.data.items.slice(0, 3).map((item) => <a href={item.link} target="_blank" rel="noreferrer" key={item.link}><b>{item.title}</b><small>{item.source} · {item.publishedAt}</small></a>)}</div> : <div><p>لا توجد عناصر RSS متاحة حالياً.</p><a href={news.data?.source ?? "https://www.noaa.gov/"} target="_blank" rel="noreferrer">فتح المصدر الرسمي <ExternalLink size={13} /></a></div>}</article></div></section>;
+}
