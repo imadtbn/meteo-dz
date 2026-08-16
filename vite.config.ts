@@ -205,8 +205,9 @@ function vitePluginStorageProxy(): Plugin {
 
 const plugins = [react(), tailwindcss(), jsxLocPlugin(), vitePluginManusRuntime(), vitePluginManusDebugCollector(), vitePluginStorageProxy()];
 
-export default defineConfig({
+export default defineConfig(() => ({
   plugins,
+  base: process.env.DEPLOY_TARGET === "github" ? "/meteo-dz/" : "/",
   resolve: {
     alias: {
       "@": path.resolve(import.meta.dirname, "client", "src"),
@@ -219,6 +220,14 @@ export default defineConfig({
   build: {
     outDir: path.resolve(import.meta.dirname, "dist/public"),
     emptyOutDir: true,
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          react: ["react", "react-dom", "wouter"],
+          icons: ["lucide-react"],
+        },
+      },
+    },
   },
   server: {
     port: 3000,
@@ -238,4 +247,4 @@ export default defineConfig({
       deny: ["**/.*"],
     },
   },
-});
+}));

@@ -1,0 +1,11 @@
+{
+  "name": "الطقس الجزائري — مرصد الأطلس",
+  "short_name": "الطقس الجزائري",
+  "lang": "ar",
+  "dir": "rtl",
+  "start_url": "/meteo-dz/",
+  "display": "standalone",
+  "background_color": "#f5f0e6",
+  "theme_color": "#0C5B8C",
+  "icons": [{ "src": "/manus-storage/atlas-mark_78817ed0.png", "sizes": "512x512", "type": "image/png" }]
+}
