@@ -1,0 +1,19 @@
+{
+  "name": "الطقس العربي — مرصد الأطلس",
+  "short_name": "الطقس العربي",
+  "start_url": "/meteo-dz/",
+  "scope": "/meteo-dz/",
+  "display": "standalone",
+  "dir": "rtl",
+  "lang": "ar",
+  "theme_color": "#0C5B8C",
+  "background_color": "#F4F0E7",
+  "icons": [
+    {
+      "src": "/meteo-dz/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}

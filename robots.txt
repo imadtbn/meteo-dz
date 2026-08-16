@@ -1,4 +1,4 @@
 User-agent: *
-Allow: /
-
+Allow: /meteo-dz/
+Disallow: /meteo-dz/api/
 Sitemap: https://imadtbn.github.io/meteo-dz/sitemap.xml
