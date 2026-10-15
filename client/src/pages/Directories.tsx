@@ -4,8 +4,10 @@ import { Link } from "wouter";
 import { ALGERIAN_CITIES } from "@/data/cities";
 import { ARAB_CAPITALS } from "@/data/arab-capitals";
 import { PlaceIllustration } from "@/components/PlaceIllustration";
+import { WilayaCard } from "@/components/WilayaCard";
 import { PublicFooter, PublicHeader } from "@/components/PublicChrome";
-import { countryCodeForArabName, flagForCountry, getCapitalScene, getWilayaScene } from "@/lib/placeVisuals";
+import { countryCodeForArabName, flagForCountry, getCapitalScene } from "@/lib/placeVisuals";
+import { filterWilayas } from "@/lib/citySearch";
 
 function DirectorySearch({ value, onChange, placeholder }: { value: string; onChange: (value: string) => void; placeholder: string }) {
   return (
@@ -19,10 +21,7 @@ function DirectorySearch({ value, onChange, placeholder }: { value: string; onCh
 
 export function WilayasPage() {
   const [query, setQuery] = useState("");
-  const results = useMemo(() =>
-    ALGERIAN_CITIES.filter((city) =>
-      (city.name + " " + city.region + " " + city.code).toLocaleLowerCase("ar").includes(query.trim().toLocaleLowerCase("ar"))
-    ), [query]);
+  const results = useMemo(() => filterWilayas(ALGERIAN_CITIES, query), [query]);
 
   return (
     <main dir="rtl">
@@ -40,16 +39,7 @@ export function WilayasPage() {
           <p>الرسومات دلالية للمنطقة وليست صورًا فوتوغرافية للولاية.</p>
         </div>
         <div className="directory-grid directory-grid--visual">
-          {results.map((city) => (
-            <Link className="directory-card directory-card--visual" key={city.slug} href={"/weather/" + city.slug}>
-              <PlaceIllustration scene={getWilayaScene(city.region, city.coastal)} label={city.name} badge={"ولاية " + city.code} />
-              <span className="directory-card__body">
-                <span className="directory-card__meta">{city.code} · {city.region}</span>
-                <strong className="directory-card__title">{city.name}</strong>
-                <span className="directory-card__action">عرض نشرة الطقس <ArrowLeft size={17} aria-hidden="true" /></span>
-              </span>
-            </Link>
-          ))}
+          {results.map((city) => <WilayaCard key={city.slug} city={city} />)}
         </div>
         {results.length === 0 && <div className="empty-state">لا توجد ولاية مطابقة لهذا البحث.</div>}
       </section>
