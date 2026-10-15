@@ -62,7 +62,7 @@ const urls = [
 const sitemap = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n  ${urls.join("\n  ")}\n</urlset>\n`;
 await writeFile(path.join(dist, "sitemap.xml"), sitemap);
 const basePath = process.env.DEPLOY_TARGET === "github" ? "/meteo-dz/" : "/";
-const manifest = { name: "الطقس الجزائري — مرصد الأطلس", short_name: "الطقس الجزائري", start_url: basePath, scope: basePath, display: "standalone", dir: "rtl", lang: "ar", theme_color: "#0C5B8C", background_color: "#F4F0E7", icons: [{ src: `${basePath}favicon.svg`, sizes: "any", type: "image/svg+xml", purpose: "any" }] };
+const manifest = { name: "الطقس الجزائري — مرصد الأطلس", short_name: "الطقس الجزائري", description: "نشرات وتوقعات الطقس لجميع ولايات الجزائر والعواصم العربية", id: basePath, start_url: basePath, scope: basePath, display: "standalone", dir: "rtl", lang: "ar", theme_color: "#0C5B8C", background_color: "#F5F0E6", icons: [{ src: `${basePath}favicon.svg`, sizes: "any", type: "image/svg+xml", purpose: "any" }], shortcuts: [{ name: "الولايات الجزائرية", short_name: "الولايات", url: `${basePath}wilayas/` }, { name: "البحث العالمي", short_name: "البحث", url: `${basePath}world-search/` }, { name: "خريطة الطقس", short_name: "الخريطة", url: `${basePath}weather-map/` }] };
 await writeFile(path.join(dist, "manifest.webmanifest"), JSON.stringify(manifest, null, 2));
 await writeFile(path.join(dist, "robots.txt"), `User-agent: *\nAllow: ${basePath}\nDisallow: ${basePath}api/\nSitemap: ${siteRoot}sitemap.xml\n`);
 
