@@ -1,6 +1,6 @@
 /** Style reminder: Atlas Observatory structures a weather visit from immediate reading to local context, never decorative noise. */
 import { lazy, Suspense, useEffect, useMemo, useRef, useState } from "react";
-import { ArrowLeft, Compass, Info, LocateFixed, MapPinned, RefreshCw, Waves } from "lucide-react";
+import { AlertTriangle, ArrowLeft, Compass, Info, LocateFixed, MapPinned, RefreshCw, Waves } from "lucide-react";
 import { Link, useLocation } from "wouter";
 import { WeatherCard } from "@/components/WeatherCard";
 const WeatherInsights = lazy(() => import("@/components/WeatherInsights").then((module) => ({ default: module.WeatherInsights })));
@@ -73,13 +73,44 @@ export default function Home({ forcedCity, detail = false }: HomeProps) {
   };
 
   const locate = () => {
-    if (!navigator.geolocation) { setLocationError("تحديد الموقع غير مدعوم في هذا المتصفح."); return; }
     setLocationError("");
+    if (!window.isSecureContext) {
+      setLocationError("تحديد الموقع يحتاج إلى اتصال HTTPS آمن. اختر ولايتك يدويًا من القائمة.");
+      setLocationPrompt(false);
+      return;
+    }
+    if (!navigator.geolocation) {
+      setLocationError("هذا المتصفح لا يدعم تحديد الموقع. يمكنك اختيار ولايتك يدويًا.");
+      setLocationPrompt(false);
+      return;
+    }
+
     setLocationPrompt(false);
-    navigator.geolocation.getCurrentPosition((position) => {
-      const nearest = [...ALGERIAN_CITIES].sort((a, b) => Math.hypot(a.latitude - position.coords.latitude, (a.longitude - position.coords.longitude) * Math.cos(position.coords.latitude * Math.PI / 180)) - Math.hypot(b.latitude - position.coords.latitude, (b.longitude - position.coords.longitude) * Math.cos(position.coords.latitude * Math.PI / 180)))[0];
-      if (nearest) selectCity(nearest.slug);
-    }, () => setLocationError("تعذّر تحديد موقعك. يمكنك اختيار الولاية يدويًا."), { enableHighAccuracy: false, timeout: 10000, maximumAge: 300000 });
+    navigator.geolocation.getCurrentPosition(
+      ({ coords }) => {
+        if (!Number.isFinite(coords.latitude) || !Number.isFinite(coords.longitude)) {
+          setLocationError("الإحداثيات المستلمة غير صالحة. اختر ولايتك يدويًا.");
+          return;
+        }
+        const longitudeFactor = Math.cos(coords.latitude * Math.PI / 180);
+        const nearest = ALGERIAN_CITIES.reduce((best, candidate) => {
+          const distance = Math.hypot(candidate.latitude - coords.latitude, (candidate.longitude - coords.longitude) * longitudeFactor);
+          const bestDistance = Math.hypot(best.latitude - coords.latitude, (best.longitude - coords.longitude) * longitudeFactor);
+          return distance < bestDistance ? candidate : best;
+        }, ALGERIAN_CITIES[0]);
+        selectCity(nearest.slug);
+        setLocationError("");
+      },
+      (reason) => {
+        const message = reason.code === 1
+          ? "تم رفض إذن الموقع أو حظره من إعدادات المتصفح. فعّل إذن الموقع لهذا الموقع، أو اختر الولاية يدويًا."
+          : reason.code === 2
+            ? "تعذر تحديد موقع الجهاز. تأكد من تشغيل خدمات الموقع أو اختر الولاية يدويًا."
+            : "استغرق تحديد الموقع وقتًا طويلًا. يمكنك المحاولة مجددًا أو اختيار الولاية يدويًا.";
+        setLocationError(message);
+      },
+      { enableHighAccuracy: false, timeout: 12000, maximumAge: 600000 },
+    );
   };
 
   return <main dir="rtl">
@@ -87,13 +118,14 @@ export default function Home({ forcedCity, detail = false }: HomeProps) {
 
     <section className="hero-band">
       <div className="hero-content"><span className="eyebrow">مرصد محلي · وقت الجزائر</span><h1>{detail ? <>حالة {city.name}<br />بوضوح، قبل أن تتحرك.</> : <>الطقس الذي تحتاجه<br />قبل أن تتحرك.</>}</h1><p>قراءة مباشرة، ساعات قادمة، وتفاصيل ساحلية موثقة، بلا ادعاءات أو أرقام غير قابلة للتحقق.</p></div>
-      <div className="city-command" aria-label="اختيار المدينة"><MapPinned size={20} /><select value={city.slug} onChange={(event) => selectCity(event.target.value)} aria-label="اختر مدينة"><option value="" disabled>اختر مدينة</option>{ALGERIAN_CITIES.map((item) => <option key={item.slug} value={item.slug}>{item.name} — {item.region}</option>)}</select><button onClick={() => { setLocationError(""); setLocationPrompt(true); }} className="icon-button dark" aria-label="تحديد أقرب مدينة"><LocateFixed size={20} /></button></div>{locationError && <p className="location-error" role="status">{locationError}</p>}{locationPrompt && <div className="location-consent" role="dialog" aria-label="السماح بتحديد الموقع"><b>اعرض طقس منطقتك تلقائياً؟</b><p>سنستخدم موقعك التقريبي لاختيار أقرب ولاية فقط، ولن نخزنه أو نرسله إلى طرف ثالث.</p><div><button onClick={locate}>السماح</button><button className="location-consent__later" onClick={() => { localStorage.setItem("atlas-location-asked", "1"); setLocationPrompt(false); }}>ليس الآن</button></div></div>}
+      <div className="city-command" aria-label="اختيار المدينة"><MapPinned size={20} /><select value={city.slug} onChange={(event) => selectCity(event.target.value)} aria-label="اختر مدينة"><option value="" disabled>اختر مدينة</option>{ALGERIAN_CITIES.map((item) => <option key={item.slug} value={item.slug}>{item.name} — {item.region}</option>)}</select><button onClick={() => { setLocationError(""); setLocationPrompt(true); }} className="icon-button dark" aria-label="تحديد أقرب مدينة"><LocateFixed size={20} /></button></div>{locationError && <p className="location-error" role="status">{locationError}</p>}{locationPrompt && <div className="location-consent" role="region" aria-label="طلب تحديد الموقع"><b>اعرض طقس منطقتك تلقائياً؟</b><p>سنستخدم موقع جهازك لاختيار أقرب ولاية. لن نحفظ إحداثياتك في الموقع؛ لا يلزم السماح لعرض الطقس.</p><div><button onClick={locate}>السماح</button><button className="location-consent__later" onClick={() => { localStorage.setItem("atlas-location-asked", "1"); setLocationPrompt(false); }}>اختيار الولاية يدويًا</button></div></div>}
     </section>
 
     <section className="dashboard-shell" id="now">
       <div className="section-intro"><span>01 — القراءة المحلية</span><h2>الآن في {city.name}</h2><button className="refresh-button" onClick={refresh} disabled={loading}><RefreshCw size={16} className={loading ? "spin" : ""} /> تحديث القراءة</button></div>
       {loading && <div className="loading-card" aria-live="polite"><span className="loading-orb" />جارٍ جلب قراءة موثقة للطقس…</div>}
       {error && <div className="error-card" role="alert"><b>تعذر تحديث القراءة.</b><span>{error}</span><button onClick={refresh}>أعد المحاولة</button></div>}
+      {reading?.isStale && <div className="weather-stale-note" role="status"><AlertTriangle size={19} aria-hidden="true" /><span>تعذّر الاتصال بمصدر الطقس، لذلك نعرض آخر قراءة محفوظة لهذه الولاية. قد لا تمثل الأحوال الحالية. يمكنك الضغط على «تحديث القراءة» للمحاولة مجددًا، والرجوع للنشرة الرسمية عند الضرورة.</span></div>}
       {reading && <div className="now-grid"><WeatherCard reading={reading} onShare={() => setShareOpen(true)} /><aside className="decision-panel"><span className="eyebrow"><Compass size={15} /> ملخص اليوم</span><h3>{getAdvice(reading)}</h3><div className="decision-points"><span>المحسوس <b>{Math.round(reading.current.apparentTemperature)}°</b></span><span>السحب <b>{Math.round(reading.current.cloudCover)}%</b></span><span>الرياح <b>{windDirectionArabic(reading.current.windDirection)}</b></span></div><small><Info size={14} /> إرشاد آلي مبني على القراءة الحالية، وليس تحذيراً رسمياً.</small></aside></div>}
     </section>
 
