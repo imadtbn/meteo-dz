@@ -718,3 +718,62 @@ h1,h2,h3,.brand,.directory-card__title,.section-intro h2 { font-family: var(--fo
   .site-share-channels { grid-template-columns: 1fr; }
   .site-actions-modal { padding: .9rem; }
 }
+
+
+/* Responsive AdSense placement: never put ad content inside the sticky header.
+   Reserve space from the first paint, so a late-loading slot won't push navigation. */
+.site-ad {
+  position: relative;
+  z-index: 0;
+  display: flow-root;
+  width: 100%;
+  min-width: 0;
+  padding: .85rem clamp(.75rem, 2.5vw, 2rem) 1.25rem;
+  background: #f5f0e6;
+  color: #5b7380;
+}
+.site-ad--header { border-bottom: 1px solid rgba(12, 91, 140, .08); }
+.site-ad--footer { border-top: 1px solid rgba(12, 91, 140, .1); }
+.site-ad__inner {
+  display: block;
+  width: 100%;
+  max-width: 1040px;
+  min-width: 0;
+  margin-inline: auto;
+}
+.site-ad__label {
+  display: block;
+  margin-bottom: .55rem;
+  color: #6b8089;
+  text-align: center;
+  font-family: var(--font-ui, "Tajawal", sans-serif);
+  font-size: .7rem;
+  font-weight: 600;
+  line-height: 1.4;
+}
+.site-ad__reserved {
+  display: block;
+  position: relative;
+  width: 100%;
+  min-width: 0;
+  min-height: 268px;
+  margin-inline: auto;
+}
+.site-ad--footer .site-ad__reserved { min-height: 300px; }
+.site-ad__reserved > ins.adsbygoogle {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  margin-inline: auto;
+  min-width: 0;
+  text-align: center;
+}
+@media (max-width: 700px) {
+  .site-ad { padding: .75rem .75rem 1rem; }
+  .site-ad__inner { max-width: 100%; }
+  .site-ad__reserved { min-height: 254px; }
+  .site-ad--footer .site-ad__reserved { min-height: 290px; }
+}
+@media (max-width: 360px) {
+  .site-ad { padding-inline: .55rem; }
+}
