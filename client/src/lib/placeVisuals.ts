@@ -36,5 +36,5 @@ export const countryCodeForArabName = (country: string): string | undefined => a
 export function flagForCountry(code?: string | null): string {
   const normalized = code?.trim().toUpperCase();
   if (!normalized || !/^[A-Z]{2}$/.test(normalized)) return "🌐";
-  return [...normalized].map((char) => String.fromCodePoint(127397 + char.charCodeAt(0))).join("");
+  return normalized.split("").map((char) => String.fromCodePoint(127397 + char.charCodeAt(0))).join("");
 }
