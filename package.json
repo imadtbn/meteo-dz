@@ -5,8 +5,8 @@
   "license": "MIT",
   "scripts": {
     "dev": "NODE_ENV=development tsx watch server/_core/index.ts",
-    "build": "vite build && node scripts/prerender-cities.mjs && esbuild server/_core/index.ts --platform=node --packages=external --bundle --format=esm --outdir=dist",
-    "build:github": "DEPLOY_TARGET=github vite build && DEPLOY_TARGET=github node scripts/prerender-cities.mjs",
+    "build": "vite build && node scripts/generate-social-assets.mjs && node scripts/prerender-cities.mjs && esbuild server/_core/index.ts --platform=node --packages=external --bundle --format=esm --outdir=dist",
+    "build:github": "DEPLOY_TARGET=github vite build && node scripts/generate-social-assets.mjs && DEPLOY_TARGET=github node scripts/prerender-cities.mjs",
     "start": "NODE_ENV=production node dist/index.js",
     "check": "tsc --noEmit",
     "format": "prettier --write .",
