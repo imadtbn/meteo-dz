@@ -184,3 +184,24 @@ a, button, input, select { -webkit-tap-highlight-color: transparent; }
 .region-actions .secondary-button { min-height: 2.75rem; }
 .all-cities-link { display: inline-flex; align-items: center; gap: .45rem; min-height: 2.75rem; padding: .5rem .8rem; color: #d7f1e9; font-weight: 700; font-size: .8rem; text-decoration: none; }
 .all-cities-link:hover { text-decoration: underline; }
+
+
+/* Location permission panel must render above the hero's decorative ::after layer. */
+.hero-band::after { pointer-events: none; }
+.hero-band .location-consent {
+  position: relative;
+  z-index: 3;
+  isolation: isolate;
+  margin-inline: 0;
+  max-width: 34rem;
+  color: #173447;
+  background: #fff8df;
+  box-shadow: 0 14px 35px rgba(19,52,71,.12);
+}
+.hero-band .location-consent b { color: #173447; }
+.hero-band .location-consent p { color: #435761; }
+.hero-band .location-consent button { min-height: 2.65rem; font-weight: 700; }
+.hero-band .location-consent__later { border: 1px solid #bdd0cf; background: #fffdf8 !important; }
+.weather-stale-note { display: flex; gap: .6rem; align-items: start; margin: 0 0 1.1rem; padding: .85rem 1rem; border: 1px solid #d9b15d; border-radius: .75rem; background: #fff8e7; color: #664815; font-size: .85rem; line-height: 1.75; }
+.weather-stale-note svg { flex: 0 0 auto; margin-top: .2rem; }
+.current-card .live-dot.is-stale { background: #e7bb61; box-shadow: 0 0 0 4px rgba(231,187,97,.17); }

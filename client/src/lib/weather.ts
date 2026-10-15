@@ -10,6 +10,8 @@ export type WeatherCondition = {
 export type WeatherReading = {
   city: AlgerianCity;
   updatedAt: string;
+  /** Only set when the provider failed and an older saved observation is shown. */
+  isStale?: boolean;
   current: {
     temperature: number;
     apparentTemperature: number;
@@ -27,6 +29,7 @@ export type WeatherReading = {
 };
 
 const cacheDuration = 15 * 60 * 1000;
+const maxStaleDuration = 6 * 60 * 60 * 1000;
 
 export const getWeatherCondition = (code: number): WeatherCondition => {
   if (code === 0) return { label: "سماء صافية", icon: "☀", tone: "sun" };
@@ -109,17 +112,66 @@ const fromApi = (city: AlgerianCity, weather: any, marine: any): WeatherReading 
   };
 };
 
-export async function fetchWeather(city: AlgerianCity, signal?: AbortSignal, forceRefresh = false): Promise<WeatherReading> {
-  const cacheKey = `atlas-weather-${city.slug}`;
+type WeatherCache = { savedAt: number; value: WeatherReading };
+
+function readCache(city: AlgerianCity): WeatherCache | null {
   try {
-    const cached = JSON.parse(localStorage.getItem(cacheKey) ?? "null");
-    if (!forceRefresh && cached?.value?.city?.slug === city.slug && Date.now() - cached.savedAt < cacheDuration) return cached.value as WeatherReading;
+    const cached = JSON.parse(localStorage.getItem("atlas-weather-" + city.slug) ?? "null") as WeatherCache | null;
+    if (!cached || !Number.isFinite(cached.savedAt) || cached.value?.city?.slug !== city.slug) return null;
+    const age = Date.now() - cached.savedAt;
+    if (age < 0 || age > maxStaleDuration || !Number.isFinite(cached.value.current?.temperature)) return null;
+    return cached;
   } catch {
-    // Cache is only a speed enhancement; failures must never block fresh data.
+    return null;
+  }
+}
+
+/** Bounded requests: protect mobile users from a permanently spinning loader. */
+async function fetchJson(url: string, signal?: AbortSignal, timeoutMs = 9000): Promise<any> {
+  const controller = new AbortController();
+  const abort = () => controller.abort();
+  if (signal?.aborted) controller.abort();
+  signal?.addEventListener("abort", abort, { once: true });
+  let timedOut = false;
+  const timer = setTimeout(() => {
+    timedOut = true;
+    controller.abort();
+  }, timeoutMs);
+
+  try {
+    const response = await fetch(url, { signal: controller.signal });
+    if (!response.ok) throw new Error("HTTP " + response.status);
+    const data = await response.json();
+    if (!data || data.error) throw new Error("استجابة غير صالحة من خدمة الطقس");
+    return data;
+  } catch (error) {
+    if (timedOut && !signal?.aborted) throw new Error("انتهت مهلة الاتصال بخدمة الطقس.");
+    throw error;
+  } finally {
+    clearTimeout(timer);
+    signal?.removeEventListener("abort", abort);
+  }
+}
+
+function validWeather(data: any): boolean {
+  return Boolean(
+    data?.current?.time &&
+    Number.isFinite(data.current.temperature_2m) &&
+    Number.isFinite(data.current.relative_humidity_2m) &&
+    Array.isArray(data?.hourly?.time) &&
+    Array.isArray(data?.hourly?.temperature_2m) &&
+    Array.isArray(data?.daily?.time) &&
+    Array.isArray(data?.daily?.temperature_2m_max),
+  );
+}
+
+export async function fetchWeather(city: AlgerianCity, signal?: AbortSignal, forceRefresh = false): Promise<WeatherReading> {
+  const cached = readCache(city);
+  if (!forceRefresh && cached && Date.now() - cached.savedAt < cacheDuration) {
+    return { ...cached.value, isStale: false };
   }
 
-  const weatherUrl = new URL("https://api.open-meteo.com/v1/forecast");
-  weatherUrl.search = new URLSearchParams({
+  const weatherParams = new URLSearchParams({
     latitude: String(city.latitude),
     longitude: String(city.longitude),
     current: "temperature_2m,apparent_temperature,relative_humidity_2m,weather_code,wind_speed_10m,wind_direction_10m,is_day,precipitation,cloud_cover",
@@ -127,36 +179,66 @@ export async function fetchWeather(city: AlgerianCity, signal?: AbortSignal, for
     daily: "weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max,wind_speed_10m_max",
     timezone: "Africa/Algiers",
     forecast_days: "7",
-  }).toString();
+  });
 
-  const marineUrl = new URL("https://marine-api.open-meteo.com/v1/marine");
-  marineUrl.search = new URLSearchParams({
+  const marineParams = new URLSearchParams({
     latitude: String(city.latitude),
     longitude: String(city.longitude),
     current: "wave_height,wave_direction,wave_period",
     timezone: "Africa/Algiers",
-  }).toString();
+  });
 
-  const [weatherResponse, marineResponse] = await Promise.all([
-    fetch(weatherUrl, { signal }),
-    city.coastal ? fetch(marineUrl, { signal }).catch(() => null) : Promise.resolve(null),
-  ]);
+  // The global GFS model is a separate Open-Meteo API endpoint. If the main
+  // forecast endpoint fails, try it before displaying a cached observation.
+  const providers = [
+    "https://api.open-meteo.com/v1/forecast",
+    "https://api.open-meteo.com/v1/gfs",
+  ];
 
-  if (!weatherResponse.ok) throw new Error("تعذر الوصول إلى بيانات الطقس الآن.");
-  const [weather, marine] = await Promise.all([weatherResponse.json(), marineResponse?.ok ? marineResponse.json() : null]);
-  if (!weather?.current || !Array.isArray(weather?.hourly?.time) || !Array.isArray(weather?.daily?.time)) {
-    throw new Error("الاستجابة الجوية غير مكتملة. يُرجى إعادة المحاولة.");
-  }
-  const reading = fromApi(city, weather, marine);
+  const marinePromise = city.coastal
+    ? fetchJson("https://marine-api.open-meteo.com/v1/marine?" + marineParams, signal, 6500).catch(() => null)
+    : Promise.resolve(null);
+
   try {
-    localStorage.setItem(cacheKey, JSON.stringify({ savedAt: Date.now(), value: reading }));
-  } catch {
-    // Private browsing can deny storage; the live reading still renders.
+    let payload: any = null;
+    let lastError: unknown;
+    for (const provider of providers) {
+      try {
+        payload = await fetchJson(provider + "?" + weatherParams, signal);
+        if (!validWeather(payload)) throw new Error("الاستجابة الجوية غير مكتملة");
+        break;
+      } catch (error) {
+        if (signal?.aborted) throw error;
+        lastError = error;
+        payload = null;
+      }
+    }
+    if (!payload) throw lastError ?? new Error("خدمة الطقس غير متاحة");
+
+    // Marine readings are optional: their failure must not hide land forecasts.
+    const marine = await marinePromise;
+    if (signal?.aborted) throw new DOMException("Aborted", "AbortError");
+    const reading = { ...fromApi(city, payload, marine), isStale: false };
+    try {
+      localStorage.setItem("atlas-weather-" + city.slug, JSON.stringify({ savedAt: Date.now(), value: reading }));
+    } catch {
+      // Private mode or quota limits must never prevent live weather rendering.
+    }
+    return reading;
+  } catch (error) {
+    // Switching cities aborts the request: never display the previous city's data.
+    if (signal?.aborted) throw error;
+    if (cached) return { ...cached.value, isStale: true };
+
+    if (typeof navigator !== "undefined" && navigator.onLine === false) {
+      throw new Error("يبدو أنك غير متصل بالإنترنت. تحقق من الاتصال ثم أعد المحاولة.");
+    }
+    throw new Error("تعذر الاتصال بمصدر الطقس حاليًا. يمكنك إعادة المحاولة أو اختيار ولاية أخرى.");
   }
-  return reading;
 }
 
 export const getAdvice = (reading: WeatherReading) => {
+  if (reading.isStale) return "هذه بيانات محفوظة وليست تحديثًا مباشرًا. راجع النشرة الرسمية قبل اتخاذ قرار السفر أو الخروج.";
   const { temperature, windSpeed, weatherCode } = reading.current;
   if (weatherCode >= 95) return "عاصفة محتملة: تجنب المناطق المكشوفة وتابع النشرة الرسمية المحلية.";
   if (windSpeed >= 55) return "رياح قوية: ثبّت الأغراض الخارجية وخفّف الأنشطة في الأماكن المكشوفة.";
@@ -167,5 +249,5 @@ export const getAdvice = (reading: WeatherReading) => {
 
 export const buildShareText = (reading: WeatherReading) => {
   const condition = getWeatherCondition(reading.current.weatherCode).label;
-  return `الطقس الآن في ${reading.city.name}: ${Math.round(reading.current.temperature)}°، ${condition}. آخر تحديث: ${formatUpdatedAt(reading.updatedAt)}. المصدر: الطقس الجزائري`;
+  return `${reading.isStale ? "آخر قراءة محفوظة" : "الطقس الآن"} في ${reading.city.name}: ${Math.round(reading.current.temperature)}°، ${condition}. آخر تحديث: ${formatUpdatedAt(reading.updatedAt)}. المصدر: الطقس الجزائري`;
 };
