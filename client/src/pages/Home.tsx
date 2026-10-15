@@ -1,10 +1,11 @@
 /** Style reminder: Atlas Observatory structures a weather visit from immediate reading to local context, never decorative noise. */
 import { lazy, Suspense, useEffect, useMemo, useRef, useState } from "react";
-import { AlertTriangle, ArrowLeft, Compass, Info, RefreshCw, Waves } from "lucide-react";
+import { AlertTriangle, ArrowLeft, Compass, Info, RefreshCw, Search, Waves, X } from "lucide-react";
 import { Link, useLocation } from "wouter";
 import { WeatherCard } from "@/components/WeatherCard";
+import { WilayaCard } from "@/components/WilayaCard";
 import { CitySearch } from "@/components/CitySearch";
-import { globalWeatherLink, type GlobalPlace } from "@/lib/citySearch";
+import { filterWilayas, globalWeatherLink, type GlobalPlace } from "@/lib/citySearch";
 const WeatherInsights = lazy(() => import("@/components/WeatherInsights").then((module) => ({ default: module.WeatherInsights })));
 import { PublicFooter, PublicHeader } from "@/components/PublicChrome";
 import { ALGERIAN_CITIES, getCityBySlug, type AlgerianCity } from "@/data/cities";
@@ -58,11 +59,7 @@ export default function Home({ forcedCity, detail = false }: HomeProps) {
 
   useEffect(() => setVisibleCount(12), [citySearch]);
 
-  const visibleCities = useMemo(() => {
-    const query = citySearch.trim().toLocaleLowerCase("ar");
-    if (!query) return ALGERIAN_CITIES;
-    return ALGERIAN_CITIES.filter((item) => `${item.name} ${item.region} ${item.code}`.toLocaleLowerCase("ar").includes(query));
-  }, [citySearch]);
+  const visibleCities = useMemo(() => filterWilayas(ALGERIAN_CITIES, citySearch), [citySearch]);
 
   const selectCity = (next: string) => {
     const found = getCityBySlug(next);
@@ -137,7 +134,67 @@ export default function Home({ forcedCity, detail = false }: HomeProps) {
 
     {reading && <section className="dashboard-shell marine-section" id="marine"><div className="marine-copy"><span className="eyebrow"><Waves size={16} /> حالة البحر</span><h2>{city.coastal ? `ساحل ${city.name}` : "القراءة البحرية متاحة للمدن الساحلية"}</h2><p>{city.coastal ? "تعرض هذه القراءة مؤشرات الموج النموذجية للساحل الأقرب. استخدم النشرة البحرية الرسمية عند اتخاذ قرارات الملاحة." : "اختر الجزائر العاصمة أو وهران أو عنابة للاطلاع على مؤشرات البحر."}</p></div>{city.coastal && reading.marine ? <div className="marine-metrics"><span><b>{reading.marine.waveHeight?.toFixed(1) ?? "—"}</b> م ارتفاع الموج</span><span><b>{reading.marine.wavePeriod?.toFixed(1) ?? "—"}</b> ث فترة الموج</span><span><b>{reading.marine.waveDirection !== null ? windDirectionArabic(reading.marine.waveDirection) : "—"}</b> اتجاه الموج</span></div> : <div className="marine-empty">لا توجد قراءة بحرية لهذه المدينة.</div>}</section>}
 
-    <section className="regions-section" id="regions"><div className="dashboard-shell"><div className="section-intro"><span>04 — الولايات</span><h2>اختر ولايتك مباشرة</h2><p>58 ولاية · صفحات ثابتة بروابط واضحة للمشاركة والفهرسة.</p></div><div className="city-index-toolbar"><label htmlFor="city-search">ابحث باسم الولاية أو المنطقة</label><input id="city-search" value={citySearch} onChange={(event) => setCitySearch(event.target.value)} placeholder="مثال: وهران، الهضاب، 31" /><strong>{visibleCities.length} / {ALGERIAN_CITIES.length}</strong></div><div className="region-grid">{visibleCities.slice(0, visibleCount).map((item) => <Link key={item.slug} href={`/weather/${item.slug}`} className="region-card"><span>{item.code} · {item.region}</span><b>{item.name}</b><ArrowLeft size={18} /></Link>)}</div><div className="region-actions">{visibleCities.length > visibleCount && <button type="button" className="secondary-button" onClick={() => setVisibleCount((count) => count + 12)}>إظهار المزيد ({visibleCities.length - visibleCount})</button>}<Link href="/wilayas" className="all-cities-link">استعرض دليل الولايات الكامل <ArrowLeft size={16} /></Link></div>{visibleCities.length === 0 && <div className="marine-empty">لا توجد ولاية مطابقة لهذا البحث.</div>}</div></section>
+
+    <section className="regions-section" id="regions">
+      <div className="dashboard-shell">
+        <div className="section-intro">
+          <span>04 — الولايات</span>
+          <h2>اختر ولايتك مباشرة</h2>
+          <p>ابحث باسم الولاية أو المنطقة، ثم افتح نشرة الطقس من البطاقة المصوّرة.</p>
+        </div>
+        <div className="city-index-toolbar city-index-toolbar--home">
+          <label htmlFor="city-search">البحث في ولايات الجزائر</label>
+          <div className="city-index-input-wrap">
+            <Search size={18} aria-hidden="true" />
+            <input
+              id="city-search"
+              type="search"
+              value={citySearch}
+              onChange={(event) => setCitySearch(event.target.value)}
+              placeholder="مثال: وهران، الأوراس، 31"
+              autoComplete="off"
+              aria-controls="home-wilaya-results"
+            />
+            {citySearch && (
+              <button
+                type="button"
+                aria-label="مسح البحث عن الولاية"
+                title="مسح البحث"
+                onClick={() => setCitySearch("")}
+              >
+                <X size={17} aria-hidden="true" />
+              </button>
+            )}
+          </div>
+          <strong role="status" aria-live="polite">
+            {citySearch.trim() ? `${visibleCities.length} نتيجة مطابقة` : `${ALGERIAN_CITIES.length} ولاية`}
+          </strong>
+        </div>
+        <div className="region-grid region-grid--visual-home" id="home-wilaya-results">
+          {visibleCities.slice(0, visibleCount).map((item) => (
+            <WilayaCard key={item.slug} city={item} />
+          ))}
+        </div>
+        {visibleCities.length > 0 && (
+          <div className="region-actions">
+            {visibleCities.length > visibleCount && (
+              <button type="button" className="secondary-button" onClick={() => setVisibleCount((count) => count + 12)}>
+                إظهار المزيد ({visibleCities.length - visibleCount})
+              </button>
+            )}
+            <Link href="/wilayas" className="all-cities-link">
+              استعرض دليل الولايات الكامل <ArrowLeft size={16} aria-hidden="true" />
+            </Link>
+          </div>
+        )}
+        {visibleCities.length === 0 && (
+          <div className="region-empty-home" role="status">
+            لا توجد ولاية مطابقة لهذا البحث.
+            <button type="button" onClick={() => setCitySearch("")}>عرض جميع الولايات</button>
+          </div>
+        )}
+      </div>
+    </section>
 
     {reading && shareOpen && <Suspense fallback={null}><WeatherShareDialog reading={reading} onClose={() => setShareOpen(false)} /></Suspense>}
     <PublicFooter />
