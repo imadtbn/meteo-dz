@@ -10,6 +10,8 @@ export const ADS_SLOTS = {
   footer: { slot: "3143411927", format: "auto" },
 } as const;
 
+export const isUsableAdWidth = (width: number) => Number.isFinite(width) && width >= 250;
+
 type SlotPosition = keyof typeof ADS_SLOTS;
 type AdWindow = Window & { adsbygoogle?: { push: (item: Record<string, never>) => unknown } };
 
@@ -34,7 +36,7 @@ export function AdSlot({ position }: { position: SlotPosition }) {
       // Wait for measured, usable dimensions. This also avoids AdSense
       // "No slot size for availableWidth=81" in collapsing flex layouts.
       const width = Math.floor(ad.getBoundingClientRect().width);
-      if (width < 250) return;
+      if (!isUsableAdWidth(width)) return;
       if (ad.dataset.adsbygoogleStatus) {
         initialized.current = true;
         return;
