@@ -17,7 +17,7 @@ type AdWindow = Window & { adsbygoogle?: { push: (item: Record<string, never>) =
 
 export function AdSlot({ position }: { position: SlotPosition }) {
   const containerRef = useRef<HTMLElement>(null);
-  const adRef = useRef<HTMLElement>(null);
+  const adRef = useRef<HTMLModElement>(null);
   const initialized = useRef(false);
 
   useEffect(() => {
@@ -45,7 +45,8 @@ export function AdSlot({ position }: { position: SlotPosition }) {
       initialized.current = true; // one push per <ins>, even after rerenders
       try {
         const win = window as AdWindow;
-        (win.adsbygoogle ??= []).push({});
+        const queue = win.adsbygoogle ?? (win.adsbygoogle = [] as Record<string, never>[]);
+        queue.push({});
       } catch (error) {
         // Ad blockers and restricted browsers must not break the weather UI.
         console.warn("[AdSense] Slot request was skipped", error);
