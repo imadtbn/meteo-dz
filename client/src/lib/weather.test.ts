@@ -1,9 +1,13 @@
 /** Style reminder: Atlas Observatory keeps weather semantics deterministic and independently verifiable. */
 import { describe, expect, it } from "vitest";
 import { ALGERIAN_CITIES } from "@/data/cities";
-import { buildShareText, getUpcomingHourIndexes, getWeatherCondition, windDirectionArabic } from "@/lib/weather";
+import { buildShareText, getUpcomingHourIndexes, getWeatherCondition, parseAlgerianWeatherTime, windDirectionArabic } from "@/lib/weather";
 
 describe("weather language", () => {
+  it("interprets Open-Meteo Algeria timestamps independently of viewer timezone", () => {
+    expect(parseAlgerianWeatherTime("2026-08-16T09:00").toISOString()).toBe("2026-08-16T08:00:00.000Z");
+    expect(parseAlgerianWeatherTime("2026-08-16").toISOString()).toBe("2026-08-16T11:00:00.000Z");
+  });
   it("maps official WMO thunderstorm codes to Arabic weather language", () => expect(getWeatherCondition(95).label).toBe("عواصف رعدية"));
   it("maps degrees to an Arabic compass direction", () => expect(windDirectionArabic(90)).toBe("شرق"));
   it("starts the hourly rail from the next available hour instead of midnight", () => {
