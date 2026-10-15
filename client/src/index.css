@@ -519,3 +519,133 @@ a, button, input, select { -webkit-tap-highlight-color: transparent; }
   .city-picker__results { max-height: min(44vh, 19rem); }
   .city-picker__option { min-height: 3.55rem; }
 }
+
+
+/* Shared illustrated WilayaCard component in the homepage's dark directory section. */
+.regions-section .region-grid--visual-home {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1rem;
+}
+.region-grid--visual-home .region-card--visual-home {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  min-width: 0;
+  min-height: 100%;
+  overflow: hidden;
+  padding: 0;
+  border: 1px solid #ccdeda;
+  border-radius: .95rem;
+  background: #fffdf8;
+  color: #173447;
+  text-decoration: none;
+  box-shadow: 0 12px 28px rgba(7, 23, 33, .13);
+  transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease;
+}
+.region-grid--visual-home .region-card--visual-home:hover {
+  transform: translateY(-3px);
+  border-color: #83c5c6;
+  box-shadow: 0 18px 32px rgba(7, 23, 33, .22);
+}
+.region-grid--visual-home .place-illustration { height: 134px; }
+.region-grid--visual-home .directory-card__body { min-height: 110px; padding: .8rem .9rem .95rem; }
+.region-grid--visual-home .directory-card__title { font-size: 1.01rem; }
+.region-grid--visual-home .directory-card__action { font-size: .78rem; }
+.regions-section .city-index-toolbar--home {
+  grid-template-columns: minmax(10rem, 1fr) minmax(16rem, 2fr) auto;
+  gap: .75rem;
+  margin-bottom: 1.15rem;
+  padding: .75rem;
+  border: 1px solid #c6dbda;
+  border-radius: .9rem;
+  background: #eaf1ef;
+}
+.regions-section .city-index-toolbar--home label { color: #31576b; font-size: .8rem; }
+.regions-section .city-index-toolbar--home strong { color: #0c5b8c; font-size: .8rem; }
+.city-index-input-wrap {
+  display: flex;
+  align-items: center;
+  gap: .4rem;
+  min-width: 0;
+  padding: .1rem .55rem;
+  border: 1px solid #b8d1d1;
+  border-radius: .7rem;
+  background: #fffdf8;
+  color: #0c5b8c;
+}
+.city-index-input-wrap:focus-within {
+  border-color: #0c5b8c;
+  box-shadow: 0 0 0 3px rgba(12, 91, 140, .15);
+}
+.city-index-input-wrap > svg { flex: 0 0 auto; }
+.regions-section .city-index-input-wrap input[type="search"] {
+  flex: 1;
+  width: 100%;
+  min-width: 0;
+  min-height: 2.65rem;
+  padding: .45rem .35rem;
+  border: 0;
+  border-radius: 0;
+  outline: 0;
+  background: transparent;
+  color: #142f40;
+  box-shadow: none;
+  font-size: .85rem;
+}
+.city-index-input-wrap input::-webkit-search-cancel-button { display: none; }
+.city-index-input-wrap button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 2.2rem;
+  height: 2.2rem;
+  padding: 0;
+  border: 0;
+  border-radius: .5rem;
+  background: #eef4f0;
+  color: #31576b;
+}
+.city-index-input-wrap button:hover { background: #deebe7; }
+.region-empty-home {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: .7rem;
+  padding: 1.5rem;
+  border: 1px dashed rgba(197, 224, 224, .65);
+  border-radius: .85rem;
+  background: rgba(255, 255, 255, .06);
+  color: #e0eff2;
+  text-align: center;
+}
+.region-empty-home button {
+  min-height: 2.6rem;
+  padding: .45rem .85rem;
+  border: 1px solid #bbd7d9;
+  border-radius: .6rem;
+  background: #fffdf8;
+  color: #0c5b8c;
+  font-weight: 700;
+}
+@media (max-width: 1120px) {
+  .regions-section .region-grid--visual-home { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+@media (max-width: 900px) {
+  .regions-section .region-grid--visual-home { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .regions-section .city-index-toolbar--home { grid-template-columns: minmax(0, 1fr) auto; }
+  .regions-section .city-index-toolbar--home label { grid-column: 1 / -1; }
+  .regions-section .city-index-toolbar--home .city-index-input-wrap { grid-column: 1; }
+  .regions-section .city-index-toolbar--home strong { grid-column: 2; }
+}
+@media (max-width: 590px) {
+  .regions-section .region-grid--visual-home { grid-template-columns: 1fr; }
+  .regions-section .city-index-toolbar--home { grid-template-columns: 1fr; gap: .4rem; }
+  .regions-section .city-index-toolbar--home label,
+  .regions-section .city-index-toolbar--home .city-index-input-wrap,
+  .regions-section .city-index-toolbar--home strong { grid-column: 1; }
+  .regions-section .city-index-toolbar--home strong { justify-self: start; }
+  .region-grid--visual-home .place-illustration { height: 136px; }
+  .region-grid--visual-home .directory-card__body { min-height: 98px; }
+}

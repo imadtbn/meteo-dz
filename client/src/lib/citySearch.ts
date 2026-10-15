@@ -22,14 +22,18 @@ export const normalizePlaceSearch = (text: string): string => text
   .trim()
   .replace(/\s+/g, " ");
 
-export function findLocalCities(cities: AlgerianCity[], query: string, limit = 6): AlgerianCity[] {
+/** All local matches, keeping wilaya order and ignoring Arabic spelling variants. */
+export function filterWilayas(cities: AlgerianCity[], query: string): AlgerianCity[] {
   const cleaned = normalizePlaceSearch(query);
-  if (!cleaned) return [];
-  return cities
-    .filter((city) =>
-      normalizePlaceSearch(city.name + " " + city.region + " " + city.code + " " + city.slug)
-        .includes(cleaned))
-    .slice(0, limit);
+  if (!cleaned) return cities;
+  return cities.filter((city) =>
+    normalizePlaceSearch(city.name + " " + city.region + " " + city.code + " " + city.slug)
+      .includes(cleaned));
+}
+
+export function findLocalCities(cities: AlgerianCity[], query: string, limit = 6): AlgerianCity[] {
+  if (!normalizePlaceSearch(query)) return [];
+  return filterWilayas(cities, query).slice(0, limit);
 }
 
 /** Never allow malformed remote coordinates to produce an invalid weather URL. */
