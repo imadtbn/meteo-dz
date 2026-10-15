@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { readFile, stat } from "node:fs/promises";
+import { readFile, readdir, stat } from "node:fs/promises";
 import path from "node:path";
 import cities from "../client/src/data/cities.json" with { type: "json" };
 
@@ -11,6 +11,17 @@ const homepage = await load("index.html");
 assert.match(homepage, /<html lang="ar" dir="rtl">/);
 assert.match(homepage, /<div id="root"><\/div>/);
 assert.doesNotMatch(homepage, /%VITE_/);
+const adsenseLoader = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5656416032906373';
+assert.equal(homepage.split(adsenseLoader).length - 1, 1, "Load AdSense exactly once per page");
+const staticScripts = (await readdir(path.join(root, "assets"))).filter((name) => name.endsWith(".js"));
+const builtScripts = (await Promise.all(staticScripts.map((name) => load(path.join("assets", name))))).join("\n");
+assert.ok(builtScripts.includes("7867079394"), "Top slot missing from JS bundle");
+assert.ok(builtScripts.includes("3143411927"), "Bottom slot missing from JS bundle");
+assert.ok(builtScripts.includes("-fr+57+4a-dc+8g"), "Fluid ad layout key missing");
+const chromeSource = await readFile("client/src/components/PublicChrome.tsx", "utf8");
+assert.ok(chromeSource.indexOf('<AdSlot position="header" />') > chromeSource.indexOf("</header>"));
+assert.ok(chromeSource.indexOf('<AdSlot position="footer" />') < chromeSource.indexOf('<footer className="site-footer">'));
+
 assert.match(homepage, /og:image" content="https:\/\/imadtbn.github.io\/meteo-dz\/social-preview.png"/);
 assert.match(homepage, /twitter:card" content="summary_large_image"/);
 
