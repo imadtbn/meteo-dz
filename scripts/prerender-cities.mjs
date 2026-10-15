@@ -2,6 +2,7 @@
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 import cities from "../client/src/data/cities.json" with { type: "json" };
+import { buildSitemap, sitemapUrls } from "./sitemap-core.mjs";
 
 const dist = path.resolve("dist/public");
 const template = await readFile(path.join(dist, "index.html"), "utf8");
@@ -69,21 +70,19 @@ for (const [slug, title, description] of landingPages) {
   const structuredData = JSON.stringify({ "@context": "https://schema.org", "@type": "WebPage", name: title, description, url: canonical, inLanguage: "ar-DZ" });
   const page = setSeo(template, { title: `${title} | الطقس الجزائري`, description, canonical })
     .replace("<body>", `<body><noscript><main dir="rtl"><h1>${title}</h1><p>${description}</p><p>فعّل JavaScript لعرض الصفحة التفاعلية.</p></main></noscript><script type="application/ld+json">${structuredData}</script>`);
+  // Parameter-based weather results have no useful indexable content without coordinates.
+  // The route still works for visitors arriving from search and map links.
+  const indexablePage = slug !== "global-weather";
+  const safePage = indexablePage ? page : page.replace("</head>", '<meta name="robots" content="noindex,follow" /></head>');
   const output = path.join(dist, slug);
   await mkdir(output, { recursive: true });
-  await writeFile(path.join(output, "index.html"), page);
+  await writeFile(path.join(output, "index.html"), safePage);
 }
 
-const urls = [
-  `<url><loc>${siteRoot}</loc><changefreq>hourly</changefreq><priority>1.0</priority></url>`,
-  ...landingPages.map(([slug]) => `<url><loc>${escapeXml(`${siteRoot}${slug}/`)}</loc><changefreq>daily</changefreq><priority>0.8</priority></url>`),
-  ...cities.map((city) => `<url><loc>${escapeXml(`${siteRoot}weather/${city.slug}/`)}</loc><changefreq>hourly</changefreq><priority>${city.coastal ? "0.9" : "0.8"}</priority></url>`),
-];
-const sitemap = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n  ${urls.join("\n  ")}\n</urlset>\n`;
-await writeFile(path.join(dist, "sitemap.xml"), sitemap);
+await writeFile(path.join(dist, "sitemap.xml"), buildSitemap(siteRoot, cities));
 const basePath = process.env.DEPLOY_TARGET === "github" ? "/meteo-dz/" : "/";
 const manifest = { name: "الطقس الجزائري — مرصد الأطلس", short_name: "الطقس الجزائري", description: "نشرات وتوقعات الطقس لجميع ولايات الجزائر والعواصم العربية", id: basePath, start_url: basePath, scope: basePath, display: "standalone", dir: "rtl", lang: "ar", theme_color: "#0C5B8C", background_color: "#F5F0E6", icons: [{ src: `${basePath}icons/icon-192.png`, sizes: "192x192", type: "image/png", purpose: "any maskable" }, { src: `${basePath}icons/icon-512.png`, sizes: "512x512", type: "image/png", purpose: "any maskable" }, { src: `${basePath}favicon.svg`, sizes: "any", type: "image/svg+xml", purpose: "any" }], shortcuts: [{ name: "الولايات الجزائرية", short_name: "الولايات", url: `${basePath}wilayas/` }, { name: "البحث العالمي", short_name: "البحث", url: `${basePath}world-search/` }, { name: "خريطة الطقس", short_name: "الخريطة", url: `${basePath}weather-map/` }] };
 await writeFile(path.join(dist, "manifest.webmanifest"), JSON.stringify(manifest, null, 2));
 await writeFile(path.join(dist, "robots.txt"), `User-agent: *\nAllow: ${basePath}\nDisallow: ${basePath}api/\nSitemap: ${siteRoot}sitemap.xml\n`);
 
-console.log(`Generated ${cities.length} static city pages, ${landingPages.length} landing pages, and ${urls.length} sitemap URLs.`);
+console.log(`Generated ${cities.length} static city pages, ${landingPages.length} landing pages, and ${sitemapUrls(siteRoot, cities).length} indexable sitemap URLs.`);
