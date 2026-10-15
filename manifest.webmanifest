@@ -1,19 +1,38 @@
 {
-  "name": "الطقس العربي — مرصد الأطلس",
-  "short_name": "الطقس العربي",
+  "name": "الطقس الجزائري — مرصد الأطلس",
+  "short_name": "الطقس الجزائري",
+  "description": "نشرات وتوقعات الطقس لجميع ولايات الجزائر والعواصم العربية",
+  "id": "/meteo-dz/",
   "start_url": "/meteo-dz/",
   "scope": "/meteo-dz/",
   "display": "standalone",
   "dir": "rtl",
   "lang": "ar",
   "theme_color": "#0C5B8C",
-  "background_color": "#F4F0E7",
+  "background_color": "#F5F0E6",
   "icons": [
     {
       "src": "/meteo-dz/favicon.svg",
       "sizes": "any",
       "type": "image/svg+xml",
       "purpose": "any"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "الولايات الجزائرية",
+      "short_name": "الولايات",
+      "url": "/meteo-dz/wilayas/"
+    },
+    {
+      "name": "البحث العالمي",
+      "short_name": "البحث",
+      "url": "/meteo-dz/world-search/"
+    },
+    {
+      "name": "خريطة الطقس",
+      "short_name": "الخريطة",
+      "url": "/meteo-dz/weather-map/"
     }
   ]
 }
