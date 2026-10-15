@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { ALGERIAN_CITIES } from "@/data/cities";
-import { findLocalCities, globalWeatherLink, normalizePlaceSearch, parseGlobalPlaces } from "@/lib/citySearch";
+import { filterWilayas, findLocalCities, globalWeatherLink, normalizePlaceSearch, parseGlobalPlaces } from "@/lib/citySearch";
 
 describe("homepage city search", () => {
   it("normalizes common Arabic spellings and Latin accents", () => {
@@ -13,6 +13,19 @@ describe("homepage city search", () => {
     expect(findLocalCities(ALGERIAN_CITIES, "16").some((city) => city.slug === "algiers")).toBe(true);
     expect(findLocalCities(ALGERIAN_CITIES, "أدرار")[0]?.slug).toBe("adrar");
     expect(findLocalCities(ALGERIAN_CITIES, "", 8)).toEqual([]);
+  });
+
+  it("returns all 58 wilayas for an empty homepage directory query", () => {
+    expect(filterWilayas(ALGERIAN_CITIES, "")).toHaveLength(58);
+    expect(filterWilayas(ALGERIAN_CITIES, "    ")).toHaveLength(58);
+  });
+
+  it("filters illustrated card results by Arabic spelling, region, or code", () => {
+    expect(filterWilayas(ALGERIAN_CITIES, "وهران").map((city) => city.slug)).toContain("oran");
+    expect(filterWilayas(ALGERIAN_CITIES, "البليده").some((city) => city.slug === "blida")).toBe(true);
+    expect(filterWilayas(ALGERIAN_CITIES, "أوراس").some((city) => city.slug === "batna")).toBe(true);
+    expect(filterWilayas(ALGERIAN_CITIES, "31").map((city) => city.slug)).toContain("oran");
+    expect(filterWilayas(ALGERIAN_CITIES, "مدينه غير موجوده")).toHaveLength(0);
   });
 
   it("limits results to a phone-friendly selection", () => {
