@@ -178,3 +178,9 @@ a, button, input, select { -webkit-tap-highlight-color: transparent; }
 .not-found-section p { max-width: 35rem; color: #42616e; line-height: 1.9; }
 .not-found-actions { display: flex; flex-wrap: wrap; gap: .75rem; margin-top: 1rem; }
 .not-found-actions a { text-decoration: none; }
+
+
+.region-actions { display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: .85rem; margin-top: 1.2rem; }
+.region-actions .secondary-button { min-height: 2.75rem; }
+.all-cities-link { display: inline-flex; align-items: center; gap: .45rem; min-height: 2.75rem; padding: .5rem .8rem; color: #d7f1e9; font-weight: 700; font-size: .8rem; text-decoration: none; }
+.all-cities-link:hover { text-decoration: underline; }
