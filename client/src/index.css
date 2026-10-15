@@ -169,3 +169,12 @@ a, button, input, select { -webkit-tap-highlight-color: transparent; }
   .temperature { font-size: 3.75rem; }
   .current-card__main { gap: .4rem; }
 }
+
+
+.location-error { position: relative; z-index: 1; max-width: 34rem; padding: .7rem 1rem; border-radius: .6rem; background: #fff1e7; border: 1px solid #c7792c; color: #813f19; font-size: .84rem; }
+.not-found-section { display: flex; flex-direction: column; align-items: flex-start; justify-content: center; max-width: 80rem; min-height: min(65vh, 36rem); margin: auto; padding: 4rem clamp(1rem, 5vw, 3rem); }
+.not-found-code { font-family: "Noto Kufi Arabic", sans-serif; font-size: clamp(5rem, 15vw, 11rem); line-height: 1.2; color: #0c5b8c; letter-spacing: -.08em; }
+.not-found-section h1 { margin: 0; color: #132a38; font-family: "Noto Kufi Arabic", sans-serif; font-size: clamp(1.65rem, 4vw, 2.7rem); }
+.not-found-section p { max-width: 35rem; color: #42616e; line-height: 1.9; }
+.not-found-actions { display: flex; flex-wrap: wrap; gap: .75rem; margin-top: 1rem; }
+.not-found-actions a { text-decoration: none; }
