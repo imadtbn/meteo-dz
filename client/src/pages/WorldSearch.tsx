@@ -26,7 +26,7 @@ const weatherLink = (latitude: number, longitude: number, name: string) =>
   "/global-weather?lat=" + latitude + "&lon=" + longitude + "&name=" + encodeURIComponent(name);
 
 export function WorldSearchPage() {
-  const [query, setQuery] = useState("");
+  const [query, setQuery] = useState(() => new URLSearchParams(window.location.search).get("q")?.slice(0, 100) ?? "");
   const [suggestions, setSuggestions] = useState<Place[]>([]);
   const [isSearching, setIsSearching] = useState(false);
   const [searchError, setSearchError] = useState("");
