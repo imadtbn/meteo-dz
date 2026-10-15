@@ -1,3 +1,4 @@
+import { SiteActions } from "@/components/SiteActions";
 import { useEffect, useState } from "react";
 import {
   ArrowUpLeft,
@@ -75,6 +76,7 @@ export function PublicHeader({ showSections = false }: { showSections?: boolean 
         </nav>
 
         <div className="header-actions">
+          <SiteActions />
           <a className="header-source" href="https://open-meteo.com/" target="_blank" rel="noopener noreferrer">
             مصدر البيانات <ArrowUpLeft size={15} aria-hidden="true" />
           </a>

@@ -68,21 +68,27 @@ export function WeatherShareDialog({ reading, onClose }: WeatherShareDialogProps
   };
 
   const share = async () => {
-    const url = `${window.location.origin}${import.meta.env.BASE_URL}?city=${reading.city.slug}`;
+    const url = `${window.location.origin}${import.meta.env.BASE_URL}weather/${reading.city.slug}/`;
     try {
-      const blob = await toPng(createCardSvg(reading));
-      const file = new File([blob], `weather-${reading.city.slug}.png`, { type: "image/png" });
-      if (navigator.canShare?.({ files: [file] })) await navigator.share({ title: `طقس ${reading.city.name}`, text: shareText, url, files: [file] });
-      else if (navigator.share) await navigator.share({ title: `طقس ${reading.city.name}`, text: shareText, url });
-      else await navigator.clipboard.writeText(`${shareText}\n${url}`);
-      setStatus("shared");
+      if (navigator.share) {
+        await navigator.share({ title: `طقس ${reading.city.name} | الطقس الجزائري`, text: shareText, url });
+        setStatus("shared");
+      } else {
+        await navigator.clipboard.writeText(`${shareText}\n${url}`);
+        setStatus("copied");
+      }
     } catch (error) {
-      if ((error as Error).name !== "AbortError") await navigator.clipboard.writeText(`${shareText}\n${url}`);
+      if ((error as Error).name === "AbortError") return;
+      try {
+        await navigator.clipboard.writeText(`${shareText}\n${url}`);
+        setStatus("copied");
+      } catch {
+        // Some restricted browsers block clipboard access.
+      }
     }
   };
-
   const copy = async () => {
-    const url = `${window.location.origin}${import.meta.env.BASE_URL}?city=${reading.city.slug}`;
+    const url = `${window.location.origin}${import.meta.env.BASE_URL}weather/${reading.city.slug}/`;
     await navigator.clipboard.writeText(`${shareText}\n${url}`);
     setStatus("copied");
   };
@@ -97,7 +103,7 @@ export function WeatherShareDialog({ reading, onClose }: WeatherShareDialogProps
         <span>الطقس الجزائري</span><strong>{reading.city.name}</strong><b>{Math.round(reading.current.temperature)}°</b><small>{getWeatherCondition(reading.current.weatherCode).label}</small>
       </div>
       <div className="share-actions">
-        <button className="primary-button" onClick={share}>{status === "shared" ? <Check size={18} /> : <Share2 size={18} />}{status === "shared" ? "تمت المشاركة" : "مشاركة الآن"}</button>
+        <button className="primary-button" onClick={share}>{status === "shared" ? <Check size={18} /> : <Share2 size={18} />}{status === "shared" ? "تمت المشاركة" : status === "copied" ? "تم نسخ الرابط" : "مشاركة الآن"}</button>
         <button className="secondary-button" onClick={download}><Download size={18} /> تنزيل PNG</button>
         <button className="secondary-button" onClick={copy}>{status === "copied" ? <Check size={18} /> : <Copy size={18} />}{status === "copied" ? "تم النسخ" : "نسخ الرابط"}</button>
       </div>

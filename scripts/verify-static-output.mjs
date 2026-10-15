@@ -11,11 +11,15 @@ const homepage = await load("index.html");
 assert.match(homepage, /<html lang="ar" dir="rtl">/);
 assert.match(homepage, /<div id="root"><\/div>/);
 assert.doesNotMatch(homepage, /%VITE_/);
+assert.match(homepage, /og:image" content="https:\/\/imadtbn.github.io\/meteo-dz\/social-preview.png"/);
+assert.match(homepage, /twitter:card" content="summary_large_image"/);
 
 const manifest = JSON.parse(await load("manifest.webmanifest"));
 assert.equal(manifest.start_url, "/meteo-dz/");
 assert.equal(manifest.scope, "/meteo-dz/");
 assert.ok(manifest.shortcuts?.length >= 3);
+assert.ok(manifest.icons?.some((icon) => icon.sizes === "192x192" && icon.type === "image/png"));
+assert.ok(manifest.icons?.some((icon) => icon.sizes === "512x512" && icon.type === "image/png"));
 
 const sitemap = await load("sitemap.xml");
 const urls = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map((item) => item[1]);
@@ -24,13 +28,24 @@ assert.equal(new Set(urls).size, urls.length);
 for (const page of landing) {
   const html = await load(path.join(page, "index.html"));
   assert.match(html, /<title>[^<]+<\/title>/);
+  assert.ok(html.includes("og:url\" content=\"https://imadtbn.github.io/meteo-dz/" + page + "/\""));
+  assert.ok(html.includes("twitter:image\" content=\"https://imadtbn.github.io/meteo-dz/social-preview.png\""));
   assert.ok(urls.includes("https://imadtbn.github.io/meteo-dz/" + page + "/"));
 }
 for (const city of cities) {
   const html = await load(path.join("weather", city.slug, "index.html"));
   assert.ok(html.includes(city.name), "Missing city metadata: " + city.slug);
+  assert.ok(html.includes('og:url" content="https://imadtbn.github.io/meteo-dz/weather/' + city.slug + '/"'));
+  assert.ok(html.includes('og:image" content="https://imadtbn.github.io/meteo-dz/social-preview.png"'));
   assert.ok(urls.includes("https://imadtbn.github.io/meteo-dz/weather/" + city.slug + "/"));
 }
 await stat(path.join(root, "sw.js"));
 await stat(path.join(root, "favicon.svg"));
+const pngSignature = Buffer.from([137, 80, 78, 71, 13, 10, 26, 10]);
+for (const [file, width, height] of [["social-preview.png", 1200, 630], ["icons/icon-192.png", 192, 192], ["icons/icon-512.png", 512, 512]]) {
+  const buffer = await readFile(path.join(root, file));
+  assert.ok(buffer.subarray(0, 8).equals(pngSignature), "PNG signature missing: " + file);
+  assert.equal(buffer.readUInt32BE(16), width);
+  assert.equal(buffer.readUInt32BE(20), height);
+}
 console.log("Verified homepage, PWA files, " + landing.length + " landing routes and " + cities.length + " city pages.");
