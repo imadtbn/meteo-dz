@@ -38,6 +38,7 @@ export default function Home({ forcedCity, detail = false }: HomeProps) {
   const { reading, loading, error, refresh } = useWeather(city);
   const [shareOpen, setShareOpen] = useState(false);
   const [citySearch, setCitySearch] = useState("");
+  const [visibleCount, setVisibleCount] = useState(12);
   const [locationPrompt, setLocationPrompt] = useState(false);
   const [locationError, setLocationError] = useState("");
 
@@ -52,6 +53,8 @@ export default function Home({ forcedCity, detail = false }: HomeProps) {
     const description = document.querySelector('meta[name="description"]');
     description?.setAttribute("content", `حالة الطقس الحالية وتوقعات الأيام القادمة في ${place}، مع قراءة بحرية للسواحل ووقت تحديث واضح.`);
   }, [city.name, detail]);
+
+  useEffect(() => setVisibleCount(12), [citySearch]);
 
   const visibleCities = useMemo(() => {
     const query = citySearch.trim().toLocaleLowerCase("ar");
@@ -100,7 +103,7 @@ export default function Home({ forcedCity, detail = false }: HomeProps) {
 
     {reading && <section className="dashboard-shell marine-section" id="marine"><div className="marine-copy"><span className="eyebrow"><Waves size={16} /> حالة البحر</span><h2>{city.coastal ? `ساحل ${city.name}` : "القراءة البحرية متاحة للمدن الساحلية"}</h2><p>{city.coastal ? "تعرض هذه القراءة مؤشرات الموج النموذجية للساحل الأقرب. استخدم النشرة البحرية الرسمية عند اتخاذ قرارات الملاحة." : "اختر الجزائر العاصمة أو وهران أو عنابة للاطلاع على مؤشرات البحر."}</p></div>{city.coastal && reading.marine ? <div className="marine-metrics"><span><b>{reading.marine.waveHeight?.toFixed(1) ?? "—"}</b> م ارتفاع الموج</span><span><b>{reading.marine.wavePeriod?.toFixed(1) ?? "—"}</b> ث فترة الموج</span><span><b>{reading.marine.waveDirection !== null ? windDirectionArabic(reading.marine.waveDirection) : "—"}</b> اتجاه الموج</span></div> : <div className="marine-empty">لا توجد قراءة بحرية لهذه المدينة.</div>}</section>}
 
-    <section className="regions-section" id="regions"><div className="dashboard-shell"><div className="section-intro"><span>04 — الولايات</span><h2>اختر ولايتك مباشرة</h2><p>58 ولاية · صفحات ثابتة بروابط واضحة للمشاركة والفهرسة.</p></div><div className="city-index-toolbar"><label htmlFor="city-search">ابحث باسم الولاية أو المنطقة</label><input id="city-search" value={citySearch} onChange={(event) => setCitySearch(event.target.value)} placeholder="مثال: وهران، الهضاب، 31" /><strong>{visibleCities.length} / {ALGERIAN_CITIES.length}</strong></div><div className="region-grid">{visibleCities.map((item) => <Link key={item.slug} href={`/weather/${item.slug}`} className="region-card"><span>{item.code} · {item.region}</span><b>{item.name}</b><ArrowLeft size={18} /></Link>)}</div>{visibleCities.length === 0 && <div className="marine-empty">لا توجد ولاية مطابقة لهذا البحث.</div>}</div></section>
+    <section className="regions-section" id="regions"><div className="dashboard-shell"><div className="section-intro"><span>04 — الولايات</span><h2>اختر ولايتك مباشرة</h2><p>58 ولاية · صفحات ثابتة بروابط واضحة للمشاركة والفهرسة.</p></div><div className="city-index-toolbar"><label htmlFor="city-search">ابحث باسم الولاية أو المنطقة</label><input id="city-search" value={citySearch} onChange={(event) => setCitySearch(event.target.value)} placeholder="مثال: وهران، الهضاب، 31" /><strong>{visibleCities.length} / {ALGERIAN_CITIES.length}</strong></div><div className="region-grid">{visibleCities.slice(0, visibleCount).map((item) => <Link key={item.slug} href={`/weather/${item.slug}`} className="region-card"><span>{item.code} · {item.region}</span><b>{item.name}</b><ArrowLeft size={18} /></Link>)}</div><div className="region-actions">{visibleCities.length > visibleCount && <button type="button" className="secondary-button" onClick={() => setVisibleCount((count) => count + 12)}>إظهار المزيد ({visibleCities.length - visibleCount})</button>}<Link href="/wilayas" className="all-cities-link">استعرض دليل الولايات الكامل <ArrowLeft size={16} /></Link></div>{visibleCities.length === 0 && <div className="marine-empty">لا توجد ولاية مطابقة لهذا البحث.</div>}</div></section>
 
     {reading && shareOpen && <Suspense fallback={null}><WeatherShareDialog reading={reading} onClose={() => setShareOpen(false)} /></Suspense>}
     <PublicFooter />
