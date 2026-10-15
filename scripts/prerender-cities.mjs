@@ -7,10 +7,34 @@ const dist = path.resolve("dist/public");
 const template = await readFile(path.join(dist, "index.html"), "utf8");
 const siteUrl = process.env.SITE_URL || (process.env.DEPLOY_TARGET === "github" ? "https://imadtbn.github.io/meteo-dz" : "https://meteo-dz-modernized.manus.space");
 const siteRoot = `${siteUrl.replace(/\/$/, "")}/`;
-const mainPage = template.replace('<link rel="canonical" href="https://imadtbn.github.io/meteo-dz/" />', `<link rel="canonical" href="${siteRoot}" />`);
-await writeFile(path.join(dist, "index.html"), mainPage);
-
 const escapeXml = (value) => value.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll('"', "&quot;").replaceAll("'", "&apos;");
+function setSeo(html, { title, description, canonical }) {
+  const replaceMeta = (source, attr, key, value) => {
+    const pattern = new RegExp('<meta ' + attr + '="' + key + '" content="[^"]*"\\s*/>');
+    if (!pattern.test(source)) throw new Error("SEO tag missing: " + key);
+    return source.replace(pattern, '<meta ' + attr + '="' + key + '" content="' + escapeXml(value) + '" />');
+  };
+
+  let result = html.replace(/<title>[^<]*<\/title>/, '<title>' + escapeXml(title) + '</title>');
+  result = result.replace(/<link rel="canonical" href="[^"]*" \/>/, '<link rel="canonical" href="' + escapeXml(canonical) + '" />');
+  for (const [attr, key, value] of [
+    ["name", "description", description],
+    ["property", "og:title", title],
+    ["property", "og:description", description],
+    ["property", "og:url", canonical],
+    ["property", "og:image", siteRoot + "social-preview.png"],
+    ["name", "twitter:title", title],
+    ["name", "twitter:description", description],
+    ["name", "twitter:image", siteRoot + "social-preview.png"],
+  ]) result = replaceMeta(result, attr, key, value);
+  return result;
+}
+
+await writeFile(path.join(dist, "index.html"), setSeo(template, {
+  title: "الطقس الجزائري — مرصد الأطلس",
+  description: "حالة الطقس وتوقعات الأيام القادمة في ولايات الجزائر ومدن العالم، مع خرائط تفاعلية.",
+  canonical: siteRoot,
+}));
 
 for (const city of cities) {
   const canonical = `${siteRoot}weather/${city.slug}/`;
@@ -26,12 +50,7 @@ for (const city of cities) {
     isPartOf: { "@type": "WebSite", name: "الطقس الجزائري", url: siteRoot },
   });
   const noscript = `<noscript><main dir="rtl"><h1>${title}</h1><p>${description}</p><p>فعّل JavaScript لعرض القراءة الجوية المباشرة والتوقعات المحدثة.</p></main></noscript>`;
-  const page = template
-    .replace("<title>الطقس الجزائري | قراءة واضحة لكل مدينة</title>", `<title>${title}</title>`)
-    .replace('<link rel="canonical" href="https://imadtbn.github.io/meteo-dz/" />', `<link rel="canonical" href="${canonical}" />`)
-    .replace('<meta name="description" content="الطقس الجزائري: قراءة حالية وتوقعات محلية للمدن الجزائرية، مع وقت تحديث واضح ومؤشرات بحرية للسواحل." />', `<meta name="description" content="${description}" />`)
-    .replace('<meta property="og:title" content="الطقس الجزائري — مرصد الأطلس" />', `<meta property="og:title" content="${title}" />`)
-    .replace('<meta property="og:description" content="قراءة طقس واضحة لكل مدينة جزائرية، قابلة للمشاركة." />', `<meta property="og:description" content="${description}" />`)
+  const page = setSeo(template, { title, description, canonical })
     .replace("<body>", `<body>${noscript}<script type="application/ld+json">${structuredData}</script>`);
   const output = path.join(dist, "weather", city.slug);
   await mkdir(output, { recursive: true });
@@ -48,7 +67,8 @@ const landingPages = [
 for (const [slug, title, description] of landingPages) {
   const canonical = `${siteRoot}${slug}/`;
   const structuredData = JSON.stringify({ "@context": "https://schema.org", "@type": "WebPage", name: title, description, url: canonical, inLanguage: "ar-DZ" });
-  const page = template.replace("<title>الطقس الجزائري | قراءة واضحة لكل مدينة</title>", `<title>${title} | الطقس الجزائري</title>`).replace('<link rel="canonical" href="https://imadtbn.github.io/meteo-dz/" />', `<link rel="canonical" href="${canonical}" />`).replace('<meta name="description" content="الطقس الجزائري: قراءة حالية وتوقعات محلية للمدن الجزائرية، مع وقت تحديث واضح ومؤشرات بحرية للسواحل." />', `<meta name="description" content="${description}" />`).replace("<body>", `<body><noscript><main dir="rtl"><h1>${title}</h1><p>${description}</p><p>فعّل JavaScript لعرض الصفحة التفاعلية.</p></main></noscript><script type="application/ld+json">${structuredData}</script>`);
+  const page = setSeo(template, { title: `${title} | الطقس الجزائري`, description, canonical })
+    .replace("<body>", `<body><noscript><main dir="rtl"><h1>${title}</h1><p>${description}</p><p>فعّل JavaScript لعرض الصفحة التفاعلية.</p></main></noscript><script type="application/ld+json">${structuredData}</script>`);
   const output = path.join(dist, slug);
   await mkdir(output, { recursive: true });
   await writeFile(path.join(output, "index.html"), page);
@@ -62,7 +82,7 @@ const urls = [
 const sitemap = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n  ${urls.join("\n  ")}\n</urlset>\n`;
 await writeFile(path.join(dist, "sitemap.xml"), sitemap);
 const basePath = process.env.DEPLOY_TARGET === "github" ? "/meteo-dz/" : "/";
-const manifest = { name: "الطقس الجزائري — مرصد الأطلس", short_name: "الطقس الجزائري", description: "نشرات وتوقعات الطقس لجميع ولايات الجزائر والعواصم العربية", id: basePath, start_url: basePath, scope: basePath, display: "standalone", dir: "rtl", lang: "ar", theme_color: "#0C5B8C", background_color: "#F5F0E6", icons: [{ src: `${basePath}favicon.svg`, sizes: "any", type: "image/svg+xml", purpose: "any" }], shortcuts: [{ name: "الولايات الجزائرية", short_name: "الولايات", url: `${basePath}wilayas/` }, { name: "البحث العالمي", short_name: "البحث", url: `${basePath}world-search/` }, { name: "خريطة الطقس", short_name: "الخريطة", url: `${basePath}weather-map/` }] };
+const manifest = { name: "الطقس الجزائري — مرصد الأطلس", short_name: "الطقس الجزائري", description: "نشرات وتوقعات الطقس لجميع ولايات الجزائر والعواصم العربية", id: basePath, start_url: basePath, scope: basePath, display: "standalone", dir: "rtl", lang: "ar", theme_color: "#0C5B8C", background_color: "#F5F0E6", icons: [{ src: `${basePath}icons/icon-192.png`, sizes: "192x192", type: "image/png", purpose: "any maskable" }, { src: `${basePath}icons/icon-512.png`, sizes: "512x512", type: "image/png", purpose: "any maskable" }, { src: `${basePath}favicon.svg`, sizes: "any", type: "image/svg+xml", purpose: "any" }], shortcuts: [{ name: "الولايات الجزائرية", short_name: "الولايات", url: `${basePath}wilayas/` }, { name: "البحث العالمي", short_name: "البحث", url: `${basePath}world-search/` }, { name: "خريطة الطقس", short_name: "الخريطة", url: `${basePath}weather-map/` }] };
 await writeFile(path.join(dist, "manifest.webmanifest"), JSON.stringify(manifest, null, 2));
 await writeFile(path.join(dist, "robots.txt"), `User-agent: *\nAllow: ${basePath}\nDisallow: ${basePath}api/\nSitemap: ${siteRoot}sitemap.xml\n`);
 
