@@ -45,14 +45,22 @@ export const windDirectionArabic = (degrees: number) => {
   return directions[Math.round((degrees % 360) / 45) % 8];
 };
 
+// Open-Meteo returns local wall-clock timestamps for Africa/Algiers.
+// Interpret them at UTC+01:00 to display correct hours in every visitor timezone.
+export const parseAlgerianWeatherTime = (iso: string): Date => {
+  if (/Z$|[+-]\d{2}:\d{2}$/.test(iso)) return new Date(iso);
+  if (iso.includes("T")) return new Date(iso + "+01:00");
+  return new Date(iso + "T12:00:00+01:00");
+};
+
 export const formatHour = (iso: string) =>
-  new Intl.DateTimeFormat("ar-DZ", { hour: "numeric", minute: "2-digit", timeZone: "Africa/Algiers" }).format(new Date(iso));
+  new Intl.DateTimeFormat("ar-DZ", { hour: "numeric", minute: "2-digit", timeZone: "Africa/Algiers" }).format(parseAlgerianWeatherTime(iso));
 
 export const formatDay = (iso: string) =>
-  new Intl.DateTimeFormat("ar-DZ", { weekday: "long", day: "numeric", month: "short", timeZone: "Africa/Algiers" }).format(new Date(iso));
+  new Intl.DateTimeFormat("ar-DZ", { weekday: "long", day: "numeric", month: "short", timeZone: "Africa/Algiers" }).format(parseAlgerianWeatherTime(iso));
 
 export const formatUpdatedAt = (iso: string) =>
-  new Intl.DateTimeFormat("ar-DZ", { hour: "numeric", minute: "2-digit", day: "numeric", month: "short", timeZone: "Africa/Algiers" }).format(new Date(iso));
+  new Intl.DateTimeFormat("ar-DZ", { hour: "numeric", minute: "2-digit", day: "numeric", month: "short", timeZone: "Africa/Algiers" }).format(parseAlgerianWeatherTime(iso));
 
 export const getUpcomingHourIndexes = (times: string[], currentTime: string, count = 12) => {
   const firstFutureIndex = times.findIndex((time) => time >= currentTime);
@@ -101,11 +109,11 @@ const fromApi = (city: AlgerianCity, weather: any, marine: any): WeatherReading 
   };
 };
 
-export async function fetchWeather(city: AlgerianCity, signal?: AbortSignal): Promise<WeatherReading> {
+export async function fetchWeather(city: AlgerianCity, signal?: AbortSignal, forceRefresh = false): Promise<WeatherReading> {
   const cacheKey = `atlas-weather-${city.slug}`;
   try {
     const cached = JSON.parse(localStorage.getItem(cacheKey) ?? "null");
-    if (cached && Date.now() - cached.savedAt < cacheDuration) return cached.value as WeatherReading;
+    if (!forceRefresh && cached?.value?.city?.slug === city.slug && Date.now() - cached.savedAt < cacheDuration) return cached.value as WeatherReading;
   } catch {
     // Cache is only a speed enhancement; failures must never block fresh data.
   }
@@ -136,6 +144,9 @@ export async function fetchWeather(city: AlgerianCity, signal?: AbortSignal): Pr
 
   if (!weatherResponse.ok) throw new Error("تعذر الوصول إلى بيانات الطقس الآن.");
   const [weather, marine] = await Promise.all([weatherResponse.json(), marineResponse?.ok ? marineResponse.json() : null]);
+  if (!weather?.current || !Array.isArray(weather?.hourly?.time) || !Array.isArray(weather?.daily?.time)) {
+    throw new Error("الاستجابة الجوية غير مكتملة. يُرجى إعادة المحاولة.");
+  }
   const reading = fromApi(city, weather, marine);
   try {
     localStorage.setItem(cacheKey, JSON.stringify({ savedAt: Date.now(), value: reading }));
