@@ -5,6 +5,7 @@
   <url><loc>https://imadtbn.github.io/meteo-dz/arab-capitals/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://imadtbn.github.io/meteo-dz/world-search/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://imadtbn.github.io/meteo-dz/weather-map/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
+  <url><loc>https://imadtbn.github.io/meteo-dz/global-weather/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://imadtbn.github.io/meteo-dz/weather/adrar/</loc><changefreq>hourly</changefreq><priority>0.8</priority></url>
   <url><loc>https://imadtbn.github.io/meteo-dz/weather/chlef/</loc><changefreq>hourly</changefreq><priority>0.8</priority></url>
   <url><loc>https://imadtbn.github.io/meteo-dz/weather/laghouat/</loc><changefreq>hourly</changefreq><priority>0.8</priority></url>
