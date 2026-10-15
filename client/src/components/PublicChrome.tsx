@@ -1,3 +1,4 @@
+import { AdSlot } from "@/components/AdSlot";
 import { SiteActions } from "@/components/SiteActions";
 import { useEffect, useState } from "react";
 import {
@@ -92,6 +93,7 @@ export function PublicHeader({ showSections = false }: { showSections?: boolean 
           </button>
         </div>
       </header>
+      <AdSlot position="header" />
       {open && (
         <button
           type="button"
@@ -106,7 +108,9 @@ export function PublicHeader({ showSections = false }: { showSections?: boolean 
 
 export function PublicFooter() {
   return (
-    <footer className="site-footer">
+    <>
+      <AdSlot position="footer" />
+      <footer className="site-footer">
       <div className="footer-about">
         <span className="eyebrow"><CloudSun size={17} aria-hidden="true" /> مرصد الأطلس</span>
         <p>طقس الجزائر والعالم العربي: قراءة عملية محدثة، وتوقعات واضحة مع إظهار مصدر البيانات.</p>
@@ -124,6 +128,7 @@ export function PublicFooter() {
         </a>
         <small>بيانات Open-Meteo إرشادية وليست تحذيرات رسمية. عند الأحوال الخطرة يُرجى الرجوع إلى الديوان الوطني للأرصاد الجوية.</small>
       </div>
-    </footer>
+      </footer>
+    </>
   );
 }
