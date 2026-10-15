@@ -1,13 +1,38 @@
 {
   "name": "الطقس الجزائري — مرصد الأطلس",
   "short_name": "الطقس الجزائري",
+  "description": "نشرات وتوقعات الطقس لجميع ولايات الجزائر والعواصم العربية",
   "lang": "ar",
   "dir": "rtl",
-  "start_url": "/",
+  "id": "./",
+  "start_url": "./",
+  "scope": "./",
   "display": "standalone",
   "background_color": "#f5f0e6",
   "theme_color": "#0C5B8C",
-  "scope": "/",
-  "description": "مرصد أطلس الطقس الجزائري والعربي والعالمي",
-  "icons": [{ "src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }]
+  "icons": [
+    {
+      "src": "./favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "الولايات الجزائرية",
+      "short_name": "الولايات",
+      "url": "./wilayas/"
+    },
+    {
+      "name": "البحث العالمي",
+      "short_name": "البحث",
+      "url": "./world-search/"
+    },
+    {
+      "name": "خريطة الطقس",
+      "short_name": "الخريطة",
+      "url": "./weather-map/"
+    }
+  ]
 }

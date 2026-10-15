@@ -4,7 +4,6 @@ import path from "node:path";
 import cities from "../client/src/data/cities.json" with { type: "json" };
 
 const dist = path.resolve("dist/public");
-const sourcePublic = path.resolve("client/public");
 const template = await readFile(path.join(dist, "index.html"), "utf8");
 const siteUrl = process.env.SITE_URL || (process.env.DEPLOY_TARGET === "github" ? "https://imadtbn.github.io/meteo-dz" : "https://meteo-dz-modernized.manus.space");
 const siteRoot = `${siteUrl.replace(/\/$/, "")}/`;
@@ -43,6 +42,7 @@ const landingPages = [
   ["wilayas", "ولايات الجزائر الـ58", "دليل جميع الولايات الجزائرية مع روابط طقس ثابتة."],
   ["arab-capitals", "طقس عواصم الدول العربية", "دليل طقس عواصم الدول العربية بإحداثيات واضحة."],
   ["world-search", "البحث العالمي عن الطقس", "ابحث عن أي مدينة أو دولة وافتح قراءة الطقس العالمية."],
+  ["global-weather", "قراءة الطقس العالمية", "صفحة الطقس العالمي المعتمدة على إحداثيات الموقع المختار."],
   ["weather-map", "خريطة الطقس التفاعلية", "خريطة تفاعلية لنقاط الطقس في الجزائر والعالم العربي."],
 ];
 for (const [slug, title, description] of landingPages) {
@@ -61,9 +61,8 @@ const urls = [
 ];
 const sitemap = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n  ${urls.join("\n  ")}\n</urlset>\n`;
 await writeFile(path.join(dist, "sitemap.xml"), sitemap);
-await writeFile(path.join(sourcePublic, "sitemap.xml"), sitemap);
 const basePath = process.env.DEPLOY_TARGET === "github" ? "/meteo-dz/" : "/";
-const manifest = { name: "الطقس العربي — مرصد الأطلس", short_name: "الطقس العربي", start_url: basePath, scope: basePath, display: "standalone", dir: "rtl", lang: "ar", theme_color: "#0C5B8C", background_color: "#F4F0E7", icons: [{ src: `${basePath}favicon.svg`, sizes: "any", type: "image/svg+xml", purpose: "any" }] };
+const manifest = { name: "الطقس الجزائري — مرصد الأطلس", short_name: "الطقس الجزائري", description: "نشرات وتوقعات الطقس لجميع ولايات الجزائر والعواصم العربية", id: basePath, start_url: basePath, scope: basePath, display: "standalone", dir: "rtl", lang: "ar", theme_color: "#0C5B8C", background_color: "#F5F0E6", icons: [{ src: `${basePath}favicon.svg`, sizes: "any", type: "image/svg+xml", purpose: "any" }], shortcuts: [{ name: "الولايات الجزائرية", short_name: "الولايات", url: `${basePath}wilayas/` }, { name: "البحث العالمي", short_name: "البحث", url: `${basePath}world-search/` }, { name: "خريطة الطقس", short_name: "الخريطة", url: `${basePath}weather-map/` }] };
 await writeFile(path.join(dist, "manifest.webmanifest"), JSON.stringify(manifest, null, 2));
 await writeFile(path.join(dist, "robots.txt"), `User-agent: *\nAllow: ${basePath}\nDisallow: ${basePath}api/\nSitemap: ${siteRoot}sitemap.xml\n`);
 

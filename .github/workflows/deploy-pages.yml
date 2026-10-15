@@ -3,6 +3,8 @@ name: Deploy GitHub Pages
 on:
   push:
     branches: [main]
+  pull_request:
+    branches: [main]
   workflow_dispatch:
 
 permissions:
@@ -35,18 +37,23 @@ jobs:
         run: pnpm check && pnpm test
       - name: Build static site for GitHub Pages
         run: pnpm build:github
+      - name: Verify generated routes and PWA
+        run: node scripts/verify-static-output.mjs
       - name: Add static hosting fallbacks
         run: |
           cp dist/public/index.html dist/public/404.html
           touch dist/public/.nojekyll
       - name: Configure Pages
+        if: github.event_name != 'pull_request'
         uses: actions/configure-pages@v5
       - name: Upload Pages artifact
+        if: github.event_name != 'pull_request'
         uses: actions/upload-pages-artifact@v4
         with:
           path: dist/public
 
   deploy:
+    if: github.event_name != 'pull_request'
     needs: build
     runs-on: ubuntu-latest
     environment:
