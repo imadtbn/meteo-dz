@@ -19,8 +19,7 @@ const adsenseLoader = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoog
 assert.equal(homepage.split(adsenseLoader).length - 1, 1, "Load AdSense exactly once per page");
 const assetNames = await readdir(path.join(root, "assets"));
 const staticScripts = assetNames.filter((name) => name.endsWith(".js"));
-const staticStyles = assetNames.filter((name) => name.endsWith(".css"));
-const initialAssetNames = [...homepage.matchAll(/(?:src|href)="[^"]*assets\/([^"]+\\.js)"/g)].map((match) => match[1]);
+const initialAssetNames = [...homepage.matchAll(/(?:src|href)="[^"]*assets\/([^"]+\.js)"/g)].map((match) => match[1]);
 assert.ok(initialAssetNames.length > 0, "Homepage entry scripts must be present");
 const initialJsBytes = (await Promise.all(initialAssetNames.map(async (name) => (await stat(path.join(root, "assets", name))).size))).reduce((sum, size) => sum + size, 0);
 const totalJsBytes = (await Promise.all(staticScripts.map(async (name) => (await stat(path.join(root, "assets", name))).size))).reduce((sum, size) => sum + size, 0);
@@ -33,7 +32,7 @@ const mapBundle = staticScripts.find((name) => name.startsWith("WeatherMap-"));
 assert.ok(mapBundle, "Weather map must remain a separately emitted route chunk");
 assert.ok((await stat(path.join(root, "assets", mapBundle))).size < 180000, "Weather map route chunk budget exceeded");
 const appSource = await readFile("client/src/App.tsx", "utf8");
-assert.match(appSource, /const WeatherMapPage = lazy\\(/, "Weather map route must remain lazy-loaded");
+assert.match(appSource, /const WeatherMapPage = lazy\(/, "Weather map route must remain lazy-loaded");
 assert.ok(!homepage.includes(mapBundle), "Weather map bundle must not load with the homepage");
 console.log("Performance budgets: initial JS " + initialJsBytes + " B, total JS " + totalJsBytes + " B, initial CSS " + initialCssBytes + " B.");
 const builtScripts = (await Promise.all(staticScripts.map((name) => load(path.join("assets", name))))).join("\n");
