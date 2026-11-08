@@ -7,6 +7,7 @@ const output = path.resolve("dist/public/vanilla-preview");
 const homeTemplate = await readFile(path.join(source, "home.template.html"), "utf8");
 const cityTemplate = await readFile(path.join(source, "weather.template.html"), "utf8");
 const mapTemplate = await readFile(path.join(source, "map.template.html"), "utf8");
+const arabCapitals = JSON.parse(await readFile(path.resolve("vanilla-preview/data/arab-capitals.json"), "utf8"));
 const escapeHtml = (value) => String(value ?? "").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#39;");
 const safeCities = cities.map(city => ({
   code:String(city.code),slug:String(city.slug),name:String(city.name),name_fr:String(city.name_fr ?? ""),
@@ -22,7 +23,8 @@ const data = JSON.stringify(safeCities).replaceAll("<","\\u003c").replaceAll(">"
 await writeFile(path.join(output,"index.html"),homeTemplate.replace("__CITY_DATA__",data));
 const mapRoot=path.join(output,"map");
 await mkdir(mapRoot,{recursive:true});
-await writeFile(path.join(mapRoot,"index.html"),mapTemplate.replace("__CITY_DATA__",data));
+const capitalData = JSON.stringify(arabCapitals).replaceAll("<","\\u003c").replaceAll(">","\\u003e").replaceAll("&","\\u0026");
+await writeFile(path.join(mapRoot,"index.html"),mapTemplate.replace("__CITY_DATA__",data).replace("__CAPITAL_DATA__",capitalData));
 const cityRoot=path.join(output,"weather");
 for(const city of safeCities){
   const values={
