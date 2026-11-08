@@ -6,7 +6,7 @@ import { buildSitemap, sitemapUrls, INDEXABLE_LANDING_ROUTES } from "./sitemap-c
 
 const root = path.resolve("dist/public");
 const load = (relative) => readFile(path.join(root, relative), "utf8");
-const landing = ["wilayas", "arab-capitals", "world-search", "global-weather", "weather-map", "alerts"];
+const landing = ["wilayas", "arab-capitals", "world-search", "global-weather", "weather-map", "alerts", "favorites"];
 
 const homepage = await load("index.html");
 assert.match(homepage, /<html lang="ar" dir="rtl">/);
@@ -69,7 +69,7 @@ for (const page of landing) {
   assert.match(html, /<title>[^<]+<\/title>/);
   assert.ok(html.includes("og:url\" content=\"https://imadtbn.github.io/meteo-dz/" + page + "/\""));
   assert.ok(html.includes("twitter:image\" content=\"https://imadtbn.github.io/meteo-dz/social-preview.png\""));
-  if (page === "global-weather") {
+  if (["global-weather", "favorites"].includes(page)) {
     assert.ok(html.includes('name="robots" content="noindex,follow"'));
     assert.ok(!urls.includes(expectedRoot + page + "/"));
   } else {
