@@ -5,6 +5,10 @@ export type AlgerianCity = {
   code: string;
   slug: string;
   name: string;
+  name_fr?: string;
+  name_en?: string;
+  phone_code?: string;
+  administrative_era?: number;
   region: string;
   latitude: number;
   longitude: number;

@@ -27,7 +27,7 @@ export function WilayasPage() {
     <main dir="rtl">
       <PublicHeader />
       <section className="directory-hero">
-        <span className="eyebrow"><MapPin size={15} /> دليل الجزائر · 58 ولاية</span>
+        <span className="eyebrow"><MapPin size={15} /> دليل الجزائر · 69 ولاية</span>
         <h1>اكتشف الطقس في كل ولاية.</h1>
         <p>مشاهد رمزية مستوحاة من طبيعة المناطق الجزائرية، مع رابط مباشر للقراءة الجوية والتوقعات.</p>
         <DirectorySearch value={query} onChange={setQuery} placeholder="ابحث باسم الولاية أو المنطقة أو الرمز" />

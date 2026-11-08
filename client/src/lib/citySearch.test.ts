@@ -12,12 +12,14 @@ describe("homepage city search", () => {
     expect(findLocalCities(ALGERIAN_CITIES, "وهران").some((city) => city.slug === "oran")).toBe(true);
     expect(findLocalCities(ALGERIAN_CITIES, "16").some((city) => city.slug === "algiers")).toBe(true);
     expect(findLocalCities(ALGERIAN_CITIES, "أدرار")[0]?.slug).toBe("adrar");
+    expect(findLocalCities(ALGERIAN_CITIES, "Aflou")[0]?.slug).toBe("aflou");
+    expect(findLocalCities(ALGERIAN_CITIES, "029").some((city) => city.slug === "aflou")).toBe(true);
     expect(findLocalCities(ALGERIAN_CITIES, "", 8)).toEqual([]);
   });
 
-  it("returns all 58 wilayas for an empty homepage directory query", () => {
-    expect(filterWilayas(ALGERIAN_CITIES, "")).toHaveLength(58);
-    expect(filterWilayas(ALGERIAN_CITIES, "    ")).toHaveLength(58);
+  it("returns all 69 wilayas for an empty homepage directory query", () => {
+    expect(filterWilayas(ALGERIAN_CITIES, "")).toHaveLength(69);
+    expect(filterWilayas(ALGERIAN_CITIES, "    ")).toHaveLength(69);
   });
 
   it("filters illustrated card results by Arabic spelling, region, or code", () => {
