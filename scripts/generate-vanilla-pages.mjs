@@ -9,7 +9,7 @@ const cityTemplate = await readFile(path.join(source, "weather.template.html"), 
 const escapeHtml = (value) => String(value ?? "").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#39;");
 const safeCities = cities.map(city => ({
   code:String(city.code),slug:String(city.slug),name:String(city.name),name_fr:String(city.name_fr ?? ""),
-  name_en:String(city.name_en ?? ""),phone_code:String(city.phone_code ?? ""),region:String(city.region),
+  name_en:String(city.name_en ?? ""),phone_code:String(city.phone_code ?? ""),coastal:Boolean(city.coastal),region:String(city.region),
   latitude:Number(city.latitude),longitude:Number(city.longitude)
 }));
 if (safeCities.length !== 69 || new Set(safeCities.map(city=>city.slug)).size !== 69) {
@@ -25,7 +25,7 @@ for(const city of safeCities){
     "__CITY_NAME__":escapeHtml(city.name),"__CITY_SLUG__":encodeURIComponent(city.slug),
     "__CITY_CODE__":escapeHtml(city.code),"__CITY_FR__":escapeHtml(city.name_fr || "غير متوفر"),
     "__CITY_EN__":escapeHtml(city.name_en || "غير متوفر"),"__REGION__":escapeHtml(city.region),
-    "__PHONE__":escapeHtml(city.phone_code || "غير متوفر"),"__LAT__":String(city.latitude),"__LON__":String(city.longitude)
+    "__PHONE__":escapeHtml(city.phone_code || "غير متوفر"),"__COASTAL__":String(city.coastal),"__LAT__":String(city.latitude),"__LON__":String(city.longitude)
   };
   let html=cityTemplate;
   for(const [token,value] of Object.entries(values)) html=html.replaceAll(token,value);
