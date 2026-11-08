@@ -10,7 +10,7 @@ export function normalizeFavoriteSlugs(value: unknown): string[] {
     unique.add(item);
     if (unique.size >= MAX_FAVORITES) break;
   }
-  return [...unique];
+  return Array.from(unique);
 }
 
 export function parseFavoriteSlugs(raw: string | null): string[] {
