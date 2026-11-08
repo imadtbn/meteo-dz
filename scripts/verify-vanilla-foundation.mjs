@@ -1,0 +1,30 @@
+import assert from "node:assert/strict";
+import { readFile, stat } from "node:fs/promises";
+
+const html = await readFile("vanilla-preview/index.html", "utf8");
+const css = await readFile("vanilla-preview/assets/css/site.css", "utf8");
+const js = await readFile("vanilla-preview/assets/js/site.js", "utf8");
+const readme = await readFile("vanilla-preview/README.md", "utf8");
+
+assert.match(html, /<html lang="ar" dir="rtl">/);
+assert.match(html, /<main id="main-content">/);
+assert.match(html, /<nav[^>]+aria-label="التنقل الرئيسي"/);
+assert.match(html, /name="robots" content="noindex,nofollow"/);
+assert.match(html, /assets\/css\/site\.css/);
+assert.match(html, /assets\/js\/site\.js/);
+assert.match(html, /id="primary-navigation"/);
+assert.match(html, /data-action="theme"/);
+assert.match(html, /data-action="share"/);
+assert.doesNotMatch(html, /react(?:-dom)?|wouter|vite/i);
+assert.doesNotMatch(js, /serviceWorker\.register/);
+assert.match(js, /localStorage\.getItem\("theme"\)/);
+assert.match(js, /localStorage\.setItem\("theme", theme\)/);
+assert.match(js, /navigator\.share/);
+assert.match(js, /aria-expanded/);
+assert.match(css, /@media\(max-width:700px\)/);
+assert.match(css, /prefers-reduced-motion/);
+assert.match(css, /:root\[data-theme="dark"\]/);
+assert.match(readme, /not published by the existing build/i);
+await stat("vanilla-preview/assets/css/site.css");
+await stat("vanilla-preview/assets/js/site.js");
+console.log("Vanilla foundation verified: semantic RTL HTML, responsive shell, theme, share, and isolated preview.");
