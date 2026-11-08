@@ -9,6 +9,7 @@ export const INDEXABLE_LANDING_ROUTES = Object.freeze([
   "arab-capitals",
   "world-search",
   "weather-map",
+  "alerts",
 ]);
 
 const VALID_SLUG = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;

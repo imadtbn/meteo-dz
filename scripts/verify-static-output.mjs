@@ -6,7 +6,7 @@ import { buildSitemap, sitemapUrls, INDEXABLE_LANDING_ROUTES } from "./sitemap-c
 
 const root = path.resolve("dist/public");
 const load = (relative) => readFile(path.join(root, relative), "utf8");
-const landing = ["wilayas", "arab-capitals", "world-search", "global-weather", "weather-map"];
+const landing = ["wilayas", "arab-capitals", "world-search", "global-weather", "weather-map", "alerts"];
 
 const homepage = await load("index.html");
 assert.match(homepage, /<html lang="ar" dir="rtl">/);
@@ -23,7 +23,7 @@ const initialAssetNames = [...homepage.matchAll(/(?:src|href)="[^"]*assets\/([^"
 assert.ok(initialAssetNames.length > 0, "Homepage entry scripts must be present");
 const initialJsBytes = (await Promise.all(initialAssetNames.map(async (name) => (await stat(path.join(root, "assets", name))).size))).reduce((sum, size) => sum + size, 0);
 const totalJsBytes = (await Promise.all(staticScripts.map(async (name) => (await stat(path.join(root, "assets", name))).size))).reduce((sum, size) => sum + size, 0);
-const initialCssNames = [...homepage.matchAll(/href="[^"]*assets\/([^"]+\\.css)"/g)].map((match) => match[1]);
+const initialCssNames = [...homepage.matchAll(/href="[^"]*assets\/([^"]+\.css)"/g)].map((match) => match[1]);
 const initialCssBytes = (await Promise.all(initialCssNames.map(async (name) => (await stat(path.join(root, "assets", name))).size))).reduce((sum, size) => sum + size, 0);
 assert.ok(initialJsBytes < 420000, "Initial JavaScript budget exceeded: " + initialJsBytes + " bytes");
 assert.ok(totalJsBytes < 700000, "Total JavaScript budget exceeded: " + totalJsBytes + " bytes");
