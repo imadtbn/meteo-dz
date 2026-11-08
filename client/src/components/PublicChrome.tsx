@@ -12,6 +12,7 @@ import {
   Map,
   Menu,
   Search,
+  Star,
   Waves,
   X,
 } from "lucide-react";
@@ -24,6 +25,7 @@ const mainLinks = [
   { href: "/world-search", label: "بحث عالمي", icon: Search },
   { href: "/weather-map", label: "خريطة الطقس", icon: Map },
   { href: "/alerts", label: "الإنذارات الجوية", icon: AlertTriangle },
+  { href: "/favorites", label: "المفضلة", icon: Star },
 ] as const;
 
 export function PublicHeader({ showSections = false }: { showSections?: boolean }) {

@@ -777,3 +777,46 @@ h1,h2,h3,.brand,.directory-card__title,.section-intro h2 { font-family: var(--fo
 @media (max-width: 360px) {
   .site-ad { padding-inline: .55rem; }
 }
+
+/* Local city favorites — compact controls that inherit the Atlas palette. */
+.favorite-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: .4rem;
+  min-height: 2.35rem;
+  padding: .5rem .8rem;
+  border: 1px solid #c9d9d5;
+  border-radius: 999px;
+  background: #fffdf8;
+  color: #496572;
+  font: 800 .75rem var(--font-ui);
+  cursor: pointer;
+  transition: background .18s ease, border-color .18s ease, color .18s ease;
+}
+.favorite-toggle:hover,.favorite-toggle.is-active {
+  border-color: #c58c3b;
+  background: #fbf1df;
+  color: #9b641e;
+}
+.favorite-city-item { display: grid; gap: .45rem; min-width: 0; }
+.favorite-city-link { min-height: 6rem; }
+.favorite-remove {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: .35rem;
+  min-height: 2.2rem;
+  padding: .4rem .65rem;
+  border: 1px solid #d7c8bc;
+  border-radius: .55rem;
+  background: #fffaf4;
+  color: #8b4b36;
+  font: 700 .72rem var(--font-ui);
+  cursor: pointer;
+}
+.favorite-remove:hover { background: #f8e9df; }
+.favorite-empty { max-width: 38rem; margin: 0 auto; padding: 2rem; border: 1px dashed #b8cecf; border-radius: .8rem; background: #fffdf8; text-align: center; }
+.favorite-empty p { color: #60727a; line-height: 1.9; }
+.favorite-empty a { display: inline-flex; align-items: center; gap: .35rem; color: #0c5b8c; font-weight: 800; }
+@media (max-width: 600px) { .favorite-toggle { margin-inline-start: auto; } }

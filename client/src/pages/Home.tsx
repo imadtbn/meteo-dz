@@ -1,6 +1,6 @@
 /** Style reminder: Atlas Observatory structures a weather visit from immediate reading to local context, never decorative noise. */
 import { lazy, Suspense, useEffect, useMemo, useRef, useState } from "react";
-import { AlertTriangle, ArrowLeft, Compass, Info, RefreshCw, Search, Waves, X } from "lucide-react";
+import { AlertTriangle, ArrowLeft, Compass, Info, RefreshCw, Search, Star, Waves, X } from "lucide-react";
 import { Link, useLocation } from "wouter";
 import { WeatherCard } from "@/components/WeatherCard";
 import { WilayaCard } from "@/components/WilayaCard";
@@ -10,6 +10,7 @@ const WeatherInsights = lazy(() => import("@/components/WeatherInsights").then((
 import { PublicFooter, PublicHeader } from "@/components/PublicChrome";
 import { ALGERIAN_CITIES, getCityBySlug, type AlgerianCity } from "@/data/cities";
 import { fetchWeather, formatDay, formatHour, getAdvice, getWeatherCondition, type WeatherReading, windDirectionArabic } from "@/lib/weather";
+import { useFavoriteCities } from "@/hooks/useFavoriteCities";
 
 const WeatherShareDialog = lazy(() => import("@/components/WeatherShareDialog"));
 
@@ -44,6 +45,8 @@ export default function Home({ forcedCity, detail = false }: HomeProps) {
   const [visibleCount, setVisibleCount] = useState(12);
   const [locationPrompt, setLocationPrompt] = useState(false);
   const [locationError, setLocationError] = useState("");
+  const { favoriteSlugs, toggleFavorite } = useFavoriteCities();
+  const isFavorite = favoriteSlugs.includes(city.slug);
 
   useEffect(() => {
     if (!forcedCity) return;
@@ -121,7 +124,7 @@ export default function Home({ forcedCity, detail = false }: HomeProps) {
     </section>
 
     <section className="dashboard-shell" id="now">
-      <div className="section-intro"><span>01 — القراءة المحلية</span><h2>الآن في {city.name}</h2><button className="refresh-button" onClick={refresh} disabled={loading}><RefreshCw size={16} className={loading ? "spin" : ""} /> تحديث القراءة</button></div>
+      <div className="section-intro"><span>01 — القراءة المحلية</span><h2>الآن في {city.name}</h2><button type="button" className={isFavorite ? "favorite-toggle is-active" : "favorite-toggle"} onClick={() => toggleFavorite(city.slug)} aria-pressed={isFavorite}><Star size={16} fill={isFavorite ? "currentColor" : "none"} />{isFavorite ? "في المفضلة" : "أضف للمفضلة"}</button><button className="refresh-button" onClick={refresh} disabled={loading}><RefreshCw size={16} className={loading ? "spin" : ""} /> تحديث القراءة</button></div>
       {loading && <div className="loading-card" aria-live="polite"><span className="loading-orb" />جارٍ جلب قراءة موثقة للطقس…</div>}
       {error && <div className="error-card" role="alert"><b>تعذر تحديث القراءة.</b><span>{error}</span><button onClick={refresh}>أعد المحاولة</button></div>}
       {reading?.isStale && <div className="weather-stale-note" role="status"><AlertTriangle size={19} aria-hidden="true" /><span>تعذّر الاتصال بمصدر الطقس، لذلك نعرض آخر قراءة محفوظة لهذه الولاية. قد لا تمثل الأحوال الحالية. يمكنك الضغط على «تحديث القراءة» للمحاولة مجددًا، والرجوع للنشرة الرسمية عند الضرورة.</span></div>}
