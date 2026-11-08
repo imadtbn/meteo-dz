@@ -28,6 +28,24 @@ export type WeatherReading = {
   marine: { waveHeight: number | null; waveDirection: number | null; wavePeriod: number | null } | null;
 };
 
+export type GlobalWeatherReading = {
+  timezone?: string;
+  current: {
+    temperature_2m: number;
+    apparent_temperature?: number;
+    relative_humidity_2m: number;
+    weather_code: number;
+    wind_speed_10m: number;
+  };
+  daily: {
+    time: string[];
+    weather_code: number[];
+    temperature_2m_max: number[];
+    temperature_2m_min: number[];
+    precipitation_probability_max: number[];
+  };
+};
+
 const cacheDuration = 15 * 60 * 1000;
 const maxStaleDuration = 6 * 60 * 60 * 1000;
 
@@ -151,6 +169,57 @@ async function fetchJson(url: string, signal?: AbortSignal, timeoutMs = 9000): P
     clearTimeout(timer);
     signal?.removeEventListener("abort", abort);
   }
+}
+
+function validGlobalWeather(data: any): data is GlobalWeatherReading {
+  const current = data?.current;
+  const daily = data?.daily;
+  return Boolean(
+    current &&
+    Number.isFinite(current.temperature_2m) &&
+    Number.isFinite(current.relative_humidity_2m) &&
+    Number.isFinite(current.weather_code) &&
+    Number.isFinite(current.wind_speed_10m) &&
+    daily &&
+    Array.isArray(daily.time) &&
+    Array.isArray(daily.weather_code) &&
+    Array.isArray(daily.temperature_2m_max) &&
+    Array.isArray(daily.temperature_2m_min) &&
+    Array.isArray(daily.precipitation_probability_max) &&
+    daily.time.length > 0 &&
+    daily.time.length === daily.weather_code.length &&
+    daily.time.length === daily.temperature_2m_max.length &&
+    daily.time.length === daily.temperature_2m_min.length &&
+    daily.time.length === daily.precipitation_probability_max.length
+  );
+}
+
+/** Shared, bounded Open-Meteo client for coordinate-based global weather pages. */
+export async function fetchGlobalWeather(
+  latitude: number,
+  longitude: number,
+  signal?: AbortSignal,
+): Promise<GlobalWeatherReading> {
+  if (!Number.isFinite(latitude) || latitude < -90 || latitude > 90) {
+    throw new Error("خط العرض خارج النطاق الجغرافي الصحيح.");
+  }
+  if (!Number.isFinite(longitude) || longitude < -180 || longitude > 180) {
+    throw new Error("خط الطول خارج النطاق الجغرافي الصحيح.");
+  }
+
+  const params = new URLSearchParams({
+    latitude: String(latitude),
+    longitude: String(longitude),
+    current: "temperature_2m,apparent_temperature,relative_humidity_2m,weather_code,wind_speed_10m",
+    daily: "weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max",
+    timezone: "auto",
+    forecast_days: "5",
+  });
+  const data = await fetchJson("https://api.open-meteo.com/v1/forecast?" + params, signal, 9000);
+  if (!validGlobalWeather(data)) {
+    throw new Error("استجابة الطقس العالمي غير مكتملة أو غير متوافقة.");
+  }
+  return data;
 }
 
 function validWeather(data: any): boolean {
