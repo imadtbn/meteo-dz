@@ -2,6 +2,7 @@ import { AdSlot } from "@/components/AdSlot";
 import { SiteActions } from "@/components/SiteActions";
 import { useEffect, useState } from "react";
 import {
+  AlertTriangle,
   ArrowUpLeft,
   CloudSun,
   Compass,
@@ -22,6 +23,7 @@ const mainLinks = [
   { href: "/arab-capitals", label: "العواصم العربية", icon: Compass },
   { href: "/world-search", label: "بحث عالمي", icon: Search },
   { href: "/weather-map", label: "خريطة الطقس", icon: Map },
+  { href: "/alerts", label: "الإنذارات الجوية", icon: AlertTriangle },
 ] as const;
 
 export function PublicHeader({ showSections = false }: { showSections?: boolean }) {

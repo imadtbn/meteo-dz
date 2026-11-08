@@ -11,6 +11,7 @@ const ArabCapitalsPage = lazy(() => import("./pages/Directories").then((module) 
 const GlobalWeatherPage = lazy(() => import("./pages/GlobalWeather"));
 const WeatherMapPage = lazy(() => import("./pages/WeatherMap"));
 const WorldSearchPage = lazy(() => import("./pages/WorldSearch").then((module) => ({ default: module.WorldSearchPage })));
+const AlertsPage = lazy(() => import("./pages/Alerts"));
 
 function Router() {
   // make sure to consider if you need authentication for certain routes
@@ -26,6 +27,7 @@ function Router() {
       <Route path={"/world-search"} component={WorldSearchPage} />
       <Route path={"/global-weather"} component={GlobalWeatherPage} />
       <Route path={"/weather-map"} component={WeatherMapPage} />
+      <Route path={"/alerts"} component={AlertsPage} />
       <Route path={"/404"} component={NotFound} />
       {/* Final fallback route */}
       <Route component={NotFound} />
