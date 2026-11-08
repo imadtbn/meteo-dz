@@ -1,69 +1,80 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://imadtbn.github.io/meteo-dz/</loc></url>
-  <url><loc>https://imadtbn.github.io/meteo-dz/wilayas/</loc></url>
-  <url><loc>https://imadtbn.github.io/meteo-dz/arab-capitals/</loc></url>
-  <url><loc>https://imadtbn.github.io/meteo-dz/world-search/</loc></url>
-  <url><loc>https://imadtbn.github.io/meteo-dz/weather-map/</loc></url>
-  <url><loc>https://imadtbn.github.io/meteo-dz/climate-observatory/</loc></url>
-  <url><loc>https://imadtbn.github.io/meteo-dz/agriculture-weather/</loc></url>
-  <url><loc>https://imadtbn.github.io/meteo-dz/alerts/</loc></url>
-  <url><loc>https://imadtbn.github.io/meteo-dz/weather/adrar/</loc></url>
-  <url><loc>https://imadtbn.github.io/meteo-dz/weather/chlef/</loc></url>
-  <url><loc>https://imadtbn.github.io/meteo-dz/weather/laghouat/</loc></url>
-  <url><loc>https://imadtbn.github.io/meteo-dz/weather/oum-el-bouaghi/</loc></url>
-  <url><loc>https://imadtbn.github.io/meteo-dz/weather/batna/</loc></url>
-  <url><loc>https://imadtbn.github.io/meteo-dz/weather/bejaia/</loc></url>
-  <url><loc>https://imadtbn.github.io/meteo-dz/weather/biskra/</loc></url>
-  <url><loc>https://imadtbn.github.io/meteo-dz/weather/bechar/</loc></url>
-  <url><loc>https://imadtbn.github.io/meteo-dz/weather/blida/</loc></url>
-  <url><loc>https://imadtbn.github.io/meteo-dz/weather/bouira/</loc></url>
-  <url><loc>https://imadtbn.github.io/meteo-dz/weather/tamanrasset/</loc></url>
-  <url><loc>https://imadtbn.github.io/meteo-dz/weather/tebessa/</loc></url>
-  <url><loc>https://imadtbn.github.io/meteo-dz/weather/tlemcen/</loc></url>
-  <url><loc>https://imadtbn.github.io/meteo-dz/weather/tiaret/</loc></url>
-  <url><loc>https://imadtbn.github.io/meteo-dz/weather/tizi-ouzou/</loc></url>
-  <url><loc>https://imadtbn.github.io/meteo-dz/weather/algiers/</loc></url>
-  <url><loc>https://imadtbn.github.io/meteo-dz/weather/djelfa/</loc></url>
-  <url><loc>https://imadtbn.github.io/meteo-dz/weather/jijel/</loc></url>
-  <url><loc>https://imadtbn.github.io/meteo-dz/weather/setif/</loc></url>
-  <url><loc>https://imadtbn.github.io/meteo-dz/weather/saida/</loc></url>
-  <url><loc>https://imadtbn.github.io/meteo-dz/weather/skikda/</loc></url>
-  <url><loc>https://imadtbn.github.io/meteo-dz/weather/sidi-bel-abbes/</loc></url>
-  <url><loc>https://imadtbn.github.io/meteo-dz/weather/annaba/</loc></url>
-  <url><loc>https://imadtbn.github.io/meteo-dz/weather/guelma/</loc></url>
-  <url><loc>https://imadtbn.github.io/meteo-dz/weather/constantine/</loc></url>
-  <url><loc>https://imadtbn.github.io/meteo-dz/weather/medea/</loc></url>
-  <url><loc>https://imadtbn.github.io/meteo-dz/weather/mostaganem/</loc></url>
-  <url><loc>https://imadtbn.github.io/meteo-dz/weather/msila/</loc></url>
-  <url><loc>https://imadtbn.github.io/meteo-dz/weather/mascara/</loc></url>
-  <url><loc>https://imadtbn.github.io/meteo-dz/weather/ouargla/</loc></url>
-  <url><loc>https://imadtbn.github.io/meteo-dz/weather/oran/</loc></url>
-  <url><loc>https://imadtbn.github.io/meteo-dz/weather/el-bayadh/</loc></url>
-  <url><loc>https://imadtbn.github.io/meteo-dz/weather/illizi/</loc></url>
-  <url><loc>https://imadtbn.github.io/meteo-dz/weather/bordj-bou-arreridj/</loc></url>
-  <url><loc>https://imadtbn.github.io/meteo-dz/weather/boumerdes/</loc></url>
-  <url><loc>https://imadtbn.github.io/meteo-dz/weather/el-tarf/</loc></url>
-  <url><loc>https://imadtbn.github.io/meteo-dz/weather/tindouf/</loc></url>
-  <url><loc>https://imadtbn.github.io/meteo-dz/weather/tissemsilt/</loc></url>
-  <url><loc>https://imadtbn.github.io/meteo-dz/weather/el-oued/</loc></url>
-  <url><loc>https://imadtbn.github.io/meteo-dz/weather/khenchela/</loc></url>
-  <url><loc>https://imadtbn.github.io/meteo-dz/weather/souk-ahras/</loc></url>
-  <url><loc>https://imadtbn.github.io/meteo-dz/weather/tipaza/</loc></url>
-  <url><loc>https://imadtbn.github.io/meteo-dz/weather/mila/</loc></url>
-  <url><loc>https://imadtbn.github.io/meteo-dz/weather/ain-defla/</loc></url>
-  <url><loc>https://imadtbn.github.io/meteo-dz/weather/naama/</loc></url>
-  <url><loc>https://imadtbn.github.io/meteo-dz/weather/ain-temouchent/</loc></url>
-  <url><loc>https://imadtbn.github.io/meteo-dz/weather/ghardaia/</loc></url>
-  <url><loc>https://imadtbn.github.io/meteo-dz/weather/relizane/</loc></url>
-  <url><loc>https://imadtbn.github.io/meteo-dz/weather/timimoun/</loc></url>
-  <url><loc>https://imadtbn.github.io/meteo-dz/weather/bordj-badji-mokhtar/</loc></url>
-  <url><loc>https://imadtbn.github.io/meteo-dz/weather/ouled-djellal/</loc></url>
-  <url><loc>https://imadtbn.github.io/meteo-dz/weather/beni-abbes/</loc></url>
-  <url><loc>https://imadtbn.github.io/meteo-dz/weather/in-salah/</loc></url>
-  <url><loc>https://imadtbn.github.io/meteo-dz/weather/in-guezzam/</loc></url>
-  <url><loc>https://imadtbn.github.io/meteo-dz/weather/touggourt/</loc></url>
-  <url><loc>https://imadtbn.github.io/meteo-dz/weather/djanet/</loc></url>
-  <url><loc>https://imadtbn.github.io/meteo-dz/weather/el-mghair/</loc></url>
-  <url><loc>https://imadtbn.github.io/meteo-dz/weather/el-menia/</loc></url>
+<url><loc>https://imadtbn.github.io/meteo-dz/</loc></url>
+<url><loc>https://imadtbn.github.io/meteo-dz/wilayas/</loc></url>
+<url><loc>https://imadtbn.github.io/meteo-dz/arab-capitals/</loc></url>
+<url><loc>https://imadtbn.github.io/meteo-dz/world-search/</loc></url>
+<url><loc>https://imadtbn.github.io/meteo-dz/weather-map/</loc></url>
+<url><loc>https://imadtbn.github.io/meteo-dz/climate-observatory/</loc></url>
+<url><loc>https://imadtbn.github.io/meteo-dz/agriculture-weather/</loc></url>
+<url><loc>https://imadtbn.github.io/meteo-dz/alerts/</loc></url>
+<url><loc>https://imadtbn.github.io/meteo-dz/weather/adrar/</loc></url>
+<url><loc>https://imadtbn.github.io/meteo-dz/weather/chlef/</loc></url>
+<url><loc>https://imadtbn.github.io/meteo-dz/weather/laghouat/</loc></url>
+<url><loc>https://imadtbn.github.io/meteo-dz/weather/oum-el-bouaghi/</loc></url>
+<url><loc>https://imadtbn.github.io/meteo-dz/weather/batna/</loc></url>
+<url><loc>https://imadtbn.github.io/meteo-dz/weather/bejaia/</loc></url>
+<url><loc>https://imadtbn.github.io/meteo-dz/weather/biskra/</loc></url>
+<url><loc>https://imadtbn.github.io/meteo-dz/weather/bechar/</loc></url>
+<url><loc>https://imadtbn.github.io/meteo-dz/weather/blida/</loc></url>
+<url><loc>https://imadtbn.github.io/meteo-dz/weather/bouira/</loc></url>
+<url><loc>https://imadtbn.github.io/meteo-dz/weather/tamanrasset/</loc></url>
+<url><loc>https://imadtbn.github.io/meteo-dz/weather/tebessa/</loc></url>
+<url><loc>https://imadtbn.github.io/meteo-dz/weather/tlemcen/</loc></url>
+<url><loc>https://imadtbn.github.io/meteo-dz/weather/tiaret/</loc></url>
+<url><loc>https://imadtbn.github.io/meteo-dz/weather/tizi-ouzou/</loc></url>
+<url><loc>https://imadtbn.github.io/meteo-dz/weather/algiers/</loc></url>
+<url><loc>https://imadtbn.github.io/meteo-dz/weather/djelfa/</loc></url>
+<url><loc>https://imadtbn.github.io/meteo-dz/weather/jijel/</loc></url>
+<url><loc>https://imadtbn.github.io/meteo-dz/weather/setif/</loc></url>
+<url><loc>https://imadtbn.github.io/meteo-dz/weather/saida/</loc></url>
+<url><loc>https://imadtbn.github.io/meteo-dz/weather/skikda/</loc></url>
+<url><loc>https://imadtbn.github.io/meteo-dz/weather/sidi-bel-abbes/</loc></url>
+<url><loc>https://imadtbn.github.io/meteo-dz/weather/annaba/</loc></url>
+<url><loc>https://imadtbn.github.io/meteo-dz/weather/guelma/</loc></url>
+<url><loc>https://imadtbn.github.io/meteo-dz/weather/constantine/</loc></url>
+<url><loc>https://imadtbn.github.io/meteo-dz/weather/medea/</loc></url>
+<url><loc>https://imadtbn.github.io/meteo-dz/weather/mostaganem/</loc></url>
+<url><loc>https://imadtbn.github.io/meteo-dz/weather/msila/</loc></url>
+<url><loc>https://imadtbn.github.io/meteo-dz/weather/mascara/</loc></url>
+<url><loc>https://imadtbn.github.io/meteo-dz/weather/ouargla/</loc></url>
+<url><loc>https://imadtbn.github.io/meteo-dz/weather/oran/</loc></url>
+<url><loc>https://imadtbn.github.io/meteo-dz/weather/el-bayadh/</loc></url>
+<url><loc>https://imadtbn.github.io/meteo-dz/weather/illizi/</loc></url>
+<url><loc>https://imadtbn.github.io/meteo-dz/weather/bordj-bou-arreridj/</loc></url>
+<url><loc>https://imadtbn.github.io/meteo-dz/weather/boumerdes/</loc></url>
+<url><loc>https://imadtbn.github.io/meteo-dz/weather/el-tarf/</loc></url>
+<url><loc>https://imadtbn.github.io/meteo-dz/weather/tindouf/</loc></url>
+<url><loc>https://imadtbn.github.io/meteo-dz/weather/tissemsilt/</loc></url>
+<url><loc>https://imadtbn.github.io/meteo-dz/weather/el-oued/</loc></url>
+<url><loc>https://imadtbn.github.io/meteo-dz/weather/khenchela/</loc></url>
+<url><loc>https://imadtbn.github.io/meteo-dz/weather/souk-ahras/</loc></url>
+<url><loc>https://imadtbn.github.io/meteo-dz/weather/tipaza/</loc></url>
+<url><loc>https://imadtbn.github.io/meteo-dz/weather/mila/</loc></url>
+<url><loc>https://imadtbn.github.io/meteo-dz/weather/ain-defla/</loc></url>
+<url><loc>https://imadtbn.github.io/meteo-dz/weather/naama/</loc></url>
+<url><loc>https://imadtbn.github.io/meteo-dz/weather/ain-temouchent/</loc></url>
+<url><loc>https://imadtbn.github.io/meteo-dz/weather/ghardaia/</loc></url>
+<url><loc>https://imadtbn.github.io/meteo-dz/weather/relizane/</loc></url>
+<url><loc>https://imadtbn.github.io/meteo-dz/weather/timimoun/</loc></url>
+<url><loc>https://imadtbn.github.io/meteo-dz/weather/bordj-badji-mokhtar/</loc></url>
+<url><loc>https://imadtbn.github.io/meteo-dz/weather/ouled-djellal/</loc></url>
+<url><loc>https://imadtbn.github.io/meteo-dz/weather/beni-abbes/</loc></url>
+<url><loc>https://imadtbn.github.io/meteo-dz/weather/in-salah/</loc></url>
+<url><loc>https://imadtbn.github.io/meteo-dz/weather/in-guezzam/</loc></url>
+<url><loc>https://imadtbn.github.io/meteo-dz/weather/touggourt/</loc></url>
+<url><loc>https://imadtbn.github.io/meteo-dz/weather/djanet/</loc></url>
+<url><loc>https://imadtbn.github.io/meteo-dz/weather/el-mghair/</loc></url>
+<url><loc>https://imadtbn.github.io/meteo-dz/weather/el-menia/</loc></url>
+<url><loc>https://imadtbn.github.io/meteo-dz/weather/aflou/</loc></url>
+<url><loc>https://imadtbn.github.io/meteo-dz/weather/barika/</loc></url>
+<url><loc>https://imadtbn.github.io/meteo-dz/weather/el-kantara/</loc></url>
+<url><loc>https://imadtbn.github.io/meteo-dz/weather/bir-el-ater/</loc></url>
+<url><loc>https://imadtbn.github.io/meteo-dz/weather/el-aricha/</loc></url>
+<url><loc>https://imadtbn.github.io/meteo-dz/weather/ksar-chellala/</loc></url>
+<url><loc>https://imadtbn.github.io/meteo-dz/weather/ain-ouessara/</loc></url>
+<url><loc>https://imadtbn.github.io/meteo-dz/weather/messaad/</loc></url>
+<url><loc>https://imadtbn.github.io/meteo-dz/weather/ksar-el-boukhari/</loc></url>
+<url><loc>https://imadtbn.github.io/meteo-dz/weather/bou-saada/</loc></url>
+<url><loc>https://imadtbn.github.io/meteo-dz/weather/el-abiodh-sidi-cheikh/</loc></url>
 </urlset>
