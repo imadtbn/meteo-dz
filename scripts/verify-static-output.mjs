@@ -6,7 +6,7 @@ import { buildSitemap, sitemapUrls, INDEXABLE_LANDING_ROUTES } from "./sitemap-c
 
 const root = path.resolve("dist/public");
 const load = (relative) => readFile(path.join(root, relative), "utf8");
-const landing = ["wilayas", "arab-capitals", "world-search", "global-weather", "weather-map", "alerts", "favorites"];
+const landing = ["wilayas", "arab-capitals", "world-search", "global-weather", "weather-map", "alerts", "favorites", "climate-observatory", "agriculture-weather"];
 
 const homepage = await load("index.html");
 assert.match(homepage, /<html lang="ar" dir="rtl">/);
@@ -33,6 +33,8 @@ assert.ok(mapBundle, "Weather map must remain a separately emitted route chunk")
 assert.ok((await stat(path.join(root, "assets", mapBundle))).size < 180000, "Weather map route chunk budget exceeded");
 const appSource = await readFile("client/src/App.tsx", "utf8");
 assert.match(appSource, /const WeatherMapPage = lazy\(/, "Weather map route must remain lazy-loaded");
+assert.match(appSource, /const ClimateObservatoryPage = lazy\(/, "Climate observatory must be lazy-loaded");
+assert.match(appSource, /const AgricultureWeatherPage = lazy\(/, "Agriculture weather page must be lazy-loaded");
 assert.ok(!homepage.includes(mapBundle), "Weather map bundle must not load with the homepage");
 console.log("Performance budgets: initial JS " + initialJsBytes + " B, total JS " + totalJsBytes + " B, initial CSS " + initialCssBytes + " B.");
 const builtScripts = (await Promise.all(staticScripts.map((name) => load(path.join("assets", name))))).join("\n");
