@@ -9,6 +9,8 @@ export const INDEXABLE_LANDING_ROUTES = Object.freeze([
   "arab-capitals",
   "world-search",
   "weather-map",
+  "climate-observatory",
+  "agriculture-weather",
   "alerts",
 ]);
 
