@@ -2,6 +2,7 @@ import { AdSlot } from "@/components/AdSlot";
 import { SiteActions } from "@/components/SiteActions";
 import { useEffect, useState } from "react";
 import {
+  Activity,
   AlertTriangle,
   ArrowUpLeft,
   CloudSun,
@@ -14,6 +15,7 @@ import {
   Search,
   Star,
   Waves,
+  Sprout,
   X,
 } from "lucide-react";
 import { Link, useLocation } from "wouter";
@@ -23,7 +25,9 @@ const mainLinks = [
   { href: "/wilayas", label: "الولايات", icon: Landmark },
   { href: "/arab-capitals", label: "العواصم العربية", icon: Compass },
   { href: "/world-search", label: "بحث عالمي", icon: Search },
-  { href: "/weather-map", label: "خريطة الطقس", icon: Map },
+  { href: "/weather-map", label: "مركز الخرائط", icon: Map },
+  { href: "/climate-observatory", label: "المرصد المناخي", icon: Activity },
+  { href: "/agriculture-weather", label: "الطقس الزراعي", icon: Sprout },
   { href: "/alerts", label: "الإنذارات الجوية", icon: AlertTriangle },
   { href: "/favorites", label: "المفضلة", icon: Star },
 ] as const;
