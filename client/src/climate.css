@@ -28,3 +28,9 @@
   .climate-stat-grid article small { font-size: .67rem; }
   .weather-layer-toolbar button { padding-inline: .65rem; }
 }
+
+.climate-chart { display: flex; flex-direction: column; }
+.climate-chart > svg { display: block; width: 100%; min-height: 0; flex: 1 1 auto; overflow: visible; }
+.climate-chart-legend { display: flex; flex-wrap: wrap; justify-content: center; gap: 1rem; padding-top: .25rem; color: #42616e; font-size: .75rem; font-weight: 700; }
+.climate-chart-legend span { display: inline-flex; align-items: center; gap: .4rem; }
+.climate-chart-legend i { display: inline-block; width: .8rem; height: .18rem; border-radius: 1rem; }
