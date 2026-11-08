@@ -1,10 +1,12 @@
 /** Style reminder: Atlas Observatory turns every wilaya route into an indexable, source-aware weather landing page. */
-import { mkdir, readFile, writeFile } from "node:fs/promises";
+import { mkdir, readFile, rm, writeFile } from "node:fs/promises";
 import path from "node:path";
 import cities from "../client/src/data/cities.json" with { type: "json" };
 import { buildSitemap, sitemapUrls } from "./sitemap-core.mjs";
 
 const dist = path.resolve("dist/public");
+// The browser debug collector is only used by the local Vite development server.
+await rm(path.join(dist, "__manus__"), { recursive: true, force: true });
 const template = await readFile(path.join(dist, "index.html"), "utf8");
 const siteUrl = process.env.SITE_URL || (process.env.DEPLOY_TARGET === "github" ? "https://imadtbn.github.io/meteo-dz" : "https://meteo-dz-modernized.manus.space");
 const siteRoot = `${siteUrl.replace(/\/$/, "")}/`;

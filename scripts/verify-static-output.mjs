@@ -12,6 +12,9 @@ const homepage = await load("index.html");
 assert.match(homepage, /<html lang="ar" dir="rtl">/);
 assert.match(homepage, /<div id="root"><\/div>/);
 assert.doesNotMatch(homepage, /%VITE_/);
+assert.ok(!homepage.includes("manus-runtime") && !homepage.includes("__MANUS_HOST_DEV__"), "Development runtime must not be embedded in production HTML");
+assert.ok(Buffer.byteLength(homepage, "utf8") < 100000, "Production homepage HTML should remain lightweight");
+assert.ok(!(await readdir(root)).includes("__manus__"), "Development debug collector must not be published");
 const adsenseLoader = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5656416032906373';
 assert.equal(homepage.split(adsenseLoader).length - 1, 1, "Load AdSense exactly once per page");
 const staticScripts = (await readdir(path.join(root, "assets"))).filter((name) => name.endsWith(".js"));
@@ -58,6 +61,7 @@ for (const page of landing) {
 }
 for (const city of cities) {
   const html = await load(path.join("weather", city.slug, "index.html"));
+  assert.ok((await stat(path.join(root, "weather", city.slug, "index.html"))).size < 100000, "Generated city HTML must remain lightweight: " + city.slug);
   assert.ok(html.includes(city.name), "Missing city metadata: " + city.slug);
   assert.ok(html.includes('og:url" content="https://imadtbn.github.io/meteo-dz/weather/' + city.slug + '/"'));
   assert.ok(html.includes('og:image" content="https://imadtbn.github.io/meteo-dz/social-preview.png"'));
