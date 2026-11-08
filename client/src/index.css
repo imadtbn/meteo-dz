@@ -1,6 +1,7 @@
 /* Style reminder: Atlas Observatory uses editorial weather clarity, paper warmth, Atlantic blue, Algerian green actions, and minimal purposeful motion. */
 @import "tailwindcss";
 @import "tw-animate-css";
+@import "./climate.css";
 
 @theme inline {
   --color-background: var(--background);
