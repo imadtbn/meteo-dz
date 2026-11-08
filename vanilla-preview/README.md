@@ -1,12 +1,17 @@
-# Vanilla foundation preview
+# المرحلة الثالثة — معاينة HTML للصفحة الرئيسية والولايات
 
-This directory is an isolated, non-production foundation for the HTML/CSS/JavaScript migration.
+المعاينة معزولة تحت `/vanilla-preview/` ولا تستبدل مسارات الإنتاج.
 
-- It is deliberately separate from `client/`, the current Vite/React entry point, and the production service worker.
-- The page uses semantic Arabic RTL HTML, a shared responsive header/navigation/footer, light/dark theme persistence, share fallback, accessible mobile navigation, and reduced-motion support.
-- The theme preference reuses the existing `theme` localStorage key.
-- It does not fetch weather data, request location permission, register a service worker, or claim that install support is active.
-- Links point to the current public route paths for layout continuity, but this preview itself is not published by the existing build.
-- Do not move this page into the production root or change the Pages entry point until the route/data modules have been ported and verified.
+## ما تتضمنه
+- صفحة رئيسية HTML مولّدة وقت البناء.
+- 69 صفحة ولاية مستقلة تحت `weather/<slug>/`.
+- دليل قابل للبحث بالعربية والفرنسية واللاتينية والمنطقة ورمز الولاية ورمز الهاتف.
+- صفحات الولايات تجلب القراءة الحالية والتوقعات اليومية مباشرة من Open-Meteo.
+- المفضلة تستخدم المفتاح الحالي `atlas-favorite-cities-v1`، والثيم يستخدم `theme`.
+- CSS وJavaScript مستقلان عن React وWouter.
 
-Preview locally with any static HTTP server rooted at the repository root, then open `/vanilla-preview/`.
+## الحدود الحالية
+هذه دفعة أولى لاختبار بنية HTML والبيانات والبحث وجلب الطقس. لا تتضمن بعد الخرائط أو التوقعات الساعية أو الحالة البحرية أو النصائح والتحليلات الموجودة في التطبيق الحالي. لا تحذف أو تعدل ملفات التطبيق الحالي.
+
+## البناء والتحقق
+يُشغّل `scripts/generate-vanilla-pages.mjs` بعد توليد صفحات الموقع الحالية، ثم يتحقق `scripts/verify-vanilla-pages.mjs` من وجود الصفحة الرئيسية وصفحات الولايات الـ69، وSEO وغياب placeholders والملفات المطلوبة. جميع صفحات المعاينة تحمل `noindex,nofollow` حتى اعتماد النقل النهائي.

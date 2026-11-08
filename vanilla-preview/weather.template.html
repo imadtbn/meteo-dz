@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow"><meta name="description" content="حالة الطقس في __CITY_NAME__ وتوقعات الأيام القادمة.">
+<title>طقس __CITY_NAME__ اليوم | الطقس الجزائري</title>
+<link rel="icon" href="../../../favicon.svg"><link rel="stylesheet" href="../../assets/css/site.css">
+<link rel="canonical" href="https://imadtbn.github.io/meteo-dz/vanilla-preview/weather/__CITY_SLUG__/">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Place","name":"__CITY_NAME__","geo":{"@type":"GeoCoordinates","latitude":__LAT__,"longitude":__LON__}}</script>
+</head>
+<body>
+<a class="skip-link" href="#main">تجاوز إلى المحتوى</a>
+<header class="site-header"><a class="brand" href="../../"><img src="../../../favicon.svg" alt="" width="42" height="42"><span><strong>الطقس الجزائري</strong><small>مرصد الأطلس · نسخة HTML مستقلة</small></span></a><button class="menu-toggle" type="button" aria-expanded="false" aria-controls="primary-navigation" aria-label="فتح القائمة"><svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button><nav class="primary-navigation" id="primary-navigation"><a href="../../">الرئيسية</a><a href="../../#wilayas">ولايات الجزائر</a><a href="../../../">النسخة الحالية</a></nav><div class="header-actions"><button class="icon-button" data-action="theme" type="button" aria-label="تبديل المظهر">◐</button><button class="icon-button" data-action="share" type="button" aria-label="مشاركة الصفحة">↗</button></div></header>
+<main id="main" class="city-page" data-lat="__LAT__" data-lon="__LON__" data-city="__CITY_NAME__">
+<section class="hero city-hero"><div class="hero-copy"><span class="eyebrow"><span class="status-dot"></span> ولاية __CITY_CODE__ · __REGION__</span><h1>طقس <em>__CITY_NAME__</em></h1><p>الاسم الفرنسي: __CITY_FR__ · الاسم اللاتيني: __CITY_EN__</p><div class="hero-actions"><a class="button button-secondary" href="../../">دليل الولايات</a><button class="button button-primary" id="favorite-toggle" type="button" aria-pressed="false">☆ أضف للمفضلة</button></div></div><aside class="hero-note"><span class="note-kicker">الإحداثيات الجغرافية</span><strong>__LAT__°</strong><p>خط العرض · __LON__° خط الطول</p><div class="note-divider"></div><span class="note-foot">المنطقة: __REGION__ · رمز الهاتف: __PHONE__</span></aside></section>
+<section class="content-section"><div class="section-heading"><div><span class="eyebrow">القراءة الحالية</span><h2>حالة الطقس في __CITY_NAME__</h2></div><p id="weather-updated">مصدر البيانات: Open-Meteo · توقيت الجزائر</p></div>
+<div id="weather-status" class="weather-status" role="status" aria-live="polite">جارٍ جلب بيانات الطقس…</div>
+<div id="weather-current" class="weather-current" hidden></div>
+<div id="weather-daily" class="weather-daily" hidden></div>
+<button id="weather-refresh" class="button button-secondary" type="button">تحديث القراءة</button>
+</section>
+<section class="content-section"><div class="migration-notice"><span class="notice-mark">i</span><p>هذه صفحة مستقلة قيد الاختبار. للحصول على الخرائط والتوقعات التفصيلية والتنبيهات وبقية الخدمات، يمكنك الرجوع إلى <a href="../../../">التطبيق الحالي</a>.</p></div></section>
+</main>
+<footer class="site-footer"><p class="footer-brand">الطقس الجزائري <span>·</span> مرصد الأطلس</p><p>نسخة HTML مستقلة · <span data-current-year></span></p><a href="../../">دليل الولايات</a></footer><div class="toast" role="status" aria-live="polite" hidden></div>
+<script type="module" src="../../assets/js/site.js"></script><script type="module" src="../../assets/js/pages.js"></script>
+</body></html>
