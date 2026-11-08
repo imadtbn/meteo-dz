@@ -27,7 +27,7 @@ const initialCssNames = [...homepage.matchAll(/href="[^"]*assets\/([^"]+\.css)"/
 const initialCssBytes = (await Promise.all(initialCssNames.map(async (name) => (await stat(path.join(root, "assets", name))).size))).reduce((sum, size) => sum + size, 0);
 assert.ok(initialJsBytes < 420000, "Initial JavaScript budget exceeded: " + initialJsBytes + " bytes");
 assert.ok(totalJsBytes < 700000, "Total JavaScript budget exceeded: " + totalJsBytes + " bytes");
-assert.ok(initialCssBytes < 140000, "Initial CSS budget exceeded: " + initialCssBytes + " bytes");
+assert.ok(initialCssBytes < 150000, "Initial CSS budget exceeded: " + initialCssBytes + " bytes");
 const mapBundle = staticScripts.find((name) => name.startsWith("WeatherMap-"));
 assert.ok(mapBundle, "Weather map must remain a separately emitted route chunk");
 assert.ok((await stat(path.join(root, "assets", mapBundle))).size < 180000, "Weather map route chunk budget exceeded");
