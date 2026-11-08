@@ -27,7 +27,7 @@ export function filterWilayas(cities: AlgerianCity[], query: string): AlgerianCi
   const cleaned = normalizePlaceSearch(query);
   if (!cleaned) return cities;
   return cities.filter((city) =>
-    normalizePlaceSearch(city.name + " " + city.region + " " + city.code + " " + city.slug)
+    normalizePlaceSearch([city.name, city.name_fr, city.name_en, city.region, city.code, city.slug, city.phone_code].filter(Boolean).join(" "))
       .includes(cleaned));
 }
 
