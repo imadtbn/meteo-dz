@@ -150,10 +150,14 @@ function vitePluginManusDebugCollector(): Plugin {
   };
 }
 
-const plugins = [react(), tailwindcss(), jsxLocPlugin(), vitePluginManusRuntime(), vitePluginManusDebugCollector()];
-
-export default defineConfig(() => ({
-  plugins,
+// Development-only instrumentation must not be embedded in production HTML.
+export default defineConfig(({ command }) => ({
+  plugins: [
+    react(),
+    tailwindcss(),
+    jsxLocPlugin(),
+    ...(command === "serve" ? [vitePluginManusRuntime(), vitePluginManusDebugCollector()] : []),
+  ],
   base: process.env.DEPLOY_TARGET === "github" ? "/meteo-dz/" : "/",
   resolve: {
     alias: {
