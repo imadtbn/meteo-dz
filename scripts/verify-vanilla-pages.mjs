@@ -63,6 +63,7 @@ for(const city of cities){
  assert.ok(page.includes(`طقس ${city.name}`),`Missing city title: ${city.slug}`);
  assert.ok(!/__CITY_|__LAT__|__LON__|__COASTAL__/.test(page),`Unresolved template token: ${city.slug}`);
  assert.match(page,/<meta name="robots" content="noindex,nofollow">/);
+  assert.match(page,/<section class="ad-slot" data-ad-placement="wilaya-/);
  for(const id of ["weather-status","weather-current","weather-hourly","weather-daily","weather-insights","weather-refresh","favorite-toggle"]) {
   assert.ok(page.includes(`id="${id}"`),`Missing ${id} in ${city.slug}`);
  }
@@ -111,6 +112,7 @@ const directoryJs=await readFile(path.join(root,"assets/js/directory-pages.js"),
 for(const slug of ["wilayas","favorites","alerts","arab-capitals","world-search"]){
  const page=await readFile(path.join(root,slug,"index.html"),"utf8");
  assert.match(page,/<meta name="robots" content="noindex,nofollow">/);
+  assert.match(page,/<section class="ad-slot" data-ad-placement="(?:wilayas|favorites|alerts|arab-capitals|world-search)"/);
  assert.match(page,/id="city-data"/);
  assert.match(page,/id="capital-data"/);
  assert.match(page,/assets\/js\/directory-pages.js/);
