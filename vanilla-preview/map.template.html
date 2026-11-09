@@ -16,12 +16,12 @@
 <section class="map-panel">
 <div class="map-toolbar"><div class="map-toolbar-title"><strong>طبقات الخريطة</strong><small id="map-status" role="status" aria-live="polite">جارٍ تحميل الخريطة…</small></div><div class="map-layers" role="group" aria-label="اختيار طبقة الطقس"><button type="button" data-layer="none" aria-pressed="true">بدون طبقة</button><button type="button" data-layer="tmp2m" aria-pressed="false">الحرارة</button><button type="button" data-layer="precip" aria-pressed="false">الأمطار</button><button type="button" data-layer="wind" aria-pressed="false">الرياح</button><button type="button" data-layer="pressure" aria-pressed="false">الضغط</button></div></div>
 <div id="atlas-map" class="atlas-map" role="application" aria-label="خريطة تفاعلية للولايات الجزائرية"></div>
-<div class="map-footer"><span id="map-count">69 ولاية جزائرية</span><span>خرائط الأساس: OpenStreetMap · طبقات الطقس: WeatherAPI Weather Maps</span></div>
+<div class="map-footer"><span id="map-count">69 ولاية · 22 عاصمة عربية</span><span>خرائط الأساس: OpenStreetMap · طبقات الطقس: WeatherAPI Weather Maps</span></div>
 </section>
 <section class="map-disclaimer"><strong>ملاحظة حول الطبقات:</strong> الطبقات الشبكية تمثل توقعات جوية وليست رادار أمطار أو صور أقمار صناعية. قد تتأخر أو تتعذر بعض الطبقات حسب توفر مزود الخدمة. لا تستخدم هذه الخريطة بديلاً عن التحذيرات الرسمية الصادرة عن الديوان الوطني للأرصاد الجوية.</section>
 </main>
 <footer class="site-footer"><p class="footer-brand">الطقس الجزائري <span>·</span> مرصد الأطلس</p><p>نسخة HTML مستقلة · <span data-current-year></span></p><a href="../">العودة إلى دليل الولايات</a></footer>
 <div class="toast" role="status" aria-live="polite" hidden></div>
-<script type="application/json" id="city-data">__CITY_DATA__</script>
+<script type="application/json" id="city-data">__CITY_DATA__</script><script type="application/json" id="capital-data">__CAPITAL_DATA__</script>
 <script type="module" src="../assets/js/site.js"></script><script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script><script type="module" src="../assets/js/map.js"></script>
 </body></html>
