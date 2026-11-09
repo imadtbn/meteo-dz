@@ -78,7 +78,7 @@ for(const feature of ["navigator.geolocation","getCurrentPosition","geocoding-ap
 assert.ok(homeParityCss.includes(".current-card")&&homeParityCss.includes(".hour-card")&&homeParityCss.includes(".directory-card--visual")&&homeParityCss.includes("@media(max-width:650px)"));
 for(const label of ["مركز الخرائط","المرصد المناخي","الطقس الزراعي","الإنذارات الجوية","التوقعات","البحر","مصدر البيانات"]) assert.ok(home.includes(label),`Missing shared header/footer navigation item: ${label}`);
 assert.ok(home.includes('id="site-navigation"')&&home.includes('id="menu-toggle"')&&home.includes('id="favorite-toggle"'));
-for(const feature of ["atlas-favorite-cities-v1","aria-expanded","Escape","navigator.share","share-image","toBlob"]) assert.ok(homeParityJs.includes(feature),`Missing shared component behavior: ${feature}`);
+for(const feature of ["atlas-favorite-cities-v1","aria-expanded","Escape","navigator.share","share-image","toBlob","function shareUrl()","weather/"]) assert.ok(homeParityJs.includes(feature),`Missing shared component behavior: ${feature}`);
 assert.ok(homeParityCss.includes(".site-navigation")&&homeParityCss.includes(".favorite-toggle")&&homeParityCss.includes("@media(max-width:820px)"));
 
 assert.doesNotMatch(homeParityJs,/from ["']react|from ["']wouter|import\.meta\.env/);
