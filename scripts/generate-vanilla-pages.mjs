@@ -12,7 +12,7 @@ const climateTemplate = await readFile(path.join(source, "climate-observatory.te
 const agricultureTemplate = await readFile(path.join(source, "agriculture-weather.template.html"), "utf8");
 const directoryTemplate = await readFile(path.join(source, "directory-pages.template.html"), "utf8");
 const arabCapitals = JSON.parse(await readFile(path.resolve("vanilla-preview/data/arab-capitals.json"), "utf8"));
-const injectAdContainer = (html, placement) => html.replace(/(<section class="(?:hero-band|hero(?:\\s[^"]*)?|map-hero|map-page-hero|climate-hero)"[^>]*>[\\s\\S]*?<\\/section>)/, match => `${match}\\n<section class="ad-slot" data-ad-placement="${placement}" aria-label="مساحة إعلانية"><span>مساحة إعلانية</span><div class="ad-slot__content" aria-hidden="true"></div></section>`);
+const injectAdContainer = (html, placement) => html.replace(/(<section class="(?:hero-band|hero(?:\s[^"]*)?|map-hero|map-page-hero|climate-hero)"[^>]*>[\s\S]*?<\/section>)/, match => match + "\n<section class=" + '"' + "ad-slot" + '"' + " data-ad-placement=" + '"' + placement + '"' + " aria-label=" + '"' + "مساحة إعلانية" + '"' + "><span>مساحة إعلانية</span><div class=" + '"' + "ad-slot__content" + '"' + " aria-hidden=" + '"' + "true" + '"' + "></div></section>");
 const escapeHtml = (value) => String(value ?? "").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#39;");
 const safeCities = cities.map(city => ({
   code:String(city.code),slug:String(city.slug),name:String(city.name),name_fr:String(city.name_fr ?? ""),
@@ -50,7 +50,7 @@ const directoryPages=[
 for(const page of directoryPages){
  const directory=path.join(output,page.slug);await mkdir(directory,{recursive:true});
  const html=injectAdContainer(directoryTemplate.replaceAll("__TITLE__",page.title).replaceAll("__DESCRIPTION__",page.description).replaceAll("__HEADING__",page.heading).replaceAll("__INTRO__",page.intro).replaceAll("__SUBHEADING__",page.subheading).replaceAll("__KIND__",page.kind).replace("__CITY_DATA__",data).replace("__CAPITAL_DATA__",capitalData),page.slug);
- await writeFile(path.join(directory,"index.html"),injectAdContainer(html,`wilaya-${city.code}`));
+ await writeFile(path.join(directory,"index.html"),html);
 }
 const cityRoot=path.join(output,"weather");
 for(const city of safeCities){
