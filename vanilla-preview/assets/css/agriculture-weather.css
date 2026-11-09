@@ -1,0 +1,20 @@
+/* Styles for the isolated agricultural weather preview. */
+.agriculture-content { max-width: 80rem; }
+.agriculture-content .climate-toolbar { align-items: end; }
+.agriculture-content .climate-toolbar label { flex: 1 1 12rem; }
+.agriculture-content .climate-toolbar .button { min-height: 2.7rem; }
+.agriculture-content .climate-status { margin: 1rem 0; padding: 1rem; border: 1px solid #d4ddd9; border-radius: .85rem; background: #fffdf8; color: #42616e; }
+.agriculture-content .climate-status[data-state="error"] { border-color: #d99a8e; color: #9b3529; }
+.agriculture-content .agriculture-stat-grid { grid-template-columns: repeat(5,minmax(0,1fr)); }
+.agriculture-content .agriculture-stat-grid article { min-height: 8.5rem; border-top-color: #268a78; }
+.agriculture-content .agriculture-stat-grid article strong { font-variant-numeric: tabular-nums; }
+.agriculture-content .agriculture-method { margin-top: 1.25rem; padding: 1.1rem 1.25rem; border: 1px solid #c9ddd3; border-radius: 1rem; background: #f0f7f2; color: #244d3d; }
+.agriculture-content .agriculture-method p { margin: .5rem 0 0; line-height: 2; }
+.agriculture-content .climate-attribution { margin-top: 1.5rem; color: #60727a; font-size: .8rem; line-height: 2; }
+@media (max-width: 760px) {
+  .agriculture-content .agriculture-stat-grid { grid-template-columns: repeat(2,minmax(0,1fr)); }
+  .agriculture-content .climate-toolbar label { flex: 1 1 100%; }
+}
+@media (max-width: 360px) {
+  .agriculture-content .agriculture-stat-grid article { padding: .85rem; }
+}

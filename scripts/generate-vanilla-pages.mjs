@@ -9,6 +9,7 @@ const cityTemplate = await readFile(path.join(source, "weather.template.html"), 
 const mapTemplate = await readFile(path.join(source, "map.template.html"), "utf8");
 const globalWeatherTemplate = await readFile(path.join(source, "global-weather.template.html"), "utf8");
 const climateTemplate = await readFile(path.join(source, "climate-observatory.template.html"), "utf8");
+const agricultureTemplate = await readFile(path.join(source, "agriculture-weather.template.html"), "utf8");
 const arabCapitals = JSON.parse(await readFile(path.resolve("vanilla-preview/data/arab-capitals.json"), "utf8"));
 const escapeHtml = (value) => String(value ?? "").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#39;");
 const safeCities = cities.map(city => ({
@@ -33,6 +34,9 @@ await writeFile(path.join(globalRoot,"index.html"),globalWeatherTemplate);
 const climateRoot=path.join(output,"climate-observatory");
 await mkdir(climateRoot,{recursive:true});
 await writeFile(path.join(climateRoot,"index.html"),climateTemplate.replace("__CITY_DATA__",data));
+const agricultureRoot=path.join(output,"agriculture-weather");
+await mkdir(agricultureRoot,{recursive:true});
+await writeFile(path.join(agricultureRoot,"index.html"),agricultureTemplate.replace("__CITY_DATA__",data));
 const cityRoot=path.join(output,"weather");
 for(const city of safeCities){
   const values={
