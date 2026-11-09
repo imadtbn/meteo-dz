@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<meta name="description" content="مؤشرات الطقس الزراعي حسب الولاية: الأمطار المتراكمة، الوحدات الحرارية GDD، أيام الصقيع والحرارة والأمطار.">
+<title>مؤشرات الطقس الزراعي | مرصد الأطلس</title>
+<link rel="icon" href="../../favicon.svg"><link rel="stylesheet" href="../assets/css/site.css"><link rel="stylesheet" href="../assets/css/climate.css"><link rel="stylesheet" href="../assets/css/agriculture-weather.css">
+</head>
+<body>
+<a class="skip-link" href="#main">تجاوز إلى المحتوى</a>
+<header class="site-header">
+<a class="brand" href="../"><img src="../../favicon.svg" alt="" width="42" height="42"><span><strong>الطقس الجزائري</strong><small>مرصد الأطلس · نسخة HTML مستقلة</small></span></a>
+<button class="menu-toggle" type="button" aria-expanded="false" aria-controls="primary-navigation" aria-label="فتح القائمة"><svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button>
+<nav class="primary-navigation" id="primary-navigation" aria-label="التنقل الرئيسي"><a href="../">الرئيسية</a><a href="../map/">خريطة الطقس</a><a href="../climate-observatory/">المرصد المناخي</a><a href="./" aria-current="page">الطقس الزراعي</a><a href="../../">النسخة الحالية</a></nav>
+<div class="header-actions"><button class="icon-button" data-action="theme" type="button" aria-label="تبديل المظهر">◐</button><button class="icon-button" data-action="share" type="button" aria-label="مشاركة الصفحة">↗</button></div>
+</header>
+<main id="main">
+<section class="climate-hero"><span class="eyebrow"><span class="status-dot"></span> مرصد الأطلس · المناخ والزراعة</span><h1>مؤشرات الطقس الزراعي</h1><p>تابع الحرارة المتراكمة والأمطار وأيام الصقيع والحرارة حسب الولاية، كمؤشرات مناخية مساعدة وليست بديلاً عن القياسات الحقلية.</p></section>
+<section class="content-section climate-content agriculture-content">
+<div class="climate-toolbar">
+<label>موقع المتابعة<select id="agri-city" aria-label="اختر الولاية"></select></label>
+<label>الفترة<select id="agri-period"><option value="30">آخر 30 يوماً</option><option value="90">آخر 90 يوماً</option></select></label>
+<label>درجة الأساس لـ GDD<select id="agri-base"><option value="5">5°م</option><option value="10" selected>10°م</option><option value="15">15°م</option></select></label>
+<button class="button button-secondary" id="agri-refresh" type="button">تحديث البيانات</button>
+</div>
+<p id="agri-status" class="climate-status" role="status" aria-live="polite">جارٍ حساب المؤشرات الزراعية…</p>
+<div id="agri-results" hidden>
+<div class="section-heading"><div><span class="eyebrow">01 — لوحة المتابعة</span><h2 id="agri-heading">المؤشرات الجوية</h2></div><p id="agri-period-label"></p></div>
+<div class="climate-stat-grid agriculture-stat-grid">
+<article><small>الوحدات الحرارية المتراكمة GDD</small><strong id="agri-gdd">—</strong></article>
+<article><small>الأمطار المتراكمة</small><strong id="agri-rain">—</strong></article>
+<article><small>أيام الصقيع (الصغرى ≤ 0°)</small><strong id="agri-frost">—</strong></article>
+<article><small>أيام الحرارة (العظمى ≥ 35°)</small><strong id="agri-heat">—</strong></article>
+<article><small>أيام أمطار ≥ 5 مم</small><strong id="agri-rainy">—</strong></article>
+</div>
+<div class="insight-card agriculture-method"><strong>كيف تُحسب المؤشرات؟</strong><p id="agri-method">GDD = مجموع max(0، متوسط العظمى والصغرى − درجة الأساس). الأمطار مجموع القيم اليومية. الصقيع والحرارة عدد الأيام التي تجاوزت فيها الحدود الموضحة. هذه مؤشرات أولية عامة لا تراعي نوع المحصول أو مرحلة نموه أو خصائص التربة.</p></div>
+</div>
+<p class="climate-attribution">المصدر: NASA POWER · بيانات مناخية شبكية يومية وليست رصداً مباشراً داخل الحقول. لا تتوفر هنا بيانات رطوبة التربة أو التبخر-نتح المرجعي أو مخاطر الأمراض؛ لا تستخدم النتائج وحدها لاتخاذ قرارات الري أو المعالجة. <a href="https://power.larc.nasa.gov/" target="_blank" rel="noopener noreferrer">المصدر والمنهجية</a>.</p>
+</section>
+</main>
+<footer class="site-footer"><p class="footer-brand">الطقس الجزائري <span>·</span> مرصد الأطلس</p><p>نسخة HTML مستقلة · <span data-current-year></span></p><a href="../../">العودة إلى الموقع الحالي</a></footer>
+<div class="toast" role="status" aria-live="polite" hidden></div>
+<script type="application/json" id="city-data">__CITY_DATA__</script>
+<script type="module" src="../assets/js/site.js"></script><script type="module" src="../assets/js/agriculture-weather.js"></script>
+</body></html>
