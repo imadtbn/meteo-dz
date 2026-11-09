@@ -1,6 +1,6 @@
 /* Offline shell for GitHub Pages; never cache external forecast responses. */
 const BASE = new URL(self.registration.scope).pathname;
-const CACHE = "meteo-dz-shell-v4";
+const CACHE = "meteo-dz-shell-5";
 const SHELL = [BASE, BASE + "favicon.svg", BASE + "manifest.webmanifest"];
 
 self.addEventListener("install", (event) => {
