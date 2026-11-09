@@ -69,6 +69,15 @@ for(const feature of ["atlas-weather-","atlas-favorite-cities-v1","api.open-mete
 assert.ok(css.includes(".weather-hourly")&&css.includes(".weather-insights")&&css.includes("@media(max-width:600px)"));
 assert.doesNotMatch(js,/from ["']react|from ["']wouter|import\.meta\.env/);
 await access(path.join(root,"assets/css/site.css"));
+await access(path.join(root,"assets/css/home-parity.css"));
+await access(path.join(root,"assets/js/home-parity.js"));
+const homeParityJs=await readFile(path.join(root,"assets/js/home-parity.js"),"utf8");
+const homeParityCss=await readFile(path.join(root,"assets/css/home-parity.css"),"utf8");
+for(const id of ["hero-global-city-search","locate-button","location-error","weather-status","current-card","hourly-list","daily-list","insight-grid","marine-metrics","wilaya-grid","show-more","share-dialog","share-image"]) assert.ok(home.includes(`id="${id}"`),`Missing homepage parity control: ${id}`);
+for(const feature of ["navigator.geolocation","getCurrentPosition","geocoding-api.open-meteo.com/v1/search","marine-api.open-meteo.com/v1/marine","api.open-meteo.com/v1/forecast","navigator.share","atlas-weather-","AbortController","show-more","temperature_2m_max"]) assert.ok(homeParityJs.includes(feature),`Missing homepage parity feature: ${feature}`);
+assert.ok(homeParityCss.includes(".current-card")&&homeParityCss.includes(".hour-card")&&homeParityCss.includes(".directory-card--visual")&&homeParityCss.includes("@media(max-width:650px)"));
+assert.doesNotMatch(homeParityJs,/from ["']react|from ["']wouter|import\.meta\.env/);
+
 await access(path.join(root,"assets/js/site.js"));
 await access(path.join(root,"assets/js/pages.js"));
 await access(path.join(root,"map","index.html"));
