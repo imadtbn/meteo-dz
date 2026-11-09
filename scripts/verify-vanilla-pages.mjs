@@ -80,6 +80,9 @@ for(const label of ["مركز الخرائط","المرصد المناخي","ا�
 assert.ok(home.includes('id="site-navigation"')&&home.includes('id="menu-toggle"')&&home.includes('id="favorite-toggle"'));
 for(const feature of ["atlas-favorite-cities-v1","aria-expanded","Escape","navigator.share","share-image","toBlob","function shareUrl()","weather/"]) assert.ok(homeParityJs.includes(feature),`Missing shared component behavior: ${feature}`);
 for(const feature of ["قراءة محفوظة (غير مباشرة)","firstHour","getCurrentPosition","function shareUrl()","weather/","navigator.clipboard.writeText","تمت المشاركة","نصائح طقسية","إحصائيات سريعة","التحذير الرسمي · ONM","https://www.noaa.gov/news","متوسط العظمى خلال خمسة أيام","temperature_2m_max","aria-label","shareUrl()"]) assert.ok(homeParityJs.includes(feature),`Missing weather card/share/insights parity: ${feature}`);
+assert.ok(home.includes('aria-describedby="share-description"')&&home.includes('id="share-description"'),"Share dialog must describe its purpose for assistive technology.");
+assert.ok(homeParityCss.includes(".insight-card--alert")&&homeParityCss.includes(".insight-card__head"),"Weather insight cards must preserve React alert and heading styles.");
+
 assert.ok(homeParityJs.includes("rainiest")&&homeParityJs.includes("warmest")&&homeParityJs.includes("precipitation_probability_max"),"Weather insights must calculate the rainiest and warmest forecast days.");
 assert.ok(homeParityCss.includes(".insight-card--alert")&&homeParityCss.includes(".insight-card__head"),"Weather insights must retain the React alert-card treatment.");
 
