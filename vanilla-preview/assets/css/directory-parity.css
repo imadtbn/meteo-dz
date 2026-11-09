@@ -1,3 +1,4 @@
+.directory-parity-search{grid-column:1/-1}
 .directory-grid--visual-parity{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem}
 .directory-grid--visual-parity .directory-card{display:block;min-width:0;overflow:hidden;text-decoration:none}
 .directory-grid--visual-parity .place-illustration{height:150px}
