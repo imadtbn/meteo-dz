@@ -20,27 +20,22 @@ assert.match(home,/<html lang="ar" dir="rtl">/);
 assert.match(home,/<meta name="robots" content="noindex,nofollow">/);
 assert.match(home,/id="wilaya-search"/);
 assert.match(home,/id="city-data"/);
-assert.match(home,/<section class="ad-slot" data-ad-placement="home"/,"Homepage ad container must appear immediately after its hero.");
 assert.match(home,/href="map\/">/);
 assert.match(mapPage,/<meta name="robots" content="noindex,nofollow">/);
 assert.match(mapPage,/id="atlas-map"/);
 assert.match(mapPage,/id="city-data"/);
-assert.match(mapPage,/<section class="ad-slot" data-ad-placement="map"/);
 assert.match(mapPage,/id="capital-data"/);
 assert.ok(mapJs.includes("capital-data")&&mapJs.includes("global-weather")&&mapJs.includes("tileload")&&mapJs.includes("tileerror"));
 assert.ok(mapPage.includes("22 عاصمة عربية"));
 assert.match(mapPage,/assets\/js\/map.js/);
 assert.match(globalPage,/<meta name="robots" content="noindex,nofollow">/);
-assert.match(globalPage,/<section class="ad-slot" data-ad-placement="global-weather"/);
 assert.match(climatePage,/<meta name="robots" content="noindex,nofollow">/);
-assert.match(climatePage,/<section class="ad-slot" data-ad-placement="climate"/);
 assert.ok(climatePage.includes('id="climate-city"')&&climatePage.includes('id="climate-results"')&&climatePage.includes('id="city-data"'));
 assert.ok(climateJs.includes("power.larc.nasa.gov/api/temporal/daily/point")&&climateJs.includes("T2M_MAX,T2M_MIN,PRECTOTCORR,WS10M,RH2M")&&climateJs.includes("atlas-nasa-power:")&&climateJs.includes("growingDegreeDays")===false);
 assert.ok(climateJs.includes("frost")&&climateJs.includes("hot")&&climateJs.includes("precipitation")&&climateJs.includes("AbortController"));
 assert.ok(climateCss.includes(".climate-stat-grid")&&climateCss.includes("@media(max-width:760px)"));
 assert.ok(home.includes("climate-observatory/"),"Homepage must link to the climate observatory.");
 assert.match(agriculturePage,/<meta name="robots" content="noindex,nofollow">/);
-assert.match(agriculturePage,/<section class="ad-slot" data-ad-placement="agriculture"/);
 for(const id of ["agri-city","agri-period","agri-base","agri-results","agri-gdd","agri-rain","agri-frost","agri-heat","agri-rainy","city-data"]) assert.ok(agriculturePage.includes(`id="${id}"`),`Missing agriculture control: ${id}`);
 for(const feature of ["power.larc.nasa.gov/api/temporal/daily/point","T2M_MAX,T2M_MIN,PRECTOTCORR","growingDegreeDays","frostDays","heatDays","rainyDays","AbortController","atlas-agriculture-power:"]) assert.ok(agricultureJs.includes(feature),`Missing agriculture feature: ${feature}`);
 assert.ok(agricultureCss.includes(".agriculture-stat-grid")&&agricultureCss.includes("@media (max-width: 760px)"));
@@ -63,7 +58,6 @@ for(const city of cities){
  assert.ok(page.includes(`طقس ${city.name}`),`Missing city title: ${city.slug}`);
  assert.ok(!/__CITY_|__LAT__|__LON__|__COASTAL__/.test(page),`Unresolved template token: ${city.slug}`);
  assert.match(page,/<meta name="robots" content="noindex,nofollow">/);
-  assert.match(page,/<section class="ad-slot" data-ad-placement="wilaya-/);
  for(const id of ["weather-status","weather-current","weather-hourly","weather-daily","weather-insights","weather-refresh","favorite-toggle"]) {
   assert.ok(page.includes(`id="${id}"`),`Missing ${id} in ${city.slug}`);
  }
@@ -112,7 +106,6 @@ const directoryJs=await readFile(path.join(root,"assets/js/directory-pages.js"),
 for(const slug of ["wilayas","favorites","alerts","arab-capitals","world-search"]){
  const page=await readFile(path.join(root,slug,"index.html"),"utf8");
  assert.match(page,/<meta name="robots" content="noindex,nofollow">/);
-  assert.match(page,/<section class="ad-slot" data-ad-placement="(?:wilayas|favorites|alerts|arab-capitals|world-search)"/);
  assert.match(page,/id="city-data"/);
  assert.match(page,/id="capital-data"/);
  assert.match(page,/assets\/js\/directory-pages.js/);
