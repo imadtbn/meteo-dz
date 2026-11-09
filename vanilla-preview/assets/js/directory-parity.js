@@ -7,8 +7,8 @@ const status = document.querySelector("#page-status");
 const cities = JSON.parse(document.querySelector("#city-data")?.textContent || "[]");
 const capitals = JSON.parse(document.querySelector("#capital-data")?.textContent || "[]");
 const normalize = value => String(value ?? "").normalize("NFKD").toLocaleLowerCase("en")
-  .replace(/[\\u064B-\\u065F\\u0670\\u0640]/g,"").replace(/[أإآٱ]/g,"ا").replace(/ى/g,"ي")
-  .replace(/ة/g,"ه").replace(/[\\u0300-\\u036f]/g,"").trim().replace(/\\s+/g," ");
+  .replace(/[\u064B-\u065F\u0670\u0640]/g,"").replace(/[أإآٱ]/g,"ا").replace(/ى/g,"ي")
+  .replace(/ة/g,"ه").replace(/[\u0300-\u036f]/g,"").trim().replace(/\s+/g," ");
 const setStatus = message => { status.hidden = !message; status.textContent = message || ""; };
 const setCount = message => { count.textContent = message || ""; };
 const makeCard = ({ href, label, scene, badge, meta, title }) => {
