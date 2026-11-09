@@ -1,0 +1,21 @@
+const params=new URLSearchParams(location.search);
+const latitude=Number(params.get("lat")),longitude=Number(params.get("lon"));
+const name=(params.get("name")||"الموقع المختار").slice(0,100);
+const title=document.querySelector("#global-title"),coords=document.querySelector("#global-coordinates"),status=document.querySelector("#global-status"),currentNode=document.querySelector("#global-current"),daysNode=document.querySelector("#global-days");
+const valid=params.has("lat")&&params.has("lon")&&Number.isFinite(latitude)&&Number.isFinite(longitude)&&Math.abs(latitude)<=90&&Math.abs(longitude)<=180;
+const condition=code=>{if(code===0)return["سماء صافية","☀"];if([1,2].includes(code))return["صحو جزئي","⛅"];if(code===3)return["غائم","☁"];if([45,48].includes(code))return["ضباب","〰"];if([51,53,55,56,57,61,63,65,66,67,80,81,82].includes(code))return["أمطار","☔"];if([71,73,75,77,85,86].includes(code))return["ثلوج","❄"];if([95,96,99].includes(code))return["عواصف رعدية","ϟ"];return["حالة متغيرة","◌"];};
+const fmtDay=value=>new Intl.DateTimeFormat("ar-DZ",{weekday:"long",day:"numeric",month:"short",timeZone:"Africa/Algiers"}).format(new Date(value+"T12:00:00+01:00"));
+if(title)title.textContent="الطقس في "+name;
+if(coords&&valid)coords.textContent=latitude.toFixed(3)+"°، "+longitude.toFixed(3)+"°";
+if(!valid){if(status){status.className="error-card";status.textContent="إحداثيات الموقع غير صالحة. ارجع إلى الخريطة واختر علامة أخرى.";} }
+else{
+ const query=new URLSearchParams({latitude:String(latitude),longitude:String(longitude),current:"temperature_2m,apparent_temperature,relative_humidity_2m,weather_code,wind_speed_10m",daily:"weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max",timezone:"auto",forecast_days:"5"});
+ const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),9000);
+ fetch("https://api.open-meteo.com/v1/forecast?"+query,{signal:controller.signal,headers:{Accept:"application/json"}}).then(async response=>{if(!response.ok)throw Error("HTTP "+response.status);return response.json();}).then(data=>{
+ const c=data.current,d=data.daily;
+ if(!c||!Number.isFinite(c.temperature_2m)||!Number.isFinite(c.relative_humidity_2m)||!Number.isFinite(c.weather_code)||!Number.isFinite(c.wind_speed_10m)||!d||!Array.isArray(d.time)||!Array.isArray(d.weather_code)||!Array.isArray(d.temperature_2m_max)||!Array.isArray(d.temperature_2m_min)||!Array.isArray(d.precipitation_probability_max)||!d.time.length||![d.weather_code,d.temperature_2m_max,d.temperature_2m_min,d.precipitation_probability_max].every(a=>a.length===d.time.length))throw Error("بيانات الطقس غير مكتملة");
+ const [label,icon]=condition(c.weather_code);currentNode.hidden=false;currentNode.className="global-current";currentNode.innerHTML='<div><span>الآن</span><strong>'+Math.round(c.temperature_2m)+'°</strong><b>'+icon+' '+label+'</b></div><div class="global-metrics"><span>المحسوس '+Math.round(c.apparent_temperature??c.temperature_2m)+'°</span><span>الرطوبة '+c.relative_humidity_2m+'%</span><span>الرياح '+Math.round(c.wind_speed_10m)+' كم/س</span></div>';
+ daysNode.innerHTML="";d.time.forEach((date,i)=>{const [text,symbol]=condition(d.weather_code[i]),article=document.createElement("article");article.className="day-row";const time=document.createElement("time"),weather=document.createElement("span"),temp=document.createElement("b"),rain=document.createElement("small");time.textContent=fmtDay(date);weather.textContent=symbol+" "+text;temp.textContent=Math.round(d.temperature_2m_max[i])+"° / "+Math.round(d.temperature_2m_min[i])+"°";rain.textContent="احتمال المطر "+(d.precipitation_probability_max[i]??0)+"%";article.append(time,weather,temp,rain);daysNode.append(article);});
+ if(status){status.className="insight-card";status.textContent="تم تحديث القراءة · المنطقة الزمنية: "+(data.timezone||"تلقائية");}
+ }).catch(error=>{if(status){status.className="error-card";status.textContent=error.name==="AbortError"?"انتهت مهلة الاتصال بمصدر الطقس. أعد المحاولة لاحقاً.":"تعذر جلب قراءة هذا الموقع حالياً. تحقق من الاتصال ثم حاول مجدداً.";}}).finally(()=>clearTimeout(timer));
+}
