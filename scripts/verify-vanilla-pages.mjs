@@ -76,6 +76,11 @@ const homeParityCss=await readFile(path.join(root,"assets/css/home-parity.css"),
 for(const id of ["hero-global-city-search","locate-button","location-error","weather-status","current-card","hourly-list","daily-list","insight-grid","marine-metrics","wilaya-grid","show-more","share-dialog","share-image"]) assert.ok(home.includes(`id="${id}"`),`Missing homepage parity control: ${id}`);
 for(const feature of ["navigator.geolocation","getCurrentPosition","geocoding-api.open-meteo.com/v1/search","marine-api.open-meteo.com/v1/marine","api.open-meteo.com/v1/forecast","navigator.share","atlas-weather-","AbortController","show-more","temperature_2m_max"]) assert.ok(homeParityJs.includes(feature),`Missing homepage parity feature: ${feature}`);
 assert.ok(homeParityCss.includes(".current-card")&&homeParityCss.includes(".hour-card")&&homeParityCss.includes(".directory-card--visual")&&homeParityCss.includes("@media(max-width:650px)"));
+for(const label of ["مركز الخرائط","المرصد المناخي","الطقس الزراعي","الإنذارات الجوية","التوقعات","البحر","مصدر البيانات"]) assert.ok(home.includes(label),`Missing shared header/footer navigation item: ${label}`);
+assert.ok(home.includes('id="site-navigation"')&&home.includes('id="menu-toggle"')&&home.includes('id="favorite-toggle"'));
+for(const feature of ["atlas-favorite-cities-v1","aria-expanded","Escape","navigator.share","share-image","toBlob"]) assert.ok(homeParityJs.includes(feature),`Missing shared component behavior: ${feature}`);
+assert.ok(homeParityCss.includes(".site-navigation")&&homeParityCss.includes(".favorite-toggle")&&homeParityCss.includes("@media(max-width:820px)"));
+
 assert.doesNotMatch(homeParityJs,/from ["']react|from ["']wouter|import\.meta\.env/);
 
 await access(path.join(root,"assets/js/site.js"));
