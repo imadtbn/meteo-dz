@@ -27,7 +27,7 @@ assert.ok(mapPage.includes("22 عاصمة عربية"));
 assert.match(mapPage,/assets\/js\/map.js/);
 assert.match(globalPage,/<meta name="robots" content="noindex,nofollow">/);
 assert.match(climatePage,/<meta name="robots" content="noindex,nofollow">/);
-assert.ok(climatePage.includes("id=\\"climate-city\\"")&&climatePage.includes("id=\\"climate-results\\"")&&climatePage.includes("id=\\"city-data\\""));
+assert.ok(climatePage.includes('id="climate-city"')&&climatePage.includes('id="climate-results"')&&climatePage.includes('id="city-data"'));
 assert.ok(climateJs.includes("power.larc.nasa.gov/api/temporal/daily/point")&&climateJs.includes("T2M_MAX,T2M_MIN,PRECTOTCORR,WS10M,RH2M")&&climateJs.includes("atlas-nasa-power:")&&climateJs.includes("growingDegreeDays")===false);
 assert.ok(climateJs.includes("frost")&&climateJs.includes("hot")&&climateJs.includes("precipitation")&&climateJs.includes("AbortController"));
 assert.ok(climateCss.includes(".climate-stat-grid")&&climateCss.includes("@media(max-width:760px)"));
