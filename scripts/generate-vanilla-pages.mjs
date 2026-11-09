@@ -10,6 +10,7 @@ const mapTemplate = await readFile(path.join(source, "map.template.html"), "utf8
 const globalWeatherTemplate = await readFile(path.join(source, "global-weather.template.html"), "utf8");
 const climateTemplate = await readFile(path.join(source, "climate-observatory.template.html"), "utf8");
 const agricultureTemplate = await readFile(path.join(source, "agriculture-weather.template.html"), "utf8");
+const directoryTemplate = await readFile(path.join(source, "directory-pages.template.html"), "utf8");
 const arabCapitals = JSON.parse(await readFile(path.resolve("vanilla-preview/data/arab-capitals.json"), "utf8"));
 const escapeHtml = (value) => String(value ?? "").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#39;");
 const safeCities = cities.map(city => ({
@@ -37,6 +38,19 @@ await writeFile(path.join(climateRoot,"index.html"),climateTemplate.replace("__C
 const agricultureRoot=path.join(output,"agriculture-weather");
 await mkdir(agricultureRoot,{recursive:true});
 await writeFile(path.join(agricultureRoot,"index.html"),agricultureTemplate.replace("__CITY_DATA__",data));
+
+const directoryPages=[
+ {slug:"wilayas",kind:"wilayas",title:"دليل الولايات الجزائرية",description:"دليل الولايات الجزائرية الـ69 والبحث بأسماء الولايات ورموزها",heading:"ولايات الجزائر الـ69",intro:"ابحث عن أي ولاية بالاسم العربي أو الفرنسي أو اللاتيني أو رمز الولاية أو الهاتف.",subheading:"اختر الولاية لفتح توقعات الطقس"},
+ {slug:"favorites",kind:"favorites",title:"ولاياتي المفضلة",description:"الولايات المحفوظة محلياً في مرصد الأطلس",heading:"ولاياتك المفضلة",intro:"قائمة الولايات التي حفظتها على هذا الجهاز، دون الحاجة إلى إنشاء حساب.",subheading:"الولايات المحفوظة"},
+ {slug:"alerts",kind:"alerts",title:"الإنذارات الجوية الرسمية",description:"روابط النشرات والتحذيرات الرسمية للديوان الوطني للأرصاد الجوية",heading:"الإنذارات الجوية الرسمية",intro:"الوصول إلى اليقظة الجوية والنشرات الخاصة من مصادرها الرسمية.",subheading:"مصادر التنبيه المعتمدة"},
+ {slug:"arab-capitals",kind:"arab-capitals",title:"العواصم العربية",description:"دليل الطقس في 22 عاصمة عربية",heading:"الطقس في العواصم العربية",intro:"اختر عاصمة عربية لفتح القراءة الجوية والتوقعات حسب إحداثياتها.",subheading:"العواصم الـ22"},
+ {slug:"world-search",kind:"world-search",title:"البحث العالمي عن المدن",description:"ابحث عن المدن حول العالم وافتح توقعات الطقس",heading:"ابحث عن مدينة حول العالم",intro:"استخدم محرك البحث الجغرافي للعثور على المدن وفتح توقعات الطقس العالمية.",subheading:"محرك البحث العالمي"}
+];
+for(const page of directoryPages){
+ const directory=path.join(output,page.slug);await mkdir(directory,{recursive:true});
+ const html=directoryTemplate.replaceAll("__TITLE__",page.title).replaceAll("__DESCRIPTION__",page.description).replaceAll("__HEADING__",page.heading).replaceAll("__INTRO__",page.intro).replaceAll("__SUBHEADING__",page.subheading).replaceAll("__KIND__",page.kind).replace("__CITY_DATA__",data).replace("__CAPITAL_DATA__",capitalData);
+ await writeFile(path.join(directory,"index.html"),html);
+}
 const cityRoot=path.join(output,"weather");
 for(const city of safeCities){
   const values={
