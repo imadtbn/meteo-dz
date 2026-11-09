@@ -99,6 +99,9 @@ for(const slug of ["wilayas","favorites","alerts","arab-capitals","world-search"
  assert.match(page,/assets\/js\/directory-pages.js/);
 }
 for(const feature of ["atlas-favorite-cities-v1","geocoding-api.open-meteo.com","arab-capitals","world-search","meteo.dz/bms","meteo.dz/rss","wilayas","AbortController"]) assert.ok(directoryJs.includes(feature),`Missing directory parity feature: ${feature}`);
+for(const feature of ["language:\"ar\"","count:\"10\"","setTimeout(()=>run(),350)","navigator.geolocation.getCurrentPosition","api.bigdatacloud.net/data/reverse-geocode-client","global-weather/?lat=","map/?lat=","localStorage.getItem(\"atlas-favorite-cities-v1\")","controller?.abort()"]) assert.ok(directoryJs.includes(feature),`Missing world-search parity feature: ${feature}`);
+assert.ok(directoryJs.includes('params.get("q")')&&directoryJs.includes('input.addEventListener("input",schedule)'),"World search must support query-prefill and live debounced results.");
+
 assert.ok(home.includes('href="wilayas/"')&&home.includes('href="favorites/"')&&home.includes('href="alerts/"')&&home.includes('href="world-search/"'));
 assert.ok(home.includes('href="arab-capitals/"'));
 console.log("Verified isolated vanilla homepage, 69 wilaya pages, hourly/daily forecasts, coastal marine data, caching, favorites, interactive weather map, NASA POWER climate observatory, and responsive assets.");
