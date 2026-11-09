@@ -12,7 +12,6 @@ const climateTemplate = await readFile(path.join(source, "climate-observatory.te
 const agricultureTemplate = await readFile(path.join(source, "agriculture-weather.template.html"), "utf8");
 const directoryTemplate = await readFile(path.join(source, "directory-pages.template.html"), "utf8");
 const arabCapitals = JSON.parse(await readFile(path.resolve("vanilla-preview/data/arab-capitals.json"), "utf8"));
-const injectAdContainer = (html, placement) => html.replace(/(<section class="(?:hero-band|hero(?:\s[^"]*)?|map-hero|map-page-hero|climate-hero)"[^>]*>[\s\S]*?<\/section>)/, match => match + "\n<section class=" + '"' + "ad-slot" + '"' + " data-ad-placement=" + '"' + placement + '"' + " aria-label=" + '"' + "مساحة إعلانية" + '"' + "><span>مساحة إعلانية</span><div class=" + '"' + "ad-slot__content" + '"' + " aria-hidden=" + '"' + "true" + '"' + "></div></section>");
 const escapeHtml = (value) => String(value ?? "").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#39;");
 const safeCities = cities.map(city => ({
   code:String(city.code),slug:String(city.slug),name:String(city.name),name_fr:String(city.name_fr ?? ""),
@@ -25,20 +24,20 @@ if (safeCities.length !== 69 || new Set(safeCities.map(city=>city.slug)).size !=
 await mkdir(output,{recursive:true});
 await cp(path.join(source,"assets"),path.join(output,"assets"),{recursive:true});
 const data = JSON.stringify(safeCities).replaceAll("<","\\u003c").replaceAll(">","\\u003e").replaceAll("&","\\u0026");
-await writeFile(path.join(output,"index.html"),injectAdContainer(homeTemplate.replace("__CITY_DATA__",data),"home"));
+await writeFile(path.join(output,"index.html"),homeTemplate.replace("__CITY_DATA__",data));
 const mapRoot=path.join(output,"map");
 await mkdir(mapRoot,{recursive:true});
 const capitalData = JSON.stringify(arabCapitals).replaceAll("<","\\u003c").replaceAll(">","\\u003e").replaceAll("&","\\u0026");
-await writeFile(path.join(mapRoot,"index.html"),injectAdContainer(mapTemplate.replace("__CITY_DATA__",data).replace("__CAPITAL_DATA__",capitalData),"map"));
+await writeFile(path.join(mapRoot,"index.html"),mapTemplate.replace("__CITY_DATA__",data).replace("__CAPITAL_DATA__",capitalData));
 const globalRoot=path.join(output,"global-weather");
 await mkdir(globalRoot,{recursive:true});
-await writeFile(path.join(globalRoot,"index.html"),injectAdContainer(globalWeatherTemplate,"global-weather"));
+await writeFile(path.join(globalRoot,"index.html"),globalWeatherTemplate);
 const climateRoot=path.join(output,"climate-observatory");
 await mkdir(climateRoot,{recursive:true});
-await writeFile(path.join(climateRoot,"index.html"),injectAdContainer(climateTemplate.replace("__CITY_DATA__",data),"climate"));
+await writeFile(path.join(climateRoot,"index.html"),climateTemplate.replace("__CITY_DATA__",data));
 const agricultureRoot=path.join(output,"agriculture-weather");
 await mkdir(agricultureRoot,{recursive:true});
-await writeFile(path.join(agricultureRoot,"index.html"),injectAdContainer(agricultureTemplate.replace("__CITY_DATA__",data),"agriculture"));
+await writeFile(path.join(agricultureRoot,"index.html"),agricultureTemplate.replace("__CITY_DATA__",data));
 
 const directoryPages=[
  {slug:"wilayas",kind:"wilayas",title:"دليل الولايات الجزائرية",description:"دليل الولايات الجزائرية الـ69 والبحث بأسماء الولايات ورموزها",heading:"ولايات الجزائر الـ69",intro:"ابحث عن أي ولاية بالاسم العربي أو الفرنسي أو اللاتيني أو رمز الولاية أو الهاتف.",subheading:"اختر الولاية لفتح توقعات الطقس"},
@@ -49,7 +48,7 @@ const directoryPages=[
 ];
 for(const page of directoryPages){
  const directory=path.join(output,page.slug);await mkdir(directory,{recursive:true});
- const html=injectAdContainer(directoryTemplate.replaceAll("__TITLE__",page.title).replaceAll("__DESCRIPTION__",page.description).replaceAll("__HEADING__",page.heading).replaceAll("__INTRO__",page.intro).replaceAll("__SUBHEADING__",page.subheading).replaceAll("__KIND__",page.kind).replace("__CITY_DATA__",data).replace("__CAPITAL_DATA__",capitalData),page.slug);
+ const html=directoryTemplate.replaceAll("__TITLE__",page.title).replaceAll("__DESCRIPTION__",page.description).replaceAll("__HEADING__",page.heading).replaceAll("__INTRO__",page.intro).replaceAll("__SUBHEADING__",page.subheading).replaceAll("__KIND__",page.kind).replace("__CITY_DATA__",data).replace("__CAPITAL_DATA__",capitalData);
  await writeFile(path.join(directory,"index.html"),html);
 }
 const cityRoot=path.join(output,"weather");
@@ -64,6 +63,6 @@ for(const city of safeCities){
   for(const [token,value] of Object.entries(values)) html=html.replaceAll(token,value);
   const directory=path.join(cityRoot,city.slug);
   await mkdir(directory,{recursive:true});
-  await writeFile(path.join(directory,"index.html"),injectAdContainer(html,`wilaya-${city.code}`));
+  await writeFile(path.join(directory,"index.html"),html);
 }
 console.log(`Generated isolated vanilla homepage and ${safeCities.length} standalone wilaya pages.`);
