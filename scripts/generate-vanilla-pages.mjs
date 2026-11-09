@@ -64,6 +64,6 @@ for(const city of safeCities){
   for(const [token,value] of Object.entries(values)) html=html.replaceAll(token,value);
   const directory=path.join(cityRoot,city.slug);
   await mkdir(directory,{recursive:true});
-  await writeFile(path.join(directory,"index.html"),html);
+  await writeFile(path.join(directory,"index.html"),injectAdContainer(html,`wilaya-${city.code}`));
 }
 console.log(`Generated isolated vanilla homepage and ${safeCities.length} standalone wilaya pages.`);
