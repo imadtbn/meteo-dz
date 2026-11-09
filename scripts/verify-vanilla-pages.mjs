@@ -37,7 +37,7 @@ assert.ok(climateCss.includes(".climate-stat-grid")&&climateCss.includes("@media
 assert.ok(home.includes("climate-observatory/"),"Homepage must link to the climate observatory.");
 assert.match(agriculturePage,/<meta name="robots" content="noindex,nofollow">/);
 for(const id of ["agri-city","agri-period","agri-base","agri-results","agri-gdd","agri-rain","agri-frost","agri-heat","agri-rainy","city-data"]) assert.ok(agriculturePage.includes(`id="${id}"`),`Missing agriculture control: ${id}`);
-for(const feature of ["power.larc.nasa.gov/api/temporal/daily/point","T2M_MAX,T2M_MIN,PRECTOTCORR","growingDegreeDays","frostDays","heatDays","rainyDays","AbortController","atlas-nasa-power:"]) assert.ok(agricultureJs.includes(feature),`Missing agriculture feature: ${feature}`);
+for(const feature of ["power.larc.nasa.gov/api/temporal/daily/point","T2M_MAX,T2M_MIN,PRECTOTCORR","growingDegreeDays","frostDays","heatDays","rainyDays","AbortController","atlas-agriculture-power:"]) assert.ok(agricultureJs.includes(feature),`Missing agriculture feature: ${feature}`);
 assert.ok(agricultureCss.includes(".agriculture-stat-grid")&&agricultureCss.includes("@media (max-width: 760px)"));
 assert.ok(agriculturePage.includes("لا تستخدم النتائج وحدها لاتخاذ قرارات الري أو المعالجة"));
 assert.ok(globalPage.includes("global-current")&&globalPage.includes("global-days"));
