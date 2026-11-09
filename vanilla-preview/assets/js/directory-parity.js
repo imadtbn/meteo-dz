@@ -34,10 +34,19 @@ const makeCard = ({ href, label, scene, badge, meta, title }) => {
 };
 
 if (kind === "wilayas" || kind === "arab-capitals") {
-  const input = root.querySelector("input.directory-search-input");
+  let input = root.querySelector("input.directory-search-input");
+  if (!input) {
+    input = document.createElement("input");
+    input.className = "directory-search-input";
+    input.type = "search";
+    input.setAttribute("aria-label", kind === "wilayas" ? "بحث الولايات" : "بحث العواصم");
+  }
+  const inputWrap = document.createElement("div");
+  inputWrap.className = "directory-parity-search";
+  inputWrap.append(input);
   const grid = document.createElement("div");
   grid.className = "directory-grid directory-grid--visual directory-grid--parity";
-  root.replaceChildren(input.parentElement, grid);
+  root.replaceChildren(inputWrap, grid);
   const render = () => {
     const query = normalize(input.value);
     if (kind === "wilayas") {
@@ -98,7 +107,7 @@ if (kind === "world-search") {
   note.setAttribute("aria-live","polite");
   root.replaceChildren(controls,note,results);
 
-  const validCoordinates = place => place && typeof place.name === "string" && place.name.trim() &&
+  const validCoordinates = place => place && typeof place.id === "number" && typeof place.name === "string" && place.name.trim() &&
     Number.isFinite(place.latitude) && Math.abs(place.latitude) <= 90 &&
     Number.isFinite(place.longitude) && Math.abs(place.longitude) <= 180;
   const weatherUrl = (lat,lon,name) => "../global-weather/?lat="+encodeURIComponent(lat)+"&lon="+encodeURIComponent(lon)+"&name="+encodeURIComponent(name);
@@ -214,7 +223,7 @@ if (kind === "world-search") {
       setNote("تم تحديد الإحداثيات. أسماء المناطق تقريبية حسب خدمة الخرائط.");
       const controller = new AbortController();
       reverseController = controller;
-      const timeout = setTimeout(() => controller.abort(),9000);
+      const timeout = setTimeout(() => { controller.abort(); if (request === locateSequence) detail.textContent = "تم تحديد الإحداثيات، لكن انتهت مهلة معرفة أسماء المناطق. يمكنك فتح الطقس أو الخريطة مباشرة."; },9000);
       try {
         const url = new URL("https://api.bigdatacloud.net/data/reverse-geocode-client");
         url.search = new URLSearchParams({latitude:String(latitude),longitude:String(longitude),localityLanguage:"ar"}).toString();
@@ -227,7 +236,7 @@ if (kind === "world-search") {
         weather.href = weatherUrl(latitude,longitude,name);
         weather.textContent = "عرض طقس "+name;
       } catch {
-        if (!controller.signal.aborted && request === locateSequence) detail.textContent = "تم تحديد الإحداثيات، لكن تعذر جلب أسماء المناطق. يمكنك فتح الطقس أو الخريطة مباشرة.";
+        if (request === locateSequence) detail.textContent = "تم تحديد الإحداثيات، لكن تعذر جلب أسماء المناطق. يمكنك فتح الطقس أو الخريطة مباشرة.";
       } finally {
         clearTimeout(timeout);
         if (request === locateSequence) locate.disabled = false;
