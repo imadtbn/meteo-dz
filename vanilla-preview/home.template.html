@@ -2,36 +2,47 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="robots" content="noindex,nofollow">
-<meta name="description" content="دليل الطقس الجزائري المستقل: قراءة جوية لكل ولاية من ولايات الجزائر الـ69.">
-<title>الطقس الجزائري | نسخة HTML مستقلة</title>
-<link rel="icon" href="../favicon.svg"><link rel="stylesheet" href="assets/css/site.css">
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"الطقس الجزائري","inLanguage":"ar-DZ"}</script>
+<meta name="robots" content="noindex,nofollow"><meta name="theme-color" content="#f5f0e6">
+<meta name="description" content="مرصد الأطلس: قراءة الطقس الحالية والساعية والأسبوعية والبحرية في ولايات الجزائر ومدن العالم.">
+<title>الطقس الجزائري | مرصد الأطلس</title>
+<link rel="icon" href="../client/public/favicon.svg"><link rel="stylesheet" href="assets/css/site.css"><link rel="stylesheet" href="assets/css/home-parity.css">
 </head>
 <body>
 <a class="skip-link" href="#main">تجاوز إلى المحتوى</a>
 <header class="site-header">
-<a class="brand" href="./"><img src="../favicon.svg" alt="" width="42" height="42"><span><strong>الطقس الجزائري</strong><small>مرصد الأطلس · نسخة HTML مستقلة</small></span></a>
+<a class="brand" href="./"><img src="../client/public/favicon.svg" alt="" width="42" height="42"><span><strong>الطقس الجزائري</strong><small>مرصد الأطلس</small></span></a>
 <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="primary-navigation" aria-label="فتح القائمة"><svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button>
-<nav class="primary-navigation" id="primary-navigation" aria-label="التنقل الرئيسي"><a href="./">الرئيسية</a><a href="wilayas/">ولايات الجزائر</a><a href="arab-capitals/">العواصم العربية</a><a href="world-search/">بحث عالمي</a><a href="map/">خريطة الطقس</a><a href="alerts/">التنبيهات</a><a href="favorites/">مفضلاتي</a><a href="climate-observatory/">المرصد المناخي</a><a href="agriculture-weather/">الطقس الزراعي</a><a href="#about">عن المرصد</a><a href="../">النسخة الحالية</a></nav>
+<nav class="primary-navigation" id="primary-navigation" aria-label="التنقل الرئيسي"><a href="./">الرئيسية</a><a href="wilayas/">الولايات</a><a href="map/">الخريطة</a><a href="arab-capitals/">العواصم العربية</a><a href="world-search/">بحث عالمي</a><a href="alerts/">التنبيهات</a><a href="favorites/">المفضلة</a><a href="climate-observatory/">المرصد المناخي</a><a href="agriculture-weather/">الطقس الزراعي</a><a href="../">النسخة الأصلية</a></nav>
 <div class="header-actions"><button class="icon-button" data-action="theme" type="button" aria-label="تبديل المظهر">◐</button><button class="icon-button" data-action="share" type="button" aria-label="مشاركة الصفحة">↗</button></div>
 </header>
 <main id="main">
-<section class="hero">
-<div class="hero-copy"><span class="eyebrow"><span class="status-dot"></span> قراءة محلية · الجزائر</span><h1>الطقس الذي تحتاجه<br><em>قبل أن تتحرك.</em></h1><p>نسخة HTML مستقلة للصفحة الرئيسية ودليل الولايات. اختر ولايتك للوصول إلى صفحة طقس مخصصة، أو ابحث باسمها العربي أو الفرنسي أو اللاتيني أو برقمها ورمز هاتفها.</p>
-<div class="hero-actions"><a class="button button-primary" href="wilayas/">استعرض الولايات</a><a class="button button-secondary" href="map/">افتح خريطة الطقس</a><a class="button button-secondary" href="climate-observatory/">المرصد المناخي</a><a class="button button-secondary" href="agriculture-weather/">الطقس الزراعي</a><a class="button button-secondary" href="../">فتح النسخة الحالية</a></div></div>
-<aside class="hero-note"><span class="note-kicker">دليل الولايات</span><strong>69 ولاية</strong><p>أسماء متعددة اللغات، رموز إدارية، مناطق جغرافية وإحداثيات محفوظة من قاعدة بيانات المشروع.</p><div class="note-divider"></div><span class="note-foot">نسخة تجريبية معزولة · لا تستبدل الموقع المنشور</span></aside>
+<section class="hero-band">
+<div class="hero-art" aria-hidden="true"></div>
+<div class="hero-content"><span class="eyebrow"><span class="status-dot"></span> مرصد محلي · وقت الجزائر</span><h1>الطقس الذي تحتاجه<br><em>قبل أن تتحرك.</em></h1><p>قراءة مباشرة، ساعات قادمة، وتفاصيل ساحلية موثقة، بلا ادعاءات أو أرقام غير قابلة للتحقق.</p>
+<div class="city-picker" id="city-picker">
+<div class="city-command city-command--search" role="search"><span aria-hidden="true">⌕</span><label class="sr-only" for="hero-global-city-search">ابحث عن مدينة أو ولاية</label><input id="hero-global-city-search" type="search" role="combobox" aria-expanded="false" aria-controls="city-search-results" autocomplete="off" placeholder="ابحث عن مدينة أو ولاية في الجزائر أو العالم…"><button type="button" class="icon-button dark" id="locate-button" title="تحديد موقعي" aria-label="تحديد موقعي الجغرافي">⌖</button></div>
+<p class="city-picker__current" id="current-city-label">النشرة الحالية: الجزائر العاصمة</p><div class="city-picker__panel" id="city-search-results" hidden></div>
+<div class="hero-actions"><button class="button button-secondary" id="location-quick">استخدم موقعي الحالي</button><a class="button button-secondary" href="map/">خريطة الطقس</a></div>
+<p class="location-error" id="location-error" role="status" hidden></p>
+</div></div>
 </section>
-<section class="content-section" id="wilayas">
-<div class="section-heading"><div><span class="eyebrow">دليل الجزائر</span><h2>اختر ولايتك</h2></div><p>ابحث باسم الولاية أو المنطقة أو رمز الولاية أو رمز الهاتف.</p></div>
-<label class="search-label" for="wilaya-search">البحث في الولايات الجزائرية</label><input id="wilaya-search" class="wilaya-search" type="search" placeholder="مثال: وهران، Oran، 31، 213" autocomplete="off">
-<p class="result-count" id="result-count" aria-live="polite">جارٍ تحميل الدليل…</p>
-<div class="wilaya-grid" id="wilaya-grid"><p>جارٍ تجهيز الولايات…</p></div>
+<section class="dashboard-shell" id="now"><div class="section-intro"><span>01 — القراءة المحلية</span><h2 id="now-title">الآن في الجزائر العاصمة</h2><button class="refresh-button" id="weather-refresh" type="button">↻ تحديث القراءة</button></div>
+<div id="weather-status" class="loading-card" role="status">جارٍ جلب قراءة موثقة للطقس…</div>
+<div class="now-grid" id="now-grid" hidden><article class="current-card" id="current-card"></article><aside class="decision-panel"><span class="eyebrow">ملخص اليوم</span><h3 id="weather-advice"></h3><div class="decision-points" id="weather-summary"></div><small>إرشاد آلي مبني على القراءة الحالية، وليس تحذيراً رسمياً.</small></aside></div>
 </section>
-<section class="content-section" id="about"><div class="migration-notice"><span class="notice-mark">i</span><p><strong>حول هذه النسخة:</strong> صفحات HTML مولّدة من بيانات الولايات الأصلية. تبقى خدمات الطقس والخرائط وبقية الوظائف في التطبيق الحالي دون تغيير خلال مرحلة النقل والاختبار.</p></div></section>
+<section class="dashboard-shell forecast-section" id="outlook" hidden>
+<div class="section-intro"><span>02 — الإيقاع القريب</span><h2>الساعات القادمة</h2><p>نموذج التنبؤ · Open-Meteo · توقيت الجزائر</p></div><div class="hourly-rail observation-rail" id="hourly-list"></div>
+<div class="section-intro section-intro--compact"><span>03 — نظرة أسبوعية</span><h2>سبعة أيام قادمة</h2><p>أقصى وأدنى قراءة يومية</p></div><div class="daily-list" id="daily-list"></div>
+</section>
+<section class="dashboard-shell insights-shell" id="insights" hidden><div class="section-intro"><span>05 — قراءة أوسع</span><h2>نصيحة، إحصائية، ومصدر</h2><p>إرشاد آلي لا يحل محل النشرة الرسمية.</p></div><div class="insight-grid" id="insight-grid"></div></section>
+<section class="dashboard-shell marine-section" id="marine"><div class="marine-copy"><span class="eyebrow">حالة البحر</span><h2 id="marine-title">القراءة البحرية</h2><p id="marine-copy">مؤشرات الموج للمدن الساحلية.</p></div><div class="marine-metrics" id="marine-metrics"></div></section>
+<section class="regions-section" id="regions"><div class="dashboard-shell"><div class="section-intro"><span>04 — الولايات</span><h2>اختر ولايتك مباشرة</h2><p>بطاقات مصورة مستوحاة من المشاهد الجغرافية للولايات.</p></div>
+<div class="city-index-toolbar city-index-toolbar--home"><label for="wilaya-search">البحث في ولايات الجزائر</label><input id="wilaya-search" class="wilaya-search" type="search" placeholder="مثال: وهران، Oran، 31، 213" autocomplete="off"><strong id="result-count" role="status">69 ولاية</strong></div>
+<div class="region-grid region-grid--visual-home" id="wilaya-grid"></div><div class="region-actions"><button class="secondary-button" id="show-more" type="button">عرض المزيد من الولايات</button><a class="all-cities-link" href="wilayas/">دليل الولايات الكامل ←</a></div></div></section>
 </main>
-<footer class="site-footer"><p class="footer-brand">الطقس الجزائري <span>·</span> مرصد الأطلس</p><p>نسخة HTML مستقلة · <span data-current-year></span></p><a href="../">العودة إلى الموقع الحالي</a></footer>
+<footer class="site-footer"><div class="footer-about"><b class="footer-brand">الطقس الجزائري · مرصد الأطلس</b><p>طقس الجزائر والعالم العربي: قراءة عملية محدثة، وتوقعات واضحة مع إظهار مصدر البيانات.</p></div><nav class="footer-links"><a href="map/">الخريطة</a><a href="favorites/">المفضلة</a><a href="alerts/">النشرات الرسمية</a></nav><div class="footer-disclaimer"><a href="https://www.meteo.dz/" target="_blank" rel="noopener">النشرات الرسمية</a><small>بيانات Open-Meteo إرشادية وليست تحذيرات رسمية.</small></div></footer>
 <div class="toast" role="status" aria-live="polite" hidden></div>
+<div class="share-backdrop" id="share-dialog" hidden><section class="share-dialog" role="dialog" aria-modal="true" aria-labelledby="share-title"><button class="icon-button" id="share-close" aria-label="إغلاق">×</button><span class="eyebrow">بطاقة المشاركة</span><h2 id="share-title">شارك قراءة الطقس</h2><div class="share-preview" id="share-preview"></div><div class="share-actions"><button class="button button-primary" id="share-native">مشاركة</button><button class="button button-secondary" id="share-copy">نسخ الرابط والقراءة</button><button class="button button-secondary" id="share-image">تنزيل البطاقة PNG</button></div><p id="share-status" role="status"></p></section></div>
 <script type="application/json" id="city-data">__CITY_DATA__</script>
-<script type="module" src="assets/js/site.js"></script><script type="module" src="assets/js/pages.js"></script>
+<script type="module" src="assets/js/site.js"></script><script type="module" src="assets/js/home-parity.js"></script>
 </body></html>
