@@ -45,7 +45,7 @@ if (kind === "wilayas" || kind === "arab-capitals") {
   inputWrap.className = "directory-parity-search";
   inputWrap.append(input);
   const grid = document.createElement("div");
-  grid.className = "directory-grid directory-grid--visual directory-grid--parity";
+  grid.className = "directory-grid directory-grid--visual-parity";
   root.replaceChildren(inputWrap, grid);
   const render = () => {
     const query = normalize(input.value);
