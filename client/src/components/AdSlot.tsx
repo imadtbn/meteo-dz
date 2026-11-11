@@ -95,7 +95,7 @@ export function AdSlot({ position }: { position: SlotPosition }) {
     <aside
       className={"site-ad site-ad--" + position}
       data-ad-position={position}
-      aria-label={isHeader ? "مساحة إعلانية أسفل الهيدر" : "مساحة إعلانية قبل تذييل الموقع"}
+      aria-label={isHeader ? "مساحة إعلانية أسفل قسم المقدمة" : "مساحة إعلانية قبل تذييل الموقع"}
       ref={containerRef}
     >
       <div className="site-ad__inner">
