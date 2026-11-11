@@ -1,4 +1,3 @@
-import { AdSlot } from "@/components/AdSlot";
 import { SiteActions } from "@/components/SiteActions";
 import { useEffect, useState } from "react";
 import {
@@ -101,7 +100,6 @@ export function PublicHeader({ showSections = false }: { showSections?: boolean 
           </button>
         </div>
       </header>
-      <AdSlot position="header" />
       {open && (
         <button
           type="button"
