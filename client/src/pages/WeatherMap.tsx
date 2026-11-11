@@ -1,3 +1,4 @@
+import { AdSlot } from "@/components/AdSlot";
 /** Style reminder: the interactive weather map is a measured atlas surface with sourced overlays and explicit attribution. */
 import { useMemo, useState } from "react";
 import { Layers, MapPin, Navigation } from "lucide-react";
@@ -78,6 +79,7 @@ export default function WeatherMapPage() {
         <h1>الطقس على خريطة واحدة.</h1>
         <p>طبقات توقعات الطقس للحرارة والأمطار والرياح والضغط، مع مواقع الولايات الجزائرية والعواصم العربية.</p>
       </section>
+      <AdSlot position="header" />
       <section className="map-shell">
         <div className="map-legend">
           <span><MapPin size={14} /> {ALGERIAN_CITIES.length} ولاية جزائرية</span>
