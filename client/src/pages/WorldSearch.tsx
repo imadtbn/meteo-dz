@@ -49,13 +49,25 @@ export function WorldSearchPage() {
       setIsSearching(true);
       setSearchError("");
       try {
-        const url = new URL("https://geocoding-api.open-meteo.com/v1/search");
-        url.search = new URLSearchParams({ name: cleaned, count: "10", language: "ar", format: "json" }).toString();
-        const response = await fetch(url, { signal: controller.signal });
-        if (!response.ok) throw new Error("search failed");
-        const payload = await response.json();
+        const payloads = await Promise.all(["ar", "en"].map(async (language) => {
+          const url = new URL("https://geocoding-api.open-meteo.com/v1/search");
+          url.search = new URLSearchParams({ name: cleaned, count: "10", language, format: "json" }).toString();
+          const response = await fetch(url, { signal: controller.signal });
+          if (!response.ok) throw new Error("search failed");
+          return response.json();
+        }));
         if (!controller.signal.aborted) {
-          setSuggestions(Array.isArray(payload.results) ? payload.results : []);
+          const unique = new Map<number, Place>();
+          for (const payload of payloads) {
+            if (Array.isArray(payload.results)) {
+              for (const place of payload.results as Place[]) {
+                if (Number.isFinite(place.latitude) && Number.isFinite(place.longitude) && !unique.has(place.id)) {
+                  unique.set(place.id, place);
+                }
+              }
+            }
+          }
+          setSuggestions(Array.from(unique.values()).slice(0, 12));
         }
       } catch (error) {
         if (!controller.signal.aborted) {
@@ -137,11 +149,11 @@ export function WorldSearchPage() {
       <PublicHeader />
       <section className="directory-hero">
         <span className="eyebrow">المحرك العالمي · Open-Meteo Geocoding</span>
-        <h1>ابحث عن أي مكان على الخريطة.</h1>
-        <p>ابحث باسم المدينة أو الدولة، أو اختر «موقعي» لعرض البلد والولاية والبلدية ثم الطقس.</p>
+        <h1>ابحث عن مدينة في أي مكان حول العالم.</h1>
+        <p>اكتب اسم المدينة بالعربية أو الإنجليزية أو الفرنسية، واختر اقتراحًا لعرض الطقس مباشرة، أو استخدم GPS لجلب طقس موقعك الحالي.</p>
         <div className="world-search-box">
           <Search size={20} aria-hidden="true" />
-          <input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="مثال: Tokyo، دبي، وهران" aria-label="البحث عن مدينة أو دولة" />
+          <input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="مثال: Tokyo، Paris، دبي، وهران" aria-label="البحث عن مدينة أو دولة" />
           <button type="button" onClick={detectLocation} disabled={locating}>
             <LocateFixed size={16} aria-hidden="true" /> {locating ? "جارٍ التحديد…" : "موقعي"}
           </button>
