@@ -112,3 +112,13 @@ temp/
 # Manus version file (auto-generated, not part of source)
 client/public/__manus__/version.json
 .project-config.json
+
+# Generated GitHub Pages output (rebuilt by the deploy workflow)
+/index.html
+/404.html
+/assets/
+/weather/
+/wilayas/
+/arab-capitals/
+/world-search/
+/weather-map/
