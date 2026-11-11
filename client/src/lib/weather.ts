@@ -74,14 +74,25 @@ export const parseAlgerianWeatherTime = (iso: string): Date => {
   return new Date(iso + "T12:00:00+01:00");
 };
 
-export const formatHour = (iso: string) =>
-  new Intl.DateTimeFormat("ar-DZ", { hour: "numeric", minute: "2-digit", timeZone: "Africa/Algiers" }).format(parseAlgerianWeatherTime(iso));
+const parseWeatherWallTime = (iso: string, timezone: string) =>
+  timezone === "Africa/Algiers"
+    ? parseAlgerianWeatherTime(iso)
+    : new Date(/[zZ]$|[+-]\\d{2}:\\d{2}$/.test(iso) ? iso : iso + "Z");
 
-export const formatDay = (iso: string) =>
-  new Intl.DateTimeFormat("ar-DZ", { weekday: "long", day: "numeric", month: "short", timeZone: "Africa/Algiers" }).format(parseAlgerianWeatherTime(iso));
+const displayWeatherTimeZone = (timezone: string) =>
+  timezone === "Africa/Algiers" ? "Africa/Algiers" : "UTC";
 
-export const formatUpdatedAt = (iso: string) =>
-  new Intl.DateTimeFormat("ar-DZ", { hour: "numeric", minute: "2-digit", day: "numeric", month: "short", timeZone: "Africa/Algiers" }).format(parseAlgerianWeatherTime(iso));
+export const formatHour = (iso: string, timezone = "Africa/Algiers") =>
+  new Intl.DateTimeFormat("ar-DZ", { hour: "numeric", minute: "2-digit", timeZone: displayWeatherTimeZone(timezone) })
+    .format(parseWeatherWallTime(iso, timezone));
+
+export const formatDay = (iso: string, timezone = "Africa/Algiers") =>
+  new Intl.DateTimeFormat("ar-DZ", { weekday: "long", day: "numeric", month: "short", timeZone: displayWeatherTimeZone(timezone) })
+    .format(parseWeatherWallTime(iso, timezone));
+
+export const formatUpdatedAt = (iso: string, timezone = "Africa/Algiers") =>
+  new Intl.DateTimeFormat("ar-DZ", { hour: "numeric", minute: "2-digit", day: "numeric", month: "short", timeZone: displayWeatherTimeZone(timezone) })
+    .format(parseWeatherWallTime(iso, timezone));
 
 export const getUpcomingHourIndexes = (times: string[], currentTime: string, count = 12) => {
   const firstFutureIndex = times.findIndex((time) => time >= currentTime);
@@ -246,7 +257,7 @@ export async function fetchWeather(city: AlgerianCity, signal?: AbortSignal, for
     current: "temperature_2m,apparent_temperature,relative_humidity_2m,weather_code,wind_speed_10m,wind_direction_10m,is_day,precipitation,cloud_cover",
     hourly: "temperature_2m,precipitation_probability,weather_code,wind_speed_10m",
     daily: "weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max,wind_speed_10m_max",
-    timezone: "Africa/Algiers",
+    timezone: city.timezone || "Africa/Algiers",
     forecast_days: "7",
   });
 
@@ -254,7 +265,7 @@ export async function fetchWeather(city: AlgerianCity, signal?: AbortSignal, for
     latitude: String(city.latitude),
     longitude: String(city.longitude),
     current: "wave_height,wave_direction,wave_period",
-    timezone: "Africa/Algiers",
+    timezone: city.timezone || "Africa/Algiers",
   });
 
   // The global GFS model is a separate Open-Meteo API endpoint. If the main
@@ -318,5 +329,5 @@ export const getAdvice = (reading: WeatherReading) => {
 
 export const buildShareText = (reading: WeatherReading) => {
   const condition = getWeatherCondition(reading.current.weatherCode).label;
-  return `${reading.isStale ? "آخر قراءة محفوظة" : "الطقس الآن"} في ${reading.city.name}: ${Math.round(reading.current.temperature)}°، ${condition}. آخر تحديث: ${formatUpdatedAt(reading.updatedAt)}. المصدر: الطقس الجزائري`;
+  return `${reading.isStale ? "آخر قراءة محفوظة" : "الطقس الآن"} في ${reading.city.name}: ${Math.round(reading.current.temperature)}°، ${condition}. آخر تحديث: ${formatUpdatedAt(reading.updatedAt, reading.city.timezone)}. المصدر: الطقس الجزائري`;
 };
