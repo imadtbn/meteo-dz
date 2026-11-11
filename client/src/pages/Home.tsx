@@ -1,3 +1,4 @@
+import { AdSlot } from "@/components/AdSlot";
 /** Style reminder: Atlas Observatory structures a weather visit from immediate reading to local context, never decorative noise. */
 import { lazy, Suspense, useEffect, useMemo, useRef, useState } from "react";
 import { AlertTriangle, ArrowLeft, Compass, Info, RefreshCw, Search, Star, Waves, X } from "lucide-react";
@@ -122,6 +123,7 @@ export default function Home({ forcedCity, detail = false }: HomeProps) {
       <div className="hero-content"><span className="eyebrow">مرصد محلي · وقت الجزائر</span><h1>{detail ? <>حالة {city.name}<br />بوضوح، قبل أن تتحرك.</> : <>الطقس الذي تحتاجه<br />قبل أن تتحرك.</>}</h1><p>قراءة مباشرة، ساعات قادمة، وتفاصيل ساحلية موثقة، بلا ادعاءات أو أرقام غير قابلة للتحقق.</p></div>
       <CitySearch city={city} onSelectCity={selectCity} onSelectGlobal={(place: GlobalPlace) => navigate(globalWeatherLink(place))} onRequestLocation={() => { setLocationError(""); setLocationPrompt(true); }} />{locationError && <p className="location-error" role="status">{locationError}</p>}{locationPrompt && <div className="location-consent" role="region" aria-label="طلب تحديد الموقع"><b>اعرض طقس منطقتك تلقائياً؟</b><p>سنستخدم موقع جهازك لاختيار أقرب ولاية. لن نحفظ إحداثياتك في الموقع؛ لا يلزم السماح لعرض الطقس.</p><div><button onClick={locate}>السماح</button><button className="location-consent__later" onClick={() => { localStorage.setItem("atlas-location-asked", "1"); setLocationPrompt(false); }}>البحث يدويًا</button></div></div>}
     </section>
+      <AdSlot position="header" />
 
     <section className="dashboard-shell" id="now">
       <div className="section-intro"><span>01 — القراءة المحلية</span><h2>الآن في {city.name}</h2><button type="button" className={isFavorite ? "favorite-toggle is-active" : "favorite-toggle"} onClick={() => toggleFavorite(city.slug)} aria-pressed={isFavorite}><Star size={16} fill={isFavorite ? "currentColor" : "none"} />{isFavorite ? "في المفضلة" : "أضف للمفضلة"}</button><button className="refresh-button" onClick={refresh} disabled={loading}><RefreshCw size={16} className={loading ? "spin" : ""} /> تحديث القراءة</button></div>
