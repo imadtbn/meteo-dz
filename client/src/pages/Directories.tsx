@@ -1,3 +1,4 @@
+import { AdSlot } from "@/components/AdSlot";
 import { useMemo, useState } from "react";
 import { ArrowLeft, MapPin, Search } from "lucide-react";
 import { Link } from "wouter";
@@ -32,6 +33,7 @@ export function WilayasPage() {
         <p>مشاهد رمزية مستوحاة من طبيعة المناطق الجزائرية، مع رابط مباشر للقراءة الجوية والتوقعات.</p>
         <DirectorySearch value={query} onChange={setQuery} placeholder="ابحث باسم الولاية أو المنطقة أو الرمز" />
       </section>
+      <AdSlot position="header" />
       <section className="directory-shell">
         <div className="section-intro">
           <span>01 — القائمة الوطنية</span>
@@ -64,6 +66,7 @@ export function ArabCapitalsPage() {
         <p>اكتشف العواصم برسومات رمزية وأعلام دولها، ثم افتح توقعات الطقس حسب إحداثيات كل مدينة.</p>
         <DirectorySearch value={query} onChange={setQuery} placeholder="ابحث باسم الدولة أو العاصمة" />
       </section>
+      <AdSlot position="header" />
       <section className="directory-shell">
         <div className="section-intro">
           <span>01 — المجال العربي</span>
