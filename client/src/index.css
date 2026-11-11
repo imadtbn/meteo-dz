@@ -821,3 +821,29 @@ h1,h2,h3,.brand,.directory-card__title,.section-intro h2 { font-family: var(--fo
 .favorite-empty p { color: #60727a; line-height: 1.9; }
 .favorite-empty a { display: inline-flex; align-items: center; gap: .35rem; color: #0c5b8c; font-weight: 800; }
 @media (max-width: 600px) { .favorite-toggle { margin-inline-start: auto; } }
+
+
+/* Current weather card location action */
+.weather-location-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: .4rem;
+  min-height: 2.35rem;
+  margin-inline-start: auto;
+  padding: .4rem .75rem;
+  border: 1px solid rgba(12, 91, 140, .2);
+  border-radius: 999px;
+  background: #edf5f3;
+  color: #0c5b8c;
+  font: 800 .76rem var(--font-ui);
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background .18s ease, border-color .18s ease;
+}
+.weather-location-button:hover:not(:disabled) { background: #dcece7; border-color: #7daea7; }
+.weather-location-button:disabled { opacity: .65; cursor: wait; }
+@media (max-width: 520px) {
+  .current-card__topline { flex-wrap: wrap; }
+  .weather-location-button { min-height: 2.1rem; padding: .32rem .6rem; font-size: .7rem; }
+}
