@@ -50,17 +50,29 @@ export function CitySearch({ city, onSelectCity, onSelectGlobal, onRequestLocati
       setLoadingGlobal(true);
       setGlobalError(false);
       try {
-        const url = new URL("https://geocoding-api.open-meteo.com/v1/search");
-        url.search = new URLSearchParams({
-          name: cleaned,
-          count: "8",
-          language: "ar",
-          format: "json",
-        }).toString();
-        const response = await fetch(url, { signal: controller.signal });
-        if (!response.ok) throw new Error("Search request failed");
-        const payload: unknown = await response.json();
-        if (!controller.signal.aborted) setGlobalResults(parseGlobalPlaces(payload));
+        // Search in Arabic and English in parallel so Arabic, Latin and
+        // internationally used city names all have a chance to match.
+        const languages = ["ar", "en"] as const;
+        const responses = await Promise.all(languages.map(async (language) => {
+          const url = new URL("https://geocoding-api.open-meteo.com/v1/search");
+          url.search = new URLSearchParams({
+            name: cleaned,
+            count: "10",
+            language,
+            format: "json",
+          }).toString();
+          const response = await fetch(url, { signal: controller.signal });
+          if (!response.ok) throw new Error("Search request failed");
+          return response.json() as Promise<unknown>;
+        }));
+        if (!controller.signal.aborted) {
+          const merged = responses.flatMap((payload) => parseGlobalPlaces(payload, 10));
+          const unique = new Map<number, GlobalPlace>();
+          for (const place of merged) {
+            if (!unique.has(place.id)) unique.set(place.id, place);
+          }
+          setGlobalResults(Array.from(unique.values()).slice(0, 10));
+        }
       } catch {
         if (!controller.signal.aborted) {
           setGlobalResults([]);
@@ -130,7 +142,7 @@ export function CitySearch({ city, onSelectCity, onSelectGlobal, onRequestLocati
     <div ref={containerRef} className="city-picker">
       <div className="city-command city-command--search" role="search">
         <Search size={21} aria-hidden="true" className="city-search-symbol" />
-        <label className="sr-only" htmlFor="hero-global-city-search">ابحث عن ولاية جزائرية أو مدينة في العالم</label>
+        <label className="sr-only" htmlFor="hero-global-city-search">ابحث عن مدينة في أي دولة حول العالم</label>
         <input
           id="hero-global-city-search"
           ref={inputRef}
@@ -181,7 +193,7 @@ export function CitySearch({ city, onSelectCity, onSelectGlobal, onRequestLocati
       {open && (
         <div className="city-picker__panel">
           <div className="city-picker__panel-heading">
-            <span>{cleaned ? "نتائج مطابقة لبحثك" : "مدن جزائرية مقترحة"}</span>
+            <span>{cleaned ? "نتائج مطابقة لبحثك" : "مدن مقترحة حول العالم"}</span>
             <button type="button" onClick={() => setOpen(false)} aria-label="إغلاق الاقتراحات"><X size={16} /></button>
           </div>
           <div id={listboxId} role="listbox" aria-label="اقتراحات الولايات والمدن" className="city-picker__results">
@@ -209,7 +221,7 @@ export function CitySearch({ city, onSelectCity, onSelectGlobal, onRequestLocati
             )}
             {globalResults.length > 0 && (
               <div role="group" aria-label="نتائج عالمية">
-                <span className="city-picker__group-label"><Globe2 size={14} aria-hidden="true" /> مدن العالم</span>
+                <span className="city-picker__group-label"><Globe2 size={14} aria-hidden="true" /> اقتراحات عالمية</span>
                 {globalResults.map((item, index) => {
                   const optionIndex = index + localResults.length;
                   return (
@@ -233,7 +245,7 @@ export function CitySearch({ city, onSelectCity, onSelectGlobal, onRequestLocati
               </div>
             )}
             {loadingGlobal && <p className="city-picker__notice" role="status">جارٍ البحث في مدن العالم…</p>}
-            {globalError && <p className="city-picker__notice">تعذّر البحث العالمي حاليًا؛ ما زال البحث في الولايات متاحًا.</p>}
+            {globalError && <p className="city-picker__notice">تعذّر الاتصال بخدمة اقتراح المدن. تحقق من الإنترنت ثم أعد المحاولة.</p>}
             {cleaned && !suggestions.length && !loadingGlobal && !globalError &&
               <p className="city-picker__notice">لا توجد نتيجة مطابقة. جرّب اسمًا آخر أو استخدم البحث الموسّع.</p>}
             {cleaned.length === 1 && <p className="city-picker__notice">اكتب حرفًا إضافيًا لبدء البحث العالمي.</p>}
