@@ -56,7 +56,7 @@ export default function Home({ forcedCity, detail = false }: HomeProps) {
 
   useEffect(() => {
     const place = city.name;
-    document.title = detail ? `طقس ${place} اليوم | الطقس الجزائري` : "Weather Today | الطقس اليوم";
+    document.title = detail ? `طقس ${place} اليوم | Weather Today` : "Weather Today | الطقس اليوم";
     const description = document.querySelector('meta[name="description"]');
     description?.setAttribute("content", `حالة الطقس الحالية وتوقعات الأيام القادمة في ${place}، مع قراءة بحرية للسواحل ووقت تحديث واضح.`);
   }, [city.name, detail]);
