@@ -56,7 +56,7 @@ export default function Home({ forcedCity, detail = false }: HomeProps) {
 
   useEffect(() => {
     const place = city.name;
-    document.title = detail ? `طقس ${place} اليوم | الطقس الجزائري` : "الطقس الجزائري | قراءة واضحة لكل مدينة";
+    document.title = detail ? `طقس ${place} اليوم | الطقس الجزائري` : "Weather Today | الطقس اليوم";
     const description = document.querySelector('meta[name="description"]');
     description?.setAttribute("content", `حالة الطقس الحالية وتوقعات الأيام القادمة في ${place}، مع قراءة بحرية للسواحل ووقت تحديث واضح.`);
   }, [city.name, detail]);
@@ -95,14 +95,14 @@ export default function Home({ forcedCity, detail = false }: HomeProps) {
           setLocationError("الإحداثيات المستلمة غير صالحة. ابحث عن مدينتك يدويًا.");
           return;
         }
-        const longitudeFactor = Math.cos(coords.latitude * Math.PI / 180);
-        const nearest = ALGERIAN_CITIES.reduce((best, candidate) => {
-          const distance = Math.hypot(candidate.latitude - coords.latitude, (candidate.longitude - coords.longitude) * longitudeFactor);
-          const bestDistance = Math.hypot(best.latitude - coords.latitude, (best.longitude - coords.longitude) * longitudeFactor);
-          return distance < bestDistance ? candidate : best;
-        }, ALGERIAN_CITIES[0]);
-        selectCity(nearest.slug);
         setLocationError("");
+        // Use the exact device coordinates worldwide; never snap visitors outside
+        // Algeria to the nearest Algerian wilaya.
+        navigate(globalWeatherLink({
+          latitude: coords.latitude,
+          longitude: coords.longitude,
+          name: "موقعي الحالي",
+        }));
       },
       (reason) => {
         const message = reason.code === 1
@@ -121,7 +121,7 @@ export default function Home({ forcedCity, detail = false }: HomeProps) {
 
     <section className="hero-band">
       <div className="hero-content"><span className="eyebrow">مرصد محلي · وقت الجزائر</span><h1>{detail ? <>حالة {city.name}<br />بوضوح، قبل أن تتحرك.</> : <>الطقس الذي تحتاجه<br />قبل أن تتحرك.</>}</h1><p>قراءة مباشرة، ساعات قادمة، وتفاصيل ساحلية موثقة، بلا ادعاءات أو أرقام غير قابلة للتحقق.</p></div>
-      <CitySearch city={city} onSelectCity={selectCity} onSelectGlobal={(place: GlobalPlace) => navigate(globalWeatherLink(place))} onRequestLocation={() => { setLocationError(""); setLocationPrompt(true); }} />{locationError && <p className="location-error" role="status">{locationError}</p>}{locationPrompt && <div className="location-consent" role="region" aria-label="طلب تحديد الموقع"><b>اعرض طقس منطقتك تلقائياً؟</b><p>سنستخدم موقع جهازك لاختيار أقرب ولاية. لن نحفظ إحداثياتك في الموقع؛ لا يلزم السماح لعرض الطقس.</p><div><button onClick={locate}>السماح</button><button className="location-consent__later" onClick={() => { localStorage.setItem("atlas-location-asked", "1"); setLocationPrompt(false); }}>البحث يدويًا</button></div></div>}
+      <CitySearch city={city} onSelectCity={selectCity} onSelectGlobal={(place: GlobalPlace) => navigate(globalWeatherLink(place))} onRequestLocation={() => { setLocationError(""); setLocationPrompt(true); }} />{locationError && <p className="location-error" role="status">{locationError}</p>}{locationPrompt && <div className="location-consent" role="region" aria-label="طلب تحديد الموقع"><b>اعرض طقس منطقتك تلقائياً؟</b><p>سنستخدم إحداثيات جهازك لجلب الطقس الدقيق لموقعك أينما كنت في العالم. لا يتم حفظ إحداثياتك؛ يمكنك متابعة البحث يدويًا دون منح الإذن.</p><div><button onClick={locate}>السماح</button><button className="location-consent__later" onClick={() => { localStorage.setItem("atlas-location-asked", "1"); setLocationPrompt(false); }}>البحث يدويًا</button></div></div>}
     </section>
       <AdSlot position="header" />
 
