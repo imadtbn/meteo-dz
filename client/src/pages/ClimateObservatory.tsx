@@ -1,3 +1,4 @@
+import { AdSlot } from "@/components/AdSlot";
 import { useEffect, useMemo, useState } from "react";
 import { Activity, CalendarDays, CloudRain, Thermometer, Wind } from "lucide-react";
 import { PublicFooter, PublicHeader } from "@/components/PublicChrome";
@@ -81,6 +82,7 @@ export default function ClimateObservatoryPage() {
   })), [rows]);
   return <main dir="rtl"><PublicHeader />
     <section className="map-page-hero"><span className="eyebrow"><Activity size={15} /> مرصد الأطلس · سجل المناخ</span><h1>المرصد المناخي الجزائري.</h1><p>استكشف السلاسل المناخية اليومية حسب الولاية، وقارن الحرارة والأمطار خلال الفترات الأخيرة اعتماداً على بيانات NASA POWER.</p></section>
+      <AdSlot position="header" />
     <section className="directory-shell climate-shell">
       <div className="climate-toolbar">
         <label>الولاية<select value={slug} onChange={(event) => setSlug(event.target.value)}>{ALGERIAN_CITIES.map((item) => <option key={item.slug} value={item.slug}>{item.name}</option>)}</select></label>
