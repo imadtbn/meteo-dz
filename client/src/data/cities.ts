@@ -13,6 +13,10 @@ export type AlgerianCity = {
   latitude: number;
   longitude: number;
   coastal?: boolean;
+  municipality?: string;
+  administrativeArea?: string;
+  country?: string;
+  timezone?: string;
 };
 
 export const ALGERIAN_CITIES = cityData as AlgerianCity[];
