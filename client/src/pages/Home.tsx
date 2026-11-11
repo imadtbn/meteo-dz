@@ -120,7 +120,7 @@ export default function Home({ forcedCity, detail = false }: HomeProps) {
     <PublicHeader showSections />
 
     <section className="hero-band">
-      <div className="hero-content"><span className="eyebrow">مرصد محلي · وقت الجزائر</span><h1>{detail ? <>حالة {city.name}<br />بوضوح، قبل أن تتحرك.</> : <>الطقس الذي تحتاجه<br />قبل أن تتحرك.</>}</h1><p>قراءة مباشرة، ساعات قادمة، وتفاصيل ساحلية موثقة، بلا ادعاءات أو أرقام غير قابلة للتحقق.</p></div>
+      <div className="hero-content"><span className="eyebrow">محرك الطقس العالمي · Weather Today</span><h1>{detail ? <>حالة {city.name}<br />بوضوح، قبل أن تتحرك.</> : <>الطقس الذي تحتاجه<br />قبل أن تتحرك.</>}</h1><p>ابحث عن المدن حول العالم بالعربية أو الفرنسية أو الإنجليزية، واعرض حالة الطقس والتوقعات أو استخدم موقعك الجغرافي.</p></div>
       <CitySearch city={city} onSelectCity={selectCity} onSelectGlobal={(place: GlobalPlace) => navigate(globalWeatherLink(place))} onRequestLocation={() => { setLocationError(""); setLocationPrompt(true); }} />{locationError && <p className="location-error" role="status">{locationError}</p>}{locationPrompt && <div className="location-consent" role="region" aria-label="طلب تحديد الموقع"><b>اعرض طقس منطقتك تلقائياً؟</b><p>سنستخدم إحداثيات جهازك لجلب الطقس الدقيق لموقعك أينما كنت في العالم. لا يتم حفظ إحداثياتك؛ يمكنك متابعة البحث يدويًا دون منح الإذن.</p><div><button onClick={locate}>السماح</button><button className="location-consent__later" onClick={() => { localStorage.setItem("atlas-location-asked", "1"); setLocationPrompt(false); }}>البحث يدويًا</button></div></div>}
     </section>
       <AdSlot position="header" />
