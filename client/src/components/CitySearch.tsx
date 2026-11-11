@@ -53,7 +53,7 @@ export function CitySearch({ city, onSelectCity, onSelectGlobal, onRequestLocati
         // Search in Arabic and English in parallel so Arabic, Latin and
         // internationally used city names all have a chance to match.
         const languages = ["ar", "en"] as const;
-        const responses = await Promise.all(languages.map(async (language) => {
+        const settled = await Promise.allSettled(languages.map(async (language) => {
           const url = new URL("https://geocoding-api.open-meteo.com/v1/search");
           url.search = new URLSearchParams({
             name: cleaned,
@@ -65,6 +65,10 @@ export function CitySearch({ city, onSelectCity, onSelectGlobal, onRequestLocati
           if (!response.ok) throw new Error("Search request failed");
           return response.json() as Promise<unknown>;
         }));
+        const responses = settled
+          .filter((result): result is PromiseFulfilledResult<unknown> => result.status === "fulfilled")
+          .map((result) => result.value);
+        if (!responses.length) throw new Error("All geocoding requests failed");
         if (!controller.signal.aborted) {
           const merged = responses.flatMap((payload) => parseGlobalPlaces(payload, 10));
           const unique = new Map<number, GlobalPlace>();
@@ -165,7 +169,7 @@ export function CitySearch({ city, onSelectCity, onSelectGlobal, onRequestLocati
           }}
           onFocus={() => setOpen(true)}
           onKeyDown={onKeyDown}
-          placeholder="ابحث عن مدينة أو ولاية في الجزائر أو العالم…"
+          placeholder="ابحث عن مدينة في أي دولة: الجزائر، Paris، Tokyo…"
         />
         {query && (
           <button type="button" className="city-picker__clear" aria-label="مسح البحث" onClick={() => {
