@@ -49,7 +49,7 @@ export function WorldSearchPage() {
       setIsSearching(true);
       setSearchError("");
       try {
-        const settled = await Promise.allSettled(["ar", "en"].map(async (language) => {
+        const settled = await Promise.allSettled(["ar", "en", "fr"].map(async (language) => {
           const url = new URL("https://geocoding-api.open-meteo.com/v1/search");
           url.search = new URLSearchParams({ name: cleaned, count: "10", language, format: "json" }).toString();
           const response = await fetch(url, { signal: controller.signal });
