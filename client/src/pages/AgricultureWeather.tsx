@@ -1,3 +1,4 @@
+import { AdSlot } from "@/components/AdSlot";
 import { useEffect, useMemo, useState } from "react";
 import { CloudRain, Leaf, Snowflake, Sun, Thermometer } from "lucide-react";
 import { PublicFooter, PublicHeader } from "@/components/PublicChrome";
@@ -22,6 +23,7 @@ export default function AgricultureWeatherPage() {
   const metrics = useMemo(() => calculateAgricultureIndicators(rows, base), [rows, base]);
   return <main dir="rtl"><PublicHeader />
     <section className="map-page-hero"><span className="eyebrow"><Leaf size={15} /> مرصد الأطلس · المناخ والزراعة</span><h1>مؤشرات الطقس الزراعي.</h1><p>متابعة الحرارة المتراكمة والأمطار وأيام الصقيع والحرارة حسب الولاية، كمؤشرات مناخية مساعدة وليست بديلاً عن القياسات الحقلية.</p></section>
+      <AdSlot position="header" />
     <section className="directory-shell climate-shell">
       <div className="climate-toolbar">
         <label>موقع المتابعة<select value={slug} onChange={(event) => setSlug(event.target.value)}>{ALGERIAN_CITIES.map((item) => <option key={item.slug} value={item.slug}>{item.name}</option>)}</select></label>
