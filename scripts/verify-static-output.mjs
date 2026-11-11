@@ -42,8 +42,20 @@ assert.ok(builtScripts.includes("7867079394"), "Top slot missing from JS bundle"
 assert.ok(builtScripts.includes("3143411927"), "Bottom slot missing from JS bundle");
 assert.ok(builtScripts.includes("-fr+57+4a-dc+8g"), "Fluid ad layout key missing");
 const chromeSource = await readFile("client/src/components/PublicChrome.tsx", "utf8");
-assert.ok(chromeSource.indexOf('<AdSlot position="header" />') > chromeSource.indexOf("</header>"));
-assert.ok(chromeSource.indexOf('<AdSlot position="footer" />') < chromeSource.indexOf('<footer className="site-footer">'));
+assert.ok(!chromeSource.includes('<AdSlot position="header" />'), "Top ad must not be rendered by the shared header");
+assert.ok(chromeSource.indexOf('<AdSlot position="footer" />') < chromeSource.indexOf('<footer className="site-footer">'), "Footer ad must remain before the shared footer");
+
+const homeSource = await readFile("client/src/pages/Home.tsx", "utf8");
+const homeHeroStart = homeSource.indexOf('<section className="hero-band">');
+const homeHeroEnd = homeSource.indexOf("</section>", homeHeroStart);
+const homeAd = homeSource.indexOf('<AdSlot position="header" />');
+assert.ok(homeHeroStart >= 0 && homeHeroEnd > homeHeroStart && homeAd > homeHeroEnd, "Homepage top ad must be placed after the complete hero");
+
+const worldSearchSource = await readFile("client/src/pages/WorldSearch.tsx", "utf8");
+const worldHeroStart = worldSearchSource.indexOf('<section className="directory-hero">');
+const worldHeroEnd = worldSearchSource.indexOf("</section>", worldHeroStart);
+const worldAd = worldSearchSource.indexOf('<AdSlot position="header" />');
+assert.ok(worldHeroStart >= 0 && worldHeroEnd > worldHeroStart && worldAd > worldHeroEnd, "World search top ad must be placed after the complete hero");
 
 assert.match(homepage, /og:image" content="https:\/\/imadtbn.github.io\/meteo-dz\/social-preview.png"/);
 assert.match(homepage, /twitter:card" content="summary_large_image"/);
