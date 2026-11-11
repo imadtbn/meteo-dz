@@ -1,5 +1,5 @@
 import { useEffect, useId, useMemo, useRef, useState } from "react";
-import { ArrowLeft, Globe2, LocateFixed, MapPin, Search, X } from "lucide-react";
+import { ArrowLeft, Globe2, MapPin, Search, X } from "lucide-react";
 import { Link } from "wouter";
 import { ALGERIAN_CITIES, type AlgerianCity } from "@/data/cities";
 import { flagForCountry } from "@/lib/placeVisuals";
@@ -15,10 +15,9 @@ type CitySearchProps = {
   city: AlgerianCity;
   onSelectCity: (slug: string) => void;
   onSelectGlobal: (place: GlobalPlace) => void;
-  onRequestLocation: () => void;
 };
 
-export function CitySearch({ city, onSelectCity, onSelectGlobal, onRequestLocation }: CitySearchProps) {
+export function CitySearch({ city, onSelectCity, onSelectGlobal }: CitySearchProps) {
   const [query, setQuery] = useState("");
   const [open, setOpen] = useState(false);
   const [globalResults, setGlobalResults] = useState<GlobalPlace[]>([]);
@@ -181,15 +180,6 @@ export function CitySearch({ city, onSelectCity, onSelectGlobal, onRequestLocati
             <X size={17} aria-hidden="true" />
           </button>
         )}
-        <button
-          type="button"
-          className="icon-button dark"
-          aria-label="تحديد موقعي الجغرافي"
-          title="موقعي"
-          onClick={() => { setOpen(false); onRequestLocation(); }}
-        >
-          <LocateFixed size={20} aria-hidden="true" />
-        </button>
       </div>
 
       <p className="city-picker__current"><MapPin size={15} aria-hidden="true" /> النشرة الحالية: <strong>{city.name}</strong></p>
