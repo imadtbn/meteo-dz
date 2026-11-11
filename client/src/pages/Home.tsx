@@ -45,7 +45,7 @@ function useWeather(city: AlgerianCity) {
       if (reason.name !== "AbortError") setError(reason.message ?? "تعذر تحميل البيانات.");
     }).finally(() => !controller.signal.aborted && setLoading(false));
     return () => controller.abort();
-  }, [city.slug, refreshKey]);
+  }, [city.slug, city.latitude, city.longitude, city.timezone, refreshKey]);
   return { reading, loading, error, refresh: () => { forceNextRefresh.current = true; setRefreshKey((value) => value + 1); } };
 }
 
@@ -137,12 +137,16 @@ export default function Home({ forcedCity, detail = false }: HomeProps) {
             longitude: coords.longitude,
             coastal: false,
           };
-          localStorage.setItem("atlas-user-location-v1", JSON.stringify({
-            latitude: coords.latitude,
-            longitude: coords.longitude,
-            city: locatedCity,
-            expiresAt: Date.now() + 25 * 60 * 1000,
-          }));
+          try {
+            localStorage.setItem("atlas-user-location-v1", JSON.stringify({
+              latitude: coords.latitude,
+              longitude: coords.longitude,
+              city: locatedCity,
+              expiresAt: Date.now() + 25 * 60 * 1000,
+            }));
+          } catch {
+            // Location weather still works when browser storage is unavailable.
+          }
           setCity(locatedCity);
           setLocationError("");
           window.history.replaceState({}, "", import.meta.env.BASE_URL);
