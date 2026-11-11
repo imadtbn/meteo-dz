@@ -100,6 +100,15 @@ for (const city of cities) {
 }
 const robots = await load("robots.txt");
 assert.ok(robots.includes("Sitemap: " + expectedRoot + "sitemap.xml"));
+
+const serviceWorkerSource = await readFile("client/public/sw.js", "utf8");
+const serviceWorkerOutput = await load("sw.js");
+assert.equal(serviceWorkerOutput, serviceWorkerSource, "Published service worker must match the single canonical source in client/public/sw.js");
+assert.match(serviceWorkerSource, /const CACHE = "meteo-dz-shell-v6"/, "Service worker cache version must be explicitly versioned");
+for (const asset of ["icons/icon-192.png", "icons/icon-512.png"]) {
+  assert.ok(serviceWorkerSource.includes('BASE + "' + asset + '"'), "PWA install shell is missing " + asset);
+}
+
 await stat(path.join(root, "sw.js"));
 await stat(path.join(root, "favicon.svg"));
 const pngSignature = Buffer.from([137, 80, 78, 71, 13, 10, 26, 10]);

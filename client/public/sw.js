@@ -1,6 +1,6 @@
-/* Offline shell for GitHub Pages; never cache external forecast responses. */
+/* Canonical PWA service worker. Vite copies this file to dist/public/sw.js. */
 const BASE = new URL(self.registration.scope).pathname;
-const CACHE = "meteo-dz-shell-v5";
+const CACHE = "meteo-dz-shell-v6";
 const SHELL = [BASE, BASE + "favicon.svg", BASE + "manifest.webmanifest", BASE + "icons/icon-192.png", BASE + "icons/icon-512.png"];
 
 self.addEventListener("install", (event) => {
