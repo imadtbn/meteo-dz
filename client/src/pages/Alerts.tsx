@@ -1,3 +1,4 @@
+import { AdSlot } from "@/components/AdSlot";
 import { AlertTriangle, ArrowUpLeft, Rss, ShieldAlert, Waves } from "lucide-react";
 import { PublicFooter, PublicHeader } from "@/components/PublicChrome";
 
@@ -34,6 +35,7 @@ export default function AlertsPage() {
         <h1>الإنذارات الجوية في الجزائر.</h1>
         <p>بوابة وصول سريعة إلى اليقظة الجوية والنشرات الخاصة الصادرة عن الديوان الوطني للأرصاد الجوية، مع إبقاء المصدر الرسمي مرجع القرار والتنبيه.</p>
       </section>
+      <AdSlot position="header" />
       <section className="directory-shell">
         <div className="section-intro">
           <span>01 — المصادر الرسمية</span>
