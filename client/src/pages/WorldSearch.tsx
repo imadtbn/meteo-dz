@@ -1,3 +1,4 @@
+import { AdSlot } from "@/components/AdSlot";
 import { useEffect, useRef, useState } from "react";
 import { ArrowLeft, LocateFixed, MapPin, Navigation, Search } from "lucide-react";
 import { Link } from "wouter";
@@ -167,6 +168,7 @@ export function WorldSearchPage() {
               </Link>
             </div>
           </section>
+      <AdSlot position="header" />
         )}
       </section>
       <section className="directory-shell">
