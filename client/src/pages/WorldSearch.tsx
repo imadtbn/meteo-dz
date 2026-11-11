@@ -49,13 +49,17 @@ export function WorldSearchPage() {
       setIsSearching(true);
       setSearchError("");
       try {
-        const payloads = await Promise.all(["ar", "en"].map(async (language) => {
+        const settled = await Promise.allSettled(["ar", "en"].map(async (language) => {
           const url = new URL("https://geocoding-api.open-meteo.com/v1/search");
           url.search = new URLSearchParams({ name: cleaned, count: "10", language, format: "json" }).toString();
           const response = await fetch(url, { signal: controller.signal });
           if (!response.ok) throw new Error("search failed");
           return response.json();
         }));
+        const payloads = settled
+          .filter((result): result is PromiseFulfilledResult<any> => result.status === "fulfilled")
+          .map((result) => result.value);
+        if (!payloads.length) throw new Error("All geocoding requests failed");
         if (!controller.signal.aborted) {
           const unique = new Map<number, Place>();
           for (const payload of payloads) {
