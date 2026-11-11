@@ -1,3 +1,4 @@
+import { AdSlot } from "@/components/AdSlot";
 import { ArrowRight, CloudSun, Home, Search } from "lucide-react";
 import { Link } from "wouter";
 import { PublicFooter, PublicHeader } from "@/components/PublicChrome";
@@ -16,6 +17,7 @@ export default function NotFound() {
           <Link href="/world-search" className="secondary-button"><Search size={18} /> البحث عن مدينة <ArrowRight size={16} /></Link>
         </div>
       </section>
+      <AdSlot position="header" />
       <PublicFooter />
     </main>
   );
