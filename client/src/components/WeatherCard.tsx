@@ -8,7 +8,7 @@ type WeatherCardProps = { reading: WeatherReading; onShare: () => void; onLocate
 export function WeatherCard({ reading, onShare, onLocate, locationLoading = false }: WeatherCardProps) {
   const condition = getWeatherCondition(reading.current.weatherCode);
   return <article className={`current-card tone-${condition.tone}`} aria-label={`الطقس الحالي في ${reading.city.name}`}>
-    <div className="current-card__topline"><span className={reading.isStale ? "live-dot is-stale" : "live-dot"} /> {reading.isStale ? "قراءة محفوظة (غير مباشرة)" : "قراءة محدثة"} <span><Clock3 size={14} /> {formatUpdatedAt(reading.updatedAt)}</span><button type="button" className="weather-location-button" onClick={onLocate} disabled={locationLoading}><Crosshair size={16} /> {locationLoading ? "جارٍ تحديد الموقع…" : "طقس موقعي"}</button></div>
+    <div className="current-card__topline"><span className={reading.isStale ? "live-dot is-stale" : "live-dot"} /> {reading.isStale ? "قراءة محفوظة (غير مباشرة)" : "قراءة محدثة"} <span><Clock3 size={14} /> {formatUpdatedAt(reading.updatedAt, reading.city.timezone)}</span><button type="button" className="weather-location-button" onClick={onLocate} disabled={locationLoading}><Crosshair size={16} /> {locationLoading ? "جارٍ تحديد الموقع…" : "طقس موقعي"}</button></div>
     <div className="current-card__main">
       <div><p className="region-label">{reading.city.region}</p><h2>{reading.city.name}</h2><p className="condition-label">{condition.label}</p></div>
       <div className="condition-mark" aria-hidden="true">{condition.icon}</div>
