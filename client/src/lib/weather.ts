@@ -77,7 +77,7 @@ export const parseAlgerianWeatherTime = (iso: string): Date => {
 const parseWeatherWallTime = (iso: string, timezone: string) =>
   timezone === "Africa/Algiers"
     ? parseAlgerianWeatherTime(iso)
-    : new Date(/[zZ]$|[+-]\\d{2}:\\d{2}$/.test(iso) ? iso : iso + "Z");
+    : new Date(/[zZ]$|[+-]\d{2}:\d{2}$/.test(iso) ? iso : iso + "Z");
 
 const displayWeatherTimeZone = (timezone: string) =>
   timezone === "Africa/Algiers" ? "Africa/Algiers" : "UTC";
