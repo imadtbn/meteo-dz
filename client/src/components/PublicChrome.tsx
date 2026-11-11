@@ -1,3 +1,4 @@
+import { AdSlot } from "@/components/AdSlot";
 import { SiteActions } from "@/components/SiteActions";
 import { useEffect, useState } from "react";
 import {
