@@ -52,7 +52,7 @@ export function CitySearch({ city, onSelectCity, onSelectGlobal, onRequestLocati
       try {
         // Search in Arabic and English in parallel so Arabic, Latin and
         // internationally used city names all have a chance to match.
-        const languages = ["ar", "en"] as const;
+        const languages = ["ar", "en", "fr"] as const;
         const settled = await Promise.allSettled(languages.map(async (language) => {
           const url = new URL("https://geocoding-api.open-meteo.com/v1/search");
           url.search = new URLSearchParams({
