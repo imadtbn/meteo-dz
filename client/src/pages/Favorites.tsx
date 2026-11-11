@@ -1,3 +1,4 @@
+import { AdSlot } from "@/components/AdSlot";
 import { ArrowUpLeft, Star, Trash2 } from "lucide-react";
 import { Link } from "wouter";
 import { PublicFooter, PublicHeader } from "@/components/PublicChrome";
@@ -16,6 +17,7 @@ export default function FavoritesPage() {
         <h1>ولاياتك المفضلة.</h1>
         <p>احتفظ بالولايات التي تتابع طقسها باستمرار، وافتح توقعاتها مباشرة من هذا الجهاز دون إنشاء حساب.</p>
       </section>
+      <AdSlot position="header" />
       <section className="directory-shell">
         <div className="section-intro">
           <span>خدمات المستخدم — 01</span>
