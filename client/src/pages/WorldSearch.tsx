@@ -168,9 +168,9 @@ export function WorldSearchPage() {
               </Link>
             </div>
           </section>
-      <AdSlot position="header" />
         )}
       </section>
+      <AdSlot position="header" />
       <section className="directory-shell">
         <div className="section-intro">
           <span>01 — نتائج البحث العالمي</span>
