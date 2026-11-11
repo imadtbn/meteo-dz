@@ -17,6 +17,19 @@ const WeatherShareDialog = lazy(() => import("@/components/WeatherShareDialog"))
 
 type HomeProps = { forcedCity?: AlgerianCity; detail?: boolean };
 
+function readSavedLocation(): AlgerianCity | null {
+  try {
+    const saved = JSON.parse(localStorage.getItem("atlas-user-location-v1") ?? "null");
+    if (!saved || saved.expiresAt <= Date.now() || !Number.isFinite(saved.latitude) || !Number.isFinite(saved.longitude) || !saved.city) {
+      localStorage.removeItem("atlas-user-location-v1");
+      return null;
+    }
+    return saved.city as AlgerianCity;
+  } catch {
+    return null;
+  }
+}
+
 function useWeather(city: AlgerianCity) {
   const [reading, setReading] = useState<WeatherReading | null>(null);
   const [loading, setLoading] = useState(true);
@@ -38,7 +51,7 @@ function useWeather(city: AlgerianCity) {
 
 export default function Home({ forcedCity, detail = false }: HomeProps) {
   const [, navigate] = useLocation();
-  const initial = useMemo(() => forcedCity ?? getCityBySlug(new URLSearchParams(window.location.search).get("city") ?? undefined), [forcedCity]);
+  const initial = useMemo(() => forcedCity ?? readSavedLocation() ?? getCityBySlug(new URLSearchParams(window.location.search).get("city") ?? "algiers"), [forcedCity]);
   const [city, setCity] = useState(initial);
   const { reading, loading, error, refresh } = useWeather(city);
   const [shareOpen, setShareOpen] = useState(false);
@@ -95,14 +108,30 @@ export default function Home({ forcedCity, detail = false }: HomeProps) {
           setLocationError("الإحداثيات المستلمة غير صالحة. ابحث عن مدينتك يدويًا.");
           return;
         }
-        setLocationError("");
-        // Use the exact device coordinates worldwide; never snap visitors outside
-        // Algeria to the nearest Algerian wilaya.
-        navigate(globalWeatherLink({
-          latitude: coords.latitude,
-          longitude: coords.longitude,
-          name: "موقعي الحالي",
-        }));
+        try {
+          const response = await fetch(`https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${coords.latitude}&longitude=${coords.longitude}&localityLanguage=ar`);
+          if (!response.ok) throw new Error("تعذر تحديد اسم المنطقة");
+          const place = await response.json();
+          const municipality = place.city || place.locality || place.localityInfo?.administrative?.[2]?.name || place.principalSubdivision || "موقعي الحالي";
+          const admin = place.principalSubdivision || place.localityInfo?.administrative?.[1]?.name || "";
+          const country = place.countryName || "";
+          const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone || "auto";
+          const locatedCity = {
+            code: "GPS", slug: `gps-${coords.latitude.toFixed(3)}-${coords.longitude.toFixed(3)}`,
+            name: municipality, region: [admin, country].filter(Boolean).join(" · "),
+            municipality, administrativeArea: admin, country, timezone,
+            latitude: coords.latitude, longitude: coords.longitude, coastal: false,
+          };
+          localStorage.setItem("atlas-user-location-v1", JSON.stringify({
+            latitude: coords.latitude, longitude: coords.longitude, city: locatedCity,
+            expiresAt: Date.now() + 25 * 60 * 1000,
+          }));
+          setLocationError("");
+          setCity(locatedCity);
+          window.history.replaceState({}, "", import.meta.env.BASE_URL);
+        } catch {
+          setLocationError("تم تحديد الإحداثيات، لكن تعذر تحديد اسم البلدية. أعد المحاولة بعد قليل.");
+        }
       },
       (reason) => {
         const message = reason.code === 1
@@ -121,7 +150,7 @@ export default function Home({ forcedCity, detail = false }: HomeProps) {
 
     <section className="hero-band">
       <div className="hero-content"><span className="eyebrow">محرك الطقس العالمي · Weather Today</span><h1>{detail ? <>حالة {city.name}<br />بوضوح، قبل أن تتحرك.</> : <>الطقس الذي تحتاجه<br />قبل أن تتحرك.</>}</h1><p>ابحث عن المدن حول العالم بالعربية أو الفرنسية أو الإنجليزية، واعرض حالة الطقس والتوقعات أو استخدم موقعك الجغرافي.</p></div>
-      <CitySearch city={city} onSelectCity={selectCity} onSelectGlobal={(place: GlobalPlace) => navigate(globalWeatherLink(place))} onRequestLocation={() => { setLocationError(""); setLocationPrompt(true); }} />{locationError && <p className="location-error" role="status">{locationError}</p>}{locationPrompt && <div className="location-consent" role="region" aria-label="طلب تحديد الموقع"><b>اعرض طقس منطقتك تلقائياً؟</b><p>سنستخدم إحداثيات جهازك لجلب الطقس الدقيق لموقعك أينما كنت في العالم. لا يتم حفظ إحداثياتك؛ يمكنك متابعة البحث يدويًا دون منح الإذن.</p><div><button onClick={locate}>السماح</button><button className="location-consent__later" onClick={() => { localStorage.setItem("atlas-location-asked", "1"); setLocationPrompt(false); }}>البحث يدويًا</button></div></div>}
+      <CitySearch city={city} onSelectCity={selectCity} onSelectGlobal={(place: GlobalPlace) => navigate(globalWeatherLink(place))} onRequestLocation={locate} />
     </section>
       <AdSlot position="header" />
 
@@ -130,7 +159,7 @@ export default function Home({ forcedCity, detail = false }: HomeProps) {
       {loading && <div className="loading-card" aria-live="polite"><span className="loading-orb" />جارٍ جلب قراءة موثقة للطقس…</div>}
       {error && <div className="error-card" role="alert"><b>تعذر تحديث القراءة.</b><span>{error}</span><button onClick={refresh}>أعد المحاولة</button></div>}
       {reading?.isStale && <div className="weather-stale-note" role="status"><AlertTriangle size={19} aria-hidden="true" /><span>تعذّر الاتصال بمصدر الطقس، لذلك نعرض آخر قراءة محفوظة لهذه الولاية. قد لا تمثل الأحوال الحالية. يمكنك الضغط على «تحديث القراءة» للمحاولة مجددًا، والرجوع للنشرة الرسمية عند الضرورة.</span></div>}
-      {reading && <div className="now-grid"><WeatherCard reading={reading} onShare={() => setShareOpen(true)} /><aside className="decision-panel"><span className="eyebrow"><Compass size={15} /> ملخص اليوم</span><h3>{getAdvice(reading)}</h3><div className="decision-points"><span>المحسوس <b>{Math.round(reading.current.apparentTemperature)}°</b></span><span>السحب <b>{Math.round(reading.current.cloudCover)}%</b></span><span>الرياح <b>{windDirectionArabic(reading.current.windDirection)}</b></span></div><small><Info size={14} /> إرشاد آلي مبني على القراءة الحالية، وليس تحذيراً رسمياً.</small></aside></div>}
+      {locationError && <p className="location-error" role="status">{locationError}</p>}\n      {reading && <div className="now-grid"><WeatherCard reading={reading} onShare={() => setShareOpen(true)} onLocate={locate} locationLoading={false} /><aside className="decision-panel"><span className="eyebrow"><Compass size={15} /> ملخص اليوم</span><h3>{getAdvice(reading)}</h3><div className="decision-points"><span>المحسوس <b>{Math.round(reading.current.apparentTemperature)}°</b></span><span>السحب <b>{Math.round(reading.current.cloudCover)}%</b></span><span>الرياح <b>{windDirectionArabic(reading.current.windDirection)}</b></span></div><small><Info size={14} /> إرشاد آلي مبني على القراءة الحالية، وليس تحذيراً رسمياً.</small></aside></div>}
     </section>
 
     {reading && <section className="dashboard-shell forecast-section" id="outlook"><div className="section-intro"><span>02 — الإيقاع القريب</span><h2>الساعات القادمة</h2><p>نموذج التنبؤ · Open-Meteo · توقيت الجزائر</p></div><div className="hourly-rail observation-rail">{reading.hourly.map((hour) => { const condition = getWeatherCondition(hour.weatherCode); return <article key={hour.time} className={`hour-card tone-${condition.tone}`}><time><i />{formatHour(hour.time)}</time><b className={`weather-glyph tone-${condition.tone}`}>{condition.icon}</b><strong>{Math.round(hour.temperature)}°</strong><span>{condition.label}</span><small>مطر {Math.round(hour.precipitationProbability)}%</small></article>; })}</div><div className="section-intro section-intro--compact"><span>03 — نظرة أسبوعية</span><h2>سبعة أيام قادمة</h2><p>أقصى وأدنى قراءة يومية</p></div><div className="daily-list">{reading.daily.map((day) => { const condition = getWeatherCondition(day.weatherCode); return <article key={day.date} className={`day-row tone-${condition.tone}`}><time>{formatDay(day.date)}</time><span className={`weather-glyph tone-${condition.tone}`}>{condition.icon}</span><span>{condition.label}</span><b>{Math.round(day.max)}° <i>{Math.round(day.min)}°</i></b><small>مطر {Math.round(day.precipitationProbability)}% · رياح {Math.round(day.windSpeed)} كم/س</small></article>; })}</div></section>}
