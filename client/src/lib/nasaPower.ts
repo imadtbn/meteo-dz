@@ -1,5 +1,3 @@
-import type { AlgerianCity } from "@/data/cities";
-
 export type NasaDailyRecord = {
   date: string;
   temperature: number | null;
@@ -10,6 +8,7 @@ export type NasaDailyRecord = {
   humidity: number | null;
 };
 type PowerResponse = { properties?: { parameter?: Record<string, Record<string, number>> } };
+export type NasaPoint = { latitude: number; longitude: number; slug: string };
 const PARAMETERS = "T2M,T2M_MAX,T2M_MIN,PRECTOTCORR,WS10M,RH2M";
 const CACHE_TTL = 6 * 60 * 60 * 1000;
 function dateKey(date: Date): string { return date.toISOString().slice(0, 10).replaceAll("-", ""); }
@@ -28,19 +27,20 @@ export function normalizeNasaPowerResponse(payload: PowerResponse): NasaDailyRec
     humidity: fromPowerValue(parameters.RH2M?.[date]),
   })).filter((record) => record.maximum !== null || record.minimum !== null || record.temperature !== null);
 }
-export async function fetchNasaPowerDaily(city: Pick<AlgerianCity, "latitude" | "longitude" | "slug">, days = 90, signal?: AbortSignal): Promise<NasaDailyRecord[]> {
-  if (!Number.isFinite(city.latitude) || city.latitude < -90 || city.latitude > 90 ||
-      !Number.isFinite(city.longitude) || city.longitude < -180 || city.longitude > 180) throw new Error("إحداثيات الموقع غير صالحة.");
+export async function fetchNasaPowerDaily(point: NasaPoint, days = 90, signal?: AbortSignal): Promise<NasaDailyRecord[]> {
+  if (!Number.isFinite(point.latitude) || point.latitude < -90 || point.latitude > 90 ||
+      !Number.isFinite(point.longitude) || point.longitude < -180 || point.longitude > 180) throw new Error("إحداثيات الموقع غير صالحة.");
   const safeDays = Math.min(365, Math.max(30, Math.round(days)));
   const end = new Date(Date.now() - 3 * 86400000);
   const start = new Date(end.getTime() - safeDays * 86400000);
-  const cacheKey = "atlas-nasa-power:" + city.slug + ":" + safeDays + ":" + dateKey(end);
+  const coordinateKey = point.latitude.toFixed(4) + ":" + point.longitude.toFixed(4);
+  const cacheKey = "atlas-nasa-power:" + coordinateKey + ":" + safeDays + ":" + dateKey(end);
   try {
     const cached = JSON.parse(localStorage.getItem(cacheKey) ?? "null") as { savedAt: number; rows: NasaDailyRecord[] } | null;
     if (cached && Date.now() - cached.savedAt < CACHE_TTL && Array.isArray(cached.rows) && cached.rows.length) return cached.rows;
   } catch { /* Ignore unavailable storage. */ }
   const params = new URLSearchParams({
-    parameters: PARAMETERS, community: "AG", longitude: String(city.longitude), latitude: String(city.latitude),
+    parameters: PARAMETERS, community: "AG", longitude: String(point.longitude), latitude: String(point.latitude),
     start: dateKey(start), end: dateKey(end), format: "JSON",
   });
   const response = await fetch("https://power.larc.nasa.gov/api/temporal/daily/point?" + params, { signal, headers: { Accept: "application/json" } });
