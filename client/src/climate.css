@@ -25,3 +25,296 @@
   .climate-location-gps { justify-self: start; }
   .climate-location-results { top: 3rem; }
 }
+
+
+/* Climate and agriculture dashboards — shared responsive visual system. */
+.climate-shell {
+  --climate-ink: #173447;
+  --climate-muted: #647b83;
+  --climate-line: #dce8e4;
+  --climate-accent: #0c5b8c;
+  --climate-green: #267d6d;
+  max-width: 76rem;
+  padding: clamp(1.1rem, 3vw, 2.35rem);
+  margin: 0 auto 3.5rem;
+  border: 1px solid rgba(173, 199, 194, .72);
+  border-radius: 1.35rem;
+  background: linear-gradient(145deg, #fffefa 0%, #f6f8f3 100%);
+  box-shadow: 0 18px 48px rgba(20, 52, 65, .075);
+  color: var(--climate-ink);
+}
+.climate-toolbar {
+  display: flex;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: .85rem;
+  margin-bottom: 2.1rem;
+  padding: 1rem;
+  border: 1px solid #d7e5df;
+  border-radius: 1rem;
+  background: linear-gradient(120deg, #edf5f1, #f5f6ed);
+  box-shadow: inset 0 1px rgba(255,255,255,.8);
+}
+.climate-toolbar > label {
+  display: grid;
+  flex: 0 1 10.5rem;
+  gap: .35rem;
+  min-width: 8.5rem;
+  color: #45616c;
+  font-size: .76rem;
+  font-weight: 800;
+}
+.climate-toolbar > label select {
+  width: 100%;
+  min-height: 2.8rem;
+  padding: .45rem 2rem .45rem .7rem;
+  border: 1px solid #c5d8d2;
+  border-radius: .7rem;
+  outline: 0;
+  background: #fffefa;
+  color: #173447;
+  font: 700 .8rem var(--font-ui);
+  cursor: pointer;
+}
+.climate-toolbar > label select:focus-visible,
+.climate-location-gps:focus-visible,
+.climate-location-results button:focus-visible {
+  outline: 3px solid rgba(12,91,140,.25);
+  outline-offset: 2px;
+}
+.climate-shell .section-intro {
+  display: grid;
+  justify-items: start;
+  gap: .25rem;
+  margin: 0 0 1rem;
+  padding-inline: .15rem;
+}
+.climate-shell .section-intro > span {
+  display: inline-flex;
+  align-items: center;
+  gap: .4rem;
+  width: auto;
+  color: #287a70;
+  font-size: .69rem;
+  font-weight: 900;
+  letter-spacing: .045em;
+}
+.climate-shell .section-intro h2 {
+  color: #173447;
+  font-size: clamp(1.15rem, 2.4vw, 1.55rem);
+  line-height: 1.55;
+}
+.climate-shell .section-intro p {
+  color: var(--climate-muted);
+  font-size: .78rem;
+}
+.climate-shell .section-intro--compact {
+  margin-top: 2.1rem;
+  margin-bottom: .8rem;
+  padding-top: 1.2rem;
+  border-top: 1px solid var(--climate-line);
+}
+.climate-stat-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: .85rem;
+  margin: 0 0 1.5rem;
+}
+.climate-stat-grid > article {
+  position: relative;
+  display: grid;
+  align-content: start;
+  justify-items: start;
+  gap: .4rem;
+  min-width: 0;
+  min-height: 9rem;
+  padding: 1rem 1.05rem;
+  overflow: hidden;
+  border: 1px solid #dce7e1;
+  border-radius: 1rem;
+  background: #fff;
+  box-shadow: 0 7px 20px rgba(24, 60, 66, .045);
+  transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+}
+.climate-stat-grid > article::after {
+  position: absolute;
+  inset-inline-start: 0;
+  bottom: 0;
+  width: 3.2rem;
+  height: 3px;
+  border-radius: 0 4px 0 0;
+  background: linear-gradient(90deg, #267d6d, #9dc9b6);
+  content: "";
+}
+.climate-stat-grid > article:hover {
+  transform: translateY(-2px);
+  border-color: #b7d4c9;
+  box-shadow: 0 12px 26px rgba(24, 60, 66, .09);
+}
+.climate-stat-grid > article > svg {
+  width: 1.35rem;
+  height: 1.35rem;
+  margin-bottom: .15rem;
+  padding: .1rem;
+  color: #267d6d;
+  stroke-width: 1.9;
+}
+.climate-stat-grid > article > small {
+  color: #637982;
+  font-size: .73rem;
+  font-weight: 700;
+  line-height: 1.6;
+}
+.climate-stat-grid > article > strong {
+  color: #173e50;
+  font-family: var(--font-display);
+  font-size: clamp(1.2rem, 2.1vw, 1.65rem);
+  font-weight: 900;
+  line-height: 1.35;
+  font-variant-numeric: tabular-nums;
+  overflow-wrap: anywhere;
+}
+.agriculture-stat-grid { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+.agriculture-stat-grid > article:first-child { background: linear-gradient(145deg, #f1f7e9, #fff); border-color: #d3e2c8; }
+.agriculture-stat-grid > article:first-child > svg { color: #78913b; }
+.agriculture-stat-grid > article:nth-child(2) > svg,
+.agriculture-stat-grid > article:nth-child(5) > svg { color: #3188a1; }
+.agriculture-stat-grid > article:nth-child(3) > svg { color: #5683ad; }
+.agriculture-stat-grid > article:nth-child(4) > svg { color: #c17a3d; }
+.climate-chart {
+  width: 100%;
+  min-width: 0;
+  margin: 0 0 1.4rem;
+  padding: 1.1rem 1rem .8rem;
+  border: 1px solid #dce7e1;
+  border-radius: 1rem;
+  background: linear-gradient(180deg, #fff 0%, #fbfcf8 100%);
+  box-shadow: 0 8px 22px rgba(24, 60, 66, .045);
+}
+.climate-chart svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  min-height: 12rem;
+  overflow: visible;
+}
+.climate-chart svg path { vector-effect: non-scaling-stroke; }
+.climate-chart-legend {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: .7rem 1.3rem;
+  margin-top: .6rem;
+  padding-top: .7rem;
+  border-top: 1px solid #edf1ed;
+}
+.climate-chart-legend > span {
+  display: inline-flex;
+  align-items: center;
+  gap: .4rem;
+  color: #526c76;
+  font-size: .74rem;
+  font-weight: 800;
+}
+.climate-chart-legend i {
+  display: inline-block;
+  width: 1.15rem;
+  height: 3px;
+  border-radius: 99px;
+}
+.agriculture-method {
+  display: grid;
+  gap: .45rem;
+  margin: 1.25rem 0;
+  padding: 1.1rem 1.2rem;
+  border: 1px solid #d5e4d4;
+  border-inline-start: 4px solid #6d9c69;
+  border-radius: .9rem;
+  background: linear-gradient(115deg, #f0f6e9, #fbfcf6);
+  color: #3d5c52;
+}
+.agriculture-method strong { color: #315c4c; font-size: .86rem; }
+.agriculture-method p { margin: 0; color: #587269; font-size: .77rem; line-height: 1.9; }
+.climate-shell .map-attribution-note {
+  margin: 1.5rem 0 0;
+  padding: .85rem 1rem;
+  border: 1px solid #e1e8e2;
+  border-radius: .8rem;
+  background: rgba(239, 244, 237, .72);
+  color: #667b7b;
+  font-size: .7rem;
+  line-height: 1.9;
+}
+.climate-shell .map-attribution-note a {
+  color: #0c6683;
+  font-weight: 900;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+.climate-shell > .loading-card,
+.climate-shell > .error-card {
+  min-height: 10rem;
+  margin: .5rem 0 1rem;
+  padding: 1.25rem;
+  border-radius: 1rem;
+  box-shadow: 0 8px 24px rgba(20,52,65,.04);
+  text-align: center;
+}
+.climate-shell > .error-card a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 2.4rem;
+  padding: .45rem .85rem;
+  border-radius: .65rem;
+  background: #8a3832;
+  color: white;
+  font-size: .76rem;
+  text-decoration: none;
+}
+@media (max-width: 900px) {
+  .climate-shell { margin-inline: 1rem; }
+  .climate-stat-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .agriculture-stat-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .climate-toolbar > label { flex: 1 1 9rem; }
+}
+@media (max-width: 600px) {
+  .climate-shell {
+    margin: 0 .65rem 2rem;
+    padding: .85rem;
+    border-radius: 1rem;
+  }
+  .climate-toolbar {
+    gap: .65rem;
+    margin-bottom: 1.5rem;
+    padding: .75rem;
+    border-radius: .85rem;
+  }
+  .climate-toolbar > label { flex: 1 1 calc(50% - .4rem); min-width: 0; font-size: .7rem; }
+  .climate-toolbar > label select { min-height: 2.65rem; font-size: .74rem; }
+  .climate-shell .section-intro { gap: .2rem; margin-bottom: .8rem; }
+  .climate-shell .section-intro h2 { font-size: 1.12rem; }
+  .climate-stat-grid { gap: .55rem; }
+  .climate-stat-grid > article { min-height: 7.7rem; gap: .3rem; padding: .75rem; border-radius: .8rem; }
+  .climate-stat-grid > article > svg { width: 1.2rem; height: 1.2rem; }
+  .climate-stat-grid > article > small { font-size: .67rem; }
+  .climate-stat-grid > article > strong { font-size: 1.2rem; }
+  .agriculture-stat-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .climate-chart { padding: .7rem .45rem .65rem; border-radius: .8rem; }
+  .climate-chart svg { min-height: 9.5rem; }
+  .climate-chart-legend { gap: .5rem .9rem; }
+  .climate-chart-legend > span { font-size: .68rem; }
+  .climate-shell .section-intro--compact { margin-top: 1.45rem; padding-top: .9rem; }
+  .agriculture-method { padding: .85rem; }
+  .climate-shell .map-attribution-note { padding: .7rem; font-size: .66rem; }
+}
+@media (max-width: 360px) {
+  .climate-shell { margin-inline: .45rem; padding: .65rem; }
+  .climate-stat-grid > article { padding: .65rem; }
+  .climate-stat-grid > article > strong { font-size: 1.08rem; }
+  .climate-toolbar > label { flex-basis: 100%; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .climate-stat-grid > article { transition: none; }
+  .climate-stat-grid > article:hover { transform: none; }
+}
