@@ -5,6 +5,7 @@
  * Do not add timestamps merely because a new build was deployed.
  */
 export const INDEXABLE_LANDING_ROUTES = Object.freeze([
+  "weather",
   "wilayas",
   "arab-capitals",
   "world-search",
