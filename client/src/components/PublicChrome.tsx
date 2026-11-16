@@ -22,14 +22,14 @@ import { Link, useLocation } from "wouter";
 
 const mainLinks = [
   { href: "/", label: "الرئيسية", icon: Home },
-  { href: "/wilayas", label: "الولايات", icon: Landmark },
-  { href: "/arab-capitals", label: "العواصم العربية", icon: Compass },
-  { href: "/world-search", label: "بحث عالمي", icon: Search },
-  { href: "/weather-map", label: "مركز الخرائط", icon: Map },
-  { href: "/climate-observatory", label: "المرصد المناخي", icon: Activity },
-  { href: "/agriculture-weather", label: "الطقس الزراعي", icon: Sprout },
-  { href: "/alerts", label: "الإنذارات الجوية", icon: AlertTriangle },
-  { href: "/favorites", label: "المفضلة", icon: Star },
+  { href: "/wilayas/", label: "الولايات", icon: Landmark },
+  { href: "/arab-capitals/", label: "العواصم العربية", icon: Compass },
+  { href: "/world-search/", label: "بحث عالمي", icon: Search },
+  { href: "/weather-map/", label: "مركز الخرائط", icon: Map },
+  { href: "/climate-observatory/", label: "المرصد المناخي", icon: Activity },
+  { href: "/agriculture-weather/", label: "الطقس الزراعي", icon: Sprout },
+  { href: "/alerts/", label: "الإنذارات الجوية", icon: AlertTriangle },
+  { href: "/favorites/", label: "المفضلة", icon: Star },
 ] as const;
 
 export function PublicHeader({ showSections = false }: { showSections?: boolean }) {
