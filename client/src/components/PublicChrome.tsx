@@ -22,6 +22,7 @@ import { Link, useLocation } from "wouter";
 
 const mainLinks = [
   { href: "/", label: "الرئيسية", icon: Home },
+  { href: "/weather/", label: "دليل الطقس", icon: CloudSun },
   { href: "/wilayas/", label: "الولايات", icon: Landmark },
   { href: "/arab-capitals/", label: "العواصم العربية", icon: Compass },
   { href: "/world-search/", label: "بحث عالمي", icon: Search },
