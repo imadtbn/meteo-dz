@@ -9,7 +9,7 @@ export function WilayaCard({ city }: { city: AlgerianCity }) {
   return (
     <Link
       className="directory-card directory-card--visual region-card--visual-home"
-      href={`/weather/${city.slug}`}
+      href={`/weather/${city.slug}/`}
       aria-label={`عرض نشرة الطقس في ${city.name}`}
     >
       <PlaceIllustration
