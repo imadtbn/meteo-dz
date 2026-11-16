@@ -5,6 +5,7 @@ import { Route, Router as WouterRouter, Switch } from "wouter";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import City from "./pages/City";
+import { WeatherDirectoryPage as WilayasWeatherIndex } from "./pages/Directories";
 import Home from "./pages/Home";
 const WilayasPage = lazy(() => import("./pages/Directories").then((module) => ({ default: module.WilayasPage })));
 const ArabCapitalsPage = lazy(() => import("./pages/Directories").then((module) => ({ default: module.ArabCapitalsPage })));
@@ -24,6 +25,7 @@ function Router() {
       <Suspense fallback={<div className="loading-card" dir="rtl">جارٍ فتح صفحة المرصد…</div>}>
       <Switch>
       <Route path={"/"} component={() => <Home />} />
+      <Route path={"/weather"} component={WilayasWeatherIndex} />
       <Route path={"/weather/:slug"} component={City} />
       <Route path={"/wilayas"} component={WilayasPage} />
       <Route path={"/arab-capitals"} component={ArabCapitalsPage} />
