@@ -20,7 +20,37 @@ function DirectorySearch({ value, onChange, placeholder }: { value: string; onCh
   );
 }
 
-export function WeatherDirectoryPage() {\n  const [query, setQuery] = useState("");\n  const results = useMemo(() => filterWilayas(ALGERIAN_CITIES, query), [query]);\n\n  return (\n    <main dir="rtl">\n      <PublicHeader />\n      <section className="directory-hero">\n        <span className="eyebrow"><MapPin size={15} /> دليل الطقس · الجزائر</span>\n        <h1>الطقس في ولايتك، من صفحة واحدة.</h1>\n        <p>اختر الولاية لفتح صفحة طقس مستقلة بعنوان ثابت وتوقعات محلية قابلة للمشاركة.</p>\n        <DirectorySearch value={query} onChange={setQuery} placeholder="ابحث باسم الولاية أو المنطقة أو الرمز" />\n      </section>\n      <AdSlot position="header" />\n      <section className="directory-shell">\n        <div className="section-intro">\n          <span>دليل الصفحات الجوية</span>\n          <h2>{results.length} مدينة وولاية</h2>\n          <p>كل بطاقة تفتح صفحة الطقس الخاصة بالمدينة مباشرة.</p>\n        </div>\n        <div className="directory-grid directory-grid--visual">\n          {results.map((city) => <WilayaCard key={city.slug} city={city} />)}\n        </div>\n        {results.length === 0 && <div className="empty-state">لا توجد ولاية مطابقة لهذا البحث.</div>}\n      </section>\n      <PublicFooter />\n    </main>\n  );\n}\n\nexport function WilayasPage() {
+export function WeatherDirectoryPage() {
+  const [query, setQuery] = useState("");
+  const results = useMemo(() => filterWilayas(ALGERIAN_CITIES, query), [query]);
+
+  return (
+    <main dir="rtl">
+      <PublicHeader />
+      <section className="directory-hero">
+        <span className="eyebrow"><MapPin size={15} /> دليل الطقس · الجزائر</span>
+        <h1>الطقس في ولايتك، من صفحة واحدة.</h1>
+        <p>اختر الولاية لفتح صفحة طقس مستقلة بعنوان ثابت وتوقعات محلية قابلة للمشاركة.</p>
+        <DirectorySearch value={query} onChange={setQuery} placeholder="ابحث باسم الولاية أو المنطقة أو الرمز" />
+      </section>
+      <AdSlot position="header" />
+      <section className="directory-shell">
+        <div className="section-intro">
+          <span>دليل الصفحات الجوية</span>
+          <h2>{results.length} مدينة وولاية</h2>
+          <p>كل بطاقة تفتح صفحة الطقس الخاصة بالمدينة مباشرة.</p>
+        </div>
+        <div className="directory-grid directory-grid--visual">
+          {results.map((city) => <WilayaCard key={city.slug} city={city} />)}
+        </div>
+        {results.length === 0 && <div className="empty-state">لا توجد ولاية مطابقة لهذا البحث.</div>}
+      </section>
+      <PublicFooter />
+    </main>
+  );
+}
+
+export function WilayasPage() {
   const [query, setQuery] = useState("");
   const results = useMemo(() => filterWilayas(ALGERIAN_CITIES, query), [query]);
 
