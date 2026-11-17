@@ -12,6 +12,7 @@ export type AlgerianCity = {
   region: string;
   latitude: number;
   longitude: number;
+  countryImages?: string;
   coastal?: boolean;
   municipality?: string;
   administrativeArea?: string;
