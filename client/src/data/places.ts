@@ -31,3 +31,10 @@ export function getPlaceWeatherTarget(kind: PlaceRouteKind, slug?: string): Plac
     englishName: item.englishName, latitude: item.latitude, longitude: item.longitude,
   };
 }
+
+export function getCanonicalPlacePath(slug: string): string {
+  if (cities.some((place) => place.slug === slug)) return "/weather/" + slug + "/";
+  if (arabCapitals.some((place) => place.slug === slug)) return "/arab-capitals/" + slug + "/";
+  if (worldCapitals.some((place) => place.slug === slug)) return "/world-capitals/" + slug + "/";
+  return "/world-search/";
+}
