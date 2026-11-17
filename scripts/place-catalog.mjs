@@ -9,7 +9,7 @@ import arabCapitals from "../data/arab-capitals.json" with { type: "json" };
 import worldCapitals from "../data/world-capitals.json" with { type: "json" };
 
 const IMAGE_ROOT = path.resolve("images");
-const IMAGE_PREFIX = "/meteo-dz/images/";
+const IMAGE_PREFIX = "images/";
 const COORDINATE_OVERRIDES = {
   // The Arab-capitals dataset is the selected reference for Bahrain's capital.
   manama: { latitude: 26.2235, longitude: 50.5876 },
