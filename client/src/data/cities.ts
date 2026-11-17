@@ -1,5 +1,5 @@
 /** Style reminder: Atlas Observatory uses clear, location-first data cards with editorial restraint. */
-import cityData from "./cities.json";
+import cityData from "../../../data/cities.json";
 
 export type AlgerianCity = {
   code: string;
