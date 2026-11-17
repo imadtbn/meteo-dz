@@ -2,18 +2,26 @@ import { AdSlot } from "@/components/AdSlot";
 /** Style reminder: global weather pages keep the same Atlas reading hierarchy while clearly distinguishing forecast data from official warnings. */
 import { useEffect, useMemo, useState } from "react";
 import { ArrowRight, Droplets, Thermometer, Wind } from "lucide-react";
-import { Link, useSearch } from "wouter";
+import { Link, useRoute, useSearch } from "wouter";
+import { getPlaceWeatherTarget } from "@/data/places";
 import { PublicFooter, PublicHeader } from "@/components/PublicChrome";
 import { fetchGlobalWeather, formatDay, getWeatherCondition, type GlobalWeatherReading } from "@/lib/weather";
 import { parseCoordinates } from "@/lib/coordinates";
 
 export default function GlobalWeatherPage() {
   const params = new URLSearchParams(useSearch());
+  const [arabMatch, arabParams] = useRoute<{ slug: string }>("/arab-capitals/:slug");
+  const [worldMatch, worldParams] = useRoute<{ slug: string }>("/world-capitals/:slug");
+  const routePlace = arabMatch
+    ? getPlaceWeatherTarget("arab-capitals", arabParams?.slug)
+    : worldMatch
+      ? getPlaceWeatherTarget("world-capitals", worldParams?.slug)
+      : null;
   const coordinates = parseCoordinates(params.toString());
-  const latitude = coordinates?.latitude ?? 0;
-  const longitude = coordinates?.longitude ?? 0;
-  const name = (params.get("name") || "الموقع المختار").slice(0, 100);
-  const enabled = coordinates !== null;
+  const latitude = routePlace?.latitude ?? coordinates?.latitude ?? 0;
+  const longitude = routePlace?.longitude ?? coordinates?.longitude ?? 0;
+  const name = (routePlace?.displayName || params.get("name") || "الموقع المختار").slice(0, 100);
+  const enabled = routePlace !== null || coordinates !== null;
   const [data, setData] = useState<GlobalWeatherReading | null>(null); const [loading, setLoading] = useState(enabled); const [failed, setFailed] = useState(false);
   useEffect(() => { if (!enabled) { setData(null); setLoading(false); setFailed(false); return; } const controller = new AbortController(); setData(null); setLoading(true); setFailed(false); fetchGlobalWeather(latitude, longitude, controller.signal).then(setData).catch((error: unknown) => { if ((error as Error)?.name !== "AbortError") setFailed(true); }).finally(() => !controller.signal.aborted && setLoading(false)); return () => controller.abort(); }, [enabled, latitude, longitude]);
   const days = useMemo(() => data?.daily.time.map((date, index) => ({ date, max: data.daily.temperature_2m_max[index], min: data.daily.temperature_2m_min[index], rain: data.daily.precipitation_probability_max[index], code: data.daily.weather_code[index] })) ?? [], [data]);

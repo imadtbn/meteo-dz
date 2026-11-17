@@ -1,12 +1,14 @@
 import assert from "node:assert/strict";
 import { readFile, readdir, stat } from "node:fs/promises";
 import path from "node:path";
-import cities from "../client/src/data/cities.json" with { type: "json" };
+import { buildPlaceCatalog } from "./place-catalog.mjs";
 import { buildSitemap, sitemapUrls, INDEXABLE_LANDING_ROUTES } from "./sitemap-core.mjs";
+
+const places = buildPlaceCatalog();
 
 const root = path.resolve("dist/public");
 const load = (relative) => readFile(path.join(root, relative), "utf8");
-const landing = ["wilayas", "arab-capitals", "world-search", "global-weather", "weather-map", "alerts", "favorites", "climate-observatory", "agriculture-weather"];
+const landing = ["wilayas", "arab-capitals", "world-capitals", "world-search", "global-weather", "weather-map", "alerts", "favorites", "climate-observatory", "agriculture-weather"];
 
 const homepage = await load("index.html");
 assert.match(homepage, /<html lang="ar" dir="rtl">/);
@@ -70,10 +72,10 @@ assert.ok(manifest.icons?.some((icon) => icon.sizes === "512x512" && icon.type =
 const sitemap = await load("sitemap.xml");
 const expectedRoot = "https://imadtbn.github.io/meteo-dz/";
 const urls = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map((item) => item[1]);
-assert.equal(urls.length, 1 + INDEXABLE_LANDING_ROUTES.length + cities.length);
+assert.equal(urls.length, 1 + INDEXABLE_LANDING_ROUTES.length + places.length);
 assert.equal(new Set(urls).size, urls.length);
-assert.deepEqual(urls, sitemapUrls(expectedRoot, cities));
-assert.equal(sitemap, buildSitemap(expectedRoot, cities), "Deployed sitemap must match the canonical generator");
+assert.deepEqual(urls, sitemapUrls(expectedRoot, places));
+assert.equal(sitemap, buildSitemap(expectedRoot, places), "Deployed sitemap must match the canonical generator");
 assert.equal(sitemap, await readFile("sitemap.xml", "utf8"), "Repository root sitemap must match deployment");
 assert.equal(sitemap, await readFile("client/public/sitemap.xml", "utf8"), "Public sitemap must match deployment");
 assert.ok(urls.every((url) => url.startsWith(expectedRoot) && !/[?#]/.test(url)), "Only canonical pages belong in sitemap");
@@ -90,13 +92,15 @@ for (const page of landing) {
     assert.ok(urls.includes(expectedRoot + page + "/"));
   }
 }
-for (const city of cities) {
-  const html = await load(path.join("weather", city.slug, "index.html"));
-  assert.ok((await stat(path.join(root, "weather", city.slug, "index.html"))).size < 100000, "Generated city HTML must remain lightweight: " + city.slug);
-  assert.ok(html.includes(city.name), "Missing city metadata: " + city.slug);
-  assert.ok(html.includes('og:url" content="https://imadtbn.github.io/meteo-dz/weather/' + city.slug + '/"'));
-  assert.ok(html.includes('og:image" content="https://imadtbn.github.io/meteo-dz/social-preview.png"'));
-  assert.ok(urls.includes("https://imadtbn.github.io/meteo-dz/weather/" + city.slug + "/"));
+for (const place of places) {
+  const relative = path.join(place.canonicalPath, "index.html");
+  const html = await load(relative);
+  assert.ok((await stat(path.join(root, relative))).size < 100000, "Generated place HTML should remain lightweight: " + place.slug);
+  assert.ok(html.includes(place.displayName), "Missing place metadata: " + place.slug);
+  assert.ok(html.includes('og:url" content="https://imadtbn.github.io/meteo-dz/' + place.canonicalPath + '/"'));
+  assert.ok(html.includes('"@type":"Place"'), "Place JSON-LD missing: " + place.slug);
+  assert.ok(urls.includes("https://imadtbn.github.io/meteo-dz/" + place.canonicalPath + "/"));
+  if (place.image) await stat(path.join(root, place.image));
 }
 const robots = await load("robots.txt");
 assert.ok(robots.includes("Sitemap: " + expectedRoot + "sitemap.xml"));
@@ -118,4 +122,4 @@ for (const [file, width, height] of [["social-preview.png", 1200, 630], ["icons/
   assert.equal(buffer.readUInt32BE(16), width);
   assert.equal(buffer.readUInt32BE(20), height);
 }
-console.log("Verified homepage, PWA files, " + landing.length + " landing routes and " + cities.length + " city pages.");
+console.log("Verified homepage, PWA files, " + landing.length + " landing routes and " + places.length + " unique geographic pages.");

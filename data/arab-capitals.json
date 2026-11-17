@@ -8,7 +8,7 @@
     "longitude": 3.0588,
     "countryCode": "DZ",
     "countryPhone": "+213",
-    "countryImages": "/today-weather/images/algiers.jpg"
+    "countryImages": "/meteo-dz/images/algiers.jpg"
   },
   {
     "slug": "manama",
@@ -19,7 +19,7 @@
     "longitude": 50.5876,
     "countryCode": "BH",
     "countryPhone": "+973",
-    "countryImages": "/today-weather/images/manama.jpg"
+    "countryImages": "/meteo-dz/images/manama.jpg"
   },
   {
     "slug": "moroni",
@@ -30,7 +30,7 @@
     "longitude": 43.2473,
     "countryCode": "KM",
     "countryPhone": "+269",
-    "countryImages": "/today-weather/images/moroni.jpg"
+    "countryImages": "/meteo-dz/images/moroni.jpg"
   },
   {
     "slug": "djibouti",
@@ -41,7 +41,7 @@
     "longitude": 43.1456,
     "countryCode": "DJ",
     "countryPhone": "+253",
-    "countryImages": "/today-weather/images/djibouti.jpg"
+    "countryImages": "/meteo-dz/images/djibouti.jpg"
   },
   {
     "slug": "cairo",
@@ -52,7 +52,7 @@
     "longitude": 31.2357,
     "countryCode": "EG",
     "countryPhone": "+20",
-    "countryImages": "/today-weather/images/cairo.jpg"
+    "countryImages": "/meteo-dz/images/cairo.jpg"
   },
   {
     "slug": "baghdad",
@@ -63,7 +63,7 @@
     "longitude": 44.3661,
     "countryCode": "IQ",
     "countryPhone": "+964",
-    "countryImages": "/today-weather/images/baghdad.jpg"
+    "countryImages": "/meteo-dz/images/baghdad.jpg"
   },
   {
     "slug": "amman",
@@ -74,7 +74,7 @@
     "longitude": 35.9106,
     "countryCode": "JO",
     "countryPhone": "+962",
-    "countryImages": "/today-weather/images/amman.jpg"
+    "countryImages": "/meteo-dz/images/amman.jpg"
   },
   {
     "slug": "kuwait-city",
@@ -85,7 +85,7 @@
     "longitude": 47.9774,
     "countryCode": "KW",
     "countryPhone": "+965",
-    "countryImages": "/today-weather/images/kuwait-city.jpg"
+    "countryImages": "/meteo-dz/images/kuwait-city.jpg"
   },
   {
     "slug": "beirut",
@@ -96,7 +96,7 @@
     "longitude": 35.5018,
     "countryCode": "LB",
     "countryPhone": "+961",
-    "countryImages": "/today-weather/images/beirut.jpg"
+    "countryImages": "/meteo-dz/images/beirut.jpg"
   },
   {
     "slug": "tripoli",
@@ -107,7 +107,7 @@
     "longitude": 13.1913,
     "countryCode": "LY",
     "countryPhone": "+218",
-    "countryImages": "/today-weather/images/tripoli.jpg"
+    "countryImages": "/meteo-dz/images/tripoli.jpg"
   },
   {
     "slug": "nouakchott",
@@ -118,7 +118,7 @@
     "longitude": -15.9582,
     "countryCode": "MR",
     "countryPhone": "+222",
-    "countryImages": "/today-weather/images/nouakchott.jpg"
+    "countryImages": "/meteo-dz/images/nouakchott.jpg"
   },
   {
     "slug": "rabat",
@@ -129,7 +129,7 @@
     "longitude": -6.8416,
     "countryCode": "MA",
     "countryPhone": "+212",
-    "countryImages": "/today-weather/images/rabat.jpg"
+    "countryImages": "/meteo-dz/images/rabat.jpg"
   },
   {
     "slug": "muscat",
@@ -140,7 +140,7 @@
     "longitude": 58.3829,
     "countryCode": "OM",
     "countryPhone": "+968",
-    "countryImages": "/today-weather/images/muscat.jpg"
+    "countryImages": "/meteo-dz/images/muscat.jpg"
   },
   {
     "slug": "ramallah",
@@ -151,7 +151,7 @@
     "longitude": 35.2034,
     "countryCode": "PS",
     "countryPhone": "+970",
-    "countryImages": "/today-weather/images/ramallah.jpg"
+    "countryImages": "/meteo-dz/images/ramallah.jpg"
   },
   {
     "slug": "doha",
@@ -162,7 +162,7 @@
     "longitude": 51.531,
     "countryCode": "QA",
     "countryPhone": "+974",
-    "countryImages": "/today-weather/images/doha.jpg"
+    "countryImages": "/meteo-dz/images/doha.jpg"
   },
   {
     "slug": "riyadh",
@@ -173,7 +173,7 @@
     "longitude": 46.6753,
     "countryCode": "SA",
     "countryPhone": "+966",
-    "countryImages": "/today-weather/images/riyadh.jpg"
+    "countryImages": "/meteo-dz/images/riyadh.jpg"
   },
   {
     "slug": "mogadishu",
@@ -184,7 +184,7 @@
     "longitude": 45.3182,
     "countryCode": "SO",
     "countryPhone": "+252",
-    "countryImages": "/today-weather/images/mogadishu.jpg"
+    "countryImages": "/meteo-dz/images/mogadishu.jpg"
   },
   {
     "slug": "khartoum",
@@ -195,7 +195,7 @@
     "longitude": 32.5599,
     "countryCode": "SD",
     "countryPhone": "+249",
-    "countryImages": "/today-weather/images/khartoum.jpg"
+    "countryImages": "/meteo-dz/images/khartoum.jpg"
   },
   {
     "slug": "damascus",
@@ -206,7 +206,7 @@
     "longitude": 36.2765,
     "countryCode": "SY",
     "countryPhone": "+963",
-    "countryImages": "/today-weather/images/damascus.jpg"
+    "countryImages": "/meteo-dz/images/damascus.jpg"
   },
   {
     "slug": "tunis",
@@ -217,7 +217,7 @@
     "longitude": 10.1815,
     "countryCode": "TN",
     "countryPhone": "+216",
-    "countryImages": "/today-weather/images/tunis.jpg"
+    "countryImages": "/meteo-dz/images/tunis.jpg"
   },
   {
     "slug": "abu-dhabi",
@@ -228,7 +228,7 @@
     "longitude": 54.3773,
     "countryCode": "AE",
     "countryPhone": "+971",
-    "countryImages": "/today-weather/images/abu-dhabi.jpg"
+    "countryImages": "/meteo-dz/images/abu-dhabi.jpg"
   },
   {
     "slug": "sanaa",
@@ -239,6 +239,6 @@
     "longitude": 44.191,
     "countryCode": "YE",
     "countryPhone": "+967",
-    "countryImages": "/today-weather/images/sanaa.jpg"
+    "countryImages": "/meteo-dz/images/sanaa.jpg"
   }
 ]

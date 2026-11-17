@@ -11,8 +11,7 @@
     "phone_code": "049",
     "administrative_era": 48,
     "countryCode": "DZ",
-    "countryPhone": "+213",
-    "countryImages": "/today-weather/images/adrar.jpg"
+    "countryPhone": "+213"
   },
   {
     "code": "02",
@@ -27,7 +26,7 @@
     "administrative_era": 48,
     "countryCode": "DZ",
     "countryPhone": "+213",
-    "countryImages": "/today-weather/images/chlef.jpg"
+    "countryImages": "/meteo-dz/images/chlef.jpg"
   },
   {
     "code": "03",
@@ -42,7 +41,7 @@
     "administrative_era": 48,
     "countryCode": "DZ",
     "countryPhone": "+213",
-    "countryImages": "/today-weather/images/laghouat.jpg"
+    "countryImages": "/meteo-dz/images/laghouat.jpg"
   },
   {
     "code": "04",
@@ -57,7 +56,7 @@
     "administrative_era": 48,
     "countryCode": "DZ",
     "countryPhone": "+213",
-    "countryImages": "/today-weather/images/oum-el-bouaghi.jpg"
+    "countryImages": "/meteo-dz/images/oum-el-bouaghi.jpg"
   },
   {
     "code": "05",
@@ -72,7 +71,7 @@
     "administrative_era": 48,
     "countryCode": "DZ",
     "countryPhone": "+213",
-    "countryImages": "/today-weather/images/batna.jpg"
+    "countryImages": "/meteo-dz/images/batna.jpg"
   },
   {
     "code": "06",
@@ -88,7 +87,7 @@
     "administrative_era": 48,
     "countryCode": "DZ",
     "countryPhone": "+213",
-    "countryImages": "/today-weather/images/bejaia.jpg"
+    "countryImages": "/meteo-dz/images/bejaia.jpg"
   },
   {
     "code": "07",
@@ -103,7 +102,7 @@
     "administrative_era": 48,
     "countryCode": "DZ",
     "countryPhone": "+213",
-    "countryImages": "/today-weather/images/biskra.jpg"
+    "countryImages": "/meteo-dz/images/biskra.jpg"
   },
   {
     "code": "08",
@@ -118,7 +117,7 @@
     "administrative_era": 48,
     "countryCode": "DZ",
     "countryPhone": "+213",
-    "countryImages": "/today-weather/images/bechar.jpg"
+    "countryImages": "/meteo-dz/images/bechar.jpg"
   },
   {
     "code": "09",
@@ -133,7 +132,7 @@
     "administrative_era": 48,
     "countryCode": "DZ",
     "countryPhone": "+213",
-    "countryImages": "/today-weather/images/blida.jpg"
+    "countryImages": "/meteo-dz/images/blida.jpg"
   },
   {
     "code": "10",
@@ -148,7 +147,7 @@
     "administrative_era": 48,
     "countryCode": "DZ",
     "countryPhone": "+213",
-    "countryImages": "/today-weather/images/bouira.jpg"
+    "countryImages": "/meteo-dz/images/bouira.jpg"
   },
   {
     "code": "11",
@@ -163,7 +162,7 @@
     "administrative_era": 48,
     "countryCode": "DZ",
     "countryPhone": "+213",
-    "countryImages": "/today-weather/images/tamanrasset.jpg"
+    "countryImages": "/meteo-dz/images/tamanrasset.jpg"
   },
   {
     "code": "12",
@@ -178,7 +177,7 @@
     "administrative_era": 48,
     "countryCode": "DZ",
     "countryPhone": "+213",
-    "countryImages": "/today-weather/images/tebessa.jpg"
+    "countryImages": "/meteo-dz/images/tebessa.jpg"
   },
   {
     "code": "13",
@@ -193,7 +192,7 @@
     "administrative_era": 48,
     "countryCode": "DZ",
     "countryPhone": "+213",
-    "countryImages": "/today-weather/images/tlemcen.jpg"
+    "countryImages": "/meteo-dz/images/tlemcen.jpg"
   },
   {
     "code": "14",
@@ -208,7 +207,7 @@
     "administrative_era": 48,
     "countryCode": "DZ",
     "countryPhone": "+213",
-    "countryImages": "/today-weather/images/tiaret.jpg"
+    "countryImages": "/meteo-dz/images/tiaret.jpg"
   },
   {
     "code": "15",
@@ -223,7 +222,7 @@
     "administrative_era": 48,
     "countryCode": "DZ",
     "countryPhone": "+213",
-    "countryImages": "/today-weather/images/tizi-ouzou.jpg"
+    "countryImages": "/meteo-dz/images/tizi-ouzou.jpg"
   },
   {
     "code": "16",
@@ -239,7 +238,7 @@
     "administrative_era": 48,
     "countryCode": "DZ",
     "countryPhone": "+213",
-    "countryImages": "/today-weather/images/algiers.jpg"
+    "countryImages": "/meteo-dz/images/algiers.jpg"
   },
   {
     "code": "17",
@@ -254,7 +253,7 @@
     "administrative_era": 48,
     "countryCode": "DZ",
     "countryPhone": "+213",
-    "countryImages": "/today-weather/images/djelfa.jpg"
+    "countryImages": "/meteo-dz/images/djelfa.jpg"
   },
   {
     "code": "18",
@@ -270,7 +269,7 @@
     "administrative_era": 48,
     "countryCode": "DZ",
     "countryPhone": "+213",
-    "countryImages": "/today-weather/images/jijel.jpg"
+    "countryImages": "/meteo-dz/images/jijel.jpg"
   },
   {
     "code": "19",
@@ -285,7 +284,7 @@
     "administrative_era": 48,
     "countryCode": "DZ",
     "countryPhone": "+213",
-    "countryImages": "/today-weather/images/setif.jpg"
+    "countryImages": "/meteo-dz/images/setif.jpg"
   },
   {
     "code": "20",
@@ -300,7 +299,7 @@
     "administrative_era": 48,
     "countryCode": "DZ",
     "countryPhone": "+213",
-    "countryImages": "/today-weather/images/saida.jpg"
+    "countryImages": "/meteo-dz/images/saida.jpg"
   },
   {
     "code": "21",
@@ -316,7 +315,7 @@
     "administrative_era": 48,
     "countryCode": "DZ",
     "countryPhone": "+213",
-    "countryImages": "/today-weather/images/skikda.jpg"
+    "countryImages": "/meteo-dz/images/skikda.jpg"
   },
   {
     "code": "22",
@@ -331,7 +330,7 @@
     "administrative_era": 48,
     "countryCode": "DZ",
     "countryPhone": "+213",
-    "countryImages": "/today-weather/images/sidi-bel-abbes.jpg"
+    "countryImages": "/meteo-dz/images/sidi-bel-abbes.jpg"
   },
   {
     "code": "23",
@@ -347,7 +346,7 @@
     "administrative_era": 48,
     "countryCode": "DZ",
     "countryPhone": "+213",
-    "countryImages": "/today-weather/images/annaba.jpg"
+    "countryImages": "/meteo-dz/images/annaba.jpg"
   },
   {
     "code": "24",
@@ -362,7 +361,7 @@
     "administrative_era": 48,
     "countryCode": "DZ",
     "countryPhone": "+213",
-    "countryImages": "/today-weather/images/guelma.jpg"
+    "countryImages": "/meteo-dz/images/guelma.jpg"
   },
   {
     "code": "25",
@@ -377,7 +376,7 @@
     "administrative_era": 48,
     "countryCode": "DZ",
     "countryPhone": "+213",
-    "countryImages": "/today-weather/images/constantine.jpg"
+    "countryImages": "/meteo-dz/images/constantine.jpg"
   },
   {
     "code": "26",
@@ -392,7 +391,7 @@
     "administrative_era": 48,
     "countryCode": "DZ",
     "countryPhone": "+213",
-    "countryImages": "/today-weather/images/medea.jpg"
+    "countryImages": "/meteo-dz/images/medea.jpg"
   },
   {
     "code": "27",
@@ -408,7 +407,7 @@
     "administrative_era": 48,
     "countryCode": "DZ",
     "countryPhone": "+213",
-    "countryImages": "/today-weather/images/mostaganem.jpg"
+    "countryImages": "/meteo-dz/images/mostaganem.jpg"
   },
   {
     "code": "28",
@@ -423,7 +422,7 @@
     "administrative_era": 48,
     "countryCode": "DZ",
     "countryPhone": "+213",
-    "countryImages": "/today-weather/images/msila.jpg"
+    "countryImages": "/meteo-dz/images/msila.jpg"
   },
   {
     "code": "29",
@@ -438,7 +437,7 @@
     "administrative_era": 48,
     "countryCode": "DZ",
     "countryPhone": "+213",
-    "countryImages": "/today-weather/images/mascara.jpg"
+    "countryImages": "/meteo-dz/images/mascara.jpg"
   },
   {
     "code": "30",
@@ -453,7 +452,7 @@
     "administrative_era": 48,
     "countryCode": "DZ",
     "countryPhone": "+213",
-    "countryImages": "/today-weather/images/ouargla.jpg"
+    "countryImages": "/meteo-dz/images/ouargla.jpg"
   },
   {
     "code": "31",
@@ -469,7 +468,7 @@
     "administrative_era": 48,
     "countryCode": "DZ",
     "countryPhone": "+213",
-    "countryImages": "/today-weather/images/oran.jpg"
+    "countryImages": "/meteo-dz/images/oran.jpg"
   },
   {
     "code": "32",
@@ -484,7 +483,7 @@
     "administrative_era": 48,
     "countryCode": "DZ",
     "countryPhone": "+213",
-    "countryImages": "/today-weather/images/el-bayadh.jpg"
+    "countryImages": "/meteo-dz/images/el-bayadh.jpg"
   },
   {
     "code": "33",
@@ -499,7 +498,7 @@
     "administrative_era": 48,
     "countryCode": "DZ",
     "countryPhone": "+213",
-    "countryImages": "/today-weather/images/illizi.jpg"
+    "countryImages": "/meteo-dz/images/illizi.jpg"
   },
   {
     "code": "34",
@@ -514,7 +513,7 @@
     "administrative_era": 48,
     "countryCode": "DZ",
     "countryPhone": "+213",
-    "countryImages": "/today-weather/images/bordj-bou-arreridj.jpg"
+    "countryImages": "/meteo-dz/images/bordj-bou-arreridj.jpg"
   },
   {
     "code": "35",
@@ -530,7 +529,7 @@
     "administrative_era": 48,
     "countryCode": "DZ",
     "countryPhone": "+213",
-    "countryImages": "/today-weather/images/boumerdes.jpg"
+    "countryImages": "/meteo-dz/images/boumerdes.jpg"
   },
   {
     "code": "36",
@@ -546,7 +545,7 @@
     "administrative_era": 48,
     "countryCode": "DZ",
     "countryPhone": "+213",
-    "countryImages": "/today-weather/images/el-tarf.jpg"
+    "countryImages": "/meteo-dz/images/el-tarf.jpg"
   },
   {
     "code": "37",
@@ -561,7 +560,7 @@
     "administrative_era": 48,
     "countryCode": "DZ",
     "countryPhone": "+213",
-    "countryImages": "/today-weather/images/tindouf.jpg"
+    "countryImages": "/meteo-dz/images/tindouf.jpg"
   },
   {
     "code": "38",
@@ -576,7 +575,7 @@
     "administrative_era": 48,
     "countryCode": "DZ",
     "countryPhone": "+213",
-    "countryImages": "/today-weather/images/tissemsilt.jpg"
+    "countryImages": "/meteo-dz/images/tissemsilt.jpg"
   },
   {
     "code": "39",
@@ -591,7 +590,7 @@
     "administrative_era": 48,
     "countryCode": "DZ",
     "countryPhone": "+213",
-    "countryImages": "/today-weather/images/el-oued.jpg"
+    "countryImages": "/meteo-dz/images/el-oued.jpg"
   },
   {
     "code": "40",
@@ -606,7 +605,7 @@
     "administrative_era": 48,
     "countryCode": "DZ",
     "countryPhone": "+213",
-    "countryImages": "/today-weather/images/khenchela.jpg"
+    "countryImages": "/meteo-dz/images/khenchela.jpg"
   },
   {
     "code": "41",
@@ -621,7 +620,7 @@
     "administrative_era": 48,
     "countryCode": "DZ",
     "countryPhone": "+213",
-    "countryImages": "/today-weather/images/souk-ahras.jpg"
+    "countryImages": "/meteo-dz/images/souk-ahras.jpg"
   },
   {
     "code": "42",
@@ -637,7 +636,7 @@
     "administrative_era": 48,
     "countryCode": "DZ",
     "countryPhone": "+213",
-    "countryImages": "/today-weather/images/tipaza.jpg"
+    "countryImages": "/meteo-dz/images/tipaza.jpg"
   },
   {
     "code": "43",
@@ -652,7 +651,7 @@
     "administrative_era": 48,
     "countryCode": "DZ",
     "countryPhone": "+213",
-    "countryImages": "/today-weather/images/mila.jpg"
+    "countryImages": "/meteo-dz/images/mila.jpg"
   },
   {
     "code": "44",
@@ -667,7 +666,7 @@
     "administrative_era": 48,
     "countryCode": "DZ",
     "countryPhone": "+213",
-    "countryImages": "/today-weather/images/ain-defla.jpg"
+    "countryImages": "/meteo-dz/images/ain-defla.jpg"
   },
   {
     "code": "45",
@@ -682,7 +681,7 @@
     "administrative_era": 48,
     "countryCode": "DZ",
     "countryPhone": "+213",
-    "countryImages": "/today-weather/images/naama.jpg"
+    "countryImages": "/meteo-dz/images/naama.jpg"
   },
   {
     "code": "46",
@@ -698,7 +697,7 @@
     "administrative_era": 48,
     "countryCode": "DZ",
     "countryPhone": "+213",
-    "countryImages": "/today-weather/images/ain-temouchent.jpg"
+    "countryImages": "/meteo-dz/images/ain-temouchent.jpg"
   },
   {
     "code": "47",
@@ -713,7 +712,7 @@
     "administrative_era": 48,
     "countryCode": "DZ",
     "countryPhone": "+213",
-    "countryImages": "/today-weather/images/ghardaia.jpg"
+    "countryImages": "/meteo-dz/images/ghardaia.jpg"
   },
   {
     "code": "48",
@@ -728,7 +727,7 @@
     "administrative_era": 48,
     "countryCode": "DZ",
     "countryPhone": "+213",
-    "countryImages": "/today-weather/images/relizane.jpg"
+    "countryImages": "/meteo-dz/images/relizane.jpg"
   },
   {
     "code": "49",
@@ -743,7 +742,7 @@
     "administrative_era": 58,
     "countryCode": "DZ",
     "countryPhone": "+213",
-    "countryImages": "/today-weather/images/timimoun.jpg"
+    "countryImages": "/meteo-dz/images/timimoun.jpg"
   },
   {
     "code": "50",
@@ -758,7 +757,7 @@
     "administrative_era": 58,
     "countryCode": "DZ",
     "countryPhone": "+213",
-    "countryImages": "/today-weather/images/bordj-badji-mokhtar.jpg"
+    "countryImages": "/meteo-dz/images/bordj-badji-mokhtar.jpg"
   },
   {
     "code": "51",
@@ -773,7 +772,7 @@
     "administrative_era": 58,
     "countryCode": "DZ",
     "countryPhone": "+213",
-    "countryImages": "/today-weather/images/ouled-djellal.jpg"
+    "countryImages": "/meteo-dz/images/ouled-djellal.jpg"
   },
   {
     "code": "52",
@@ -788,7 +787,7 @@
     "administrative_era": 58,
     "countryCode": "DZ",
     "countryPhone": "+213",
-    "countryImages": "/today-weather/images/beni-abbes.jpg"
+    "countryImages": "/meteo-dz/images/beni-abbes.jpg"
   },
   {
     "code": "53",
@@ -803,7 +802,7 @@
     "administrative_era": 58,
     "countryCode": "DZ",
     "countryPhone": "+213",
-    "countryImages": "/today-weather/images/in-salah.jpg"
+    "countryImages": "/meteo-dz/images/in-salah.jpg"
   },
   {
     "code": "54",
@@ -818,7 +817,7 @@
     "administrative_era": 58,
     "countryCode": "DZ",
     "countryPhone": "+213",
-    "countryImages": "/today-weather/images/in-guezzam.jpg"
+    "countryImages": "/meteo-dz/images/in-guezzam.jpg"
   },
   {
     "code": "55",
@@ -833,7 +832,7 @@
     "administrative_era": 58,
     "countryCode": "DZ",
     "countryPhone": "+213",
-    "countryImages": "/today-weather/images/touggourt.jpg"
+    "countryImages": "/meteo-dz/images/touggourt.jpg"
   },
   {
     "code": "56",
@@ -848,7 +847,7 @@
     "administrative_era": 58,
     "countryCode": "DZ",
     "countryPhone": "+213",
-    "countryImages": "/today-weather/images/djanet.jpg"
+    "countryImages": "/meteo-dz/images/djanet.jpg"
   },
   {
     "code": "57",
@@ -863,7 +862,7 @@
     "administrative_era": 58,
     "countryCode": "DZ",
     "countryPhone": "+213",
-    "countryImages": "/today-weather/images/el-mghair.jpg"
+    "countryImages": "/meteo-dz/images/el-mghair.jpg"
   },
   {
     "code": "58",
@@ -878,7 +877,7 @@
     "administrative_era": 58,
     "countryCode": "DZ",
     "countryPhone": "+213",
-    "countryImages": "/today-weather/images/el-menia.jpg"
+    "countryImages": "/meteo-dz/images/el-menia.jpg"
   },
   {
     "code": "59",
@@ -893,7 +892,7 @@
     "administrative_era": 69,
     "countryCode": "DZ",
     "countryPhone": "+213",
-    "countryImages": "/today-weather/images/aflou.jpg"
+    "countryImages": "/meteo-dz/images/aflou.jpg"
   },
   {
     "code": "60",
@@ -908,7 +907,7 @@
     "administrative_era": 69,
     "countryCode": "DZ",
     "countryPhone": "+213",
-    "countryImages": "/today-weather/images/barika.jpg"
+    "countryImages": "/meteo-dz/images/barika.jpg"
   },
   {
     "code": "61",
@@ -923,7 +922,7 @@
     "administrative_era": 69,
     "countryCode": "DZ",
     "countryPhone": "+213",
-    "countryImages": "/today-weather/images/el-kantara.jpg"
+    "countryImages": "/meteo-dz/images/el-kantara.jpg"
   },
   {
     "code": "62",
@@ -938,7 +937,7 @@
     "administrative_era": 69,
     "countryCode": "DZ",
     "countryPhone": "+213",
-    "countryImages": "/today-weather/images/bir-el-ater.jpg"
+    "countryImages": "/meteo-dz/images/bir-el-ater.jpg"
   },
   {
     "code": "63",
@@ -953,7 +952,7 @@
     "administrative_era": 69,
     "countryCode": "DZ",
     "countryPhone": "+213",
-    "countryImages": "/today-weather/images/el-aricha.jpg"
+    "countryImages": "/meteo-dz/images/el-aricha.jpg"
   },
   {
     "code": "64",
@@ -968,7 +967,7 @@
     "administrative_era": 69,
     "countryCode": "DZ",
     "countryPhone": "+213",
-    "countryImages": "/today-weather/images/ksar-chellala.jpg"
+    "countryImages": "/meteo-dz/images/ksar-chellala.jpg"
   },
   {
     "code": "65",
@@ -983,7 +982,7 @@
     "administrative_era": 69,
     "countryCode": "DZ",
     "countryPhone": "+213",
-    "countryImages": "/today-weather/images/ain-ouessara.jpg"
+    "countryImages": "/meteo-dz/images/ain-ouessara.jpg"
   },
   {
     "code": "66",
@@ -998,7 +997,7 @@
     "administrative_era": 69,
     "countryCode": "DZ",
     "countryPhone": "+213",
-    "countryImages": "/today-weather/images/messaad.jpg"
+    "countryImages": "/meteo-dz/images/messaad.jpg"
   },
   {
     "code": "67",
@@ -1013,7 +1012,7 @@
     "administrative_era": 69,
     "countryCode": "DZ",
     "countryPhone": "+213",
-    "countryImages": "/today-weather/images/ksar-el-boukhari.jpg"
+    "countryImages": "/meteo-dz/images/ksar-el-boukhari.jpg"
   },
   {
     "code": "68",
@@ -1028,7 +1027,7 @@
     "administrative_era": 69,
     "countryCode": "DZ",
     "countryPhone": "+213",
-    "countryImages": "/today-weather/images/bou-saada.jpg"
+    "countryImages": "/meteo-dz/images/bou-saada.jpg"
   },
   {
     "code": "69",
@@ -1043,6 +1042,6 @@
     "administrative_era": 69,
     "countryCode": "DZ",
     "countryPhone": "+213",
-    "countryImages": "/today-weather/images/el-abiodh-sidi-cheikh.jpg"
+    "countryImages": "/meteo-dz/images/el-abiodh-sidi-cheikh.jpg"
   }
 ]
