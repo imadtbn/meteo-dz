@@ -19,8 +19,8 @@ function setSeo(html, { title, description, canonical, image = siteRoot + "socia
     if (!pattern.test(source)) throw new Error("SEO tag missing: " + key);
     return source.replace(pattern, '<meta ' + attr + '="' + key + '" content="' + escapeXml(value) + '" />');
   };
-  let result = html.replace(/<title>[^<]*<\\/title>/, '<title>' + escapeXml(title) + '</title>');
-  result = result.replace(/<link rel="canonical" href="[^"]*" \\/>/, '<link rel="canonical" href="' + escapeXml(canonical) + '" />');
+  let result = html.replace(/<title>[^<]*<\/title>/, '<title>' + escapeXml(title) + '</title>');
+  result = result.replace(/<link rel="canonical" href="[^"]*" \/>/, '<link rel="canonical" href="' + escapeXml(canonical) + '" />');
   for (const [attr, key, value] of [
     ["name", "description", description],
     ["property", "og:title", title],
@@ -104,6 +104,6 @@ await writeFile(path.join(dist, "sitemap.xml"), buildSitemap(siteRoot, places));
 const basePath = process.env.DEPLOY_TARGET === "github" ? "/meteo-dz/" : "/";
 const manifest = { name: "الطقس الجزائري والعالمي — مرصد الأطلس", short_name: "مرصد الأطلس", description: "نشرات وتوقعات الطقس للولايات الجزائرية وعواصم العالم", id: basePath, start_url: basePath, scope: basePath, display: "standalone", dir: "rtl", lang: "ar", theme_color: "#0C5B8C", background_color: "#F5F0E6", icons: [{ src: `${basePath}icons/icon-192.png`, sizes: "192x192", type: "image/png", purpose: "any maskable" }, { src: `${basePath}icons/icon-512.png`, sizes: "512x512", type: "image/png", purpose: "any maskable" }, { src: `${basePath}favicon.svg`, sizes: "any", type: "image/svg+xml", purpose: "any" }], shortcuts: [{ name: "الولايات الجزائرية", short_name: "الولايات", url: `${basePath}wilayas/` }, { name: "العواصم العالمية", short_name: "العواصم", url: `${basePath}world-capitals/` }, { name: "البحث العالمي", short_name: "البحث", url: `${basePath}world-search/` }, { name: "خريطة الطقس", short_name: "الخريطة", url: `${basePath}weather-map/` }] };
 await writeFile(path.join(dist, "manifest.webmanifest"), JSON.stringify(manifest, null, 2));
-await writeFile(path.join(dist, "robots.txt"), `User-agent: *\\nAllow: ${basePath}\\nDisallow: ${basePath}api/\\nSitemap: ${siteRoot}sitemap.xml\\n`);
+await writeFile(path.join(dist, "robots.txt"), `User-agent: *\nAllow: ${basePath}\nDisallow: ${basePath}api/\nSitemap: ${siteRoot}sitemap.xml\n`);
 
 console.log(`Generated ${places.length} unique place pages, ${landingPages.length} landing pages, copied city photography, and ${sitemapUrls(siteRoot, places).length} indexable sitemap URLs.`);
