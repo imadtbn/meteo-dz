@@ -1,0 +1,2402 @@
+[
+  {
+    "type": "page",
+    "name": "الصفحة الرئيسية",
+    "detail": "الطقس اليوم وحالة الطقس الحالية",
+    "path": "/",
+    "terms": "الرئيسية الطقس اليوم أحوال الطقس حالة الطقس"
+  },
+  {
+    "type": "page",
+    "name": "دليل الطقس",
+    "detail": "جميع المدن والولايات والعواصم",
+    "path": "/weather/",
+    "terms": "دليل المدن بحث عالمي مدن عواصم"
+  },
+  {
+    "type": "page",
+    "name": "الولايات الجزائرية",
+    "detail": "الطقس في الولايات والمدن الجزائرية",
+    "path": "/weather/algeria/",
+    "terms": "الجزائر ولايات مدن الجزائر"
+  },
+  {
+    "type": "page",
+    "name": "العواصم العربية",
+    "detail": "الطقس في العواصم والمدن العربية",
+    "path": "/weather/arab/",
+    "terms": "العالم العربي عواصم عربية"
+  },
+  {
+    "type": "page",
+    "name": "المدن والعواصم العالمية",
+    "detail": "الطقس حول العالم",
+    "path": "/weather/world/",
+    "terms": "العالم مدن دول عواصم عالمية"
+  },
+  {
+    "type": "section",
+    "name": "توقعات الطقس",
+    "detail": "توقعات الأيام الخمسة القادمة",
+    "path": "/#forecast",
+    "terms": "توقعات خمسة أيام أسبوع forecast"
+  },
+  {
+    "type": "section",
+    "name": "الأقسام المتخصصة",
+    "detail": "الطقس الزراعي والبحري وجودة الهواء والأمطار",
+    "path": "/#specialized",
+    "terms": "طقس زراعي بحري جودة الهواء أمطار"
+  },
+  {
+    "type": "section",
+    "name": "الطقس الزراعي",
+    "detail": "مؤشرات الطقس للزراعة",
+    "path": "/#agricultureCard",
+    "terms": "زراعة فلاحة ري محاصيل"
+  },
+  {
+    "type": "section",
+    "name": "الطقس البحري",
+    "detail": "حالة البحر والرياح",
+    "path": "/#marineCard",
+    "terms": "بحر أمواج ملاحة"
+  },
+  {
+    "type": "section",
+    "name": "جودة الهواء",
+    "detail": "مؤشرات الهواء والتلوث",
+    "path": "/#airCard",
+    "terms": "هواء تلوث جودة الهواء"
+  },
+  {
+    "type": "section",
+    "name": "الأمطار",
+    "detail": "معلومات ومؤشرات هطول الأمطار",
+    "path": "/#rainfallCard",
+    "terms": "أمطار تساقط هطول"
+  },
+  {
+    "type": "section",
+    "name": "خرائط الطقس",
+    "detail": "الخرائط الجوية التفاعلية",
+    "path": "/#maps",
+    "terms": "خريطة خرائط رادار الطقس"
+  },
+  {
+    "type": "section",
+    "name": "إحصائيات الطقس",
+    "detail": "إحصائيات ومؤشرات الطقس",
+    "path": "/#stats",
+    "terms": "إحصائيات درجات الحرارة بيانات"
+  },
+  {
+    "type": "section",
+    "name": "التحذيرات الجوية",
+    "detail": "تنبيهات وتحذيرات الطقس",
+    "path": "/#warnings",
+    "terms": "تحذير تنبيه طقس خطر"
+  },
+  {
+    "type": "section",
+    "name": "أخبار الطقس",
+    "detail": "آخر أخبار الطقس والمناخ",
+    "path": "/#news",
+    "terms": "أخبار مناخ"
+  },
+  {
+    "type": "section",
+    "name": "دليل الطقس والمعلومات",
+    "detail": "معلومات وإرشادات الطقس",
+    "path": "/#weather-guide",
+    "terms": "دليل معلومات نصائح الطقس"
+  },
+  {
+    "type": "city",
+    "name": "أدرار",
+    "detail": "الجزائر",
+    "latin": "Adrar Adrar",
+    "terms": "adrar DZ",
+    "path": "/weather/algeria/adrar/"
+  },
+  {
+    "type": "city",
+    "name": "الشلف",
+    "detail": "الجزائر",
+    "latin": "Chlef Chlef",
+    "terms": "chlef DZ",
+    "path": "/weather/algeria/chlef/"
+  },
+  {
+    "type": "city",
+    "name": "الأغواط",
+    "detail": "الجزائر",
+    "latin": "Laghouat Laghouat",
+    "terms": "laghouat DZ",
+    "path": "/weather/algeria/laghouat/"
+  },
+  {
+    "type": "city",
+    "name": "أم البواقي",
+    "detail": "الجزائر",
+    "latin": "Oum El Bouaghi Oum El Bouaghi",
+    "terms": "oum-el-bouaghi DZ",
+    "path": "/weather/algeria/oum-el-bouaghi/"
+  },
+  {
+    "type": "city",
+    "name": "باتنة",
+    "detail": "الجزائر",
+    "latin": "Batna Batna",
+    "terms": "batna DZ",
+    "path": "/weather/algeria/batna/"
+  },
+  {
+    "type": "city",
+    "name": "بجاية",
+    "detail": "الجزائر",
+    "latin": "Bejaia Bejaïa",
+    "terms": "bejaia DZ",
+    "path": "/weather/algeria/bejaia/"
+  },
+  {
+    "type": "city",
+    "name": "بسكرة",
+    "detail": "الجزائر",
+    "latin": "Biskra Biskra",
+    "terms": "biskra DZ",
+    "path": "/weather/algeria/biskra/"
+  },
+  {
+    "type": "city",
+    "name": "بشار",
+    "detail": "الجزائر",
+    "latin": "Bechar Béchar",
+    "terms": "bechar DZ",
+    "path": "/weather/algeria/bechar/"
+  },
+  {
+    "type": "city",
+    "name": "البليدة",
+    "detail": "الجزائر",
+    "latin": "Blida Blida",
+    "terms": "blida DZ",
+    "path": "/weather/algeria/blida/"
+  },
+  {
+    "type": "city",
+    "name": "البويرة",
+    "detail": "الجزائر",
+    "latin": "Bouira Bouira",
+    "terms": "bouira DZ",
+    "path": "/weather/algeria/bouira/"
+  },
+  {
+    "type": "city",
+    "name": "تمنراست",
+    "detail": "الجزائر",
+    "latin": "Tamanghasset Tamanghasset",
+    "terms": "tamanrasset DZ",
+    "path": "/weather/algeria/tamanrasset/"
+  },
+  {
+    "type": "city",
+    "name": "تبسة",
+    "detail": "الجزائر",
+    "latin": "Tebessa Tebessa",
+    "terms": "tebessa DZ",
+    "path": "/weather/algeria/tebessa/"
+  },
+  {
+    "type": "city",
+    "name": "تلمسان",
+    "detail": "الجزائر",
+    "latin": "Tlemcen Tlemcen",
+    "terms": "tlemcen DZ",
+    "path": "/weather/algeria/tlemcen/"
+  },
+  {
+    "type": "city",
+    "name": "تيارت",
+    "detail": "الجزائر",
+    "latin": "Tiaret Tiaret",
+    "terms": "tiaret DZ",
+    "path": "/weather/algeria/tiaret/"
+  },
+  {
+    "type": "city",
+    "name": "تيزي وزو",
+    "detail": "الجزائر",
+    "latin": "Tizi Ouzou Tizi Ouzou",
+    "terms": "tizi-ouzou DZ",
+    "path": "/weather/algeria/tizi-ouzou/"
+  },
+  {
+    "type": "city",
+    "name": "الجزائر العاصمة",
+    "detail": "الجزائر",
+    "latin": "Alger Alger",
+    "terms": "algiers DZ",
+    "path": "/weather/algeria/algiers/"
+  },
+  {
+    "type": "city",
+    "name": "الجلفة",
+    "detail": "الجزائر",
+    "latin": "Djelfa Djelfa",
+    "terms": "djelfa DZ",
+    "path": "/weather/algeria/djelfa/"
+  },
+  {
+    "type": "city",
+    "name": "جيجل",
+    "detail": "الجزائر",
+    "latin": "Jijel Jijel",
+    "terms": "jijel DZ",
+    "path": "/weather/algeria/jijel/"
+  },
+  {
+    "type": "city",
+    "name": "سطيف",
+    "detail": "الجزائر",
+    "latin": "Setif Sétif",
+    "terms": "setif DZ",
+    "path": "/weather/algeria/setif/"
+  },
+  {
+    "type": "city",
+    "name": "سعيدة",
+    "detail": "الجزائر",
+    "latin": "Saida Saïda",
+    "terms": "saida DZ",
+    "path": "/weather/algeria/saida/"
+  },
+  {
+    "type": "city",
+    "name": "سكيكدة",
+    "detail": "الجزائر",
+    "latin": "Skikda Skikda",
+    "terms": "skikda DZ",
+    "path": "/weather/algeria/skikda/"
+  },
+  {
+    "type": "city",
+    "name": "سيدي بلعباس",
+    "detail": "الجزائر",
+    "latin": "Sidi Bel Abbes Sidi Bel Abbès",
+    "terms": "sidi-bel-abbes DZ",
+    "path": "/weather/algeria/sidi-bel-abbes/"
+  },
+  {
+    "type": "city",
+    "name": "عنابة",
+    "detail": "الجزائر",
+    "latin": "Annaba Annaba",
+    "terms": "annaba DZ",
+    "path": "/weather/algeria/annaba/"
+  },
+  {
+    "type": "city",
+    "name": "قالمة",
+    "detail": "الجزائر",
+    "latin": "Guelma Guelma",
+    "terms": "guelma DZ",
+    "path": "/weather/algeria/guelma/"
+  },
+  {
+    "type": "city",
+    "name": "قسنطينة",
+    "detail": "الجزائر",
+    "latin": "Constantine Constantine",
+    "terms": "constantine DZ",
+    "path": "/weather/algeria/constantine/"
+  },
+  {
+    "type": "city",
+    "name": "المدية",
+    "detail": "الجزائر",
+    "latin": "Medea Médéa",
+    "terms": "medea DZ",
+    "path": "/weather/algeria/medea/"
+  },
+  {
+    "type": "city",
+    "name": "مستغانم",
+    "detail": "الجزائر",
+    "latin": "Mostaganem Mostaganem",
+    "terms": "mostaganem DZ",
+    "path": "/weather/algeria/mostaganem/"
+  },
+  {
+    "type": "city",
+    "name": "المسيلة",
+    "detail": "الجزائر",
+    "latin": "M'Sila M’Sila",
+    "terms": "msila DZ",
+    "path": "/weather/algeria/msila/"
+  },
+  {
+    "type": "city",
+    "name": "معسكر",
+    "detail": "الجزائر",
+    "latin": "Mascara Mascara",
+    "terms": "mascara DZ",
+    "path": "/weather/algeria/mascara/"
+  },
+  {
+    "type": "city",
+    "name": "ورقلة",
+    "detail": "الجزائر",
+    "latin": "Ouargla Ouargla",
+    "terms": "ouargla DZ",
+    "path": "/weather/algeria/ouargla/"
+  },
+  {
+    "type": "city",
+    "name": "وهران",
+    "detail": "الجزائر",
+    "latin": "Oran Oran",
+    "terms": "oran DZ",
+    "path": "/weather/algeria/oran/"
+  },
+  {
+    "type": "city",
+    "name": "البيض",
+    "detail": "الجزائر",
+    "latin": "El Bayadh El Bayadh",
+    "terms": "el-bayadh DZ",
+    "path": "/weather/algeria/el-bayadh/"
+  },
+  {
+    "type": "city",
+    "name": "إليزي",
+    "detail": "الجزائر",
+    "latin": "Illizi Illizi",
+    "terms": "illizi DZ",
+    "path": "/weather/algeria/illizi/"
+  },
+  {
+    "type": "city",
+    "name": "برج بوعريريج",
+    "detail": "الجزائر",
+    "latin": "Bordj Bou Arreridj Bordj Bou Arréridj",
+    "terms": "bordj-bou-arreridj DZ",
+    "path": "/weather/algeria/bordj-bou-arreridj/"
+  },
+  {
+    "type": "city",
+    "name": "بومرداس",
+    "detail": "الجزائر",
+    "latin": "Boumerdes Boumerdes",
+    "terms": "boumerdes DZ",
+    "path": "/weather/algeria/boumerdes/"
+  },
+  {
+    "type": "city",
+    "name": "الطارف",
+    "detail": "الجزائر",
+    "latin": "El Tarf El Tarf",
+    "terms": "el-tarf DZ",
+    "path": "/weather/algeria/el-tarf/"
+  },
+  {
+    "type": "city",
+    "name": "تندوف",
+    "detail": "الجزائر",
+    "latin": "Tindouf Tindouf",
+    "terms": "tindouf DZ",
+    "path": "/weather/algeria/tindouf/"
+  },
+  {
+    "type": "city",
+    "name": "تيسمسيلت",
+    "detail": "الجزائر",
+    "latin": "Tissemsilt Tissemsilt",
+    "terms": "tissemsilt DZ",
+    "path": "/weather/algeria/tissemsilt/"
+  },
+  {
+    "type": "city",
+    "name": "الوادي",
+    "detail": "الجزائر",
+    "latin": "El Oued El Oued",
+    "terms": "el-oued DZ",
+    "path": "/weather/algeria/el-oued/"
+  },
+  {
+    "type": "city",
+    "name": "خنشلة",
+    "detail": "الجزائر",
+    "latin": "Khenchela Khenchela",
+    "terms": "khenchela DZ",
+    "path": "/weather/algeria/khenchela/"
+  },
+  {
+    "type": "city",
+    "name": "سوق أهراس",
+    "detail": "الجزائر",
+    "latin": "Souk Ahras Souk Ahras",
+    "terms": "souk-ahras DZ",
+    "path": "/weather/algeria/souk-ahras/"
+  },
+  {
+    "type": "city",
+    "name": "تيبازة",
+    "detail": "الجزائر",
+    "latin": "Tipaza Tipaza",
+    "terms": "tipaza DZ",
+    "path": "/weather/algeria/tipaza/"
+  },
+  {
+    "type": "city",
+    "name": "ميلة",
+    "detail": "الجزائر",
+    "latin": "Mila Mila",
+    "terms": "mila DZ",
+    "path": "/weather/algeria/mila/"
+  },
+  {
+    "type": "city",
+    "name": "عين الدفلى",
+    "detail": "الجزائر",
+    "latin": "Ain Defla Aïn Defla",
+    "terms": "ain-defla DZ",
+    "path": "/weather/algeria/ain-defla/"
+  },
+  {
+    "type": "city",
+    "name": "النعامة",
+    "detail": "الجزائر",
+    "latin": "Naama Naama",
+    "terms": "naama DZ",
+    "path": "/weather/algeria/naama/"
+  },
+  {
+    "type": "city",
+    "name": "عين تموشنت",
+    "detail": "الجزائر",
+    "latin": "Ain Temouchent Aïn Temouchent",
+    "terms": "ain-temouchent DZ",
+    "path": "/weather/algeria/ain-temouchent/"
+  },
+  {
+    "type": "city",
+    "name": "غرداية",
+    "detail": "الجزائر",
+    "latin": "Ghardaia Ghardaïa",
+    "terms": "ghardaia DZ",
+    "path": "/weather/algeria/ghardaia/"
+  },
+  {
+    "type": "city",
+    "name": "غليزان",
+    "detail": "الجزائر",
+    "latin": "Relizane Relizane",
+    "terms": "relizane DZ",
+    "path": "/weather/algeria/relizane/"
+  },
+  {
+    "type": "city",
+    "name": "تيميمون",
+    "detail": "الجزائر",
+    "latin": "Timimoun Timimoun",
+    "terms": "timimoun DZ",
+    "path": "/weather/algeria/timimoun/"
+  },
+  {
+    "type": "city",
+    "name": "برج باجي مختار",
+    "detail": "الجزائر",
+    "latin": "Bordj Badji Mokhtar Bordj Badji Mokhtar",
+    "terms": "bordj-badji-mokhtar DZ",
+    "path": "/weather/algeria/bordj-badji-mokhtar/"
+  },
+  {
+    "type": "city",
+    "name": "أولاد جلال",
+    "detail": "الجزائر",
+    "latin": "Ouled Djellal Ouled Djellal",
+    "terms": "ouled-djellal DZ",
+    "path": "/weather/algeria/ouled-djellal/"
+  },
+  {
+    "type": "city",
+    "name": "بني عباس",
+    "detail": "الجزائر",
+    "latin": "Beni Abbes Béni Abbès",
+    "terms": "beni-abbes DZ",
+    "path": "/weather/algeria/beni-abbes/"
+  },
+  {
+    "type": "city",
+    "name": "عين صالح",
+    "detail": "الجزائر",
+    "latin": "In Salah In Salah",
+    "terms": "in-salah DZ",
+    "path": "/weather/algeria/in-salah/"
+  },
+  {
+    "type": "city",
+    "name": "عين قزام",
+    "detail": "الجزائر",
+    "latin": "In Guezzam In Guezzam",
+    "terms": "in-guezzam DZ",
+    "path": "/weather/algeria/in-guezzam/"
+  },
+  {
+    "type": "city",
+    "name": "تقرت",
+    "detail": "الجزائر",
+    "latin": "Touggourt Touggourt",
+    "terms": "touggourt DZ",
+    "path": "/weather/algeria/touggourt/"
+  },
+  {
+    "type": "city",
+    "name": "جانت",
+    "detail": "الجزائر",
+    "latin": "Djanet Djanet",
+    "terms": "djanet DZ",
+    "path": "/weather/algeria/djanet/"
+  },
+  {
+    "type": "city",
+    "name": "المغير",
+    "detail": "الجزائر",
+    "latin": "El M'Ghaier El M’Ghaier",
+    "terms": "el-mghair DZ",
+    "path": "/weather/algeria/el-mghair/"
+  },
+  {
+    "type": "city",
+    "name": "المنيعة",
+    "detail": "الجزائر",
+    "latin": "El Meniaa El Meniaa",
+    "terms": "el-menia DZ",
+    "path": "/weather/algeria/el-menia/"
+  },
+  {
+    "type": "city",
+    "name": "أفلو",
+    "detail": "الجزائر",
+    "latin": "Aflou Aflou",
+    "terms": "aflou DZ",
+    "path": "/weather/algeria/aflou/"
+  },
+  {
+    "type": "city",
+    "name": "بريكة",
+    "detail": "الجزائر",
+    "latin": "Barika Barika",
+    "terms": "barika DZ",
+    "path": "/weather/algeria/barika/"
+  },
+  {
+    "type": "city",
+    "name": "القنطرة",
+    "detail": "الجزائر",
+    "latin": "El Kantara El Kantara",
+    "terms": "el-kantara DZ",
+    "path": "/weather/algeria/el-kantara/"
+  },
+  {
+    "type": "city",
+    "name": "بئر العاتر",
+    "detail": "الجزائر",
+    "latin": "Bir El Ater Bir El Ater",
+    "terms": "bir-el-ater DZ",
+    "path": "/weather/algeria/bir-el-ater/"
+  },
+  {
+    "type": "city",
+    "name": "العريشة",
+    "detail": "الجزائر",
+    "latin": "El Aricha El Aricha",
+    "terms": "el-aricha DZ",
+    "path": "/weather/algeria/el-aricha/"
+  },
+  {
+    "type": "city",
+    "name": "قصر الشلالة",
+    "detail": "الجزائر",
+    "latin": "Ksar Chellala Ksar Chellala",
+    "terms": "ksar-chellala DZ",
+    "path": "/weather/algeria/ksar-chellala/"
+  },
+  {
+    "type": "city",
+    "name": "عين وسارة",
+    "detail": "الجزائر",
+    "latin": "Ain Ouessara Aïn Ouessara",
+    "terms": "ain-ouessara DZ",
+    "path": "/weather/algeria/ain-ouessara/"
+  },
+  {
+    "type": "city",
+    "name": "مسعد",
+    "detail": "الجزائر",
+    "latin": "Messaad Messaad",
+    "terms": "messaad DZ",
+    "path": "/weather/algeria/messaad/"
+  },
+  {
+    "type": "city",
+    "name": "قصر البخاري",
+    "detail": "الجزائر",
+    "latin": "Ksar El Boukhari Ksar El Boukhari",
+    "terms": "ksar-el-boukhari DZ",
+    "path": "/weather/algeria/ksar-el-boukhari/"
+  },
+  {
+    "type": "city",
+    "name": "بوسعادة",
+    "detail": "الجزائر",
+    "latin": "Bou Saada Bou Saâda",
+    "terms": "bou-saada DZ",
+    "path": "/weather/algeria/bou-saada/"
+  },
+  {
+    "type": "city",
+    "name": "الأبيض سيدي الشيخ",
+    "detail": "الجزائر",
+    "latin": "El Abiodh Sidi Cheikh El Abiodh Sidi Cheikh",
+    "terms": "el-abiodh-sidi-cheikh DZ",
+    "path": "/weather/algeria/el-abiodh-sidi-cheikh/"
+  },
+  {
+    "type": "city",
+    "name": "الجزائر العاصمة",
+    "detail": "الجزائر",
+    "latin": "Algiers",
+    "terms": "algiers DZ",
+    "path": "/weather/arab/algiers/"
+  },
+  {
+    "type": "city",
+    "name": "المنامة",
+    "detail": "البحرين",
+    "latin": "Manama",
+    "terms": "manama BH",
+    "path": "/weather/arab/manama/"
+  },
+  {
+    "type": "city",
+    "name": "موروني",
+    "detail": "جزر القمر",
+    "latin": "Moroni",
+    "terms": "moroni KM",
+    "path": "/weather/arab/moroni/"
+  },
+  {
+    "type": "city",
+    "name": "مدينة جيبوتي",
+    "detail": "جيبوتي",
+    "latin": "Djibouti",
+    "terms": "djibouti DJ",
+    "path": "/weather/arab/djibouti/"
+  },
+  {
+    "type": "city",
+    "name": "القاهرة",
+    "detail": "مصر",
+    "latin": "Cairo",
+    "terms": "cairo EG",
+    "path": "/weather/arab/cairo/"
+  },
+  {
+    "type": "city",
+    "name": "بغداد",
+    "detail": "العراق",
+    "latin": "Baghdad",
+    "terms": "baghdad IQ",
+    "path": "/weather/arab/baghdad/"
+  },
+  {
+    "type": "city",
+    "name": "عمّان",
+    "detail": "الأردن",
+    "latin": "Amman",
+    "terms": "amman JO",
+    "path": "/weather/arab/amman/"
+  },
+  {
+    "type": "city",
+    "name": "مدينة الكويت",
+    "detail": "الكويت",
+    "latin": "Kuwait City",
+    "terms": "kuwait-city KW",
+    "path": "/weather/arab/kuwait-city/"
+  },
+  {
+    "type": "city",
+    "name": "بيروت",
+    "detail": "لبنان",
+    "latin": "Beirut",
+    "terms": "beirut LB",
+    "path": "/weather/arab/beirut/"
+  },
+  {
+    "type": "city",
+    "name": "طرابلس",
+    "detail": "ليبيا",
+    "latin": "Tripoli",
+    "terms": "tripoli LY",
+    "path": "/weather/arab/tripoli/"
+  },
+  {
+    "type": "city",
+    "name": "نواكشوط",
+    "detail": "موريتانيا",
+    "latin": "Nouakchott",
+    "terms": "nouakchott MR",
+    "path": "/weather/arab/nouakchott/"
+  },
+  {
+    "type": "city",
+    "name": "الرباط",
+    "detail": "المغرب",
+    "latin": "Rabat",
+    "terms": "rabat MA",
+    "path": "/weather/arab/rabat/"
+  },
+  {
+    "type": "city",
+    "name": "مسقط",
+    "detail": "عُمان",
+    "latin": "Muscat",
+    "terms": "muscat OM",
+    "path": "/weather/arab/muscat/"
+  },
+  {
+    "type": "city",
+    "name": "رام الله (مرجع جغرافي)",
+    "detail": "فلسطين",
+    "latin": "Ramallah",
+    "terms": "ramallah PS",
+    "path": "/weather/arab/ramallah/"
+  },
+  {
+    "type": "city",
+    "name": "الدوحة",
+    "detail": "قطر",
+    "latin": "Doha",
+    "terms": "doha QA",
+    "path": "/weather/arab/doha/"
+  },
+  {
+    "type": "city",
+    "name": "الرياض",
+    "detail": "السعودية",
+    "latin": "Riyadh",
+    "terms": "riyadh SA",
+    "path": "/weather/arab/riyadh/"
+  },
+  {
+    "type": "city",
+    "name": "مقديشو",
+    "detail": "الصومال",
+    "latin": "Mogadishu",
+    "terms": "mogadishu SO",
+    "path": "/weather/arab/mogadishu/"
+  },
+  {
+    "type": "city",
+    "name": "الخرطوم",
+    "detail": "السودان",
+    "latin": "Khartoum",
+    "terms": "khartoum SD",
+    "path": "/weather/arab/khartoum/"
+  },
+  {
+    "type": "city",
+    "name": "دمشق",
+    "detail": "سوريا",
+    "latin": "Damascus",
+    "terms": "damascus SY",
+    "path": "/weather/arab/damascus/"
+  },
+  {
+    "type": "city",
+    "name": "تونس",
+    "detail": "تونس",
+    "latin": "Tunis",
+    "terms": "tunis TN",
+    "path": "/weather/arab/tunis/"
+  },
+  {
+    "type": "city",
+    "name": "أبوظبي",
+    "detail": "الإمارات العربية المتحدة",
+    "latin": "Abu Dhabi",
+    "terms": "abu-dhabi AE",
+    "path": "/weather/arab/abu-dhabi/"
+  },
+  {
+    "type": "city",
+    "name": "صنعاء",
+    "detail": "اليمن",
+    "latin": "Sana'a",
+    "terms": "sanaa YE",
+    "path": "/weather/arab/sanaa/"
+  },
+  {
+    "type": "city",
+    "name": "داكار",
+    "detail": "السنغال",
+    "latin": "Dakar",
+    "terms": "dakar SN إفريقيا africa",
+    "path": "/weather/world/dakar/"
+  },
+  {
+    "type": "city",
+    "name": "باماكو",
+    "detail": "مالي",
+    "latin": "Bamako",
+    "terms": "bamako ML إفريقيا africa",
+    "path": "/weather/world/bamako/"
+  },
+  {
+    "type": "city",
+    "name": "نيامي",
+    "detail": "النيجر",
+    "latin": "Niamey",
+    "terms": "niamey NE إفريقيا africa",
+    "path": "/weather/world/niamey/"
+  },
+  {
+    "type": "city",
+    "name": "أبوجا",
+    "detail": "نيجيريا",
+    "latin": "Abuja",
+    "terms": "abuja NG إفريقيا africa",
+    "path": "/weather/world/abuja/"
+  },
+  {
+    "type": "city",
+    "name": "أكرا",
+    "detail": "غانا",
+    "latin": "Accra",
+    "terms": "accra GH إفريقيا africa",
+    "path": "/weather/world/accra/"
+  },
+  {
+    "type": "city",
+    "name": "ياموسوكرو",
+    "detail": "ساحل العاج",
+    "latin": "Yamoussoukro",
+    "terms": "yamoussoukro CI إفريقيا africa",
+    "path": "/weather/world/yamoussoukro/"
+  },
+  {
+    "type": "city",
+    "name": "واغادوغو",
+    "detail": "بوركينا فاسو",
+    "latin": "Ouagadougou",
+    "terms": "ouagadougou BF إفريقيا africa",
+    "path": "/weather/world/ouagadougou/"
+  },
+  {
+    "type": "city",
+    "name": "نجامينا",
+    "detail": "تشاد",
+    "latin": "N'Djamena",
+    "terms": "ndjamena TD إفريقيا africa",
+    "path": "/weather/world/ndjamena/"
+  },
+  {
+    "type": "city",
+    "name": "جوبا",
+    "detail": "جنوب السودان",
+    "latin": "Juba",
+    "terms": "juba SS إفريقيا africa",
+    "path": "/weather/world/juba/"
+  },
+  {
+    "type": "city",
+    "name": "أديس أبابا",
+    "detail": "إثيوبيا",
+    "latin": "Addis Ababa",
+    "terms": "addis-ababa ET إفريقيا africa",
+    "path": "/weather/world/addis-ababa/"
+  },
+  {
+    "type": "city",
+    "name": "نيروبي",
+    "detail": "كينيا",
+    "latin": "Nairobi",
+    "terms": "nairobi KE إفريقيا africa",
+    "path": "/weather/world/nairobi/"
+  },
+  {
+    "type": "city",
+    "name": "كمبالا",
+    "detail": "أوغندا",
+    "latin": "Kampala",
+    "terms": "kampala UG إفريقيا africa",
+    "path": "/weather/world/kampala/"
+  },
+  {
+    "type": "city",
+    "name": "كيغالي",
+    "detail": "رواندا",
+    "latin": "Kigali",
+    "terms": "kigali RW إفريقيا africa",
+    "path": "/weather/world/kigali/"
+  },
+  {
+    "type": "city",
+    "name": "دودوما",
+    "detail": "تنزانيا",
+    "latin": "Dodoma",
+    "terms": "dodoma TZ إفريقيا africa",
+    "path": "/weather/world/dodoma/"
+  },
+  {
+    "type": "city",
+    "name": "لوساكا",
+    "detail": "زامبيا",
+    "latin": "Lusaka",
+    "terms": "lusaka ZM إفريقيا africa",
+    "path": "/weather/world/lusaka/"
+  },
+  {
+    "type": "city",
+    "name": "هراري",
+    "detail": "زيمبابوي",
+    "latin": "Harare",
+    "terms": "harare ZW إفريقيا africa",
+    "path": "/weather/world/harare/"
+  },
+  {
+    "type": "city",
+    "name": "مابوتو",
+    "detail": "موزمبيق",
+    "latin": "Maputo",
+    "terms": "maputo MZ إفريقيا africa",
+    "path": "/weather/world/maputo/"
+  },
+  {
+    "type": "city",
+    "name": "ويندهوك",
+    "detail": "ناميبيا",
+    "latin": "Windhoek",
+    "terms": "windhoek NA إفريقيا africa",
+    "path": "/weather/world/windhoek/"
+  },
+  {
+    "type": "city",
+    "name": "غابورون",
+    "detail": "بوتسوانا",
+    "latin": "Gaborone",
+    "terms": "gaborone BW إفريقيا africa",
+    "path": "/weather/world/gaborone/"
+  },
+  {
+    "type": "city",
+    "name": "لواندا",
+    "detail": "أنغولا",
+    "latin": "Luanda",
+    "terms": "luanda AO إفريقيا africa",
+    "path": "/weather/world/luanda/"
+  },
+  {
+    "type": "city",
+    "name": "كينشاسا",
+    "detail": "جمهورية الكونغو الديمقراطية",
+    "latin": "Kinshasa",
+    "terms": "kinshasa CD إفريقيا africa",
+    "path": "/weather/world/kinshasa/"
+  },
+  {
+    "type": "city",
+    "name": "برازافيل",
+    "detail": "جمهورية الكونغو",
+    "latin": "Brazzaville",
+    "terms": "brazzaville CG إفريقيا africa",
+    "path": "/weather/world/brazzaville/"
+  },
+  {
+    "type": "city",
+    "name": "ليبرفيل",
+    "detail": "الغابون",
+    "latin": "Libreville",
+    "terms": "libreville GA إفريقيا africa",
+    "path": "/weather/world/libreville/"
+  },
+  {
+    "type": "city",
+    "name": "أنتاناناريفو",
+    "detail": "مدغشقر",
+    "latin": "Antananarivo",
+    "terms": "antananarivo MG إفريقيا africa",
+    "path": "/weather/world/antananarivo/"
+  },
+  {
+    "type": "city",
+    "name": "فيكتوريا",
+    "detail": "سيشل",
+    "latin": "Victoria",
+    "terms": "victoria SC إفريقيا africa",
+    "path": "/weather/world/victoria/"
+  },
+  {
+    "type": "city",
+    "name": "بورت لويس",
+    "detail": "موريشيوس",
+    "latin": "Port Louis",
+    "terms": "port-louis MU إفريقيا africa",
+    "path": "/weather/world/port-louis/"
+  },
+  {
+    "type": "city",
+    "name": "باريس",
+    "detail": "فرنسا",
+    "latin": "Paris",
+    "terms": "paris FR أوروبا europe",
+    "path": "/weather/world/paris/"
+  },
+  {
+    "type": "city",
+    "name": "برلين",
+    "detail": "ألمانيا",
+    "latin": "Berlin",
+    "terms": "berlin DE أوروبا europe",
+    "path": "/weather/world/berlin/"
+  },
+  {
+    "type": "city",
+    "name": "روما",
+    "detail": "إيطاليا",
+    "latin": "Rome",
+    "terms": "rome IT أوروبا europe",
+    "path": "/weather/world/rome/"
+  },
+  {
+    "type": "city",
+    "name": "مدريد",
+    "detail": "إسبانيا",
+    "latin": "Madrid",
+    "terms": "madrid ES أوروبا europe",
+    "path": "/weather/world/madrid/"
+  },
+  {
+    "type": "city",
+    "name": "لندن",
+    "detail": "المملكة المتحدة",
+    "latin": "London",
+    "terms": "london GB أوروبا europe",
+    "path": "/weather/world/london/"
+  },
+  {
+    "type": "city",
+    "name": "لشبونة",
+    "detail": "البرتغال",
+    "latin": "Lisbon",
+    "terms": "lisbon PT أوروبا europe",
+    "path": "/weather/world/lisbon/"
+  },
+  {
+    "type": "city",
+    "name": "بروكسل",
+    "detail": "بلجيكا",
+    "latin": "Brussels",
+    "terms": "brussels BE أوروبا europe",
+    "path": "/weather/world/brussels/"
+  },
+  {
+    "type": "city",
+    "name": "أمستردام",
+    "detail": "هولندا",
+    "latin": "Amsterdam",
+    "terms": "amsterdam NL أوروبا europe",
+    "path": "/weather/world/amsterdam/"
+  },
+  {
+    "type": "city",
+    "name": "برن",
+    "detail": "سويسرا",
+    "latin": "Bern",
+    "terms": "bern CH أوروبا europe",
+    "path": "/weather/world/bern/"
+  },
+  {
+    "type": "city",
+    "name": "فيينا",
+    "detail": "النمسا",
+    "latin": "Vienna",
+    "terms": "vienna AT أوروبا europe",
+    "path": "/weather/world/vienna/"
+  },
+  {
+    "type": "city",
+    "name": "أثينا",
+    "detail": "اليونان",
+    "latin": "Athens",
+    "terms": "athens GR أوروبا europe",
+    "path": "/weather/world/athens/"
+  },
+  {
+    "type": "city",
+    "name": "ستوكهولم",
+    "detail": "السويد",
+    "latin": "Stockholm",
+    "terms": "stockholm SE أوروبا europe",
+    "path": "/weather/world/stockholm/"
+  },
+  {
+    "type": "city",
+    "name": "أوسلو",
+    "detail": "النرويج",
+    "latin": "Oslo",
+    "terms": "oslo NO أوروبا europe",
+    "path": "/weather/world/oslo/"
+  },
+  {
+    "type": "city",
+    "name": "كوبنهاغن",
+    "detail": "الدنمارك",
+    "latin": "Copenhagen",
+    "terms": "copenhagen DK أوروبا europe",
+    "path": "/weather/world/copenhagen/"
+  },
+  {
+    "type": "city",
+    "name": "هلسنكي",
+    "detail": "فنلندا",
+    "latin": "Helsinki",
+    "terms": "helsinki FI أوروبا europe",
+    "path": "/weather/world/helsinki/"
+  },
+  {
+    "type": "city",
+    "name": "ريكيافيك",
+    "detail": "آيسلندا",
+    "latin": "Reykjavik",
+    "terms": "reykjavik IS أوروبا europe",
+    "path": "/weather/world/reykjavik/"
+  },
+  {
+    "type": "city",
+    "name": "وارسو",
+    "detail": "بولندا",
+    "latin": "Warsaw",
+    "terms": "warsaw PL أوروبا europe",
+    "path": "/weather/world/warsaw/"
+  },
+  {
+    "type": "city",
+    "name": "براغ",
+    "detail": "التشيك",
+    "latin": "Prague",
+    "terms": "prague CZ أوروبا europe",
+    "path": "/weather/world/prague/"
+  },
+  {
+    "type": "city",
+    "name": "بودابست",
+    "detail": "المجر",
+    "latin": "Budapest",
+    "terms": "budapest HU أوروبا europe",
+    "path": "/weather/world/budapest/"
+  },
+  {
+    "type": "city",
+    "name": "بوخارست",
+    "detail": "رومانيا",
+    "latin": "Bucharest",
+    "terms": "bucharest RO أوروبا europe",
+    "path": "/weather/world/bucharest/"
+  },
+  {
+    "type": "city",
+    "name": "صوفيا",
+    "detail": "بلغاريا",
+    "latin": "Sofia",
+    "terms": "sofia BG أوروبا europe",
+    "path": "/weather/world/sofia/"
+  },
+  {
+    "type": "city",
+    "name": "زغرب",
+    "detail": "كرواتيا",
+    "latin": "Zagreb",
+    "terms": "zagreb HR أوروبا europe",
+    "path": "/weather/world/zagreb/"
+  },
+  {
+    "type": "city",
+    "name": "بلغراد",
+    "detail": "صربيا",
+    "latin": "Belgrade",
+    "terms": "belgrade RS أوروبا europe",
+    "path": "/weather/world/belgrade/"
+  },
+  {
+    "type": "city",
+    "name": "كييف",
+    "detail": "أوكرانيا",
+    "latin": "Kyiv",
+    "terms": "kyiv UA أوروبا europe",
+    "path": "/weather/world/kyiv/"
+  },
+  {
+    "type": "city",
+    "name": "موسكو",
+    "detail": "روسيا",
+    "latin": "Moscow",
+    "terms": "moscow RU أوروبا europe",
+    "path": "/weather/world/moscow/"
+  },
+  {
+    "type": "city",
+    "name": "دبلن",
+    "detail": "أيرلندا",
+    "latin": "Dublin",
+    "terms": "dublin IE أوروبا europe",
+    "path": "/weather/world/dublin/"
+  },
+  {
+    "type": "city",
+    "name": "تيرانا",
+    "detail": "ألبانيا",
+    "latin": "Tirana",
+    "terms": "tirana AL أوروبا europe",
+    "path": "/weather/world/tirana/"
+  },
+  {
+    "type": "city",
+    "name": "سراييفو",
+    "detail": "البوسنة والهرسك",
+    "latin": "Sarajevo",
+    "terms": "sarajevo BA أوروبا europe",
+    "path": "/weather/world/sarajevo/"
+  },
+  {
+    "type": "city",
+    "name": "براتيسلافا",
+    "detail": "سلوفاكيا",
+    "latin": "Bratislava",
+    "terms": "bratislava SK أوروبا europe",
+    "path": "/weather/world/bratislava/"
+  },
+  {
+    "type": "city",
+    "name": "ليوبليانا",
+    "detail": "سلوفينيا",
+    "latin": "Ljubljana",
+    "terms": "ljubljana SI أوروبا europe",
+    "path": "/weather/world/ljubljana/"
+  },
+  {
+    "type": "city",
+    "name": "فيلنيوس",
+    "detail": "ليتوانيا",
+    "latin": "Vilnius",
+    "terms": "vilnius LT أوروبا europe",
+    "path": "/weather/world/vilnius/"
+  },
+  {
+    "type": "city",
+    "name": "ريغا",
+    "detail": "لاتفيا",
+    "latin": "Riga",
+    "terms": "riga LV أوروبا europe",
+    "path": "/weather/world/riga/"
+  },
+  {
+    "type": "city",
+    "name": "تالين",
+    "detail": "إستونيا",
+    "latin": "Tallinn",
+    "terms": "tallinn EE أوروبا europe",
+    "path": "/weather/world/tallinn/"
+  },
+  {
+    "type": "city",
+    "name": "نيقوسيا",
+    "detail": "قبرص",
+    "latin": "Nicosia",
+    "terms": "nicosia CY أوروبا europe",
+    "path": "/weather/world/nicosia/"
+  },
+  {
+    "type": "city",
+    "name": "لوكسمبورغ",
+    "detail": "لوكسمبورغ",
+    "latin": "Luxembourg",
+    "terms": "luxembourg LU أوروبا europe",
+    "path": "/weather/world/luxembourg/"
+  },
+  {
+    "type": "city",
+    "name": "فاليتا",
+    "detail": "مالطا",
+    "latin": "Valletta",
+    "terms": "valletta MT أوروبا europe",
+    "path": "/weather/world/valletta/"
+  },
+  {
+    "type": "city",
+    "name": "كيشيناو",
+    "detail": "مولدوفا",
+    "latin": "Chisinau",
+    "terms": "chisinau MD أوروبا europe",
+    "path": "/weather/world/chisinau/"
+  },
+  {
+    "type": "city",
+    "name": "بودغوريتسا",
+    "detail": "الجبل الأسود",
+    "latin": "Podgorica",
+    "terms": "podgorica ME أوروبا europe",
+    "path": "/weather/world/podgorica/"
+  },
+  {
+    "type": "city",
+    "name": "سكوبيه",
+    "detail": "مقدونيا الشمالية",
+    "latin": "Skopje",
+    "terms": "skopje MK أوروبا europe",
+    "path": "/weather/world/skopje/"
+  },
+  {
+    "type": "city",
+    "name": "طهران",
+    "detail": "إيران",
+    "latin": "Tehran",
+    "terms": "tehran IR آسيا asia",
+    "path": "/weather/world/tehran/"
+  },
+  {
+    "type": "city",
+    "name": "أنقرة",
+    "detail": "تركيا",
+    "latin": "Ankara",
+    "terms": "ankara TR آسيا asia",
+    "path": "/weather/world/ankara/"
+  },
+  {
+    "type": "city",
+    "name": "كابول",
+    "detail": "أفغانستان",
+    "latin": "Kabul",
+    "terms": "kabul AF آسيا asia",
+    "path": "/weather/world/kabul/"
+  },
+  {
+    "type": "city",
+    "name": "إسلام آباد",
+    "detail": "باكستان",
+    "latin": "Islamabad",
+    "terms": "islamabad PK آسيا asia",
+    "path": "/weather/world/islamabad/"
+  },
+  {
+    "type": "city",
+    "name": "نيودلهي",
+    "detail": "الهند",
+    "latin": "New Delhi",
+    "terms": "new-delhi IN آسيا asia",
+    "path": "/weather/world/new-delhi/"
+  },
+  {
+    "type": "city",
+    "name": "دكا",
+    "detail": "بنغلاديش",
+    "latin": "Dhaka",
+    "terms": "dhaka BD آسيا asia",
+    "path": "/weather/world/dhaka/"
+  },
+  {
+    "type": "city",
+    "name": "كاتماندو",
+    "detail": "نيبال",
+    "latin": "Kathmandu",
+    "terms": "kathmandu NP آسيا asia",
+    "path": "/weather/world/kathmandu/"
+  },
+  {
+    "type": "city",
+    "name": "تيمفو",
+    "detail": "بوتان",
+    "latin": "Thimphu",
+    "terms": "thimphu BT آسيا asia",
+    "path": "/weather/world/thimphu/"
+  },
+  {
+    "type": "city",
+    "name": "بكين",
+    "detail": "الصين",
+    "latin": "Beijing",
+    "terms": "beijing CN آسيا asia",
+    "path": "/weather/world/beijing/"
+  },
+  {
+    "type": "city",
+    "name": "طوكيو",
+    "detail": "اليابان",
+    "latin": "Tokyo",
+    "terms": "tokyo JP آسيا asia",
+    "path": "/weather/world/tokyo/"
+  },
+  {
+    "type": "city",
+    "name": "سيول",
+    "detail": "كوريا الجنوبية",
+    "latin": "Seoul",
+    "terms": "seoul KR آسيا asia",
+    "path": "/weather/world/seoul/"
+  },
+  {
+    "type": "city",
+    "name": "بيونغ يانغ",
+    "detail": "كوريا الشمالية",
+    "latin": "Pyongyang",
+    "terms": "pyongyang KP آسيا asia",
+    "path": "/weather/world/pyongyang/"
+  },
+  {
+    "type": "city",
+    "name": "أولان باتور",
+    "detail": "منغوليا",
+    "latin": "Ulaanbaatar",
+    "terms": "ulaanbaatar MN آسيا asia",
+    "path": "/weather/world/ulaanbaatar/"
+  },
+  {
+    "type": "city",
+    "name": "بانكوك",
+    "detail": "تايلاند",
+    "latin": "Bangkok",
+    "terms": "bangkok TH آسيا asia",
+    "path": "/weather/world/bangkok/"
+  },
+  {
+    "type": "city",
+    "name": "هانوي",
+    "detail": "فيتنام",
+    "latin": "Hanoi",
+    "terms": "hanoi VN آسيا asia",
+    "path": "/weather/world/hanoi/"
+  },
+  {
+    "type": "city",
+    "name": "بنوم بنه",
+    "detail": "كمبوديا",
+    "latin": "Phnom Penh",
+    "terms": "phnom-penh KH آسيا asia",
+    "path": "/weather/world/phnom-penh/"
+  },
+  {
+    "type": "city",
+    "name": "فيينتيان",
+    "detail": "لاوس",
+    "latin": "Vientiane",
+    "terms": "vientiane LA آسيا asia",
+    "path": "/weather/world/vientiane/"
+  },
+  {
+    "type": "city",
+    "name": "كوالالمبور",
+    "detail": "ماليزيا",
+    "latin": "Kuala Lumpur",
+    "terms": "kuala-lumpur MY آسيا asia",
+    "path": "/weather/world/kuala-lumpur/"
+  },
+  {
+    "type": "city",
+    "name": "سنغافورة",
+    "detail": "سنغافورة",
+    "latin": "Singapore",
+    "terms": "singapore SG آسيا asia",
+    "path": "/weather/world/singapore/"
+  },
+  {
+    "type": "city",
+    "name": "جاكرتا",
+    "detail": "إندونيسيا",
+    "latin": "Jakarta",
+    "terms": "jakarta ID آسيا asia",
+    "path": "/weather/world/jakarta/"
+  },
+  {
+    "type": "city",
+    "name": "مانيلا",
+    "detail": "الفلبين",
+    "latin": "Manila",
+    "terms": "manila PH آسيا asia",
+    "path": "/weather/world/manila/"
+  },
+  {
+    "type": "city",
+    "name": "بندر سري بكاوان",
+    "detail": "بروناي",
+    "latin": "Bandar Seri Begawan",
+    "terms": "bandar-seri-begawan BN آسيا asia",
+    "path": "/weather/world/bandar-seri-begawan/"
+  },
+  {
+    "type": "city",
+    "name": "أستانا",
+    "detail": "كازاخستان",
+    "latin": "Astana",
+    "terms": "astana KZ آسيا asia",
+    "path": "/weather/world/astana/"
+  },
+  {
+    "type": "city",
+    "name": "طشقند",
+    "detail": "أوزبكستان",
+    "latin": "Tashkent",
+    "terms": "tashkent UZ آسيا asia",
+    "path": "/weather/world/tashkent/"
+  },
+  {
+    "type": "city",
+    "name": "بيشكيك",
+    "detail": "قيرغيزستان",
+    "latin": "Bishkek",
+    "terms": "bishkek KG آسيا asia",
+    "path": "/weather/world/bishkek/"
+  },
+  {
+    "type": "city",
+    "name": "دوشنبه",
+    "detail": "طاجيكستان",
+    "latin": "Dushanbe",
+    "terms": "dushanbe TJ آسيا asia",
+    "path": "/weather/world/dushanbe/"
+  },
+  {
+    "type": "city",
+    "name": "عشق آباد",
+    "detail": "تركمانستان",
+    "latin": "Ashgabat",
+    "terms": "ashgabat TM آسيا asia",
+    "path": "/weather/world/ashgabat/"
+  },
+  {
+    "type": "city",
+    "name": "باكو",
+    "detail": "أذربيجان",
+    "latin": "Baku",
+    "terms": "baku AZ آسيا asia",
+    "path": "/weather/world/baku/"
+  },
+  {
+    "type": "city",
+    "name": "يريفان",
+    "detail": "أرمينيا",
+    "latin": "Yerevan",
+    "terms": "yerevan AM آسيا asia",
+    "path": "/weather/world/yerevan/"
+  },
+  {
+    "type": "city",
+    "name": "تبليسي",
+    "detail": "جورجيا",
+    "latin": "Tbilisi",
+    "terms": "tbilisi GE آسيا asia",
+    "path": "/weather/world/tbilisi/"
+  },
+  {
+    "type": "city",
+    "name": "واشنطن",
+    "detail": "الولايات المتحدة",
+    "latin": "Washington, D.C.",
+    "terms": "washington-dc US الأمريكتان america",
+    "path": "/weather/world/washington-dc/"
+  },
+  {
+    "type": "city",
+    "name": "أوتاوا",
+    "detail": "كندا",
+    "latin": "Ottawa",
+    "terms": "ottawa CA الأمريكتان america",
+    "path": "/weather/world/ottawa/"
+  },
+  {
+    "type": "city",
+    "name": "مكسيكو سيتي",
+    "detail": "المكسيك",
+    "latin": "Mexico City",
+    "terms": "mexico-city MX الأمريكتان america",
+    "path": "/weather/world/mexico-city/"
+  },
+  {
+    "type": "city",
+    "name": "غواتيمالا",
+    "detail": "غواتيمالا",
+    "latin": "Guatemala City",
+    "terms": "guatemala-city GT الأمريكتان america",
+    "path": "/weather/world/guatemala-city/"
+  },
+  {
+    "type": "city",
+    "name": "بلموبان",
+    "detail": "بليز",
+    "latin": "Belmopan",
+    "terms": "belmopan BZ الأمريكتان america",
+    "path": "/weather/world/belmopan/"
+  },
+  {
+    "type": "city",
+    "name": "تيغوسيغالبا",
+    "detail": "هندوراس",
+    "latin": "Tegucigalpa",
+    "terms": "tegucigalpa HN الأمريكتان america",
+    "path": "/weather/world/tegucigalpa/"
+  },
+  {
+    "type": "city",
+    "name": "سان سلفادور",
+    "detail": "السلفادور",
+    "latin": "San Salvador",
+    "terms": "san-salvador SV الأمريكتان america",
+    "path": "/weather/world/san-salvador/"
+  },
+  {
+    "type": "city",
+    "name": "ماناغوا",
+    "detail": "نيكاراغوا",
+    "latin": "Managua",
+    "terms": "managua NI الأمريكتان america",
+    "path": "/weather/world/managua/"
+  },
+  {
+    "type": "city",
+    "name": "سان خوسيه",
+    "detail": "كوستاريكا",
+    "latin": "San José",
+    "terms": "san-jose CR الأمريكتان america",
+    "path": "/weather/world/san-jose/"
+  },
+  {
+    "type": "city",
+    "name": "مدينة بنما",
+    "detail": "بنما",
+    "latin": "Panama City",
+    "terms": "panama-city PA الأمريكتان america",
+    "path": "/weather/world/panama-city/"
+  },
+  {
+    "type": "city",
+    "name": "هافانا",
+    "detail": "كوبا",
+    "latin": "Havana",
+    "terms": "havana CU الأمريكتان america",
+    "path": "/weather/world/havana/"
+  },
+  {
+    "type": "city",
+    "name": "كينغستون",
+    "detail": "جامايكا",
+    "latin": "Kingston",
+    "terms": "kingston JM الأمريكتان america",
+    "path": "/weather/world/kingston/"
+  },
+  {
+    "type": "city",
+    "name": "بورت أو برنس",
+    "detail": "هايتي",
+    "latin": "Port-au-Prince",
+    "terms": "port-au-prince HT الأمريكتان america",
+    "path": "/weather/world/port-au-prince/"
+  },
+  {
+    "type": "city",
+    "name": "سانتو دومينغو",
+    "detail": "جمهورية الدومينيكان",
+    "latin": "Santo Domingo",
+    "terms": "santo-domingo DO الأمريكتان america",
+    "path": "/weather/world/santo-domingo/"
+  },
+  {
+    "type": "city",
+    "name": "ناساو",
+    "detail": "باهاماس",
+    "latin": "Nassau",
+    "terms": "nassau BS الأمريكتان america",
+    "path": "/weather/world/nassau/"
+  },
+  {
+    "type": "city",
+    "name": "بريدجتاون",
+    "detail": "باربادوس",
+    "latin": "Bridgetown",
+    "terms": "bridgetown BB الأمريكتان america",
+    "path": "/weather/world/bridgetown/"
+  },
+  {
+    "type": "city",
+    "name": "بورت أوف سبين",
+    "detail": "ترينيداد وتوباغو",
+    "latin": "Port of Spain",
+    "terms": "port-of-spain TT الأمريكتان america",
+    "path": "/weather/world/port-of-spain/"
+  },
+  {
+    "type": "city",
+    "name": "بوغوتا",
+    "detail": "كولومبيا",
+    "latin": "Bogotá",
+    "terms": "bogota CO الأمريكتان america",
+    "path": "/weather/world/bogota/"
+  },
+  {
+    "type": "city",
+    "name": "كاراكاس",
+    "detail": "فنزويلا",
+    "latin": "Caracas",
+    "terms": "caracas VE الأمريكتان america",
+    "path": "/weather/world/caracas/"
+  },
+  {
+    "type": "city",
+    "name": "كيتو",
+    "detail": "الإكوادور",
+    "latin": "Quito",
+    "terms": "quito EC الأمريكتان america",
+    "path": "/weather/world/quito/"
+  },
+  {
+    "type": "city",
+    "name": "ليما",
+    "detail": "بيرو",
+    "latin": "Lima",
+    "terms": "lima PE الأمريكتان america",
+    "path": "/weather/world/lima/"
+  },
+  {
+    "type": "city",
+    "name": "سوكري",
+    "detail": "بوليفيا",
+    "latin": "Sucre",
+    "terms": "sucre BO الأمريكتان america",
+    "path": "/weather/world/sucre/"
+  },
+  {
+    "type": "city",
+    "name": "سانتياغو",
+    "detail": "تشيلي",
+    "latin": "Santiago",
+    "terms": "santiago CL الأمريكتان america",
+    "path": "/weather/world/santiago/"
+  },
+  {
+    "type": "city",
+    "name": "بوينس آيرس",
+    "detail": "الأرجنتين",
+    "latin": "Buenos Aires",
+    "terms": "buenos-aires AR الأمريكتان america",
+    "path": "/weather/world/buenos-aires/"
+  },
+  {
+    "type": "city",
+    "name": "مونتيفيديو",
+    "detail": "أوروغواي",
+    "latin": "Montevideo",
+    "terms": "montevideo UY الأمريكتان america",
+    "path": "/weather/world/montevideo/"
+  },
+  {
+    "type": "city",
+    "name": "أسونسيون",
+    "detail": "باراغواي",
+    "latin": "Asunción",
+    "terms": "asuncion PY الأمريكتان america",
+    "path": "/weather/world/asuncion/"
+  },
+  {
+    "type": "city",
+    "name": "برازيليا",
+    "detail": "البرازيل",
+    "latin": "Brasília",
+    "terms": "brasilia BR الأمريكتان america",
+    "path": "/weather/world/brasilia/"
+  },
+  {
+    "type": "city",
+    "name": "جورج تاون",
+    "detail": "غيانا",
+    "latin": "Georgetown",
+    "terms": "georgetown GY الأمريكتان america",
+    "path": "/weather/world/georgetown/"
+  },
+  {
+    "type": "city",
+    "name": "باراماريبو",
+    "detail": "سورينام",
+    "latin": "Paramaribo",
+    "terms": "paramaribo SR الأمريكتان america",
+    "path": "/weather/world/paramaribo/"
+  },
+  {
+    "type": "city",
+    "name": "بورتو نوفو",
+    "detail": "بنين",
+    "latin": "Porto-Novo",
+    "terms": "porto-novo BJ إفريقيا africa",
+    "path": "/weather/world/porto-novo/"
+  },
+  {
+    "type": "city",
+    "name": "لومي",
+    "detail": "توغو",
+    "latin": "Lomé",
+    "terms": "lome TG إفريقيا africa",
+    "path": "/weather/world/lome/"
+  },
+  {
+    "type": "city",
+    "name": "كوناكري",
+    "detail": "غينيا",
+    "latin": "Conakry",
+    "terms": "conakry GN إفريقيا africa",
+    "path": "/weather/world/conakry/"
+  },
+  {
+    "type": "city",
+    "name": "بيساو",
+    "detail": "غينيا بيساو",
+    "latin": "Bissau",
+    "terms": "bissau GW إفريقيا africa",
+    "path": "/weather/world/bissau/"
+  },
+  {
+    "type": "city",
+    "name": "فريتاون",
+    "detail": "سيراليون",
+    "latin": "Freetown",
+    "terms": "freetown SL إفريقيا africa",
+    "path": "/weather/world/freetown/"
+  },
+  {
+    "type": "city",
+    "name": "مونروفيا",
+    "detail": "ليبيريا",
+    "latin": "Monrovia",
+    "terms": "monrovia LR إفريقيا africa",
+    "path": "/weather/world/monrovia/"
+  },
+  {
+    "type": "city",
+    "name": "بانجول",
+    "detail": "غامبيا",
+    "latin": "Banjul",
+    "terms": "banjul GM إفريقيا africa",
+    "path": "/weather/world/banjul/"
+  },
+  {
+    "type": "city",
+    "name": "برايا",
+    "detail": "الرأس الأخضر",
+    "latin": "Praia",
+    "terms": "praia CV إفريقيا africa",
+    "path": "/weather/world/praia/"
+  },
+  {
+    "type": "city",
+    "name": "ساو تومي",
+    "detail": "ساو تومي وبرينسيب",
+    "latin": "São Tomé",
+    "terms": "sao-tome ST إفريقيا africa",
+    "path": "/weather/world/sao-tome/"
+  },
+  {
+    "type": "city",
+    "name": "مالابو",
+    "detail": "غينيا الاستوائية",
+    "latin": "Malabo",
+    "terms": "malabo GQ إفريقيا africa",
+    "path": "/weather/world/malabo/"
+  },
+  {
+    "type": "city",
+    "name": "بانغي",
+    "detail": "جمهورية إفريقيا الوسطى",
+    "latin": "Bangui",
+    "terms": "bangui CF إفريقيا africa",
+    "path": "/weather/world/bangui/"
+  },
+  {
+    "type": "city",
+    "name": "ياوندي",
+    "detail": "الكاميرون",
+    "latin": "Yaoundé",
+    "terms": "yaounde CM إفريقيا africa",
+    "path": "/weather/world/yaounde/"
+  },
+  {
+    "type": "city",
+    "name": "غيتيغا",
+    "detail": "بوروندي",
+    "latin": "Gitega",
+    "terms": "gitega BI إفريقيا africa",
+    "path": "/weather/world/gitega/"
+  },
+  {
+    "type": "city",
+    "name": "ليلونغوي",
+    "detail": "ملاوي",
+    "latin": "Lilongwe",
+    "terms": "lilongwe MW إفريقيا africa",
+    "path": "/weather/world/lilongwe/"
+  },
+  {
+    "type": "city",
+    "name": "ماسيرو",
+    "detail": "ليسوتو",
+    "latin": "Maseru",
+    "terms": "maseru LS إفريقيا africa",
+    "path": "/weather/world/maseru/"
+  },
+  {
+    "type": "city",
+    "name": "مبابان",
+    "detail": "إسواتيني",
+    "latin": "Mbabane",
+    "terms": "mbabane SZ إفريقيا africa",
+    "path": "/weather/world/mbabane/"
+  },
+  {
+    "type": "city",
+    "name": "بريتوريا",
+    "detail": "جنوب إفريقيا",
+    "latin": "Pretoria",
+    "terms": "pretoria ZA إفريقيا africa",
+    "path": "/weather/world/pretoria/"
+  },
+  {
+    "type": "city",
+    "name": "أسمرة",
+    "detail": "إريتريا",
+    "latin": "Asmara",
+    "terms": "asmara ER إفريقيا africa",
+    "path": "/weather/world/asmara/"
+  },
+  {
+    "type": "city",
+    "name": "أندورا لا فيلا",
+    "detail": "أندورا",
+    "latin": "Andorra la Vella",
+    "terms": "andorra-la-vella AD أوروبا europe",
+    "path": "/weather/world/andorra-la-vella/"
+  },
+  {
+    "type": "city",
+    "name": "مينسك",
+    "detail": "بيلاروس",
+    "latin": "Minsk",
+    "terms": "minsk BY أوروبا europe",
+    "path": "/weather/world/minsk/"
+  },
+  {
+    "type": "city",
+    "name": "فادوتس",
+    "detail": "ليختنشتاين",
+    "latin": "Vaduz",
+    "terms": "vaduz LI أوروبا europe",
+    "path": "/weather/world/vaduz/"
+  },
+  {
+    "type": "city",
+    "name": "موناكو",
+    "detail": "موناكو",
+    "latin": "Monaco",
+    "terms": "monaco MC أوروبا europe",
+    "path": "/weather/world/monaco/"
+  },
+  {
+    "type": "city",
+    "name": "سان مارينو",
+    "detail": "سان مارينو",
+    "latin": "San Marino",
+    "terms": "san-marino SM أوروبا europe",
+    "path": "/weather/world/san-marino/"
+  },
+  {
+    "type": "city",
+    "name": "نايبيداو",
+    "detail": "ميانمار",
+    "latin": "Naypyidaw",
+    "terms": "naypyidaw MM آسيا asia",
+    "path": "/weather/world/naypyidaw/"
+  },
+  {
+    "type": "city",
+    "name": "سري جاياواردنابورا كوتي",
+    "detail": "سريلانكا",
+    "latin": "Sri Jayawardenepura Kotte",
+    "terms": "sri-jayawardenepura-kotte LK آسيا asia",
+    "path": "/weather/world/sri-jayawardenepura-kotte/"
+  },
+  {
+    "type": "city",
+    "name": "ماليه",
+    "detail": "المالديف",
+    "latin": "Malé",
+    "terms": "male MV آسيا asia",
+    "path": "/weather/world/male/"
+  },
+  {
+    "type": "city",
+    "name": "ديلي",
+    "detail": "تيمور الشرقية",
+    "latin": "Dili",
+    "terms": "dili TL آسيا asia",
+    "path": "/weather/world/dili/"
+  },
+  {
+    "type": "city",
+    "name": "القدس",
+    "detail": "إسرائيل",
+    "latin": "Jerusalem",
+    "terms": "jerusalem IL آسيا asia",
+    "path": "/weather/world/jerusalem/"
+  },
+  {
+    "type": "city",
+    "name": "تايبيه",
+    "detail": "تايوان",
+    "latin": "Taipei",
+    "terms": "taipei TW آسيا asia",
+    "path": "/weather/world/taipei/"
+  },
+  {
+    "type": "city",
+    "name": "سانت جونز",
+    "detail": "أنتيغوا وباربودا",
+    "latin": "Saint John's",
+    "terms": "saint-johns AG الأمريكتان america",
+    "path": "/weather/world/saint-johns/"
+  },
+  {
+    "type": "city",
+    "name": "باستير",
+    "detail": "سانت كيتس ونيفيس",
+    "latin": "Basseterre",
+    "terms": "basseterre KN الأمريكتان america",
+    "path": "/weather/world/basseterre/"
+  },
+  {
+    "type": "city",
+    "name": "روسو",
+    "detail": "دومينيكا",
+    "latin": "Roseau",
+    "terms": "roseau DM الأمريكتان america",
+    "path": "/weather/world/roseau/"
+  },
+  {
+    "type": "city",
+    "name": "سانت جورج",
+    "detail": "غرينادا",
+    "latin": "St. George's",
+    "terms": "st-georges GD الأمريكتان america",
+    "path": "/weather/world/st-georges/"
+  },
+  {
+    "type": "city",
+    "name": "كاستريس",
+    "detail": "سانت لوسيا",
+    "latin": "Castries",
+    "terms": "castries LC الأمريكتان america",
+    "path": "/weather/world/castries/"
+  },
+  {
+    "type": "city",
+    "name": "كينغستاون",
+    "detail": "سانت فنسنت والغرينادين",
+    "latin": "Kingstown",
+    "terms": "kingstown VC الأمريكتان america",
+    "path": "/weather/world/kingstown/"
+  },
+  {
+    "type": "city",
+    "name": "الجزائر",
+    "detail": "الجزائر",
+    "latin": "Algiers",
+    "terms": "algiers DZ إفريقيا africa",
+    "path": "/weather/world/algiers/"
+  },
+  {
+    "type": "city",
+    "name": "جيبوتي",
+    "detail": "جيبوتي",
+    "latin": "Djibouti",
+    "terms": "djibouti DJ إفريقيا africa",
+    "path": "/weather/world/djibouti/"
+  },
+  {
+    "type": "city",
+    "name": "القاهرة",
+    "detail": "مصر",
+    "latin": "Cairo",
+    "terms": "cairo EG إفريقيا africa",
+    "path": "/weather/world/cairo/"
+  },
+  {
+    "type": "city",
+    "name": "طرابلس",
+    "detail": "ليبيا",
+    "latin": "Tripoli",
+    "terms": "tripoli LY إفريقيا africa",
+    "path": "/weather/world/tripoli/"
+  },
+  {
+    "type": "city",
+    "name": "الرباط",
+    "detail": "المغرب",
+    "latin": "Rabat",
+    "terms": "rabat MA إفريقيا africa",
+    "path": "/weather/world/rabat/"
+  },
+  {
+    "type": "city",
+    "name": "نواكشوط",
+    "detail": "موريتانيا",
+    "latin": "Nouakchott",
+    "terms": "nouakchott MR إفريقيا africa",
+    "path": "/weather/world/nouakchott/"
+  },
+  {
+    "type": "city",
+    "name": "مقديشو",
+    "detail": "الصومال",
+    "latin": "Mogadishu",
+    "terms": "mogadishu SO إفريقيا africa",
+    "path": "/weather/world/mogadishu/"
+  },
+  {
+    "type": "city",
+    "name": "الخرطوم",
+    "detail": "السودان",
+    "latin": "Khartoum",
+    "terms": "khartoum SD إفريقيا africa",
+    "path": "/weather/world/khartoum/"
+  },
+  {
+    "type": "city",
+    "name": "تونس",
+    "detail": "تونس",
+    "latin": "Tunis",
+    "terms": "tunis TN إفريقيا africa",
+    "path": "/weather/world/tunis/"
+  },
+  {
+    "type": "city",
+    "name": "أبوظبي",
+    "detail": "الإمارات العربية المتحدة",
+    "latin": "Abu Dhabi",
+    "terms": "abu-dhabi AE آسيا asia",
+    "path": "/weather/world/abu-dhabi/"
+  },
+  {
+    "type": "city",
+    "name": "المنامة",
+    "detail": "البحرين",
+    "latin": "Manama",
+    "terms": "manama BH آسيا asia",
+    "path": "/weather/world/manama/"
+  },
+  {
+    "type": "city",
+    "name": "بغداد",
+    "detail": "العراق",
+    "latin": "Baghdad",
+    "terms": "baghdad IQ آسيا asia",
+    "path": "/weather/world/baghdad/"
+  },
+  {
+    "type": "city",
+    "name": "عمّان",
+    "detail": "الأردن",
+    "latin": "Amman",
+    "terms": "amman JO آسيا asia",
+    "path": "/weather/world/amman/"
+  },
+  {
+    "type": "city",
+    "name": "مدينة الكويت",
+    "detail": "الكويت",
+    "latin": "Kuwait City",
+    "terms": "kuwait-city KW آسيا asia",
+    "path": "/weather/world/kuwait-city/"
+  },
+  {
+    "type": "city",
+    "name": "بيروت",
+    "detail": "لبنان",
+    "latin": "Beirut",
+    "terms": "beirut LB آسيا asia",
+    "path": "/weather/world/beirut/"
+  },
+  {
+    "type": "city",
+    "name": "مسقط",
+    "detail": "عُمان",
+    "latin": "Muscat",
+    "terms": "muscat OM آسيا asia",
+    "path": "/weather/world/muscat/"
+  },
+  {
+    "type": "city",
+    "name": "الدوحة",
+    "detail": "قطر",
+    "latin": "Doha",
+    "terms": "doha QA آسيا asia",
+    "path": "/weather/world/doha/"
+  },
+  {
+    "type": "city",
+    "name": "الرياض",
+    "detail": "المملكة العربية السعودية",
+    "latin": "Riyadh",
+    "terms": "riyadh SA آسيا asia",
+    "path": "/weather/world/riyadh/"
+  },
+  {
+    "type": "city",
+    "name": "دمشق",
+    "detail": "سوريا",
+    "latin": "Damascus",
+    "terms": "damascus SY آسيا asia",
+    "path": "/weather/world/damascus/"
+  },
+  {
+    "type": "city",
+    "name": "صنعاء",
+    "detail": "اليمن",
+    "latin": "Sana'a",
+    "terms": "sanaa YE آسيا asia",
+    "path": "/weather/world/sanaa/"
+  },
+  {
+    "type": "city",
+    "name": "رام الله",
+    "detail": "فلسطين",
+    "latin": "Ramallah",
+    "terms": "ramallah PS آسيا asia",
+    "path": "/weather/world/ramallah/"
+  },
+  {
+    "type": "city",
+    "name": "مدينة الفاتيكان",
+    "detail": "مدينة الفاتيكان",
+    "latin": "Vatican City",
+    "terms": "vatican-city VA أوروبا europe",
+    "path": "/weather/world/vatican-city/"
+  },
+  {
+    "type": "city",
+    "name": "كانبرا",
+    "detail": "أستراليا",
+    "latin": "Canberra",
+    "terms": "canberra AU أوقيانوسيا oceania",
+    "path": "/weather/world/canberra/"
+  },
+  {
+    "type": "city",
+    "name": "سوفا",
+    "detail": "فيجي",
+    "latin": "Suva",
+    "terms": "suva FJ أوقيانوسيا oceania",
+    "path": "/weather/world/suva/"
+  },
+  {
+    "type": "city",
+    "name": "باليكير",
+    "detail": "ولايات ميكرونيسيا المتحدة",
+    "latin": "Palikir",
+    "terms": "palikir FM أوقيانوسيا oceania",
+    "path": "/weather/world/palikir/"
+  },
+  {
+    "type": "city",
+    "name": "جنوب تاراوا",
+    "detail": "كيريباتي",
+    "latin": "South Tarawa",
+    "terms": "south-tarawa KI أوقيانوسيا oceania",
+    "path": "/weather/world/south-tarawa/"
+  },
+  {
+    "type": "city",
+    "name": "موروني",
+    "detail": "جزر القمر",
+    "latin": "Moroni",
+    "terms": "moroni KM إفريقيا africa",
+    "path": "/weather/world/moroni/"
+  },
+  {
+    "type": "city",
+    "name": "ماجورو",
+    "detail": "جزر مارشال",
+    "latin": "Majuro",
+    "terms": "majuro MH أوقيانوسيا oceania",
+    "path": "/weather/world/majuro/"
+  },
+  {
+    "type": "city",
+    "name": "يارين",
+    "detail": "ناورو",
+    "latin": "Yaren",
+    "terms": "yaren NR أوقيانوسيا oceania",
+    "path": "/weather/world/yaren/"
+  },
+  {
+    "type": "city",
+    "name": "ويلينغتون",
+    "detail": "نيوزيلندا",
+    "latin": "Wellington",
+    "terms": "wellington NZ أوقيانوسيا oceania",
+    "path": "/weather/world/wellington/"
+  },
+  {
+    "type": "city",
+    "name": "نغيرولمود",
+    "detail": "بالاو",
+    "latin": "Ngerulmud",
+    "terms": "ngerulmud PW أوقيانوسيا oceania",
+    "path": "/weather/world/ngerulmud/"
+  },
+  {
+    "type": "city",
+    "name": "هونيارا",
+    "detail": "جزر سليمان",
+    "latin": "Honiara",
+    "terms": "honiara SB أوقيانوسيا oceania",
+    "path": "/weather/world/honiara/"
+  },
+  {
+    "type": "city",
+    "name": "نوكوالوفا",
+    "detail": "تونغا",
+    "latin": "Nuku'alofa",
+    "terms": "nukualofa TO أوقيانوسيا oceania",
+    "path": "/weather/world/nukualofa/"
+  },
+  {
+    "type": "city",
+    "name": "فونافوتي",
+    "detail": "توفالو",
+    "latin": "Funafuti",
+    "terms": "funafuti TV أوقيانوسيا oceania",
+    "path": "/weather/world/funafuti/"
+  },
+  {
+    "type": "city",
+    "name": "بورت فيلا",
+    "detail": "فانواتو",
+    "latin": "Port Vila",
+    "terms": "port-vila VU أوقيانوسيا oceania",
+    "path": "/weather/world/port-vila/"
+  },
+  {
+    "type": "city",
+    "name": "آبيا",
+    "detail": "ساموا",
+    "latin": "Apia",
+    "terms": "apia WS أوقيانوسيا oceania",
+    "path": "/weather/world/apia/"
+  }
+]
