@@ -106,8 +106,22 @@ for (const place of places) {
   assert.ok(html.includes('"@type":"Place"'), "Place JSON-LD missing: " + place.slug);
   assert.ok(html.includes('"@type":"BreadcrumbList"'), "Breadcrumb JSON-LD missing: " + place.slug);
   assert.ok(html.includes('"@graph"'), "Structured data graph missing: " + place.slug);
+  const jsonLdMatch = html.match(/<script type="application\\/ld\\+json">([\\s\\S]*?)<\\/script>/);
+  assert.ok(jsonLdMatch, "JSON-LD script missing: " + place.slug);
+  const jsonLd = JSON.parse(jsonLdMatch[1]);
+  assert.equal(jsonLd["@context"], "https://schema.org", "Unexpected JSON-LD context: " + place.slug);
+  const webPageNode = jsonLd["@graph"]?.find((node) => node["@type"] === "WebPage");
+  const breadcrumbNode = jsonLd["@graph"]?.find((node) => node["@type"] === "BreadcrumbList");
+  assert.equal(webPageNode?.url, "https://imadtbn.github.io/meteo-dz/" + place.canonicalPath + "/", "WebPage canonical URL mismatch: " + place.slug);
+  assert.equal(webPageNode?.about?.["@type"], "Place", "Place entity missing from WebPage: " + place.slug);
+  assert.equal(webPageNode?.about?.geo?.latitude, place.latitude, "Place latitude mismatch: " + place.slug);
+  assert.equal(webPageNode?.about?.geo?.longitude, place.longitude, "Place longitude mismatch: " + place.slug);
+  assert.equal(breadcrumbNode?.itemListElement?.length, 3, "Breadcrumb depth mismatch: " + place.slug);
   assert.ok(html.includes("related-place-link"), "Related internal links missing: " + place.slug);
-  if (place.image) assert.ok(html.includes('fetchpriority="high"') && html.includes(place.image), "Primary city image missing: " + place.slug);
+  if (place.image) {
+    assert.ok(html.includes('fetchpriority="high"') && html.includes(place.image), "Primary city image missing: " + place.slug);
+    assert.equal(webPageNode?.primaryImageOfPage?.contentUrl, "https://imadtbn.github.io/meteo-dz/" + place.image, "JSON-LD image URL mismatch: " + place.slug);
+  }
   assert.ok(urls.includes("https://imadtbn.github.io/meteo-dz/" + place.canonicalPath + "/"));
   if (place.image) await stat(path.join(root, place.image));
 }
