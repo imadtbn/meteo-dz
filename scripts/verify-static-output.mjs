@@ -44,6 +44,11 @@ assert.ok(builtScripts.includes("7867079394"), "Top slot missing from JS bundle"
 assert.ok(builtScripts.includes("3143411927"), "Bottom slot missing from JS bundle");
 assert.ok(builtScripts.includes("-fr+57+4a-dc+8g"), "Fluid ad layout key missing");
 const chromeSource = await readFile("client/src/components/PublicChrome.tsx", "utf8");
+assert.ok(chromeSource.includes('href: "/world-capitals/"'), "World capitals must be reachable from shared navigation");
+const directorySource = await readFile("client/src/pages/Directories.tsx", "utf8");
+assert.ok(directorySource.includes("image={item.countryImages}"), "Capital directory cards must use available city photography");
+const wilayaCardSource = await readFile("client/src/components/WilayaCard.tsx", "utf8");
+assert.ok(wilayaCardSource.includes("image={city.countryImages}"), "Wilaya directory cards must use available city photography");
 assert.ok(!chromeSource.includes('<AdSlot position="header" />'), "Top ad must not be rendered by the shared header");
 assert.ok(chromeSource.indexOf('<AdSlot position="footer" />') < chromeSource.indexOf('<footer className="site-footer">'), "Footer ad must remain before the shared footer");
 
