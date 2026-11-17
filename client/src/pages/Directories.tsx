@@ -108,7 +108,7 @@ export function ArabCapitalsPage() {
             <Link
               className="directory-card directory-card--visual"
               key={item.slug}
-              href={"/global-weather?lat=" + item.latitude + "&lon=" + item.longitude + "&name=" + encodeURIComponent(item.capital)}
+              href={item.slug === "algiers" ? "/weather/algiers/" : "/arab-capitals/" + item.slug + "/"}
             >
               <PlaceIllustration scene={getCapitalScene(item.slug)} label={item.capital} badge={item.englishName} />
               <span className="directory-card__body">
