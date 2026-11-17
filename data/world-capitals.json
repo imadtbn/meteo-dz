@@ -10,7 +10,7 @@
     "longitude": -17.4677,
     "countryCode": "SN",
     "countryPhone": "+221",
-    "countryImages": "/today-weather/images/dakar.jpg"
+    "countryImages": "/meteo-dz/images/dakar.jpg"
   },
   {
     "continent": "africa",
@@ -22,8 +22,7 @@
     "latitude": 12.6392,
     "longitude": -8.0029,
     "countryCode": "ML",
-    "countryPhone": "+223",
-    "countryImages": "/today-weather/images/bamako.jpg"
+    "countryPhone": "+223"
   },
   {
     "continent": "africa",
@@ -35,8 +34,7 @@
     "latitude": 13.5116,
     "longitude": 2.1254,
     "countryCode": "NE",
-    "countryPhone": "+227",
-    "countryImages": "/today-weather/images/Niamey.jpg"
+    "countryPhone": "+227"
   },
   {
     "continent": "africa",
@@ -48,8 +46,7 @@
     "latitude": 9.0765,
     "longitude": 7.3986,
     "countryCode": "NG",
-    "countryPhone": "+234",
-    "countryImages": "/today-weather/images/abuja.jpg"
+    "countryPhone": "+234"
   },
   {
     "continent": "africa",
@@ -61,8 +58,7 @@
     "latitude": 5.6037,
     "longitude": -0.187,
     "countryCode": "GH",
-    "countryPhone": "+233",
-    "countryImages": "/today-weather/images/accra.jpg"
+    "countryPhone": "+233"
   },
   {
     "continent": "africa",
@@ -74,8 +70,7 @@
     "latitude": 6.8276,
     "longitude": -5.2893,
     "countryCode": "CI",
-    "countryPhone": "+225",
-    "countryImages": "/today-weather/images/yamoussoukro.jpg"
+    "countryPhone": "+225"
   },
   {
     "continent": "africa",
@@ -87,8 +82,7 @@
     "latitude": 12.3714,
     "longitude": -1.5197,
     "countryCode": "BF",
-    "countryPhone": "+226",
-    "countryImages": "/today-weather/images/ouagadougou.jpg"
+    "countryPhone": "+226"
   },
   {
     "continent": "africa",
@@ -100,8 +94,7 @@
     "latitude": 12.1348,
     "longitude": 15.0557,
     "countryCode": "TD",
-    "countryPhone": "+235",
-    "countryImages": "/today-weather/images/ndjamena.jpg"
+    "countryPhone": "+235"
   },
   {
     "continent": "africa",
@@ -113,8 +106,7 @@
     "latitude": 4.8594,
     "longitude": 31.5713,
     "countryCode": "SS",
-    "countryPhone": "+211",
-    "countryImages": "/today-weather/images/juba.jpg"
+    "countryPhone": "+211"
   },
   {
     "continent": "africa",
@@ -126,8 +118,7 @@
     "latitude": 8.9806,
     "longitude": 38.7578,
     "countryCode": "ET",
-    "countryPhone": "+251",
-    "countryImages": "/today-weather/images/addis-ababa.jpg"
+    "countryPhone": "+251"
   },
   {
     "continent": "africa",
@@ -139,8 +130,7 @@
     "latitude": -1.2921,
     "longitude": 36.8219,
     "countryCode": "KE",
-    "countryPhone": "+254",
-    "countryImages": "/today-weather/images/nairobi.jpg"
+    "countryPhone": "+254"
   },
   {
     "continent": "africa",
@@ -152,8 +142,7 @@
     "latitude": 0.3476,
     "longitude": 32.5825,
     "countryCode": "UG",
-    "countryPhone": "+256",
-    "countryImages": "/today-weather/images/kampala.jpg"
+    "countryPhone": "+256"
   },
   {
     "continent": "africa",
@@ -165,8 +154,7 @@
     "latitude": -1.9441,
     "longitude": 30.0619,
     "countryCode": "RW",
-    "countryPhone": "+250",
-    "countryImages": "/today-weather/images/kigali.jpg"
+    "countryPhone": "+250"
   },
   {
     "continent": "africa",
@@ -178,8 +166,7 @@
     "latitude": -6.163,
     "longitude": 35.7516,
     "countryCode": "TZ",
-    "countryPhone": "+255",
-    "countryImages": "/today-weather/images/dodoma.jpg"
+    "countryPhone": "+255"
   },
   {
     "continent": "africa",
@@ -191,8 +178,7 @@
     "latitude": -15.3875,
     "longitude": 28.3228,
     "countryCode": "ZM",
-    "countryPhone": "+260",
-    "countryImages": "/today-weather/images/lusaka.jpg"
+    "countryPhone": "+260"
   },
   {
     "continent": "africa",
@@ -204,8 +190,7 @@
     "latitude": -17.8252,
     "longitude": 31.0335,
     "countryCode": "ZW",
-    "countryPhone": "+263",
-    "countryImages": "/today-weather/images/harare.jpg"
+    "countryPhone": "+263"
   },
   {
     "continent": "africa",
@@ -217,8 +202,7 @@
     "latitude": -25.9692,
     "longitude": 32.5732,
     "countryCode": "MZ",
-    "countryPhone": "+258",
-    "countryImages": "/today-weather/images/maputo.jpg"
+    "countryPhone": "+258"
   },
   {
     "continent": "africa",
@@ -230,8 +214,7 @@
     "latitude": -22.5609,
     "longitude": 17.0658,
     "countryCode": "NA",
-    "countryPhone": "+264",
-    "countryImages": "/today-weather/images/windhoek.jpg"
+    "countryPhone": "+264"
   },
   {
     "continent": "africa",
@@ -243,8 +226,7 @@
     "latitude": -24.6282,
     "longitude": 25.9231,
     "countryCode": "BW",
-    "countryPhone": "+267",
-    "countryImages": "/today-weather/images/gaborone.jpg"
+    "countryPhone": "+267"
   },
   {
     "continent": "africa",
@@ -256,8 +238,7 @@
     "latitude": -8.839,
     "longitude": 13.2894,
     "countryCode": "AO",
-    "countryPhone": "+244",
-    "countryImages": "/today-weather/images/luanda.jpg"
+    "countryPhone": "+244"
   },
   {
     "continent": "africa",
@@ -269,8 +250,7 @@
     "latitude": -4.4419,
     "longitude": 15.2663,
     "countryCode": "CD",
-    "countryPhone": "+243",
-    "countryImages": "/today-weather/images/kinshasa.jpg"
+    "countryPhone": "+243"
   },
   {
     "continent": "africa",
@@ -282,8 +262,7 @@
     "latitude": -4.2634,
     "longitude": 15.2429,
     "countryCode": "CG",
-    "countryPhone": "+242",
-    "countryImages": "/today-weather/images/brazzaville.jpg"
+    "countryPhone": "+242"
   },
   {
     "continent": "africa",
@@ -295,8 +274,7 @@
     "latitude": 0.4162,
     "longitude": 9.4673,
     "countryCode": "GA",
-    "countryPhone": "+241",
-    "countryImages": "/today-weather/images/libreville.jpg"
+    "countryPhone": "+241"
   },
   {
     "continent": "africa",
@@ -308,8 +286,7 @@
     "latitude": -18.8792,
     "longitude": 47.5079,
     "countryCode": "MG",
-    "countryPhone": "+261",
-    "countryImages": "/today-weather/images/antananarivo.jpg"
+    "countryPhone": "+261"
   },
   {
     "continent": "africa",
@@ -321,8 +298,7 @@
     "latitude": -4.6191,
     "longitude": 55.4513,
     "countryCode": "SC",
-    "countryPhone": "+248",
-    "countryImages": "/today-weather/images/victoria.jpg"
+    "countryPhone": "+248"
   },
   {
     "continent": "africa",
@@ -334,8 +310,7 @@
     "latitude": -20.1609,
     "longitude": 57.5012,
     "countryCode": "MU",
-    "countryPhone": "+230",
-    "countryImages": "/today-weather/images/port-louis.jpg"
+    "countryPhone": "+230"
   },
   {
     "continent": "europe",
@@ -347,8 +322,7 @@
     "latitude": 48.8566,
     "longitude": 2.3522,
     "countryCode": "FR",
-    "countryPhone": "+33",
-    "countryImages": "/today-weather/images/paris.jpg"
+    "countryPhone": "+33"
   },
   {
     "continent": "europe",
@@ -360,8 +334,7 @@
     "latitude": 52.52,
     "longitude": 13.405,
     "countryCode": "DE",
-    "countryPhone": "+49",
-    "countryImages": "/today-weather/images/berlin.jpg"
+    "countryPhone": "+49"
   },
   {
     "continent": "europe",
@@ -373,8 +346,7 @@
     "latitude": 41.9028,
     "longitude": 12.4964,
     "countryCode": "IT",
-    "countryPhone": "+39",
-    "countryImages": "/today-weather/images/rome.jpg"
+    "countryPhone": "+39"
   },
   {
     "continent": "europe",
@@ -386,8 +358,7 @@
     "latitude": 40.4168,
     "longitude": -3.7038,
     "countryCode": "ES",
-    "countryPhone": "+34",
-    "countryImages": "/today-weather/images/madrid.jpg"
+    "countryPhone": "+34"
   },
   {
     "continent": "europe",
@@ -399,8 +370,7 @@
     "latitude": 51.5072,
     "longitude": -0.1276,
     "countryCode": "GB",
-    "countryPhone": "+44",
-    "countryImages": "/today-weather/images/london.jpg"
+    "countryPhone": "+44"
   },
   {
     "continent": "europe",
@@ -412,8 +382,7 @@
     "latitude": 38.7223,
     "longitude": -9.1393,
     "countryCode": "PT",
-    "countryPhone": "+351",
-    "countryImages": "/today-weather/images/lisbon.jpg"
+    "countryPhone": "+351"
   },
   {
     "continent": "europe",
@@ -425,8 +394,7 @@
     "latitude": 50.8503,
     "longitude": 4.3517,
     "countryCode": "BE",
-    "countryPhone": "+32",
-    "countryImages": "/today-weather/images/brussels.jpg"
+    "countryPhone": "+32"
   },
   {
     "continent": "europe",
@@ -438,8 +406,7 @@
     "latitude": 52.3676,
     "longitude": 4.9041,
     "countryCode": "NL",
-    "countryPhone": "+31",
-    "countryImages": "/today-weather/images/amsterdam.jpg"
+    "countryPhone": "+31"
   },
   {
     "continent": "europe",
@@ -451,8 +418,7 @@
     "latitude": 46.948,
     "longitude": 7.4474,
     "countryCode": "CH",
-    "countryPhone": "+41",
-    "countryImages": "/today-weather/images/bern.jpg"
+    "countryPhone": "+41"
   },
   {
     "continent": "europe",
@@ -464,8 +430,7 @@
     "latitude": 48.2082,
     "longitude": 16.3738,
     "countryCode": "AT",
-    "countryPhone": "+43",
-    "countryImages": "/today-weather/images/vienna.jpg"
+    "countryPhone": "+43"
   },
   {
     "continent": "europe",
@@ -477,8 +442,7 @@
     "latitude": 37.9838,
     "longitude": 23.7275,
     "countryCode": "GR",
-    "countryPhone": "+30",
-    "countryImages": "/today-weather/images/athens.jpg"
+    "countryPhone": "+30"
   },
   {
     "continent": "europe",
@@ -490,8 +454,7 @@
     "latitude": 59.3293,
     "longitude": 18.0686,
     "countryCode": "SE",
-    "countryPhone": "+46",
-    "countryImages": "/today-weather/images/stockholm.jpg"
+    "countryPhone": "+46"
   },
   {
     "continent": "europe",
@@ -503,8 +466,7 @@
     "latitude": 59.9139,
     "longitude": 10.7522,
     "countryCode": "NO",
-    "countryPhone": "+47",
-    "countryImages": "/today-weather/images/oslo.jpg"
+    "countryPhone": "+47"
   },
   {
     "continent": "europe",
@@ -516,8 +478,7 @@
     "latitude": 55.6761,
     "longitude": 12.5683,
     "countryCode": "DK",
-    "countryPhone": "+45",
-    "countryImages": "/today-weather/images/copenhagen.jpg"
+    "countryPhone": "+45"
   },
   {
     "continent": "europe",
@@ -529,8 +490,7 @@
     "latitude": 60.1699,
     "longitude": 24.9384,
     "countryCode": "FI",
-    "countryPhone": "+358",
-    "countryImages": "/today-weather/images/helsinki.jpg"
+    "countryPhone": "+358"
   },
   {
     "continent": "europe",
@@ -542,8 +502,7 @@
     "latitude": 64.1466,
     "longitude": -21.9426,
     "countryCode": "IS",
-    "countryPhone": "+354",
-    "countryImages": "/today-weather/images/reykjavik.jpg"
+    "countryPhone": "+354"
   },
   {
     "continent": "europe",
@@ -555,8 +514,7 @@
     "latitude": 52.2297,
     "longitude": 21.0122,
     "countryCode": "PL",
-    "countryPhone": "+48",
-    "countryImages": "/today-weather/images/warsaw.jpg"
+    "countryPhone": "+48"
   },
   {
     "continent": "europe",
@@ -568,8 +526,7 @@
     "latitude": 50.0755,
     "longitude": 14.4378,
     "countryCode": "CZ",
-    "countryPhone": "+420",
-    "countryImages": "/today-weather/images/prague.jpg"
+    "countryPhone": "+420"
   },
   {
     "continent": "europe",
@@ -581,8 +538,7 @@
     "latitude": 47.4979,
     "longitude": 19.0402,
     "countryCode": "HU",
-    "countryPhone": "+36",
-    "countryImages": "/today-weather/images/budapest.jpg"
+    "countryPhone": "+36"
   },
   {
     "continent": "europe",
@@ -594,8 +550,7 @@
     "latitude": 44.4268,
     "longitude": 26.1025,
     "countryCode": "RO",
-    "countryPhone": "+40",
-    "countryImages": "/today-weather/images/bucharest.jpg"
+    "countryPhone": "+40"
   },
   {
     "continent": "europe",
@@ -607,8 +562,7 @@
     "latitude": 42.6977,
     "longitude": 23.3219,
     "countryCode": "BG",
-    "countryPhone": "+359",
-    "countryImages": "/today-weather/images/sofia.jpg"
+    "countryPhone": "+359"
   },
   {
     "continent": "europe",
@@ -620,8 +574,7 @@
     "latitude": 45.815,
     "longitude": 15.9819,
     "countryCode": "HR",
-    "countryPhone": "+385",
-    "countryImages": "/today-weather/images/zagreb.jpg"
+    "countryPhone": "+385"
   },
   {
     "continent": "europe",
@@ -633,8 +586,7 @@
     "latitude": 44.7866,
     "longitude": 20.4489,
     "countryCode": "RS",
-    "countryPhone": "+381",
-    "countryImages": "/today-weather/images/belgrade.jpg"
+    "countryPhone": "+381"
   },
   {
     "continent": "europe",
@@ -646,8 +598,7 @@
     "latitude": 50.4501,
     "longitude": 30.5234,
     "countryCode": "UA",
-    "countryPhone": "+380",
-    "countryImages": "/today-weather/images/kyiv.jpg"
+    "countryPhone": "+380"
   },
   {
     "continent": "europe",
@@ -659,8 +610,7 @@
     "latitude": 55.7558,
     "longitude": 37.6173,
     "countryCode": "RU",
-    "countryPhone": "+7",
-    "countryImages": "/today-weather/images/moscow.jpg"
+    "countryPhone": "+7"
   },
   {
     "continent": "europe",
@@ -672,8 +622,7 @@
     "latitude": 53.3498,
     "longitude": -6.2603,
     "countryCode": "IE",
-    "countryPhone": "+353",
-    "countryImages": "/today-weather/images/dublin.jpg"
+    "countryPhone": "+353"
   },
   {
     "continent": "europe",
@@ -685,8 +634,7 @@
     "latitude": 41.3275,
     "longitude": 19.8187,
     "countryCode": "AL",
-    "countryPhone": "+355",
-    "countryImages": "/today-weather/images/tirana.jpg"
+    "countryPhone": "+355"
   },
   {
     "continent": "europe",
@@ -698,8 +646,7 @@
     "latitude": 43.8563,
     "longitude": 18.4131,
     "countryCode": "BA",
-    "countryPhone": "+387",
-    "countryImages": "/today-weather/images/sarajevo.jpg"
+    "countryPhone": "+387"
   },
   {
     "continent": "europe",
@@ -711,8 +658,7 @@
     "latitude": 48.1486,
     "longitude": 17.1077,
     "countryCode": "SK",
-    "countryPhone": "+421",
-    "countryImages": "/today-weather/images/bratislava.jpg"
+    "countryPhone": "+421"
   },
   {
     "continent": "europe",
@@ -724,8 +670,7 @@
     "latitude": 46.0569,
     "longitude": 14.5058,
     "countryCode": "SI",
-    "countryPhone": "+386",
-    "countryImages": "/today-weather/images/ljubljana.jpg"
+    "countryPhone": "+386"
   },
   {
     "continent": "europe",
@@ -737,8 +682,7 @@
     "latitude": 54.6872,
     "longitude": 25.2797,
     "countryCode": "LT",
-    "countryPhone": "+370",
-    "countryImages": "/today-weather/images/vilnius.jpg"
+    "countryPhone": "+370"
   },
   {
     "continent": "europe",
@@ -750,8 +694,7 @@
     "latitude": 56.9496,
     "longitude": 24.1052,
     "countryCode": "LV",
-    "countryPhone": "+371",
-    "countryImages": "/today-weather/images/riga.jpg"
+    "countryPhone": "+371"
   },
   {
     "continent": "europe",
@@ -763,8 +706,7 @@
     "latitude": 59.437,
     "longitude": 24.7536,
     "countryCode": "EE",
-    "countryPhone": "+372",
-    "countryImages": "/today-weather/images/tallinn.jpg"
+    "countryPhone": "+372"
   },
   {
     "continent": "europe",
@@ -776,8 +718,7 @@
     "latitude": 35.1856,
     "longitude": 33.3823,
     "countryCode": "CY",
-    "countryPhone": "+357",
-    "countryImages": "/today-weather/images/nicosia.jpg"
+    "countryPhone": "+357"
   },
   {
     "continent": "europe",
@@ -789,8 +730,7 @@
     "latitude": 49.6116,
     "longitude": 6.1319,
     "countryCode": "LU",
-    "countryPhone": "+352",
-    "countryImages": "/today-weather/images/luxembourg.jpg"
+    "countryPhone": "+352"
   },
   {
     "continent": "europe",
@@ -802,8 +742,7 @@
     "latitude": 35.8992,
     "longitude": 14.5141,
     "countryCode": "MT",
-    "countryPhone": "+356",
-    "countryImages": "/today-weather/images/valletta.jpg"
+    "countryPhone": "+356"
   },
   {
     "continent": "europe",
@@ -815,8 +754,7 @@
     "latitude": 47.0105,
     "longitude": 28.8638,
     "countryCode": "MD",
-    "countryPhone": "+373",
-    "countryImages": "/today-weather/images/chisinau.jpg"
+    "countryPhone": "+373"
   },
   {
     "continent": "europe",
@@ -828,8 +766,7 @@
     "latitude": 42.4304,
     "longitude": 19.2594,
     "countryCode": "ME",
-    "countryPhone": "+382",
-    "countryImages": "/today-weather/images/podgorica.jpg"
+    "countryPhone": "+382"
   },
   {
     "continent": "europe",
@@ -841,8 +778,7 @@
     "latitude": 41.9981,
     "longitude": 21.4254,
     "countryCode": "MK",
-    "countryPhone": "+389",
-    "countryImages": "/today-weather/images/skopje.jpg"
+    "countryPhone": "+389"
   },
   {
     "continent": "asia",
@@ -854,8 +790,7 @@
     "latitude": 35.6892,
     "longitude": 51.389,
     "countryCode": "IR",
-    "countryPhone": "+98",
-    "countryImages": "/today-weather/images/tehran.jpg"
+    "countryPhone": "+98"
   },
   {
     "continent": "asia",
@@ -867,8 +802,7 @@
     "latitude": 39.9334,
     "longitude": 32.8597,
     "countryCode": "TR",
-    "countryPhone": "+90",
-    "countryImages": "/today-weather/images/ankara.jpg"
+    "countryPhone": "+90"
   },
   {
     "continent": "asia",
@@ -880,8 +814,7 @@
     "latitude": 34.5553,
     "longitude": 69.2075,
     "countryCode": "AF",
-    "countryPhone": "+93",
-    "countryImages": "/today-weather/images/kabul.jpg"
+    "countryPhone": "+93"
   },
   {
     "continent": "asia",
@@ -893,8 +826,7 @@
     "latitude": 33.6844,
     "longitude": 73.0479,
     "countryCode": "PK",
-    "countryPhone": "+92",
-    "countryImages": "/today-weather/images/islamabad.jpg"
+    "countryPhone": "+92"
   },
   {
     "continent": "asia",
@@ -906,8 +838,7 @@
     "latitude": 28.6139,
     "longitude": 77.209,
     "countryCode": "IN",
-    "countryPhone": "+91",
-    "countryImages": "/today-weather/images/new-delhi.jpg"
+    "countryPhone": "+91"
   },
   {
     "continent": "asia",
@@ -919,8 +850,7 @@
     "latitude": 23.8103,
     "longitude": 90.4125,
     "countryCode": "BD",
-    "countryPhone": "+880",
-    "countryImages": "/today-weather/images/dhaka.jpg"
+    "countryPhone": "+880"
   },
   {
     "continent": "asia",
@@ -932,8 +862,7 @@
     "latitude": 27.7172,
     "longitude": 85.324,
     "countryCode": "NP",
-    "countryPhone": "+977",
-    "countryImages": "/today-weather/images/kathmandu.jpg"
+    "countryPhone": "+977"
   },
   {
     "continent": "asia",
@@ -945,8 +874,7 @@
     "latitude": 27.4728,
     "longitude": 89.639,
     "countryCode": "BT",
-    "countryPhone": "+975",
-    "countryImages": "/today-weather/images/thimphu.jpg"
+    "countryPhone": "+975"
   },
   {
     "continent": "asia",
@@ -958,8 +886,7 @@
     "latitude": 39.9042,
     "longitude": 116.4074,
     "countryCode": "CN",
-    "countryPhone": "+86",
-    "countryImages": "/today-weather/images/beijing.jpg"
+    "countryPhone": "+86"
   },
   {
     "continent": "asia",
@@ -971,8 +898,7 @@
     "latitude": 35.6762,
     "longitude": 139.6503,
     "countryCode": "JP",
-    "countryPhone": "+81",
-    "countryImages": "/today-weather/images/tokyo.jpg"
+    "countryPhone": "+81"
   },
   {
     "continent": "asia",
@@ -984,8 +910,7 @@
     "latitude": 37.5665,
     "longitude": 126.978,
     "countryCode": "KR",
-    "countryPhone": "+82",
-    "countryImages": "/today-weather/images/seoul.jpg"
+    "countryPhone": "+82"
   },
   {
     "continent": "asia",
@@ -997,8 +922,7 @@
     "latitude": 39.0392,
     "longitude": 125.7625,
     "countryCode": "KP",
-    "countryPhone": "+850",
-    "countryImages": "/today-weather/images/pyongyang.jpg"
+    "countryPhone": "+850"
   },
   {
     "continent": "asia",
@@ -1010,8 +934,7 @@
     "latitude": 47.8864,
     "longitude": 106.9057,
     "countryCode": "MN",
-    "countryPhone": "+976",
-    "countryImages": "/today-weather/images/ulaanbaatar.jpg"
+    "countryPhone": "+976"
   },
   {
     "continent": "asia",
@@ -1023,8 +946,7 @@
     "latitude": 13.7563,
     "longitude": 100.5018,
     "countryCode": "TH",
-    "countryPhone": "+66",
-    "countryImages": "/today-weather/images/bangkok.jpg"
+    "countryPhone": "+66"
   },
   {
     "continent": "asia",
@@ -1036,8 +958,7 @@
     "latitude": 21.0278,
     "longitude": 105.8342,
     "countryCode": "VN",
-    "countryPhone": "+84",
-    "countryImages": "/today-weather/images/hanoi.jpg"
+    "countryPhone": "+84"
   },
   {
     "continent": "asia",
@@ -1049,8 +970,7 @@
     "latitude": 11.5564,
     "longitude": 104.9282,
     "countryCode": "KH",
-    "countryPhone": "+855",
-    "countryImages": "/today-weather/images/phnom-penh.jpg"
+    "countryPhone": "+855"
   },
   {
     "continent": "asia",
@@ -1062,8 +982,7 @@
     "latitude": 17.9757,
     "longitude": 102.6331,
     "countryCode": "LA",
-    "countryPhone": "+856",
-    "countryImages": "/today-weather/images/vientiane.jpg"
+    "countryPhone": "+856"
   },
   {
     "continent": "asia",
@@ -1075,8 +994,7 @@
     "latitude": 3.139,
     "longitude": 101.6869,
     "countryCode": "MY",
-    "countryPhone": "+60",
-    "countryImages": "/today-weather/images/kuala-lumpur.jpg"
+    "countryPhone": "+60"
   },
   {
     "continent": "asia",
@@ -1088,8 +1006,7 @@
     "latitude": 1.3521,
     "longitude": 103.8198,
     "countryCode": "SG",
-    "countryPhone": "+65",
-    "countryImages": "/today-weather/images/singapore.jpg"
+    "countryPhone": "+65"
   },
   {
     "continent": "asia",
@@ -1101,8 +1018,7 @@
     "latitude": -6.2088,
     "longitude": 106.8456,
     "countryCode": "ID",
-    "countryPhone": "+62",
-    "countryImages": "/today-weather/images/jakarta.jpg"
+    "countryPhone": "+62"
   },
   {
     "continent": "asia",
@@ -1114,8 +1030,7 @@
     "latitude": 14.5995,
     "longitude": 120.9842,
     "countryCode": "PH",
-    "countryPhone": "+63",
-    "countryImages": "/today-weather/images/manila.jpg"
+    "countryPhone": "+63"
   },
   {
     "continent": "asia",
@@ -1127,8 +1042,7 @@
     "latitude": 4.9031,
     "longitude": 114.9398,
     "countryCode": "BN",
-    "countryPhone": "+673",
-    "countryImages": "/today-weather/images/bandar-seri-begawan.jpg"
+    "countryPhone": "+673"
   },
   {
     "continent": "asia",
@@ -1140,8 +1054,7 @@
     "latitude": 51.1694,
     "longitude": 71.4491,
     "countryCode": "KZ",
-    "countryPhone": "+7",
-    "countryImages": "/today-weather/images/astana.jpg"
+    "countryPhone": "+7"
   },
   {
     "continent": "asia",
@@ -1153,8 +1066,7 @@
     "latitude": 41.2995,
     "longitude": 69.2401,
     "countryCode": "UZ",
-    "countryPhone": "+998",
-    "countryImages": "/today-weather/images/tashkent.jpg"
+    "countryPhone": "+998"
   },
   {
     "continent": "asia",
@@ -1166,8 +1078,7 @@
     "latitude": 42.8746,
     "longitude": 74.5698,
     "countryCode": "KG",
-    "countryPhone": "+996",
-    "countryImages": "/today-weather/images/bishkek.jpg"
+    "countryPhone": "+996"
   },
   {
     "continent": "asia",
@@ -1179,8 +1090,7 @@
     "latitude": 38.5598,
     "longitude": 68.787,
     "countryCode": "TJ",
-    "countryPhone": "+992",
-    "countryImages": "/today-weather/images/dushanbe.jpg"
+    "countryPhone": "+992"
   },
   {
     "continent": "asia",
@@ -1192,8 +1102,7 @@
     "latitude": 37.9601,
     "longitude": 58.3261,
     "countryCode": "TM",
-    "countryPhone": "+993",
-    "countryImages": "/today-weather/images/ashgabat.jpg"
+    "countryPhone": "+993"
   },
   {
     "continent": "asia",
@@ -1205,8 +1114,7 @@
     "latitude": 40.4093,
     "longitude": 49.8671,
     "countryCode": "AZ",
-    "countryPhone": "+994",
-    "countryImages": "/today-weather/images/baku.jpg"
+    "countryPhone": "+994"
   },
   {
     "continent": "asia",
@@ -1218,8 +1126,7 @@
     "latitude": 40.1792,
     "longitude": 44.4991,
     "countryCode": "AM",
-    "countryPhone": "+374",
-    "countryImages": "/today-weather/images/yerevan.jpg"
+    "countryPhone": "+374"
   },
   {
     "continent": "asia",
@@ -1231,8 +1138,7 @@
     "latitude": 41.7151,
     "longitude": 44.8271,
     "countryCode": "GE",
-    "countryPhone": "+995",
-    "countryImages": "/today-weather/images/tbilisi.jpg"
+    "countryPhone": "+995"
   },
   {
     "continent": "america",
@@ -1244,8 +1150,7 @@
     "latitude": 38.9072,
     "longitude": -77.0369,
     "countryCode": "US",
-    "countryPhone": "+1",
-    "countryImages": "/today-weather/images/washington-dc.jpg"
+    "countryPhone": "+1"
   },
   {
     "continent": "america",
@@ -1257,8 +1162,7 @@
     "latitude": 45.4215,
     "longitude": -75.6972,
     "countryCode": "CA",
-    "countryPhone": "+1",
-    "countryImages": "/today-weather/images/ottawa.jpg"
+    "countryPhone": "+1"
   },
   {
     "continent": "america",
@@ -1270,8 +1174,7 @@
     "latitude": 19.4326,
     "longitude": -99.1332,
     "countryCode": "MX",
-    "countryPhone": "+52",
-    "countryImages": "/today-weather/images/mexico-city.jpg"
+    "countryPhone": "+52"
   },
   {
     "continent": "america",
@@ -1283,8 +1186,7 @@
     "latitude": 14.6349,
     "longitude": -90.5069,
     "countryCode": "GT",
-    "countryPhone": "+502",
-    "countryImages": "/today-weather/images/guatemala-city.jpg"
+    "countryPhone": "+502"
   },
   {
     "continent": "america",
@@ -1296,8 +1198,7 @@
     "latitude": 17.251,
     "longitude": -88.759,
     "countryCode": "BZ",
-    "countryPhone": "+501",
-    "countryImages": "/today-weather/images/belmopan.jpg"
+    "countryPhone": "+501"
   },
   {
     "continent": "america",
@@ -1309,8 +1210,7 @@
     "latitude": 14.0723,
     "longitude": -87.1921,
     "countryCode": "HN",
-    "countryPhone": "+504",
-    "countryImages": "/today-weather/images/tegucigalpa.jpg"
+    "countryPhone": "+504"
   },
   {
     "continent": "america",
@@ -1322,8 +1222,7 @@
     "latitude": 13.6929,
     "longitude": -89.2182,
     "countryCode": "SV",
-    "countryPhone": "+503",
-    "countryImages": "/today-weather/images/san-salvador.jpg"
+    "countryPhone": "+503"
   },
   {
     "continent": "america",
@@ -1335,8 +1234,7 @@
     "latitude": 12.114,
     "longitude": -86.2362,
     "countryCode": "NI",
-    "countryPhone": "+505",
-    "countryImages": "/today-weather/images/managua.jpg"
+    "countryPhone": "+505"
   },
   {
     "continent": "america",
@@ -1348,8 +1246,7 @@
     "latitude": 9.9281,
     "longitude": -84.0907,
     "countryCode": "CR",
-    "countryPhone": "+506",
-    "countryImages": "/today-weather/images/san-jose.jpg"
+    "countryPhone": "+506"
   },
   {
     "continent": "america",
@@ -1361,8 +1258,7 @@
     "latitude": 8.9824,
     "longitude": -79.5199,
     "countryCode": "PA",
-    "countryPhone": "+507",
-    "countryImages": "/today-weather/images/panama-city.jpg"
+    "countryPhone": "+507"
   },
   {
     "continent": "america",
@@ -1374,8 +1270,7 @@
     "latitude": 23.1136,
     "longitude": -82.3666,
     "countryCode": "CU",
-    "countryPhone": "+53",
-    "countryImages": "/today-weather/images/havana.jpg"
+    "countryPhone": "+53"
   },
   {
     "continent": "america",
@@ -1387,8 +1282,7 @@
     "latitude": 17.9712,
     "longitude": -76.7936,
     "countryCode": "JM",
-    "countryPhone": "+1-876",
-    "countryImages": "/today-weather/images/kingston.jpg"
+    "countryPhone": "+1-876"
   },
   {
     "continent": "america",
@@ -1400,8 +1294,7 @@
     "latitude": 18.5944,
     "longitude": -72.3074,
     "countryCode": "HT",
-    "countryPhone": "+509",
-    "countryImages": "/today-weather/images/port-au-prince.jpg"
+    "countryPhone": "+509"
   },
   {
     "continent": "america",
@@ -1413,8 +1306,7 @@
     "latitude": 18.4861,
     "longitude": -69.9312,
     "countryCode": "DO",
-    "countryPhone": "+1-809",
-    "countryImages": "/today-weather/images/santo-domingo.jpg"
+    "countryPhone": "+1-809"
   },
   {
     "continent": "america",
@@ -1426,8 +1318,7 @@
     "latitude": 25.0443,
     "longitude": -77.3504,
     "countryCode": "BS",
-    "countryPhone": "+1-242",
-    "countryImages": "/today-weather/images/nassau.jpg"
+    "countryPhone": "+1-242"
   },
   {
     "continent": "america",
@@ -1439,8 +1330,7 @@
     "latitude": 13.0975,
     "longitude": -59.6167,
     "countryCode": "BB",
-    "countryPhone": "+1-246",
-    "countryImages": "/today-weather/images/bridgetown.jpg"
+    "countryPhone": "+1-246"
   },
   {
     "continent": "america",
@@ -1452,8 +1342,7 @@
     "latitude": 10.6549,
     "longitude": -61.5019,
     "countryCode": "TT",
-    "countryPhone": "+1-868",
-    "countryImages": "/today-weather/images/port-of-spain.jpg"
+    "countryPhone": "+1-868"
   },
   {
     "continent": "america",
@@ -1465,8 +1354,7 @@
     "latitude": 4.711,
     "longitude": -74.0721,
     "countryCode": "CO",
-    "countryPhone": "+57",
-    "countryImages": "/today-weather/images/bogota.jpg"
+    "countryPhone": "+57"
   },
   {
     "continent": "america",
@@ -1478,8 +1366,7 @@
     "latitude": 10.4806,
     "longitude": -66.9036,
     "countryCode": "VE",
-    "countryPhone": "+58",
-    "countryImages": "/today-weather/images/caracas.jpg"
+    "countryPhone": "+58"
   },
   {
     "continent": "america",
@@ -1491,8 +1378,7 @@
     "latitude": -0.1807,
     "longitude": -78.4678,
     "countryCode": "EC",
-    "countryPhone": "+593",
-    "countryImages": "/today-weather/images/quito.jpg"
+    "countryPhone": "+593"
   },
   {
     "continent": "america",
@@ -1504,8 +1390,7 @@
     "latitude": -12.0464,
     "longitude": -77.0428,
     "countryCode": "PE",
-    "countryPhone": "+51",
-    "countryImages": "/today-weather/images/lima.jpg"
+    "countryPhone": "+51"
   },
   {
     "continent": "america",
@@ -1517,8 +1402,7 @@
     "latitude": -19.0196,
     "longitude": -65.2619,
     "countryCode": "BO",
-    "countryPhone": "+591",
-    "countryImages": "/today-weather/images/sucre.jpg"
+    "countryPhone": "+591"
   },
   {
     "continent": "america",
@@ -1530,8 +1414,7 @@
     "latitude": -33.4489,
     "longitude": -70.6693,
     "countryCode": "CL",
-    "countryPhone": "+56",
-    "countryImages": "/today-weather/images/santiago.jpg"
+    "countryPhone": "+56"
   },
   {
     "continent": "america",
@@ -1543,8 +1426,7 @@
     "latitude": -34.6037,
     "longitude": -58.3816,
     "countryCode": "AR",
-    "countryPhone": "+54",
-    "countryImages": "/today-weather/images/buenos-aires.jpg"
+    "countryPhone": "+54"
   },
   {
     "continent": "america",
@@ -1556,8 +1438,7 @@
     "latitude": -34.9011,
     "longitude": -56.1645,
     "countryCode": "UY",
-    "countryPhone": "+598",
-    "countryImages": "/today-weather/images/montevideo.jpg"
+    "countryPhone": "+598"
   },
   {
     "continent": "america",
@@ -1569,8 +1450,7 @@
     "latitude": -25.2637,
     "longitude": -57.5759,
     "countryCode": "PY",
-    "countryPhone": "+595",
-    "countryImages": "/today-weather/images/asuncion.jpg"
+    "countryPhone": "+595"
   },
   {
     "continent": "america",
@@ -1582,8 +1462,7 @@
     "latitude": -15.7939,
     "longitude": -47.8828,
     "countryCode": "BR",
-    "countryPhone": "+55",
-    "countryImages": "/today-weather/images/brasilia.jpg"
+    "countryPhone": "+55"
   },
   {
     "continent": "america",
@@ -1595,8 +1474,7 @@
     "latitude": 6.8013,
     "longitude": -58.1551,
     "countryCode": "GY",
-    "countryPhone": "+592",
-    "countryImages": "/today-weather/images/georgetown.jpg"
+    "countryPhone": "+592"
   },
   {
     "continent": "america",
@@ -1608,8 +1486,7 @@
     "latitude": 5.852,
     "longitude": -55.2038,
     "countryCode": "SR",
-    "countryPhone": "+597",
-    "countryImages": "/today-weather/images/paramaribo.jpg"
+    "countryPhone": "+597"
   },
   {
     "continent": "africa",
@@ -1621,8 +1498,7 @@
     "latitude": 6.4969,
     "longitude": 2.6289,
     "countryCode": "BJ",
-    "countryPhone": "+229",
-    "countryImages": "/today-weather/images/porto-novo.jpg"
+    "countryPhone": "+229"
   },
   {
     "continent": "africa",
@@ -1634,8 +1510,7 @@
     "latitude": 6.1256,
     "longitude": 1.2254,
     "countryCode": "TG",
-    "countryPhone": "+228",
-    "countryImages": "/today-weather/images/lome.jpg"
+    "countryPhone": "+228"
   },
   {
     "continent": "africa",
@@ -1647,8 +1522,7 @@
     "latitude": 9.6412,
     "longitude": -13.5784,
     "countryCode": "GN",
-    "countryPhone": "+224",
-    "countryImages": "/today-weather/images/conakry.jpg"
+    "countryPhone": "+224"
   },
   {
     "continent": "africa",
@@ -1660,8 +1534,7 @@
     "latitude": 11.8817,
     "longitude": -15.617,
     "countryCode": "GW",
-    "countryPhone": "+245",
-    "countryImages": "/today-weather/images/bissau.jpg"
+    "countryPhone": "+245"
   },
   {
     "continent": "africa",
@@ -1673,8 +1546,7 @@
     "latitude": 8.4657,
     "longitude": -13.2317,
     "countryCode": "SL",
-    "countryPhone": "+232",
-    "countryImages": "/today-weather/images/freetown.jpg"
+    "countryPhone": "+232"
   },
   {
     "continent": "africa",
@@ -1686,8 +1558,7 @@
     "latitude": 6.3004,
     "longitude": -10.7969,
     "countryCode": "LR",
-    "countryPhone": "+231",
-    "countryImages": "/today-weather/images/monrovia.jpg"
+    "countryPhone": "+231"
   },
   {
     "continent": "africa",
@@ -1699,8 +1570,7 @@
     "latitude": 13.4549,
     "longitude": -16.579,
     "countryCode": "GM",
-    "countryPhone": "+220",
-    "countryImages": "/today-weather/images/banjul.jpg"
+    "countryPhone": "+220"
   },
   {
     "continent": "africa",
@@ -1712,8 +1582,7 @@
     "latitude": 14.9331,
     "longitude": -23.5133,
     "countryCode": "CV",
-    "countryPhone": "+238",
-    "countryImages": "/today-weather/images/praia.jpg"
+    "countryPhone": "+238"
   },
   {
     "continent": "africa",
@@ -1725,8 +1594,7 @@
     "latitude": 0.3365,
     "longitude": 6.7273,
     "countryCode": "ST",
-    "countryPhone": "+239",
-    "countryImages": "/today-weather/images/sao-tome.jpg"
+    "countryPhone": "+239"
   },
   {
     "continent": "africa",
@@ -1738,8 +1606,7 @@
     "latitude": 3.7523,
     "longitude": 8.7741,
     "countryCode": "GQ",
-    "countryPhone": "+240",
-    "countryImages": "/today-weather/images/malabo.jpg"
+    "countryPhone": "+240"
   },
   {
     "continent": "africa",
@@ -1751,8 +1618,7 @@
     "latitude": 4.3947,
     "longitude": 18.5582,
     "countryCode": "CF",
-    "countryPhone": "+236",
-    "countryImages": "/today-weather/images/bangui.jpg"
+    "countryPhone": "+236"
   },
   {
     "continent": "africa",
@@ -1764,8 +1630,7 @@
     "latitude": 3.848,
     "longitude": 11.5021,
     "countryCode": "CM",
-    "countryPhone": "+237",
-    "countryImages": "/today-weather/images/yaounde.jpg"
+    "countryPhone": "+237"
   },
   {
     "continent": "africa",
@@ -1777,8 +1642,7 @@
     "latitude": -3.4264,
     "longitude": 29.9308,
     "countryCode": "BI",
-    "countryPhone": "+257",
-    "countryImages": "/today-weather/images/gitega.jpg"
+    "countryPhone": "+257"
   },
   {
     "continent": "africa",
@@ -1790,8 +1654,7 @@
     "latitude": -13.9626,
     "longitude": 33.7741,
     "countryCode": "MW",
-    "countryPhone": "+265",
-    "countryImages": "/today-weather/images/lilongwe.jpg"
+    "countryPhone": "+265"
   },
   {
     "continent": "africa",
@@ -1803,8 +1666,7 @@
     "latitude": -29.3151,
     "longitude": 27.4869,
     "countryCode": "LS",
-    "countryPhone": "+266",
-    "countryImages": "/today-weather/images/maseru.jpg"
+    "countryPhone": "+266"
   },
   {
     "continent": "africa",
@@ -1816,8 +1678,7 @@
     "latitude": -26.3054,
     "longitude": 31.1367,
     "countryCode": "SZ",
-    "countryPhone": "+268",
-    "countryImages": "/today-weather/images/mbabane.jpg"
+    "countryPhone": "+268"
   },
   {
     "continent": "africa",
@@ -1829,8 +1690,7 @@
     "latitude": -25.7479,
     "longitude": 28.2293,
     "countryCode": "ZA",
-    "countryPhone": "+27",
-    "countryImages": "/today-weather/images/pretoria.jpg"
+    "countryPhone": "+27"
   },
   {
     "continent": "africa",
@@ -1842,8 +1702,7 @@
     "latitude": 15.3229,
     "longitude": 38.9251,
     "countryCode": "ER",
-    "countryPhone": "+291",
-    "countryImages": "/today-weather/images/asmara.jpg"
+    "countryPhone": "+291"
   },
   {
     "continent": "europe",
@@ -1855,8 +1714,7 @@
     "latitude": 42.5063,
     "longitude": 1.5218,
     "countryCode": "AD",
-    "countryPhone": "+376",
-    "countryImages": "/today-weather/images/andorra-la-vella.jpg"
+    "countryPhone": "+376"
   },
   {
     "continent": "europe",
@@ -1868,8 +1726,7 @@
     "latitude": 53.9006,
     "longitude": 27.559,
     "countryCode": "BY",
-    "countryPhone": "+375",
-    "countryImages": "/today-weather/images/minsk.jpg"
+    "countryPhone": "+375"
   },
   {
     "continent": "europe",
@@ -1881,8 +1738,7 @@
     "latitude": 47.141,
     "longitude": 9.5209,
     "countryCode": "LI",
-    "countryPhone": "+423",
-    "countryImages": "/today-weather/images/vaduz.jpg"
+    "countryPhone": "+423"
   },
   {
     "continent": "europe",
@@ -1894,8 +1750,7 @@
     "latitude": 43.7384,
     "longitude": 7.4246,
     "countryCode": "MC",
-    "countryPhone": "+377",
-    "countryImages": "/today-weather/images/monaco.jpg"
+    "countryPhone": "+377"
   },
   {
     "continent": "europe",
@@ -1907,8 +1762,7 @@
     "latitude": 43.9424,
     "longitude": 12.4578,
     "countryCode": "SM",
-    "countryPhone": "+378",
-    "countryImages": "/today-weather/images/san-marino.jpg"
+    "countryPhone": "+378"
   },
   {
     "continent": "asia",
@@ -1920,8 +1774,7 @@
     "latitude": 19.7633,
     "longitude": 96.0785,
     "countryCode": "MM",
-    "countryPhone": "+95",
-    "countryImages": "/today-weather/images/naypyidaw.jpg"
+    "countryPhone": "+95"
   },
   {
     "continent": "asia",
@@ -1933,8 +1786,7 @@
     "latitude": 6.8941,
     "longitude": 79.9025,
     "countryCode": "LK",
-    "countryPhone": "+94",
-    "countryImages": "/today-weather/images/sri-jayawardenepura-kotte.jpg"
+    "countryPhone": "+94"
   },
   {
     "continent": "asia",
@@ -1946,8 +1798,7 @@
     "latitude": 4.1755,
     "longitude": 73.5093,
     "countryCode": "MV",
-    "countryPhone": "+960",
-    "countryImages": "/today-weather/images/male.jpg"
+    "countryPhone": "+960"
   },
   {
     "continent": "asia",
@@ -1959,8 +1810,7 @@
     "latitude": -8.5569,
     "longitude": 125.5603,
     "countryCode": "TL",
-    "countryPhone": "+670",
-    "countryImages": "/today-weather/images/dili.jpg"
+    "countryPhone": "+670"
   },
   {
     "continent": "asia",
@@ -1972,8 +1822,7 @@
     "latitude": 31.7683,
     "longitude": 35.2137,
     "countryCode": "IL",
-    "countryPhone": "+972",
-    "countryImages": "/today-weather/images/jerusalem.jpg"
+    "countryPhone": "+972"
   },
   {
     "continent": "asia",
@@ -1985,8 +1834,7 @@
     "latitude": 25.033,
     "longitude": 121.5654,
     "countryCode": "TW",
-    "countryPhone": "+886",
-    "countryImages": "/today-weather/images/taipei.jpg"
+    "countryPhone": "+886"
   },
   {
     "continent": "america",
@@ -1998,8 +1846,7 @@
     "latitude": 17.1274,
     "longitude": -61.8468,
     "countryCode": "AG",
-    "countryPhone": "+1-268",
-    "countryImages": "/today-weather/images/saint-johns.jpg"
+    "countryPhone": "+1-268"
   },
   {
     "continent": "america",
@@ -2011,8 +1858,7 @@
     "latitude": 17.3026,
     "longitude": -62.7177,
     "countryCode": "KN",
-    "countryPhone": "+1-869",
-    "countryImages": "/today-weather/images/basseterre.jpg"
+    "countryPhone": "+1-869"
   },
   {
     "continent": "america",
@@ -2024,8 +1870,7 @@
     "latitude": 15.301,
     "longitude": -61.3881,
     "countryCode": "DM",
-    "countryPhone": "+1-767",
-    "countryImages": "/today-weather/images/roseau.jpg"
+    "countryPhone": "+1-767"
   },
   {
     "continent": "america",
@@ -2037,8 +1882,7 @@
     "latitude": 12.0561,
     "longitude": -61.7488,
     "countryCode": "GD",
-    "countryPhone": "+1-473",
-    "countryImages": "/today-weather/images/st-georges.jpg"
+    "countryPhone": "+1-473"
   },
   {
     "continent": "america",
@@ -2050,8 +1894,7 @@
     "latitude": 14.0101,
     "longitude": -60.9875,
     "countryCode": "LC",
-    "countryPhone": "+1-758",
-    "countryImages": "/today-weather/images/castries.jpg"
+    "countryPhone": "+1-758"
   },
   {
     "continent": "america",
@@ -2063,8 +1906,7 @@
     "latitude": 13.16,
     "longitude": -61.2248,
     "countryCode": "VC",
-    "countryPhone": "+1-784",
-    "countryImages": "/today-weather/images/kingstown.jpg"
+    "countryPhone": "+1-784"
   },
   {
     "continent": "africa",
@@ -2077,7 +1919,7 @@
     "longitude": 3.0588,
     "countryCode": "DZ",
     "countryPhone": "+213",
-    "countryImages": "/today-weather/images/algiers.jpg"
+    "countryImages": "/meteo-dz/images/algiers.jpg"
   },
   {
     "continent": "africa",
@@ -2090,7 +1932,7 @@
     "longitude": 43.1456,
     "countryCode": "DJ",
     "countryPhone": "+253",
-    "countryImages": "/today-weather/images/djibouti.jpg"
+    "countryImages": "/meteo-dz/images/djibouti.jpg"
   },
   {
     "continent": "africa",
@@ -2103,7 +1945,7 @@
     "longitude": 31.2357,
     "countryCode": "EG",
     "countryPhone": "+20",
-    "countryImages": "/today-weather/images/cairo.jpg"
+    "countryImages": "/meteo-dz/images/cairo.jpg"
   },
   {
     "continent": "africa",
@@ -2116,7 +1958,7 @@
     "longitude": 13.1913,
     "countryCode": "LY",
     "countryPhone": "+218",
-    "countryImages": "/today-weather/images/tripoli.jpg"
+    "countryImages": "/meteo-dz/images/tripoli.jpg"
   },
   {
     "continent": "africa",
@@ -2129,7 +1971,7 @@
     "longitude": -6.8416,
     "countryCode": "MA",
     "countryPhone": "+212",
-    "countryImages": "/today-weather/images/rabat.jpg"
+    "countryImages": "/meteo-dz/images/rabat.jpg"
   },
   {
     "continent": "africa",
@@ -2142,7 +1984,7 @@
     "longitude": -15.9582,
     "countryCode": "MR",
     "countryPhone": "+222",
-    "countryImages": "/today-weather/images/nouakchott.jpg"
+    "countryImages": "/meteo-dz/images/nouakchott.jpg"
   },
   {
     "continent": "africa",
@@ -2155,7 +1997,7 @@
     "longitude": 45.3182,
     "countryCode": "SO",
     "countryPhone": "+252",
-    "countryImages": "/today-weather/images/mogadishu.jpg"
+    "countryImages": "/meteo-dz/images/mogadishu.jpg"
   },
   {
     "continent": "africa",
@@ -2168,7 +2010,7 @@
     "longitude": 32.5599,
     "countryCode": "SD",
     "countryPhone": "+249",
-    "countryImages": "/today-weather/images/khartoum.jpg"
+    "countryImages": "/meteo-dz/images/khartoum.jpg"
   },
   {
     "continent": "africa",
@@ -2181,7 +2023,7 @@
     "longitude": 10.1815,
     "countryCode": "TN",
     "countryPhone": "+216",
-    "countryImages": "/today-weather/images/tunis.jpg"
+    "countryImages": "/meteo-dz/images/tunis.jpg"
   },
   {
     "continent": "asia",
@@ -2194,7 +2036,7 @@
     "longitude": 54.3773,
     "countryCode": "AE",
     "countryPhone": "+971",
-    "countryImages": "/today-weather/images/abu-dhabi.jpg"
+    "countryImages": "/meteo-dz/images/abu-dhabi.jpg"
   },
   {
     "continent": "asia",
@@ -2207,7 +2049,7 @@
     "longitude": 50.586,
     "countryCode": "BH",
     "countryPhone": "+973",
-    "countryImages": "/today-weather/images/manama.jpg"
+    "countryImages": "/meteo-dz/images/manama.jpg"
   },
   {
     "continent": "asia",
@@ -2220,7 +2062,7 @@
     "longitude": 44.3661,
     "countryCode": "IQ",
     "countryPhone": "+964",
-    "countryImages": "/today-weather/images/baghdad.jpg"
+    "countryImages": "/meteo-dz/images/baghdad.jpg"
   },
   {
     "continent": "asia",
@@ -2233,7 +2075,7 @@
     "longitude": 35.9106,
     "countryCode": "JO",
     "countryPhone": "+962",
-    "countryImages": "/today-weather/images/amman.jpg"
+    "countryImages": "/meteo-dz/images/amman.jpg"
   },
   {
     "continent": "asia",
@@ -2246,7 +2088,7 @@
     "longitude": 47.9774,
     "countryCode": "KW",
     "countryPhone": "+965",
-    "countryImages": "/today-weather/images/kuwait-city.jpg"
+    "countryImages": "/meteo-dz/images/kuwait-city.jpg"
   },
   {
     "continent": "asia",
@@ -2259,7 +2101,7 @@
     "longitude": 35.5018,
     "countryCode": "LB",
     "countryPhone": "+961",
-    "countryImages": "/today-weather/images/beirut.jpg"
+    "countryImages": "/meteo-dz/images/beirut.jpg"
   },
   {
     "continent": "asia",
@@ -2272,7 +2114,7 @@
     "longitude": 58.3829,
     "countryCode": "OM",
     "countryPhone": "+968",
-    "countryImages": "/today-weather/images/muscat.jpg"
+    "countryImages": "/meteo-dz/images/muscat.jpg"
   },
   {
     "continent": "asia",
@@ -2285,7 +2127,7 @@
     "longitude": 51.531,
     "countryCode": "QA",
     "countryPhone": "+974",
-    "countryImages": "/today-weather/images/doha.jpg"
+    "countryImages": "/meteo-dz/images/doha.jpg"
   },
   {
     "continent": "asia",
@@ -2298,7 +2140,7 @@
     "longitude": 46.6753,
     "countryCode": "SA",
     "countryPhone": "+966",
-    "countryImages": "/today-weather/images/riyadh.jpg"
+    "countryImages": "/meteo-dz/images/riyadh.jpg"
   },
   {
     "continent": "asia",
@@ -2311,7 +2153,7 @@
     "longitude": 36.2765,
     "countryCode": "SY",
     "countryPhone": "+963",
-    "countryImages": "/today-weather/images/damascus.jpg"
+    "countryImages": "/meteo-dz/images/damascus.jpg"
   },
   {
     "continent": "asia",
@@ -2324,7 +2166,7 @@
     "longitude": 44.191,
     "countryCode": "YE",
     "countryPhone": "+967",
-    "countryImages": "/today-weather/images/sanaa.jpg"
+    "countryImages": "/meteo-dz/images/sanaa.jpg"
   },
   {
     "continent": "asia",
@@ -2337,7 +2179,7 @@
     "longitude": 35.2034,
     "countryCode": "PS",
     "countryPhone": "+970",
-    "countryImages": "/today-weather/images/ramallah.jpg"
+    "countryImages": "/meteo-dz/images/ramallah.jpg"
   },
   {
     "continent": "europe",
@@ -2349,8 +2191,7 @@
     "latitude": 41.9022,
     "longitude": 12.4539,
     "countryCode": "VA",
-    "countryPhone": "+39",
-    "countryImages": "/today-weather/images/vatican-city.jpg"
+    "countryPhone": "+39"
   },
   {
     "continent": "oceania",
@@ -2362,8 +2203,7 @@
     "latitude": -35.2809,
     "longitude": 149.13,
     "countryCode": "AU",
-    "countryPhone": "+61",
-    "countryImages": "/today-weather/images/canberra.jpg"
+    "countryPhone": "+61"
   },
   {
     "continent": "oceania",
@@ -2375,8 +2215,7 @@
     "latitude": -18.1248,
     "longitude": 178.4501,
     "countryCode": "FJ",
-    "countryPhone": "+679",
-    "countryImages": "/today-weather/images/suva.jpg"
+    "countryPhone": "+679"
   },
   {
     "continent": "oceania",
@@ -2388,8 +2227,7 @@
     "latitude": 6.9248,
     "longitude": 158.1611,
     "countryCode": "FM",
-    "countryPhone": "+691",
-    "countryImages": "/today-weather/images/palikir.jpg"
+    "countryPhone": "+691"
   },
   {
     "continent": "oceania",
@@ -2401,8 +2239,7 @@
     "latitude": 1.4518,
     "longitude": 173.0323,
     "countryCode": "KI",
-    "countryPhone": "+686",
-    "countryImages": "/today-weather/images/south-tarawa.jpg"
+    "countryPhone": "+686"
   },
   {
     "continent": "africa",
@@ -2415,7 +2252,7 @@
     "longitude": 43.2473,
     "countryCode": "KM",
     "countryPhone": "+269",
-    "countryImages": "/today-weather/images/moroni.jpg"
+    "countryImages": "/meteo-dz/images/moroni.jpg"
   },
   {
     "continent": "oceania",
@@ -2427,8 +2264,7 @@
     "latitude": 7.0897,
     "longitude": 171.3803,
     "countryCode": "MH",
-    "countryPhone": "+692",
-    "countryImages": "/today-weather/images/majuro.jpg"
+    "countryPhone": "+692"
   },
   {
     "continent": "oceania",
@@ -2440,8 +2276,7 @@
     "latitude": -0.5477,
     "longitude": 166.9209,
     "countryCode": "NR",
-    "countryPhone": "+674",
-    "countryImages": "/today-weather/images/yaren.jpg"
+    "countryPhone": "+674"
   },
   {
     "continent": "oceania",
@@ -2453,8 +2288,7 @@
     "latitude": -41.2865,
     "longitude": 174.7762,
     "countryCode": "NZ",
-    "countryPhone": "+64",
-    "countryImages": "/today-weather/images/wellington.jpg"
+    "countryPhone": "+64"
   },
   {
     "continent": "oceania",
@@ -2466,8 +2300,7 @@
     "latitude": 7.5004,
     "longitude": 134.6243,
     "countryCode": "PW",
-    "countryPhone": "+680",
-    "countryImages": "/today-weather/images/ngerulmud.jpg"
+    "countryPhone": "+680"
   },
   {
     "continent": "oceania",
@@ -2479,8 +2312,7 @@
     "latitude": -9.4456,
     "longitude": 159.9729,
     "countryCode": "SB",
-    "countryPhone": "+677",
-    "countryImages": "/today-weather/images/honiara.jpg"
+    "countryPhone": "+677"
   },
   {
     "continent": "oceania",
@@ -2492,8 +2324,7 @@
     "latitude": -21.1394,
     "longitude": -175.2049,
     "countryCode": "TO",
-    "countryPhone": "+676",
-    "countryImages": "/today-weather/images/nukualofa.jpg"
+    "countryPhone": "+676"
   },
   {
     "continent": "oceania",
@@ -2505,8 +2336,7 @@
     "latitude": -8.5211,
     "longitude": 179.1962,
     "countryCode": "TV",
-    "countryPhone": "+688",
-    "countryImages": "/today-weather/images/funafuti.jpg"
+    "countryPhone": "+688"
   },
   {
     "continent": "oceania",
@@ -2518,8 +2348,7 @@
     "latitude": -17.7333,
     "longitude": 168.3273,
     "countryCode": "VU",
-    "countryPhone": "+678",
-    "countryImages": "/today-weather/images/port-vila.jpg"
+    "countryPhone": "+678"
   },
   {
     "continent": "oceania",
@@ -2531,7 +2360,6 @@
     "latitude": -13.8507,
     "longitude": -171.7514,
     "countryCode": "WS",
-    "countryPhone": "+685",
-    "countryImages": "/today-weather/images/apia.jpg"
+    "countryPhone": "+685"
   }
 ]
