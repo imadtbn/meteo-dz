@@ -25,6 +25,7 @@ const mainLinks = [
   { href: "/weather/", label: "دليل الطقس", icon: CloudSun },
   { href: "/wilayas/", label: "الولايات", icon: Landmark },
   { href: "/arab-capitals/", label: "العواصم العربية", icon: Compass },
+  { href: "/world-capitals/", label: "عواصم العالم", icon: Globe2 },
   { href: "/world-search/", label: "بحث عالمي", icon: Search },
   { href: "/weather-map/", label: "مركز الخرائط", icon: Map },
   { href: "/climate-observatory/", label: "المرصد المناخي", icon: Activity },

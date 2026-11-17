@@ -69,9 +69,9 @@ export default function Home({ forcedCity, detail = false }: HomeProps) {
 
   useEffect(() => {
     const place = city.name;
-    document.title = detail ? `طقس ${place} اليوم | Weather Today` : "Weather Today | الطقس اليوم";
+    document.title = detail ? `طقس ${place} اليوم في الجزائر | توقعات الطقس | مرصد الأطلس` : "Weather Today | الطقس اليوم";
     const description = document.querySelector('meta[name="description"]');
-    description?.setAttribute("content", `حالة الطقس الحالية وتوقعات الأيام القادمة في ${place}، مع قراءة بحرية للسواحل ووقت تحديث واضح.`);
+    description?.setAttribute("content", detail ? `حالة الطقس في ${place} بالجزائر اليوم، توقعات الأيام القادمة ودرجات الحرارة والرياح والأمطار، مع تحديثات الطقس المحلية من مرصد الأطلس.` : `حالة الطقس الحالية وتوقعات الأيام القادمة في ${place}، مع قراءة بحرية للسواحل ووقت تحديث واضح.`);
   }, [city.name, detail]);
 
   useEffect(() => setVisibleCount(12), [citySearch]);
@@ -254,6 +254,10 @@ export default function Home({ forcedCity, detail = false }: HomeProps) {
       </div>
     </section>
 
+    {detail && <section className="city-related-links" aria-label="أدلة الطقس ذات الصلة">
+      <div><h2>استكشف الطقس في مدن ودول أخرى</h2><p>انتقل من نشرة الولاية إلى أدلة العواصم والبحث العالمي.</p></div>
+      <nav><Link href="/wilayas/">جميع ولايات الجزائر</Link><Link href="/arab-capitals/">العواصم العربية</Link><Link href="/world-capitals/">عواصم العالم</Link><Link href="/world-search/">البحث العالمي عن الطقس</Link></nav>
+    </section>}
     {reading && shareOpen && <Suspense fallback={null}><WeatherShareDialog reading={reading} onClose={() => setShareOpen(false)} /></Suspense>}
     <PublicFooter />
   </main>;

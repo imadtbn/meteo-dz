@@ -40,6 +40,7 @@ export function buildPlaceCatalog() {
       englishName: englishName || record.englishName || record.name_en || "",
       country: country || record.country || "الجزائر",
       countryCode: record.countryCode || (kind === "wilaya" ? "DZ" : ""),
+      region: record.region || "",
       continent: record.continent || (kind === "wilaya" ? "africa" : ""),
       latitude: override?.latitude ?? record.latitude,
       longitude: override?.longitude ?? record.longitude,
