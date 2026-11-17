@@ -233,6 +233,9 @@ a, button, input, select { -webkit-tap-highlight-color: transparent; }
   background: #e8eff0;
 }
 .place-illustration svg { display: block; width: 100%; height: 100%; }
+.place-illustration__photo { display: block; width: 100%; height: 100%; object-fit: cover; object-position: center; transition: transform .35s ease; }
+.directory-card--visual:hover .place-illustration__photo { transform: scale(1.035); }
+.place-illustration:has(.place-illustration__photo) { background: #dce8e8; }
 .place-illustration__tag {
   position: absolute;
   right: .8rem;

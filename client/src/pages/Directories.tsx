@@ -112,7 +112,7 @@ export function ArabCapitalsPage() {
               key={item.slug}
               href={item.slug === "algiers" ? "/weather/algiers/" : "/arab-capitals/" + item.slug + "/"}
             >
-              <PlaceIllustration scene={getCapitalScene(item.slug)} label={item.capital} badge={item.englishName} />
+              <PlaceIllustration scene={getCapitalScene(item.slug)} label={item.capital} badge={item.englishName} image={item.countryImages} />
               <span className="directory-card__body">
                 <span className="directory-card__meta">
                   <span className="place-flag" aria-hidden="true">{flagForCountry(countryCodeForArabName(item.country))}</span>
@@ -156,7 +156,7 @@ export function WorldCapitalsPage() {
         <div className="directory-grid directory-grid--visual">
           {results.map((item) => (
             <Link className="directory-card directory-card--visual" key={item.slug} href={getCanonicalPlacePath(item.slug)}>
-              <PlaceIllustration scene="city" label={item.capital} badge={item.englishName} />
+              <PlaceIllustration scene="city" label={item.capital} badge={item.englishName} image={item.countryImages} />
               <span className="directory-card__body">
                 <span className="directory-card__meta">
                   <span className="place-flag" aria-hidden="true">{flagForCountry(item.countryCode)}</span>

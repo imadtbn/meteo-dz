@@ -99,6 +99,10 @@ for (const place of places) {
   assert.ok(html.includes(place.displayName), "Missing place metadata: " + place.slug);
   assert.ok(html.includes('og:url" content="https://imadtbn.github.io/meteo-dz/' + place.canonicalPath + '/"'));
   assert.ok(html.includes('"@type":"Place"'), "Place JSON-LD missing: " + place.slug);
+  assert.ok(html.includes('"@type":"BreadcrumbList"'), "Breadcrumb JSON-LD missing: " + place.slug);
+  assert.ok(html.includes('"@graph"'), "Structured data graph missing: " + place.slug);
+  assert.ok(html.includes("related-place-link"), "Related internal links missing: " + place.slug);
+  if (place.image) assert.ok(html.includes('fetchpriority="high"') && html.includes(place.image), "Primary city image missing: " + place.slug);
   assert.ok(urls.includes("https://imadtbn.github.io/meteo-dz/" + place.canonicalPath + "/"));
   if (place.image) await stat(path.join(root, place.image));
 }

@@ -48,26 +48,53 @@ for (const place of places) {
   const title = `طقس ${place.displayName} اليوم | ${place.country} | مرصد الأطلس`;
   const description = `حالة الطقس في ${place.displayName}، ${place.country}، مع توقعات الأيام القادمة وبيانات الموقع الجغرافي. ${place.englishName ? "Weather in " + place.englishName + "." : ""}`;
   const image = place.image ? siteRoot + place.image : siteRoot + "social-preview.png";
+  const relatedPlaces = places.filter((candidate) => {
+    if (candidate.slug === place.slug) return false;
+    if (place.kind === "wilaya") return candidate.kind === "wilaya" && candidate.region === place.region;
+    if (place.kind === "world-capital") return candidate.kind === "world-capital" && candidate.continent === place.continent;
+    return candidate.kind === "arab-capital";
+  }).slice(0, 6);
+  const directoryPath = place.kind === "wilaya" ? "wilayas/" : place.kind === "arab-capital" ? "arab-capitals/" : "world-capitals/";
   const structuredData = JSON.stringify({
     "@context": "https://schema.org",
+    "@graph": [
+      {
     "@type": "WebPage",
+    "@id": canonical + "#webpage",
     name: title,
     description,
     url: canonical,
     inLanguage: "ar-DZ",
     isPartOf: { "@type": "WebSite", name: "مرصد الأطلس للطقس", url: siteRoot },
-    primaryImageOfPage: place.image ? { "@type": "ImageObject", contentUrl: image } : undefined,
+    primaryImageOfPage: place.image ? { "@type": "ImageObject", contentUrl: image, caption: "صورة " + place.displayName } : undefined,
+    keywords: [place.displayName, place.englishName, "الطقس في " + place.displayName, "حالة الطقس " + place.displayName, "weather " + place.englishName, "forecast " + place.englishName].filter(Boolean).join(", "),
+    breadcrumb: { "@id": canonical + "#breadcrumb" },
+    mainEntity: { "@id": canonical + "#place" },
     about: {
       "@type": "Place",
+      "@id": canonical + "#place",
       name: place.displayName,
       alternateName: place.englishName || undefined,
       address: { "@type": "PostalAddress", addressCountry: place.countryCode || undefined, addressLocality: place.country },
       geo: { "@type": "GeoCoordinates", latitude: place.latitude, longitude: place.longitude },
     },
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": canonical + "#breadcrumb",
+        itemListElement: [
+          { "@type": "ListItem", position: 1, name: "الرئيسية", item: siteRoot },
+          { "@type": "ListItem", position: 2, name: place.kind === "wilaya" ? "ولايات الجزائر" : place.kind === "arab-capital" ? "العواصم العربية" : "عواصم العالم", item: siteRoot + directoryPath },
+          { "@type": "ListItem", position: 3, name: place.displayName, item: canonical },
+        ],
+      },
+    ],
   });
   const photo = place.image ? `<img src="${escapeHtml(siteRoot + place.image)}" alt="صورة ${escapeHtml(place.displayName)}" width="960" height="540" loading="eager" fetchpriority="high">` : "";
   const liveUrl = siteRoot + "global-weather/?lat=" + place.latitude + "&lon=" + place.longitude + "&name=" + encodeURIComponent(place.displayName);
-  const noscript = `<noscript><main dir="rtl" lang="ar"><nav><a href="${siteRoot}">الرئيسية</a> / <a href="${siteRoot}${place.kind === "wilaya" ? "wilayas/" : place.kind === "arab-capital" ? "arab-capitals/" : "world-capitals/"}">دليل المواقع</a></nav><article><h1>${escapeHtml(title)}</h1>${photo}<p>${escapeHtml(description)}</p><p>الإحداثيات الجغرافية: ${place.latitude}, ${place.longitude}</p><p><a href="${escapeHtml(liveUrl)}">عرض النشرة الجوية والتوقعات المباشرة</a></p></article></main></noscript>`;
+  const relatedLinks = relatedPlaces.map((candidate) => `<li><a class="related-place-link" href="${siteRoot}${candidate.canonicalPath}/">${escapeHtml(candidate.displayName)} — ${escapeHtml(candidate.country)}</a></li>`).join("");
+  const regionText = place.region ? ` وتقع ضمن ${place.region}` : "";
+  const noscript = `<noscript><main dir="rtl" lang="ar"><nav aria-label="مسار التنقل"><a href="${siteRoot}">الرئيسية</a> / <a href="${siteRoot}${directoryPath}">دليل المواقع</a> / ${escapeHtml(place.displayName)}</nav><article><h1>${escapeHtml(title)}</h1>${photo}<p>${escapeHtml(description)} تقع ${escapeHtml(place.displayName)} في ${escapeHtml(place.country)}${escapeHtml(regionText)}، وإحداثياتها التقريبية ${place.latitude} شمالاً/جنوباً و${place.longitude} شرقاً/غرباً.</p><p>تعرض صفحة المدينة نشرة الطقس والتوقعات المباشرة وفق الإحداثيات الجغرافية، ويمكن استخدام الاسم العربي أو الإنجليزي للعثور على الموقع.</p><p><a href="${escapeHtml(liveUrl)}">عرض النشرة الجوية والتوقعات المباشرة</a></p><section aria-labelledby="related-places"><h2 id="related-places">مدن ومناطق أخرى في الدليل</h2><ul>${relatedLinks}</ul></section><p><a href="${siteRoot}world-search/">البحث العالمي عن مدينة أخرى</a> · <a href="${siteRoot}weather-map/">استكشاف خريطة الطقس</a></p></article></main></noscript>`;
   const page = setSeo(template, { title, description, canonical, image })
     .replace("<body>", `<body>${noscript}<script type="application/ld+json">${structuredData}</script>`);
   const output = path.join(dist, place.canonicalPath);

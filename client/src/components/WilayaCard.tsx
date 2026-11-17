@@ -16,6 +16,7 @@ export function WilayaCard({ city }: { city: AlgerianCity }) {
         scene={getWilayaScene(city.region, city.coastal)}
         label={city.name}
         badge={`ولاية ${city.code}`}
+        image={city.countryImages}
       />
       <span className="directory-card__body">
         <span className="directory-card__meta">{city.code} · {city.region}</span>

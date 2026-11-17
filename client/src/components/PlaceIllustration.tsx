@@ -9,10 +9,12 @@ const palettes: Record<LandscapeScene, { sky: string; horizon: string; ground: s
   city: { sky: "#c7dde7", horizon: "#eff0e6", ground: "#98b7bf", skyline: "#55747f" },
 };
 
-export function PlaceIllustration({ scene, label, badge }: { scene: LandscapeScene; label: string; badge?: string }) {
+export function PlaceIllustration({ scene, label, badge, image }: { scene: LandscapeScene; label: string; badge?: string; image?: string }) {
   const colors = palettes[scene];
   return (
-    <div className={"place-illustration place-illustration--" + scene} role="img" aria-label={"رسم رمزي لمعالم " + label}>
+    <div className={"place-illustration place-illustration--" + scene}>
+      {image ? <img className="place-illustration__photo" src={image} alt={"صورة لمعالم " + label} width="960" height="540" loading="lazy" decoding="async" /> : null}
+      {!image ? <div role="img" aria-label={"رسم رمزي لمعالم " + label}>
       <svg viewBox="0 0 460 186" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false">
         <rect width="460" height="186" fill={colors.sky} />
         <circle cx="371" cy="44" r="22" fill="#fff7d8" opacity=".94" />
@@ -55,6 +57,7 @@ export function PlaceIllustration({ scene, label, badge }: { scene: LandscapeSce
           <path d="M0 160Q70 148 126 160T254 158T460 159" stroke="#effbfc" strokeWidth="3" opacity=".75" fill="none" />
         )}
       </svg>
+      </div> : null}
       <span className="place-illustration__tag">{badge ?? "مرصد الأطلس"}</span>
     </div>
   );
