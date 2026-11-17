@@ -48,12 +48,13 @@ for (const place of places) {
   const title = `طقس ${place.displayName} اليوم | ${place.country} | مرصد الأطلس`;
   const description = `حالة الطقس في ${place.displayName}، ${place.country}، مع توقعات الأيام القادمة وبيانات الموقع الجغرافي. ${place.englishName ? "Weather in " + place.englishName + "." : ""}`;
   const image = place.image ? siteRoot + place.image : siteRoot + "social-preview.png";
-  const relatedPlaces = places.filter((candidate) => {
+  const relatedCandidates = places.filter((candidate) => {
     if (candidate.slug === place.slug) return false;
-    if (place.kind === "wilaya") return candidate.kind === "wilaya" && (!place.region || candidate.region === place.region);
-    if (place.kind === "world-capital") return candidate.kind === "world-capital" && candidate.continent === place.continent;
+    if (place.kind === "wilaya") return candidate.kind === "wilaya" && Boolean(place.region) && candidate.region === place.region;
+    if (place.kind === "world-capital") return candidate.kind === "world-capital" && Boolean(place.continent) && candidate.continent === place.continent;
     return candidate.kind === "arab-capital";
-  }).slice(0, 6);
+  });
+  const relatedPlaces = (relatedCandidates.length ? relatedCandidates : places.filter((candidate) => candidate.slug !== place.slug && candidate.kind === place.kind)).slice(0, 6);
   const directoryPath = place.kind === "wilaya" ? "wilayas/" : place.kind === "arab-capital" ? "arab-capitals/" : "world-capitals/";
   const structuredData = JSON.stringify({
     "@context": "https://schema.org",
