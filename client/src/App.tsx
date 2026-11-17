@@ -12,6 +12,7 @@ const ArabCapitalsPage = lazy(() => import("./pages/Directories").then((module) 
 const GlobalWeatherPage = lazy(() => import("./pages/GlobalWeather"));
 const WeatherMapPage = lazy(() => import("./pages/WeatherMap"));
 const WorldSearchPage = lazy(() => import("./pages/WorldSearch").then((module) => ({ default: module.WorldSearchPage })));
+const WorldCapitalsPage = lazy(() => import("./pages/Directories").then((module) => ({ default: module.WorldCapitalsPage })));
 const AlertsPage = lazy(() => import("./pages/Alerts"));
 const FavoritesPage = lazy(() => import("./pages/Favorites"));
 const ClimateObservatoryPage = lazy(() => import("./pages/ClimateObservatory"));
@@ -30,7 +31,7 @@ function Router() {
       <Route path={"/wilayas"} component={WilayasPage} />
       <Route path={"/arab-capitals"} component={ArabCapitalsPage} />
       <Route path={"/arab-capitals/:slug"} component={GlobalWeatherPage} />
-      <Route path={"/world-capitals"} component={WorldSearchPage} />
+      <Route path={"/world-capitals"} component={WorldCapitalsPage} />
       <Route path={"/world-capitals/:slug"} component={GlobalWeatherPage} />
       <Route path={"/world-search"} component={WorldSearchPage} />
       <Route path={"/global-weather"} component={GlobalWeatherPage} />
