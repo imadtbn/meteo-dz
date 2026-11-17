@@ -106,7 +106,7 @@ for (const place of places) {
   assert.ok(html.includes('"@type":"Place"'), "Place JSON-LD missing: " + place.slug);
   assert.ok(html.includes('"@type":"BreadcrumbList"'), "Breadcrumb JSON-LD missing: " + place.slug);
   assert.ok(html.includes('"@graph"'), "Structured data graph missing: " + place.slug);
-  const jsonLdMatch = html.match(/<script type="application\\/ld\\+json">([\\s\\S]*?)<\\/script>/);
+  const jsonLdMatch = html.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/);
   assert.ok(jsonLdMatch, "JSON-LD script missing: " + place.slug);
   const jsonLd = JSON.parse(jsonLdMatch[1]);
   assert.equal(jsonLd["@context"], "https://schema.org", "Unexpected JSON-LD context: " + place.slug);
