@@ -50,7 +50,7 @@ for (const place of places) {
   const image = place.image ? siteRoot + place.image : siteRoot + "social-preview.png";
   const relatedPlaces = places.filter((candidate) => {
     if (candidate.slug === place.slug) return false;
-    if (place.kind === "wilaya") return candidate.kind === "wilaya" && candidate.region === place.region;
+    if (place.kind === "wilaya") return candidate.kind === "wilaya" && (!place.region || candidate.region === place.region);
     if (place.kind === "world-capital") return candidate.kind === "world-capital" && candidate.continent === place.continent;
     return candidate.kind === "arab-capital";
   }).slice(0, 6);
