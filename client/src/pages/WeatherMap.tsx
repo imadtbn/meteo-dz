@@ -51,7 +51,7 @@ export default function WeatherMapPage() {
         latitude: city.latitude,
         longitude: city.longitude,
         group: "ولاية جزائرية",
-        href: `/weather/${city.slug}`,
+        href: `/weather/${city.slug}/,
       })),
       ...ARAB_CAPITALS.map((city) => ({
         slug: city.slug,
