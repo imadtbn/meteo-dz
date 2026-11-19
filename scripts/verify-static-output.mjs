@@ -49,6 +49,8 @@ const directorySource = await readFile("client/src/pages/Directories.tsx", "utf8
 assert.ok(directorySource.includes("image={item.countryImages}"), "Capital directory cards must use available city photography");
 const wilayaCardSource = await readFile("client/src/components/WilayaCard.tsx", "utf8");
 assert.ok(wilayaCardSource.includes("image={city.countryImages}"), "Wilaya directory cards must use available city photography");
+const weatherMapSource = await readFile("client/src/pages/WeatherMap.tsx", "utf8");
+assert.match(weatherMapSource, /href: `\/weather\/\$\{city\.slug\}\/`/, "Weather map city links must use canonical trailing-slash URLs");
 assert.ok(!chromeSource.includes('<AdSlot position="header" />'), "Top ad must not be rendered by the shared header");
 assert.ok(chromeSource.indexOf('<AdSlot position="footer" />') < chromeSource.indexOf('<footer className="site-footer">'), "Footer ad must remain before the shared footer");
 
