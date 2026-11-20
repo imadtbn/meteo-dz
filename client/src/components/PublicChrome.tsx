@@ -135,6 +135,7 @@ export function PublicFooter() {
         <a href="https://www.meteo.dz/" target="_blank" rel="noopener noreferrer">
           النشرات الرسمية <ArrowUpLeft size={14} aria-hidden="true" />
         </a>
+        <a href={import.meta.env.BASE_URL + "sitemap.html"}>خريطة الموقع</a>
         <small>بيانات Open-Meteo إرشادية وليست تحذيرات رسمية. عند الأحوال الخطرة يُرجى الرجوع إلى الديوان الوطني للأرصاد الجوية.</small>
       </div>
       </footer>
