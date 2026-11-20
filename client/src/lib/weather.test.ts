@@ -15,8 +15,8 @@ describe("weather language", () => {
   });
   it("contains all 69 current wilayas and unique slugs", () => {
     expect(ALGERIAN_CITIES).toHaveLength(69);
-    expect(new Set(ALGERIAN_CITIES.map((city) => city.code)).size).toBe(58);
-    expect(new Set(ALGERIAN_CITIES.map((city) => city.slug)).size).toBe(58);
+    expect(new Set(ALGERIAN_CITIES.map((city) => city.code)).size).toBe(69);
+    expect(new Set(ALGERIAN_CITIES.map((city) => city.slug)).size).toBe(69);
     expect(ALGERIAN_CITIES.every((city) => city.name && city.region && Number.isFinite(city.latitude) && Number.isFinite(city.longitude))).toBe(true);
   });
   it("creates a share statement with the city and current temperature", () => {
