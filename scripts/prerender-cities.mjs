@@ -2,7 +2,7 @@
 import { cp, mkdir, readFile, rm, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { buildPlaceCatalog } from "./place-catalog.mjs";
-import { buildSitemap, sitemapUrls } from "./sitemap-core.mjs";
+import { buildSitemap, buildSitemapHtml, sitemapUrls } from "./sitemap-core.mjs";
 
 const dist = path.resolve("dist/public");
 await rm(path.join(dist, "__manus__"), { recursive: true, force: true });
@@ -42,20 +42,27 @@ await writeFile(path.join(dist, "index.html"), setSeo(template, {
 
 // The repository keeps original city photography outside Vite's client/public directory.
 await cp(path.resolve("images"), path.join(dist, "images"), { recursive: true, force: true });
+await mkdir(path.join(dist, "data"), { recursive: true });
+await cp(path.resolve("data/global-search-index.json"), path.join(dist, "data/global-search-index.json"), { force: true });
 
 for (const place of places) {
   const canonical = siteRoot + place.canonicalPath + "/";
-  const title = `طقس ${place.displayName} اليوم | ${place.country} | مرصد الأطلس`;
-  const description = `حالة الطقس في ${place.displayName}، ${place.country}، مع توقعات الأيام القادمة وبيانات الموقع الجغرافي. ${place.englishName ? "Weather in " + place.englishName + "." : ""}`;
+  const title = place.kind === "commune"
+    ? "طقس بلدية " + place.displayName + " اليوم في ولاية " + place.region + " | مرصد الأطلس"
+    : "طقس " + place.displayName + " اليوم | " + place.country + " | مرصد الأطلس";
+  const description = place.kind === "commune"
+    ? "تعرف على حالة الطقس في بلدية " + place.displayName + " بولاية " + place.region + "، درجات الحرارة الحالية وتوقعات الأيام القادمة والرياح والأمطار وفق إحداثيات البلدية. Weather in " + place.englishName + "."
+    : "حالة الطقس في " + place.displayName + "، " + place.country + "، مع توقعات الأيام القادمة وبيانات الموقع الجغرافي. " + (place.englishName ? "Weather in " + place.englishName + "." : "");
   const image = place.image ? siteRoot + place.image : siteRoot + "social-preview.png";
   const relatedCandidates = places.filter((candidate) => {
     if (candidate.slug === place.slug) return false;
+    if (place.kind === "commune") return candidate.kind === "commune" && candidate.wilayaId === place.wilayaId;
     if (place.kind === "wilaya") return candidate.kind === "wilaya" && Boolean(place.region) && candidate.region === place.region;
     if (place.kind === "world-capital") return candidate.kind === "world-capital" && Boolean(place.continent) && candidate.continent === place.continent;
     return candidate.kind === "arab-capital";
   });
   const relatedPlaces = (relatedCandidates.length ? relatedCandidates : places.filter((candidate) => candidate.slug !== place.slug && candidate.kind === place.kind)).slice(0, 6);
-  const directoryPath = place.kind === "wilaya" ? "wilayas/" : place.kind === "arab-capital" ? "arab-capitals/" : "world-capitals/";
+  const directoryPath = place.kind === "commune" || place.kind === "wilaya" ? "wilayas/" : place.kind === "arab-capital" ? "arab-capitals/" : "world-capitals/";
   const structuredData = JSON.stringify({
     "@context": "https://schema.org",
     "@graph": [
@@ -76,7 +83,7 @@ for (const place of places) {
       "@id": canonical + "#place",
       name: place.displayName,
       alternateName: place.englishName || undefined,
-      address: { "@type": "PostalAddress", addressCountry: place.countryCode || undefined, addressLocality: place.country },
+      address: { "@type": "PostalAddress", addressCountry: place.countryCode || undefined, addressLocality: place.kind === "commune" ? place.displayName : place.country, addressRegion: place.kind === "commune" ? place.region : undefined },
       geo: { "@type": "GeoCoordinates", latitude: place.latitude, longitude: place.longitude },
     },
       },
