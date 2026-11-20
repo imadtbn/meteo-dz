@@ -77,6 +77,8 @@ const htmlCommuneLinks = [...htmlSitemap.matchAll(/href="https:\/\/imadtbn\.gith
 assert.equal(htmlCommuneLinks.length, communeCount, "HTML sitemap must link every commune exactly once");
 const communeSource = JSON.parse(await load("data/communes.json"));
 assert.equal(communeSource.length, communeCount, "Published commune source must match the canonical catalog");
+assert.equal(new Set(communeSource.map((item) => item.id)).size, communeCount, "Published commune IDs must be unique");
+assert.ok(communeSource.every((item) => item.slug && item.wilaya_slug && item.latitude >= 18 && item.latitude <= 38 && item.longitude >= -9 && item.longitude <= 12), "Published commune records must have stable routes, wilaya links and normalized Algerian coordinates");
 const searchIndex = JSON.parse(await load("data/global-search-index.json"));
 assert.equal(searchIndex.filter((item) => item.kind === "commune").length, communeCount, "Global search index must include every commune");
 
