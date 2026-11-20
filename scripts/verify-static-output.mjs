@@ -46,6 +46,13 @@ assert.ok(builtScripts.includes("3143411927"), "Bottom slot missing from JS bund
 assert.ok(builtScripts.includes("-fr+57+4a-dc+8g"), "Fluid ad layout key missing");
 const chromeSource = await readFile("client/src/components/PublicChrome.tsx", "utf8");
 assert.ok(chromeSource.includes('href: "/world-capitals/"'), "World capitals must be reachable from shared navigation");
+const citySearchSource = await readFile("client/src/components/CitySearch.tsx", "utf8");
+assert.ok(citySearchSource.includes("onSelectCommune"), "Global suggestions must open commune weather pages");
+assert.ok(citySearchSource.includes(".slice(0, 4)"), "Global search suggestions must remain capped at four");
+const worldSearchSource = await readFile("client/src/pages/WorldSearch.tsx", "utf8");
+assert.ok(worldSearchSource.includes("localCommuneResults"), "Full global search must include local communes");
+const wilayaCommunesSource = await readFile("client/src/components/WilayaCommunes.tsx", "utf8");
+assert.ok(wilayaCommunesSource.includes("count + 24"), "Wilaya commune cards must load progressively");
 const directorySource = await readFile("client/src/pages/Directories.tsx", "utf8");
 assert.ok(directorySource.includes("image={item.countryImages}"), "Capital directory cards must use available city photography");
 const wilayaCardSource = await readFile("client/src/components/WilayaCard.tsx", "utf8");
