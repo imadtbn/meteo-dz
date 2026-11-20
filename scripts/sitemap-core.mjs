@@ -48,7 +48,7 @@ export function buildSitemapHtml(siteRoot, places) {
     '<li><a href="' + siteRoot + place.canonicalPath + '/">' + escapeHtml(place.displayName) + '</a></li>'
   ).join("\n");
   const wilayaSections = wilayas.map((wilaya) => {
-    const children = communes.filter((commune) => commune.wilayaId === String(wilaya.slug === "" ? "" : commune.wilayaId) && commune.wilayaSlug === wilaya.slug);
+    const children = communes.filter((commune) => commune.wilayaSlug === wilaya.slug);
     return '<section><h3><a href="' + siteRoot + wilaya.canonicalPath + '/">' + escapeHtml(wilaya.displayName) + '</a> <small>(' + children.length + ' بلدية)</small></h3><ul>' + links(children) + '</ul></section>';
   }).join("\n");
   const otherPlaces = places.filter((place) => place.kind === "arab-capital" || place.kind === "world-capital");
