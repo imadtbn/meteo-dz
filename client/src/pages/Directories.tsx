@@ -212,6 +212,14 @@ export function CommunesPage() {
     });
   }, [communes, query, wilayaSlug]);
 
+  const retryLoad = () => {
+    setLoading(true);
+    setError("");
+    loadAlgerianCommunes().then(setCommunes).catch((reason) => {
+      setError(reason instanceof Error ? reason.message : "تعذر تحميل دليل البلديات.");
+    }).finally(() => setLoading(false));
+  };
+
   const changeQuery = (value: string) => {
     setQuery(value);
     setVisibleCount(36);
@@ -253,7 +261,7 @@ export function CommunesPage() {
         {error && (
           <div className="empty-state" role="alert">
             <p>{error}</p>
-            <button type="button" className="secondary-button" onClick={() => window.location.reload()}>إعادة تحميل الدليل</button>
+            <button type="button" className="secondary-button" onClick={retryLoad}>إعادة المحاولة</button>
           </div>
         )}
         {!loading && !error && (
