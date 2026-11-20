@@ -17,6 +17,7 @@ const AlertsPage = lazy(() => import("./pages/Alerts"));
 const FavoritesPage = lazy(() => import("./pages/Favorites"));
 const ClimateObservatoryPage = lazy(() => import("./pages/ClimateObservatory"));
 const AgricultureWeatherPage = lazy(() => import("./pages/AgricultureWeather"));
+const CommunePage = lazy(() => import("./pages/Commune"));
 
 function Router() {
   // make sure to consider if you need authentication for certain routes
@@ -28,6 +29,7 @@ function Router() {
       <Route path={"/"} component={() => <Home />} />
       <Route path={"/weather"} component={WilayasWeatherIndex} />
       <Route path={"/weather/:slug"} component={City} />
+      <Route path={"/communes/:slug"} component={CommunePage} />
       <Route path={"/wilayas"} component={WilayasPage} />
       <Route path={"/arab-capitals"} component={ArabCapitalsPage} />
       <Route path={"/arab-capitals/:slug"} component={GlobalWeatherPage} />
