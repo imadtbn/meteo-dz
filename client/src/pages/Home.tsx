@@ -71,9 +71,9 @@ export default function Home({ forcedCity, detail = false }: HomeProps) {
 
   useEffect(() => {
     const place = city.name;
-    document.title = detail ? (city.administrativeLevel === "commune" ? "طقس بلدية " + place + " اليوم في ولاية " + (city.wilayaName || city.region) + " | مرصد الأطلس" : "طقس " + place + " اليوم في الجزائر | توقعات الطقس | مرصد الأطلس") : "Weather Today | الطقس اليوم";
+    document.title = detail ? (city.administrativeLevel === "commune" ? "طقس بلدية " + place + " اليوم في ولاية " + (city.wilayaName || city.region) + " | مرصد الأطلس" : "طقس " + place + " اليوم في الجزائر | توقعات الطقس | مرصد الأطلس") : "الطقس الجزائري والعالمي | توقعات الطقس اليوم | مرصد الأطلس";
     const description = document.querySelector('meta[name="description"]');
-    description?.setAttribute("content", detail ? (city.administrativeLevel === "commune" ? "حالة الطقس في بلدية " + place + " بولاية " + (city.wilayaName || city.region) + "، درجات الحرارة الحالية وتوقعات الأيام القادمة والرياح والأمطار وفق إحداثيات البلدية." : "حالة الطقس في " + place + " بالجزائر اليوم، توقعات الأيام القادمة ودرجات الحرارة والرياح والأمطار، مع تحديثات الطقس المحلية من مرصد الأطلس.") : "حالة الطقس الحالية وتوقعات الأيام القادمة في " + place + "، مع قراءة بحرية للسواحل ووقت تحديث واضح.");
+    description?.setAttribute("content", detail ? (city.administrativeLevel === "commune" ? "حالة الطقس في بلدية " + place + " بولاية " + (city.wilayaName || city.region) + "، درجات الحرارة الحالية وتوقعات الأيام القادمة والرياح والأمطار وفق إحداثيات البلدية." : "حالة الطقس في " + place + " بالجزائر اليوم، توقعات الأيام القادمة ودرجات الحرارة والرياح والأمطار، مع تحديثات الطقس المحلية من مرصد الأطلس.") : "تابع حالة الطقس في الجزائر والولايات الجزائرية والعواصم العربية ومدن العالم، مع توقعات الأيام القادمة ودرجات الحرارة والرياح والأمطار ومصدر البيانات.");
     if (detail) {
       const canonicalPath = window.location.pathname.endsWith("/") ? window.location.pathname : window.location.pathname + "/";
       const canonicalUrl = window.location.origin + canonicalPath;
