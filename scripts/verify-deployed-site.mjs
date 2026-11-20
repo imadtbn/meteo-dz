@@ -66,6 +66,11 @@ for (const url of [...new Set([base, ...representative])]) {
   const response = await fetchPage(url);
   const html = await response.text();
   assert.match(html, /<title>[^<]+<\/title>/, "Missing title: " + url);
+  if (url === base) {
+    assert.ok(html.includes("GTM-K3DQR9RT"), "Configured GTM container missing from the live homepage");
+    assert.ok(html.includes("gtm.start") && html.includes("gtm.js"), "Live homepage GTM bootstrap event is missing");
+    assert.ok(html.includes("googletagmanager.com/ns.html?id=GTM-K3DQR9RT"), "Live homepage GTM noscript fallback is missing");
+  }
   const canonical = html.match(/<link rel="canonical" href="([^"]+)"\s*\/?\s*>/i);
   assert.ok(canonical, "Missing canonical: " + url);
   assert.equal(canonical[1], url, "Canonical mismatch: " + url);
