@@ -78,17 +78,16 @@ export function buildCommuneCatalog() {
 }
 
 export function communeDiagnostics(records = buildCommuneCatalog()) {
-  const swapped = rawCommunes.filter((source) => {
-    const first = Number(source.longitude);
-    const second = Number(source.latitude);
-    return !inAlgeria(first, second) && inAlgeria(second, first);
-  }).length;
+  const mislabeledCoordinateRows = rawCommunes.filter((source) =>
+    inAlgeria(Number(source.longitude), Number(source.latitude)),
+  ).length;
   return {
     total: records.length,
     uniqueIds: new Set(records.map((item) => item.id)).size,
     uniqueSlugs: new Set(records.map((item) => item.slug)).size,
     missingArabicNames: records.filter((item) => !item.arabicName).map((item) => item.id),
-    swappedCoordinateRows: swapped,
+    rowsWithSwappedFieldLabels: mislabeledCoordinateRows,
+    rowsWithDeclaredCoordinateOrder: records.length - mislabeledCoordinateRows,
     wilayas: new Set(records.map((item) => item.wilayaId)).size,
   };
 }
