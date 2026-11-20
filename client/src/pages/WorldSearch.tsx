@@ -172,7 +172,7 @@ export function WorldSearchPage() {
     if (place.country_code !== "DZ") return true;
     const remoteName = normalizePlaceSearch(place.name);
     return !localCommuneResults.some((commune) =>
-      (normalizePlaceSearch(commune.name) === remoteName || normalizePlaceSearch(commune.name_fr) === remoteName)
+      (normalizePlaceSearch(commune.name) === remoteName || normalizePlaceSearch(commune.name_fr || "") === remoteName)
       && Math.abs(commune.latitude - place.latitude) < 0.08
       && Math.abs(commune.longitude - place.longitude) < 0.08,
     );
