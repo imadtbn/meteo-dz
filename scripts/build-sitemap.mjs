@@ -5,15 +5,16 @@ import { buildPlaceCatalog } from "./place-catalog.mjs";
 import { buildSitemap, buildSitemapHtml, sitemapUrls } from "./sitemap-core.mjs";
 
 const root = path.resolve(".");
-const targets = [
-  [path.join(root, "sitemap.xml"), buildSitemap(site, places)],
-  [path.join(root, "client/public/sitemap.xml"), buildSitemap(site, places)],
-  [path.join(root, "sitemap.html"), buildSitemapHtml(site, places)],
-  [path.join(root, "client/public/sitemap.html"), buildSitemapHtml(site, places)],
-];
 const site = "https://imadtbn.github.io/meteo-dz/";
 const places = buildPlaceCatalog();
 const sitemap = buildSitemap(site, places);
+const htmlSitemap = buildSitemapHtml(site, places);
+const targets = [
+  [path.join(root, "sitemap.xml"), sitemap],
+  [path.join(root, "client/public/sitemap.xml"), sitemap],
+  [path.join(root, "sitemap.html"), htmlSitemap],
+  [path.join(root, "client/public/sitemap.html"), htmlSitemap],
+];
 const checking = process.argv.includes("--check");
 for (const [file, expected] of targets) {
   if (checking) {
