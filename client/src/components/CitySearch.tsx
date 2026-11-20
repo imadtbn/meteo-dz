@@ -76,7 +76,7 @@ export function CitySearch({ city, onSelectCity, onSelectCommune, onSelectGlobal
           for (const place of merged) {
             if (!unique.has(place.id)) unique.set(place.id, place);
           }
-          setGlobalResults(Array.from(unique.values()).slice(0, 10));
+          setGlobalResults(Array.from(unique.values()).slice(0, Math.max(0, 4 - localResults.length)));
         }
       } catch {
         if (!controller.signal.aborted) {
@@ -92,7 +92,7 @@ export function CitySearch({ city, onSelectCity, onSelectCommune, onSelectGlobal
       controller.abort();
       window.clearTimeout(timer);
     };
-  }, [cleaned]);
+  }, [cleaned, localResults.length]);
 
   const suggestions = useMemo<SearchChoice[]>(() => [
     ...localResults.map((item) => ({ kind: "local" as const, city: item, key: "dz-" + item.slug })),
