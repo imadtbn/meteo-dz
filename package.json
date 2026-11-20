@@ -5,8 +5,8 @@
   "license": "MIT",
   "scripts": {
     "dev": "NODE_ENV=development tsx watch server/_core/index.ts",
-    "build": "vite build && node scripts/generate-social-assets.mjs && node scripts/prerender-cities.mjs && esbuild server/_core/index.ts --platform=node --packages=external --bundle --format=esm --outdir=dist",
-    "build:github": "node scripts/build-global-search-index.mjs --check && node scripts/build-sitemap.mjs --check && DEPLOY_TARGET=github vite build && node scripts/generate-social-assets.mjs && DEPLOY_TARGET=github node scripts/prerender-cities.mjs",
+    "build": "node scripts/build-commune-public.mjs --check && vite build && node scripts/generate-social-assets.mjs && node scripts/prerender-cities.mjs && esbuild server/_core/index.ts --platform=node --packages=external --bundle --format=esm --outdir=dist",
+    "build:github": "node scripts/build-commune-public.mjs --check && node scripts/build-global-search-index.mjs --check && node scripts/build-sitemap.mjs --check && DEPLOY_TARGET=github vite build && node scripts/generate-social-assets.mjs && DEPLOY_TARGET=github node scripts/prerender-cities.mjs",
     "start": "NODE_ENV=production node dist/index.js",
     "check": "tsc --noEmit",
     "format": "prettier --write .",
@@ -15,7 +15,10 @@
     "sitemap": "node scripts/build-sitemap.mjs",
     "sitemap:check": "node scripts/build-sitemap.mjs --check",
     "search-index": "node scripts/build-global-search-index.mjs",
-    "search-index:check": "node scripts/build-global-search-index.mjs --check"
+    "search-index:check": "node scripts/build-global-search-index.mjs --check",
+    "predev": "node scripts/build-commune-public.mjs",
+    "communes:build": "node scripts/build-commune-public.mjs",
+    "communes:check": "node scripts/build-commune-public.mjs --check"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.693.0",
