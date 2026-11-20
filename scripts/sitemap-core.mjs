@@ -3,7 +3,7 @@
  * Dynamic coordinate queries are deliberately excluded.
  */
 export const INDEXABLE_LANDING_ROUTES = Object.freeze([
-  "weather", "wilayas", "arab-capitals", "world-capitals", "world-search",
+  "weather", "wilayas", "communes", "arab-capitals", "world-capitals", "world-search",
   "weather-map", "climate-observatory", "agriculture-weather", "alerts",
 ]);
 
