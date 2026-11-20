@@ -90,7 +90,12 @@ for (const place of places) {
       {
         "@type": "BreadcrumbList",
         "@id": canonical + "#breadcrumb",
-        itemListElement: [
+        itemListElement: place.kind === "commune" ? [
+          { "@type": "ListItem", position: 1, name: "الرئيسية", item: siteRoot },
+          { "@type": "ListItem", position: 2, name: "ولايات الجزائر", item: siteRoot + "wilayas/" },
+          { "@type": "ListItem", position: 3, name: "ولاية " + place.region, item: siteRoot + "weather/" + place.wilayaSlug + "/" },
+          { "@type": "ListItem", position: 4, name: place.displayName, item: canonical },
+        ] : [
           { "@type": "ListItem", position: 1, name: "الرئيسية", item: siteRoot },
           { "@type": "ListItem", position: 2, name: place.kind === "wilaya" ? "ولايات الجزائر" : place.kind === "arab-capital" ? "العواصم العربية" : "عواصم العالم", item: siteRoot + directoryPath },
           { "@type": "ListItem", position: 3, name: place.displayName, item: canonical },
@@ -102,7 +107,8 @@ for (const place of places) {
   const liveUrl = siteRoot + "global-weather/?lat=" + place.latitude + "&lon=" + place.longitude + "&name=" + encodeURIComponent(place.displayName);
   const relatedLinks = relatedPlaces.map((candidate) => `<li><a class="related-place-link" href="${siteRoot}${candidate.canonicalPath}/">${escapeHtml(candidate.displayName)} — ${escapeHtml(candidate.country)}</a></li>`).join("");
   const regionText = place.region ? ` وتقع ضمن ${place.region}` : "";
-  const noscript = `<noscript><main dir="rtl" lang="ar"><nav aria-label="مسار التنقل"><a href="${siteRoot}">الرئيسية</a> / <a href="${siteRoot}${directoryPath}">دليل المواقع</a> / ${escapeHtml(place.displayName)}</nav><article><h1>${escapeHtml(title)}</h1>${photo}<p>${escapeHtml(description)} تقع ${escapeHtml(place.displayName)} في ${escapeHtml(place.country)}${escapeHtml(regionText)}، وإحداثياتها التقريبية ${place.latitude} شمالاً/جنوباً و${place.longitude} شرقاً/غرباً.</p><p>تعرض صفحة المدينة نشرة الطقس والتوقعات المباشرة وفق الإحداثيات الجغرافية، ويمكن استخدام الاسم العربي أو الإنجليزي للعثور على الموقع.</p><p><a href="${escapeHtml(liveUrl)}">عرض النشرة الجوية والتوقعات المباشرة</a></p><section aria-labelledby="related-places"><h2 id="related-places">مدن ومناطق أخرى في الدليل</h2><ul>${relatedLinks}</ul></section><p><a href="${siteRoot}world-search/">البحث العالمي عن مدينة أخرى</a> · <a href="${siteRoot}weather-map/">استكشاف خريطة الطقس</a></p></article></main></noscript>`;
+  const parentLink = place.kind === "commune" ? ` · <a href="${siteRoot}weather/${place.wilayaSlug}/">ولاية ${escapeHtml(place.region)}</a>` : "";
+  const noscript = `<noscript><main dir="rtl" lang="ar"><nav aria-label="مسار التنقل"><a href="${siteRoot}">الرئيسية</a> / <a href="${siteRoot}${directoryPath}">دليل المواقع</a>${parentLink} / ${escapeHtml(place.displayName)}</nav><article><h1>${escapeHtml(title)}</h1>${photo}<p>${escapeHtml(description)} تقع ${escapeHtml(place.displayName)} في ${escapeHtml(place.country)}${escapeHtml(regionText)}، وإحداثياتها ${place.latitude} شمالاً/جنوباً و${place.longitude} شرقاً/غرباً.</p><p>تعرض صفحة البلدية نشرة الطقس والتوقعات المباشرة وفق إحداثياتها الجغرافية، ويمكن استخدام الاسم العربي أو اللاتيني للعثور على الموقع.</p><p><a href="${escapeHtml(liveUrl)}">عرض النشرة الجوية والتوقعات المباشرة</a></p><section aria-labelledby="related-places"><h2 id="related-places">بلديات ومناطق أخرى في الدليل</h2><ul>${relatedLinks}</ul></section><p><a href="${siteRoot}world-search/">البحث العالمي عن مدينة أخرى</a> · <a href="${siteRoot}weather-map/">استكشاف خريطة الطقس</a></p></article></main></noscript>`;
   const page = setSeo(template, { title, description, canonical, image })
     .replace("<body>", `<body>${noscript}<script type="application/ld+json">${structuredData}</script>`);
   const output = path.join(dist, place.canonicalPath);
@@ -136,6 +142,7 @@ for (const [slug, title, description] of landingPages) {
 }
 
 await writeFile(path.join(dist, "sitemap.xml"), buildSitemap(siteRoot, places));
+await writeFile(path.join(dist, "sitemap.html"), buildSitemapHtml(siteRoot, places));
 const basePath = process.env.DEPLOY_TARGET === "github" ? "/meteo-dz/" : "/";
 const manifest = { name: "الطقس الجزائري والعالمي — مرصد الأطلس", short_name: "مرصد الأطلس", description: "نشرات وتوقعات الطقس للولايات الجزائرية وعواصم العالم", id: basePath, start_url: basePath, scope: basePath, display: "standalone", dir: "rtl", lang: "ar", theme_color: "#0C5B8C", background_color: "#F5F0E6", icons: [{ src: `${basePath}icons/icon-192.png`, sizes: "192x192", type: "image/png", purpose: "any maskable" }, { src: `${basePath}icons/icon-512.png`, sizes: "512x512", type: "image/png", purpose: "any maskable" }, { src: `${basePath}favicon.svg`, sizes: "any", type: "image/svg+xml", purpose: "any" }], shortcuts: [{ name: "الولايات الجزائرية", short_name: "الولايات", url: `${basePath}wilayas/` }, { name: "العواصم العالمية", short_name: "العواصم", url: `${basePath}world-capitals/` }, { name: "البحث العالمي", short_name: "البحث", url: `${basePath}world-search/` }, { name: "خريطة الطقس", short_name: "الخريطة", url: `${basePath}weather-map/` }] };
 await writeFile(path.join(dist, "manifest.webmanifest"), JSON.stringify(manifest, null, 2));
