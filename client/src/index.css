@@ -869,3 +869,48 @@ h1,h2,h3,.brand,.directory-card__title,.section-intro h2 { font-family: var(--fo
 @media(max-width:900px){.commune-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
 @media(max-width:600px){.commune-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:.5rem}.commune-card{padding:.7rem}.commune-card__name{font-size:.85rem}.commune-card__latin{font-size:.62rem}}
 @media(max-width:360px){.commune-grid{grid-template-columns:1fr}}
+
+/* National communes directory: compact filters and readable cards on narrow screens. */
+.commune-directory-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  gap: .75rem;
+  margin: 1rem 0 1.25rem;
+}
+.commune-directory-select-wrap {
+  display: grid;
+  gap: .35rem;
+  min-width: min(100%, 16rem);
+  color: #60727a;
+  font-size: .75rem;
+  font-weight: 700;
+}
+.commune-directory-select {
+  width: 100%;
+  min-width: 0;
+  min-height: 2.9rem;
+  padding: .55rem .8rem;
+  border: 1px solid #b8cecf;
+  border-radius: .65rem;
+  background: #fffdf8;
+  color: #132a38;
+  font: inherit;
+}
+.commune-directory-count {
+  min-height: 2.9rem;
+  display: inline-flex;
+  align-items: center;
+  color: #496572;
+  font-size: .82rem;
+  font-weight: 800;
+}
+.commune-card__wilaya { color: #0c5b8c; font-size: .75rem; font-weight: 800; }
+.commune-card__action { display: inline-flex; align-items: center; gap: .35rem; margin-top: .35rem; color: #0c5b8c; font-size: .76rem; font-weight: 800; }
+.commune-card__postcode { color: #71838a; font-size: .68rem; }
+.commune-grid--directory .commune-card { min-height: 9rem; }
+@media (max-width: 600px) {
+  .commune-directory-toolbar { display: grid; grid-template-columns: 1fr; gap: .5rem; }
+  .commune-directory-select-wrap { min-width: 0; }
+  .commune-directory-count { min-height: 1.5rem; }
+}
