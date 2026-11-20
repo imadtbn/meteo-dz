@@ -5,7 +5,7 @@ import { AlertTriangle, ArrowLeft, Compass, Info, RefreshCw, Search, Star, Waves
 import { Link, useLocation } from "wouter";
 import { WeatherCard } from "@/components/WeatherCard";
 import { WilayaCard } from "@/components/WilayaCard";
-import { WilayaCommunes } from "@/components/WilayaCommunes";
+const WilayaCommunes = lazy(() => import("@/components/WilayaCommunes").then((module) => ({ default: module.WilayaCommunes })));
 import { CitySearch } from "@/components/CitySearch";
 import { filterWilayas, globalWeatherLink, type GlobalPlace } from "@/lib/citySearch";
 const WeatherInsights = lazy(() => import("@/components/WeatherInsights").then((module) => ({ default: module.WeatherInsights })));
@@ -194,7 +194,7 @@ export default function Home({ forcedCity, detail = false }: HomeProps) {
     {reading && <section className="dashboard-shell marine-section" id="marine"><div className="marine-copy"><span className="eyebrow"><Waves size={16} /> حالة البحر</span><h2>{city.coastal ? `ساحل ${city.name}` : "القراءة البحرية متاحة للمدن الساحلية"}</h2><p>{city.coastal ? "تعرض هذه القراءة مؤشرات الموج النموذجية للساحل الأقرب. استخدم النشرة البحرية الرسمية عند اتخاذ قرارات الملاحة." : "اختر الجزائر العاصمة أو وهران أو عنابة للاطلاع على مؤشرات البحر."}</p></div>{city.coastal && reading.marine ? <div className="marine-metrics"><span><b>{reading.marine.waveHeight?.toFixed(1) ?? "—"}</b> م ارتفاع الموج</span><span><b>{reading.marine.wavePeriod?.toFixed(1) ?? "—"}</b> ث فترة الموج</span><span><b>{reading.marine.waveDirection !== null ? windDirectionArabic(reading.marine.waveDirection) : "—"}</b> اتجاه الموج</span></div> : <div className="marine-empty">لا توجد قراءة بحرية لهذه المدينة.</div>}</section>}
 
 
-    {detail && city.administrativeLevel !== "commune" && city.code !== "GPS" && <WilayaCommunes wilayaCode={city.code} wilayaName={city.name} />}
+    {detail && city.administrativeLevel !== "commune" && city.code !== "GPS" && <Suspense fallback={null}><WilayaCommunes wilayaCode={city.code} wilayaName={city.name} /></Suspense>}
 
     <section className="regions-section" id="regions">
       <div className="dashboard-shell">
