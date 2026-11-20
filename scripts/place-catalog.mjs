@@ -7,6 +7,7 @@ import path from "node:path";
 import algerianCities from "../data/cities.json" with { type: "json" };
 import arabCapitals from "../data/arab-capitals.json" with { type: "json" };
 import worldCapitals from "../data/world-capitals.json" with { type: "json" };
+import { buildCommuneCatalog } from "./commune-catalog.mjs";
 
 const IMAGE_ROOT = path.resolve("images");
 const IMAGE_PREFIX = "images/";
@@ -47,6 +48,9 @@ export function buildPlaceCatalog() {
       image: imageFor(record),
       canonicalPath: routePrefix + "/" + record.slug,
       categories: [kind],
+      wilayaId: record.wilayaId || "",
+      wilayaSlug: record.wilayaSlug || "",
+      postCode: record.postCode || "",
     };
     const existing = bySlug.get(record.slug);
     if (existing) {
@@ -65,6 +69,9 @@ export function buildPlaceCatalog() {
 
   for (const city of algerianCities) {
     add(city, "wilaya", city.name, "weather", "الجزائر", city.name_en);
+  }
+  for (const commune of buildCommuneCatalog()) {
+    add(commune, "commune", commune.displayName, "communes", "الجزائر", commune.englishName);
   }
   for (const capital of arabCapitals) {
     add(capital, "arab-capital", capital.capital, "arab-capitals", capital.country, capital.englishName);
