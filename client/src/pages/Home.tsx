@@ -75,7 +75,8 @@ export default function Home({ forcedCity, detail = false }: HomeProps) {
     const description = document.querySelector('meta[name="description"]');
     description?.setAttribute("content", detail ? (city.administrativeLevel === "commune" ? "حالة الطقس في بلدية " + place + " بولاية " + (city.wilayaName || city.region) + "، درجات الحرارة الحالية وتوقعات الأيام القادمة والرياح والأمطار وفق إحداثيات البلدية." : "حالة الطقس في " + place + " بالجزائر اليوم، توقعات الأيام القادمة ودرجات الحرارة والرياح والأمطار، مع تحديثات الطقس المحلية من مرصد الأطلس.") : "حالة الطقس الحالية وتوقعات الأيام القادمة في " + place + "، مع قراءة بحرية للسواحل ووقت تحديث واضح.");
     if (detail) {
-      const canonicalUrl = window.location.origin + window.location.pathname.replace(/\\/?$/, "/");
+      const canonicalPath = window.location.pathname.endsWith("/") ? window.location.pathname : window.location.pathname + "/";
+      const canonicalUrl = window.location.origin + canonicalPath;
       document.querySelector('link[rel="canonical"]')?.setAttribute("href", canonicalUrl);
       document.querySelector('meta[property="og:url"]')?.setAttribute("content", canonicalUrl);
       document.querySelector('meta[property="og:title"]')?.setAttribute("content", document.title);
