@@ -5,14 +5,15 @@ import { AlertTriangle, ArrowLeft, Compass, Info, RefreshCw, Search, Star, Waves
 import { Link, useLocation } from "wouter";
 import { WeatherCard } from "@/components/WeatherCard";
 import { WilayaCard } from "@/components/WilayaCard";
-import { WilayaCommunes } from "@/components/WilayaCommunes";
 import { CitySearch } from "@/components/CitySearch";
 import { filterWilayas, globalWeatherLink, type GlobalPlace } from "@/lib/citySearch";
-const WeatherInsights = lazy(() => import("@/components/WeatherInsights").then((module) => ({ default: module.WeatherInsights })));
 import { PublicFooter, PublicHeader } from "@/components/PublicChrome";
 import { ALGERIAN_CITIES, getCityBySlug, type AlgerianCity } from "@/data/cities";
 import { fetchWeather, formatDay, formatHour, getAdvice, getWeatherCondition, type WeatherReading, windDirectionArabic } from "@/lib/weather";
 import { useFavoriteCities } from "@/hooks/useFavoriteCities";
+
+const WilayaCommunes = lazy(() => import("@/components/WilayaCommunes").then((module) => ({ default: module.WilayaCommunes })));
+const WeatherInsights = lazy(() => import("@/components/WeatherInsights").then((module) => ({ default: module.WeatherInsights })));
 
 const WeatherShareDialog = lazy(() => import("@/components/WeatherShareDialog"));
 
@@ -73,6 +74,14 @@ export default function Home({ forcedCity, detail = false }: HomeProps) {
     document.title = detail ? (city.administrativeLevel === "commune" ? "طقس بلدية " + place + " اليوم في ولاية " + (city.wilayaName || city.region) + " | مرصد الأطلس" : "طقس " + place + " اليوم في الجزائر | توقعات الطقس | مرصد الأطلس") : "Weather Today | الطقس اليوم";
     const description = document.querySelector('meta[name="description"]');
     description?.setAttribute("content", detail ? (city.administrativeLevel === "commune" ? "حالة الطقس في بلدية " + place + " بولاية " + (city.wilayaName || city.region) + "، درجات الحرارة الحالية وتوقعات الأيام القادمة والرياح والأمطار وفق إحداثيات البلدية." : "حالة الطقس في " + place + " بالجزائر اليوم، توقعات الأيام القادمة ودرجات الحرارة والرياح والأمطار، مع تحديثات الطقس المحلية من مرصد الأطلس.") : "حالة الطقس الحالية وتوقعات الأيام القادمة في " + place + "، مع قراءة بحرية للسواحل ووقت تحديث واضح.");
+    if (detail) {
+      const canonicalPath = window.location.pathname.endsWith("/") ? window.location.pathname : window.location.pathname + "/";
+      const canonicalUrl = window.location.origin + canonicalPath;
+      document.querySelector('link[rel="canonical"]')?.setAttribute("href", canonicalUrl);
+      document.querySelector('meta[property="og:url"]')?.setAttribute("content", canonicalUrl);
+      document.querySelector('meta[property="og:title"]')?.setAttribute("content", document.title);
+      document.querySelector('meta[property="og:description"]')?.setAttribute("content", description?.getAttribute("content") || "");
+    }
   }, [city.name, detail]);
 
   useEffect(() => setVisibleCount(12), [citySearch]);
@@ -194,7 +203,7 @@ export default function Home({ forcedCity, detail = false }: HomeProps) {
     {reading && <section className="dashboard-shell marine-section" id="marine"><div className="marine-copy"><span className="eyebrow"><Waves size={16} /> حالة البحر</span><h2>{city.coastal ? `ساحل ${city.name}` : "القراءة البحرية متاحة للمدن الساحلية"}</h2><p>{city.coastal ? "تعرض هذه القراءة مؤشرات الموج النموذجية للساحل الأقرب. استخدم النشرة البحرية الرسمية عند اتخاذ قرارات الملاحة." : "اختر الجزائر العاصمة أو وهران أو عنابة للاطلاع على مؤشرات البحر."}</p></div>{city.coastal && reading.marine ? <div className="marine-metrics"><span><b>{reading.marine.waveHeight?.toFixed(1) ?? "—"}</b> م ارتفاع الموج</span><span><b>{reading.marine.wavePeriod?.toFixed(1) ?? "—"}</b> ث فترة الموج</span><span><b>{reading.marine.waveDirection !== null ? windDirectionArabic(reading.marine.waveDirection) : "—"}</b> اتجاه الموج</span></div> : <div className="marine-empty">لا توجد قراءة بحرية لهذه المدينة.</div>}</section>}
 
 
-    {detail && city.administrativeLevel !== "commune" && city.code !== "GPS" && <WilayaCommunes wilayaCode={city.code} wilayaName={city.name} />}
+    {detail && city.administrativeLevel !== "commune" && city.code !== "GPS" && <Suspense fallback={null}><WilayaCommunes wilayaCode={city.code} wilayaName={city.name} /></Suspense>}
 
     <section className="regions-section" id="regions">
       <div className="dashboard-shell">

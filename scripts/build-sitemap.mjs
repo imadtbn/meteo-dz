@@ -1,4 +1,4 @@
-/** Update both tracked sitemap.xml copies from the canonical geographic catalog. */
+/** Update the tracked XML and HTML sitemap copies from the canonical geographic catalog. */
 import { readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { buildPlaceCatalog } from "./place-catalog.mjs";

@@ -1,10 +1,12 @@
 import { AdSlot } from "@/components/AdSlot";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { ArrowLeft, LocateFixed, MapPin, Navigation, Search } from "lucide-react";
 import { Link } from "wouter";
 import { PublicFooter, PublicHeader } from "@/components/PublicChrome";
 import { flagForCountry } from "@/lib/placeVisuals";
 import { reverseGeocode, type ResolvedLocation } from "@/lib/reverseGeocode";
+import { loadAlgerianCommunes, type AlgerianCommune } from "@/data/communes";
+import { normalizePlaceSearch } from "@/lib/citySearch";
 
 type Place = {
   id: number;
@@ -29,6 +31,7 @@ const weatherLink = (latitude: number, longitude: number, name: string) =>
 export function WorldSearchPage() {
   const [query, setQuery] = useState(() => new URLSearchParams(window.location.search).get("q")?.slice(0, 100) ?? "");
   const [suggestions, setSuggestions] = useState<Place[]>([]);
+  const [communeRecords, setCommuneRecords] = useState<AlgerianCommune[]>([]);
   const [isSearching, setIsSearching] = useState(false);
   const [searchError, setSearchError] = useState("");
   const [locationMessage, setLocationMessage] = useState("");
@@ -145,6 +148,36 @@ export function WorldSearchPage() {
     }, { enableHighAccuracy: false, timeout: 12000, maximumAge: 300000 });
   };
 
+  useEffect(() => {
+    if (query.trim().length < 2 || communeRecords.length > 0) return;
+    let active = true;
+    loadAlgerianCommunes().then((records) => {
+      if (active) setCommuneRecords(records);
+    }).catch(() => {
+      // The international geocoder remains available if the local catalog is offline.
+    });
+    return () => { active = false; };
+  }, [query, communeRecords.length]);
+
+  const localCommuneResults = useMemo(() => {
+    const cleaned = normalizePlaceSearch(query);
+    if (cleaned.length < 2) return [];
+    return communeRecords.filter((commune) =>
+      normalizePlaceSearch([commune.name, commune.name_fr, commune.name_en, commune.wilayaName, commune.postCode, commune.id].filter(Boolean).join(" "))
+        .includes(cleaned),
+    ).slice(0, 12);
+  }, [communeRecords, query]);
+
+  const globalSuggestions = useMemo(() => suggestions.filter((place) => {
+    if (place.country_code !== "DZ") return true;
+    const remoteName = normalizePlaceSearch(place.name);
+    return !localCommuneResults.some((commune) =>
+      (normalizePlaceSearch(commune.name) === remoteName || normalizePlaceSearch(commune.name_fr || "") === remoteName)
+      && Math.abs(commune.latitude - place.latitude) < 0.08
+      && Math.abs(commune.longitude - place.longitude) < 0.08,
+    );
+  }), [suggestions, localCommuneResults]);
+
   const address = myLocation?.address;
   const myLocationName = address?.municipality || address?.region || address?.country || "موقعي الحالي";
 
@@ -190,12 +223,26 @@ export function WorldSearchPage() {
       <section className="directory-shell">
         <div className="section-intro">
           <span>01 — نتائج البحث العالمي</span>
-          <h2>{isSearching ? "جارٍ البحث…" : query.trim().length >= 2 ? suggestions.length + " نتائج" : "ابدأ بكتابة حرفين على الأقل"}</h2>
+          <h2>{isSearching ? "جارٍ البحث…" : query.trim().length >= 2 ? localCommuneResults.length + globalSuggestions.length + " نتائج" : "ابدأ بكتابة حرفين على الأقل"}</h2>
           <p>أعلام الدول رمزية؛ اختر النتيجة لفتح النشرة الجوية أو موقعها على الخريطة.</p>
         </div>
         {searchError && <div className="error-card" role="alert">{searchError}</div>}
         <div className="search-results search-results--visual">
-          {suggestions.map((place) => (
+          {localCommuneResults.map((place) => (
+            <article key={"commune-" + place.id} className="search-result search-result--visual">
+              <div className="search-result__flag" aria-label="الجزائر"><span aria-hidden="true">{flagForCountry("DZ")}</span></div>
+              <div className="search-result__info">
+                <span className="search-result__meta">الجزائر · بلدية · ولاية {place.wilayaName}</span>
+                <strong>{place.name}</strong>
+                <small><MapPin size={14} aria-hidden="true" /> {place.name_fr} · {place.postCode}</small>
+                <div className="search-result__actions">
+                  <Link href={"/communes/" + place.slug + "/"}>عرض طقس البلدية <ArrowLeft size={15} aria-hidden="true" /></Link>
+                  <Link href={"/weather-map?lat=" + place.latitude + "&lon=" + place.longitude}>على الخريطة</Link>
+                </div>
+              </div>
+            </article>
+          ))}
+          {globalSuggestions.map((place) => (
             <article key={place.id + "-" + place.latitude} className="search-result search-result--visual">
               <div className="search-result__flag" aria-label={"علم " + (place.country || "الدولة")}>
                 <span aria-hidden="true">{flagForCountry(place.country_code)}</span>
@@ -212,7 +259,7 @@ export function WorldSearchPage() {
             </article>
           ))}
         </div>
-        {query.trim().length >= 2 && !isSearching && !searchError && suggestions.length === 0 && <div className="empty-state">لا توجد نتيجة. جرّب الاسم باللغة الإنجليزية أو أضف اسم الدولة.</div>}
+        {query.trim().length >= 2 && !isSearching && !searchError && globalSuggestions.length === 0 && localCommuneResults.length === 0 && <div className="empty-state">لا توجد نتيجة. جرّب الاسم باللغة الإنجليزية أو أضف اسم الدولة.</div>}
       </section>
       <PublicFooter />
     </main>

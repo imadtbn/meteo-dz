@@ -37,7 +37,7 @@ const appSource = await readFile("client/src/App.tsx", "utf8");
 assert.match(appSource, /const WeatherMapPage = lazy\(/, "Weather map route must remain lazy-loaded");
 assert.match(appSource, /const ClimateObservatoryPage = lazy\(/, "Climate observatory must be lazy-loaded");
 assert.match(appSource, /const AgricultureWeatherPage = lazy\(/, "Agriculture weather page must be lazy-loaded");
-assert.match(appSource, /Route path=\{\"\\/communes\\/:slug\"\}/, "Commune weather route must be registered");
+assert.ok(appSource.includes('path={"/communes/:slug"}'), "Commune weather route must be registered");
 assert.ok(!homepage.includes(mapBundle), "Weather map bundle must not load with the homepage");
 console.log("Performance budgets: initial JS " + initialJsBytes + " B, total JS " + totalJsBytes + " B, initial CSS " + initialCssBytes + " B.");
 const builtScripts = (await Promise.all(staticScripts.map((name) => load(path.join("assets", name))))).join("\n");
@@ -46,6 +46,13 @@ assert.ok(builtScripts.includes("3143411927"), "Bottom slot missing from JS bund
 assert.ok(builtScripts.includes("-fr+57+4a-dc+8g"), "Fluid ad layout key missing");
 const chromeSource = await readFile("client/src/components/PublicChrome.tsx", "utf8");
 assert.ok(chromeSource.includes('href: "/world-capitals/"'), "World capitals must be reachable from shared navigation");
+const citySearchSource = await readFile("client/src/components/CitySearch.tsx", "utf8");
+assert.ok(citySearchSource.includes("onSelectCommune"), "Global suggestions must open commune weather pages");
+assert.ok(citySearchSource.includes(".slice(0, 4)"), "Global search suggestions must remain capped at four");
+const worldSearchSource = await readFile("client/src/pages/WorldSearch.tsx", "utf8");
+assert.ok(worldSearchSource.includes("localCommuneResults"), "Full global search must include local communes");
+const wilayaCommunesSource = await readFile("client/src/components/WilayaCommunes.tsx", "utf8");
+assert.ok(wilayaCommunesSource.includes("count + 24"), "Wilaya commune cards must load progressively");
 const directorySource = await readFile("client/src/pages/Directories.tsx", "utf8");
 assert.ok(directorySource.includes("image={item.countryImages}"), "Capital directory cards must use available city photography");
 const wilayaCardSource = await readFile("client/src/components/WilayaCard.tsx", "utf8");
@@ -75,6 +82,10 @@ const communeCount = places.filter((place) => place.kind === "commune").length;
 assert.ok(htmlSitemap.includes(communeCount + " بلدية جزائرية"), "HTML sitemap must report the commune total");
 const htmlCommuneLinks = [...htmlSitemap.matchAll(/href="https:\/\/imadtbn\.github\.io\/meteo-dz\/communes\/[^"]+\//g)];
 assert.equal(htmlCommuneLinks.length, communeCount, "HTML sitemap must link every commune exactly once");
+const communeSource = JSON.parse(await load("data/communes.json"));
+assert.equal(communeSource.length, communeCount, "Published commune source must match the canonical catalog");
+assert.equal(new Set(communeSource.map((item) => item.id)).size, communeCount, "Published commune IDs must be unique");
+assert.ok(communeSource.every((item) => item.slug && item.wilaya_slug && item.latitude >= 18 && item.latitude <= 38 && item.longitude >= -9 && item.longitude <= 12), "Published commune records must have stable routes, wilaya links and normalized Algerian coordinates");
 const searchIndex = JSON.parse(await load("data/global-search-index.json"));
 assert.equal(searchIndex.filter((item) => item.kind === "commune").length, communeCount, "Global search index must include every commune");
 
@@ -131,6 +142,7 @@ for (const place of places) {
   if (place.kind === "commune") {
     assert.ok(place.wilayaSlug && place.wilayaId, "Commune must be linked to a known wilaya: " + place.slug);
     assert.ok(html.includes("/weather/" + place.wilayaSlug + "/"), "Commune page must link to its wilaya: " + place.slug);
+    assert.ok(place.latitude >= 18 && place.latitude <= 38 && place.longitude >= -9 && place.longitude <= 12, "Commune coordinates must fall within Algeria: " + place.slug);
   }
   assert.ok(html.includes("related-place-link"), "Related internal links missing: " + place.slug);
   if (place.image) {

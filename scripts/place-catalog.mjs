@@ -1,6 +1,6 @@
 /**
  * One canonical geographic catalog for static pages, sitemap and client routes.
- * Source precedence is intentional: Algerian wilayas, then Arab capitals, then world capitals.
+ * Source precedence is intentional: Algerian wilayas, their communes, then Arab capitals and world capitals.
  */
 import { existsSync } from "node:fs";
 import path from "node:path";

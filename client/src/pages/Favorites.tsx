@@ -1,14 +1,25 @@
 import { AdSlot } from "@/components/AdSlot";
+import { useEffect, useState } from "react";
 import { ArrowUpLeft, Star, Trash2 } from "lucide-react";
 import { Link } from "wouter";
 import { PublicFooter, PublicHeader } from "@/components/PublicChrome";
 import { useFavoriteCities } from "@/hooks/useFavoriteCities";
 import { ALGERIAN_CITIES } from "@/data/cities";
-import { ALGERIAN_COMMUNES } from "@/data/communes";
+import { loadAlgerianCommunes, type AlgerianCommune } from "@/data/communes";
 
 export default function FavoritesPage() {
   const { favoriteSlugs, toggleFavorite } = useFavoriteCities();
-  const favorites = [...ALGERIAN_CITIES, ...ALGERIAN_COMMUNES].filter((city) => favoriteSlugs.includes(city.slug));
+  const [communes, setCommunes] = useState<AlgerianCommune[]>([]);
+  useEffect(() => {
+    let active = true;
+    loadAlgerianCommunes().then((records) => {
+      if (active) setCommunes(records);
+    }).catch(() => {
+      // Wilaya favorites remain available if the commune catalog is offline.
+    });
+    return () => { active = false; };
+  }, []);
+  const favorites = [...ALGERIAN_CITIES, ...communes].filter((city) => favoriteSlugs.includes(city.slug));
 
   return (
     <main dir="rtl">
