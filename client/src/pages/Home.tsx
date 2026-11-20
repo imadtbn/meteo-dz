@@ -194,6 +194,8 @@ export default function Home({ forcedCity, detail = false }: HomeProps) {
     {reading && <section className="dashboard-shell marine-section" id="marine"><div className="marine-copy"><span className="eyebrow"><Waves size={16} /> حالة البحر</span><h2>{city.coastal ? `ساحل ${city.name}` : "القراءة البحرية متاحة للمدن الساحلية"}</h2><p>{city.coastal ? "تعرض هذه القراءة مؤشرات الموج النموذجية للساحل الأقرب. استخدم النشرة البحرية الرسمية عند اتخاذ قرارات الملاحة." : "اختر الجزائر العاصمة أو وهران أو عنابة للاطلاع على مؤشرات البحر."}</p></div>{city.coastal && reading.marine ? <div className="marine-metrics"><span><b>{reading.marine.waveHeight?.toFixed(1) ?? "—"}</b> م ارتفاع الموج</span><span><b>{reading.marine.wavePeriod?.toFixed(1) ?? "—"}</b> ث فترة الموج</span><span><b>{reading.marine.waveDirection !== null ? windDirectionArabic(reading.marine.waveDirection) : "—"}</b> اتجاه الموج</span></div> : <div className="marine-empty">لا توجد قراءة بحرية لهذه المدينة.</div>}</section>}
 
 
+    {detail && city.administrativeLevel !== "commune" && city.code !== "GPS" && <WilayaCommunes wilayaCode={city.code} wilayaName={city.name} />}
+
     <section className="regions-section" id="regions">
       <div className="dashboard-shell">
         <div className="section-intro">
@@ -255,7 +257,6 @@ export default function Home({ forcedCity, detail = false }: HomeProps) {
       </div>
     </section>
 
-    {detail && city.administrativeLevel !== "commune" && city.code !== "GPS" && <WilayaCommunes wilayaCode={city.code} wilayaName={city.name} />}
     {detail && city.administrativeLevel === "commune" && city.wilayaSlug && <section className="city-related-links" aria-label="العودة إلى الولاية"><div><h2>طقس بلديات ولاية {city.wilayaName}</h2><p>استعرض بقية البلديات التابعة للولاية.</p></div><nav><Link href={"/weather/" + city.wilayaSlug + "/"}>صفحة ولاية {city.wilayaName}</Link><Link href="/wilayas/">جميع ولايات الجزائر</Link><Link href="/world-search/">البحث العالمي عن الطقس</Link></nav></section>}
     {detail && city.administrativeLevel !== "commune" && <section className="city-related-links" aria-label="أدلة الطقس ذات الصلة">
       <div><h2>استكشف الطقس في مدن ودول أخرى</h2><p>انتقل من نشرة الولاية إلى أدلة العواصم والبحث العالمي.</p></div>
