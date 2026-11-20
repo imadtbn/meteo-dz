@@ -8,12 +8,12 @@ describe("homepage city search", () => {
     expect(normalizePlaceSearch("Béjaïa")).toBe("bejaia");
   });
 
-  it("finds local wilayas without waiting for an API", () => {
+  it("finds local wilayas without waiting for an API and handles shared phone codes", () => {
     expect(findLocalCities(ALGERIAN_CITIES, "وهران").some((city) => city.slug === "oran")).toBe(true);
     expect(findLocalCities(ALGERIAN_CITIES, "16").some((city) => city.slug === "algiers")).toBe(true);
     expect(findLocalCities(ALGERIAN_CITIES, "أدرار")[0]?.slug).toBe("adrar");
     expect(findLocalCities(ALGERIAN_CITIES, "Aflou")[0]?.slug).toBe("aflou");
-    expect(findLocalCities(ALGERIAN_CITIES, "029").some((city) => city.slug === "aflou")).toBe(true);
+    expect(findLocalCities(ALGERIAN_CITIES, "029", 20).some((city) => city.slug === "aflou")).toBe(true);
     expect(findLocalCities(ALGERIAN_CITIES, "", 8)).toEqual([]);
   });
 

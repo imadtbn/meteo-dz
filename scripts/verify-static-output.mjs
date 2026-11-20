@@ -19,6 +19,11 @@ assert.ok(Buffer.byteLength(homepage, "utf8") < 100000, "Production homepage HTM
 assert.ok(!(await readdir(root)).includes("__manus__"), "Development debug collector must not be published");
 const adsenseLoader = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5656416032906373';
 assert.equal(homepage.split(adsenseLoader).length - 1, 1, "Load AdSense exactly once per page");
+const gtmContainerId = "GTM-K3DQR9RT";
+assert.ok(homepage.includes(gtmContainerId), "Configured Google Tag Manager container is missing");
+assert.ok(homepage.includes("gtm.start") && homepage.includes("gtm.js"), "Google Tag Manager bootstrap event is missing");
+assert.ok(homepage.includes("googletagmanager.com/ns.html?id=" + gtmContainerId), "Google Tag Manager noscript fallback is missing");
+assert.ok(!homepage.includes("GTM-M58X5KJ8"), "Unexpected legacy Google Tag Manager container remains");
 const assetNames = await readdir(path.join(root, "assets"));
 const staticScripts = assetNames.filter((name) => name.endsWith(".js"));
 const initialAssetNames = [...homepage.matchAll(/(?:src|href)="[^"]*assets\/([^"]+\.js)"/g)].map((match) => match[1]);
@@ -35,6 +40,8 @@ assert.ok(mapBundle, "Weather map must remain a separately emitted route chunk")
 assert.ok((await stat(path.join(root, "assets", mapBundle))).size < 180000, "Weather map route chunk budget exceeded");
 const appSource = await readFile("client/src/App.tsx", "utf8");
 assert.match(appSource, /const WeatherMapPage = lazy\(/, "Weather map route must remain lazy-loaded");
+assert.match(appSource, /const WilayasWeatherIndex = lazy\(/, "Weather directory route must remain lazy-loaded");
+assert.doesNotMatch(appSource, /import \{ WeatherDirectoryPage as WilayasWeatherIndex \}/, "Weather directory must not be statically imported into the initial bundle");
 assert.match(appSource, /const ClimateObservatoryPage = lazy\(/, "Climate observatory must be lazy-loaded");
 assert.match(appSource, /const AgricultureWeatherPage = lazy\(/, "Agriculture weather page must be lazy-loaded");
 assert.ok(appSource.includes('path={"/communes/:slug"}'), "Commune weather route must be registered");

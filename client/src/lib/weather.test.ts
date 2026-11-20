@@ -13,10 +13,10 @@ describe("weather language", () => {
   it("starts the hourly rail from the next available hour instead of midnight", () => {
     expect(getUpcomingHourIndexes(["2026-08-16T00:00", "2026-08-16T11:00", "2026-08-16T12:00", "2026-08-16T13:00"], "2026-08-16T10:45", 2)).toEqual([1, 2]);
   });
-  it("contains the requested 58 unique wilayas and slugs", () => {
-    expect(ALGERIAN_CITIES).toHaveLength(58);
-    expect(new Set(ALGERIAN_CITIES.map((city) => city.code)).size).toBe(58);
-    expect(new Set(ALGERIAN_CITIES.map((city) => city.slug)).size).toBe(58);
+  it("contains all 69 current wilayas and unique slugs", () => {
+    expect(ALGERIAN_CITIES).toHaveLength(69);
+    expect(new Set(ALGERIAN_CITIES.map((city) => city.code)).size).toBe(69);
+    expect(new Set(ALGERIAN_CITIES.map((city) => city.slug)).size).toBe(69);
     expect(ALGERIAN_CITIES.every((city) => city.name && city.region && Number.isFinite(city.latitude) && Number.isFinite(city.longitude))).toBe(true);
   });
   it("creates a share statement with the city and current temperature", () => {
@@ -40,7 +40,7 @@ describe("shared global weather client", () => {
       weather_code: [1, 3],
       temperature_2m_max: [28, 25],
       temperature_2m_min: [17, 16],
-      precipitation_probability_max: [5, 30],
+      precipitation_probability_max: [5, null],
     },
   };
 
@@ -64,6 +64,35 @@ describe("shared global weather client", () => {
     }
   });
 
+  it("preserves unavailable precipitation probability as null", async () => {
+    const fetchMock = vi.fn().mockResolvedValue({
+      ok: true,
+      json: async () => validResponse,
+    });
+    vi.stubGlobal("fetch", fetchMock);
+    try {
+      const result = await fetchGlobalWeather(36.75, 3.05);
+      expect(result.daily.precipitation_probability_max[1]).toBeNull();
+    } finally {
+      vi.unstubAllGlobals();
+    }
+  });
+
+  it("rejects non-numeric daily temperatures instead of rendering zero", async () => {
+    const fetchMock = vi.fn().mockResolvedValue({
+      ok: true,
+      json: async () => ({
+        ...validResponse,
+        daily: { ...validResponse.daily, temperature_2m_max: [28, null] },
+      }),
+    });
+    vi.stubGlobal("fetch", fetchMock);
+    try {
+      await expect(fetchGlobalWeather(36.75, 3.05)).rejects.toThrow("غير مكتملة");
+    } finally {
+      vi.unstubAllGlobals();
+    }
+  });
   it("rejects invalid coordinates before making a network request", async () => {
     const fetchMock = vi.fn();
     vi.stubGlobal("fetch", fetchMock);

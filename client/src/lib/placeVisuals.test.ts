@@ -5,8 +5,8 @@ import { countryCodeForArabName, flagForCountry, getCapitalScene, getWilayaScene
 import { parseReverseLocation } from "@/lib/reverseGeocode";
 
 describe("illustrated place directories", () => {
-  it("assigns a symbolic landscape to all 58 Algerian wilayas", () => {
-    expect(ALGERIAN_CITIES).toHaveLength(58);
+  it("assigns a symbolic landscape to all 69 Algerian wilayas", () => {
+    expect(ALGERIAN_CITIES).toHaveLength(69);
     const validScenes = new Set(["coast", "desert", "mountain", "highland", "river", "city"]);
     expect(ALGERIAN_CITIES.every((city) => validScenes.has(getWilayaScene(city.region, city.coastal)))).toBe(true);
     expect(getWilayaScene("الساحل الغربي", true)).toBe("coast");
