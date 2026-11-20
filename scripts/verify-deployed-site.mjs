@@ -37,6 +37,7 @@ assert.ok(robots.includes("Sitemap: " + sitemapUrl), "robots.txt does not refere
 const requiredRoutes = [
   "weather/",
   "wilayas/",
+  "communes/",
   "arab-capitals/",
   "world-capitals/",
   "world-search/",
@@ -49,10 +50,13 @@ for (const route of requiredRoutes) {
   assert.ok(urls.includes(new URL(route, base).href), "Required directory missing from sitemap: " + route);
 }
 
-const geographicUrls = urls.filter((url) => /\/(weather|arab-capitals|world-capitals)\/[^/]+\/$/.test(new URL(url).pathname));
+const geographicUrls = urls.filter((url) => /\/(weather|communes|arab-capitals|world-capitals)\/[^/]+\/$/.test(new URL(url).pathname));
+const communeUrls = geographicUrls.filter((url) => new URL(url).pathname.includes("/communes/"));
+assert.ok(communeUrls.length >= 1700, "Unexpectedly small commune page set: " + communeUrls.length);
 const representative = [
   ...requiredRoutes.map((route) => new URL(route, base).href),
   ...geographicUrls.filter((url) => url.includes("/weather/")).slice(0, 3),
+  ...communeUrls.slice(0, 3),
   ...geographicUrls.filter((url) => url.includes("/arab-capitals/")).slice(0, 2),
   ...geographicUrls.filter((url) => url.includes("/world-capitals/")).slice(0, 3),
 ];
@@ -65,7 +69,7 @@ for (const url of [...new Set([base, ...representative])]) {
   const canonical = html.match(/<link rel="canonical" href="([^"]+)"\s*\/?\s*>/i);
   assert.ok(canonical, "Missing canonical: " + url);
   assert.equal(canonical[1], url, "Canonical mismatch: " + url);
-  if (/\/(weather|arab-capitals|world-capitals)\/[^/]+\/$/.test(new URL(url).pathname)) {
+  if (/\/(weather|communes|arab-capitals|world-capitals)\/[^/]+\/$/.test(new URL(url).pathname)) {
     assert.match(html, /<script type="application\/ld\+json">[\s\S]*?"@type":"Place"/, "Place JSON-LD missing: " + url);
     assert.match(html, /"@type":"BreadcrumbList"/, "Breadcrumb JSON-LD missing: " + url);
   }
@@ -73,6 +77,6 @@ for (const url of [...new Set([base, ...representative])]) {
 
 console.log(
   "Live deployment verified: " + urls.length + " unique sitemap URLs, " +
-  geographicUrls.length + " geographic pages, " + new Set([base, ...representative]).size +
+  geographicUrls.length + " geographic pages including " + communeUrls.length + " communes, " + new Set([base, ...representative]).size +
   " representative pages, and robots.txt sitemap reference."
 );

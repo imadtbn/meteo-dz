@@ -1,4 +1,5 @@
 import type { AlgerianCity } from "@/data/cities";
+import type { AlgerianCommune } from "@/data/communes";
 
 export type GlobalPlace = {
   id: number;
@@ -34,6 +35,23 @@ export function filterWilayas(cities: AlgerianCity[], query: string): AlgerianCi
 export function findLocalCities(cities: AlgerianCity[], query: string, limit = 6): AlgerianCity[] {
   if (!normalizePlaceSearch(query)) return [];
   return filterWilayas(cities, query).slice(0, limit);
+}
+
+
+/** Search the national commune directory by Arabic/French name, postal code, or wilaya. */
+export function filterCommunes(communes: AlgerianCommune[], query: string, wilayaSlug = "all"): AlgerianCommune[] {
+  const cleaned = normalizePlaceSearch(query);
+  return communes.filter((commune) => {
+    if (wilayaSlug !== "all" && commune.wilayaSlug !== wilayaSlug) return false;
+    if (!cleaned) return true;
+    return normalizePlaceSearch([
+      commune.name,
+      commune.name_fr,
+      commune.wilayaName,
+      commune.postCode,
+      commune.id,
+    ].filter(Boolean).join(" ")).includes(cleaned);
+  });
 }
 
 /** Never allow malformed remote coordinates to produce an invalid weather URL. */
