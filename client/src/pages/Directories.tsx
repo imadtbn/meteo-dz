@@ -11,7 +11,7 @@ import { PlaceIllustration } from "@/components/PlaceIllustration";
 import { WilayaCard } from "@/components/WilayaCard";
 import { PublicFooter, PublicHeader } from "@/components/PublicChrome";
 import { countryCodeForArabName, flagForCountry, getCapitalScene } from "@/lib/placeVisuals";
-import { filterWilayas, normalizePlaceSearch } from "@/lib/citySearch";
+import { filterCommunes, filterWilayas } from "@/lib/citySearch";
 
 function DirectorySearch({ value, onChange, placeholder }: { value: string; onChange: (value: string) => void; placeholder: string }) {
   return (
@@ -197,20 +197,10 @@ export function CommunesPage() {
     return () => { active = false; };
   }, []);
 
-  const results = useMemo(() => {
-    const cleaned = normalizePlaceSearch(query);
-    return communes.filter((commune) => {
-      if (wilayaSlug !== "all" && commune.wilayaSlug !== wilayaSlug) return false;
-      if (!cleaned) return true;
-      return normalizePlaceSearch([
-        commune.name,
-        commune.name_fr,
-        commune.wilayaName,
-        commune.postCode,
-        commune.id,
-      ].filter(Boolean).join(" ")).includes(cleaned);
-    });
-  }, [communes, query, wilayaSlug]);
+  const results = useMemo(
+    () => filterCommunes(communes, query, wilayaSlug),
+    [communes, query, wilayaSlug],
+  );
 
   const retryLoad = () => {
     setLoading(true);
