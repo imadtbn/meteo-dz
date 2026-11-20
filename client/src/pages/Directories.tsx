@@ -1,8 +1,9 @@
 import { AdSlot } from "@/components/AdSlot";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { ArrowLeft, MapPin, Search } from "lucide-react";
 import { Link } from "wouter";
 import { ALGERIAN_CITIES } from "@/data/cities";
+import { loadAlgerianCommunes, type AlgerianCommune } from "@/data/communes";
 import { ARAB_CAPITALS } from "@/data/arab-capitals";
 import { getCanonicalPlacePath } from "@/data/places";
 import worldCapitals from "../../../data/world-capitals.json";
@@ -10,7 +11,7 @@ import { PlaceIllustration } from "@/components/PlaceIllustration";
 import { WilayaCard } from "@/components/WilayaCard";
 import { PublicFooter, PublicHeader } from "@/components/PublicChrome";
 import { countryCodeForArabName, flagForCountry, getCapitalScene } from "@/lib/placeVisuals";
-import { filterWilayas } from "@/lib/citySearch";
+import { filterWilayas, normalizePlaceSearch } from "@/lib/citySearch";
 
 function DirectorySearch({ value, onChange, placeholder }: { value: string; onChange: (value: string) => void; placeholder: string }) {
   return (
@@ -169,6 +170,115 @@ export function WorldCapitalsPage() {
           ))}
         </div>
         {results.length === 0 && <div className="empty-state">لا توجد عاصمة مطابقة لهذا البحث.</div>}
+      </section>
+      <PublicFooter />
+    </main>
+  );
+}
+
+
+export function CommunesPage() {
+  const [communes, setCommunes] = useState<AlgerianCommune[]>([]);
+  const [query, setQuery] = useState("");
+  const [wilayaSlug, setWilayaSlug] = useState("all");
+  const [visibleCount, setVisibleCount] = useState(36);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    let active = true;
+    loadAlgerianCommunes().then((records) => {
+      if (active) setCommunes(records);
+    }).catch((reason) => {
+      if (active) setError(reason instanceof Error ? reason.message : "تعذر تحميل دليل البلديات.");
+    }).finally(() => {
+      if (active) setLoading(false);
+    });
+    return () => { active = false; };
+  }, []);
+
+  const results = useMemo(() => {
+    const cleaned = normalizePlaceSearch(query);
+    return communes.filter((commune) => {
+      if (wilayaSlug !== "all" && commune.wilayaSlug !== wilayaSlug) return false;
+      if (!cleaned) return true;
+      return normalizePlaceSearch([
+        commune.name,
+        commune.name_fr,
+        commune.wilayaName,
+        commune.postCode,
+        commune.id,
+      ].filter(Boolean).join(" ")).includes(cleaned);
+    });
+  }, [communes, query, wilayaSlug]);
+
+  const changeQuery = (value: string) => {
+    setQuery(value);
+    setVisibleCount(36);
+  };
+  const changeWilaya = (value: string) => {
+    setWilayaSlug(value);
+    setVisibleCount(36);
+  };
+
+  return (
+    <main dir="rtl">
+      <PublicHeader />
+      <section className="directory-hero directory-hero--communes">
+        <span className="eyebrow"><MapPin size={15} aria-hidden="true" /> الدليل الوطني · 1,708 بلدية</span>
+        <h1>الطقس في بلديتك، من عنوانها إلى توقعاتها.</h1>
+        <p>ابحث في البلديات الجزائرية بالعربية أو الفرنسية أو الرمز البريدي، واختر بلديتك لفتح صفحة طقس مستقلة بإحداثياتها.</p>
+        <DirectorySearch value={query} onChange={changeQuery} placeholder="اسم البلدية، الاسم الفرنسي، أو الرمز البريدي" />
+      </section>
+      <AdSlot position="header" />
+      <section className="directory-shell">
+        <div className="section-intro">
+          <span>01 — الدليل البلدي</span>
+          <h2>{loading ? "جارٍ تجهيز دليل البلديات" : results.length.toLocaleString("ar-DZ") + " بلدية مطابقة"}</h2>
+          <p>يمكنك تضييق النتائج حسب الولاية، ثم فتح بطاقة البلدية لمشاهدة الطقس المحلي.</p>
+        </div>
+        <div className="commune-directory-toolbar">
+          <label className="commune-directory-select-wrap">
+            <span>تصفية حسب الولاية</span>
+            <select className="commune-directory-select" value={wilayaSlug} onChange={(event) => changeWilaya(event.target.value)}>
+              <option value="all">كل الولايات الجزائرية</option>
+              {ALGERIAN_CITIES.map((city) => <option key={city.slug} value={city.slug}>{city.name}</option>)}
+            </select>
+          </label>
+          <span className="commune-directory-count" role="status" aria-live="polite">
+            {loading ? "جارٍ تحميل البيانات…" : results.length.toLocaleString("ar-DZ") + " نتيجة"}
+          </span>
+        </div>
+        {loading && <div className="loading-card" role="status">جارٍ تحميل قاعدة بيانات البلديات…</div>}
+        {error && (
+          <div className="empty-state" role="alert">
+            <p>{error}</p>
+            <button type="button" className="secondary-button" onClick={() => window.location.reload()}>إعادة تحميل الدليل</button>
+          </div>
+        )}
+        {!loading && !error && (
+          <>
+            <div className="commune-grid commune-grid--directory">
+              {results.slice(0, visibleCount).map((commune) => (
+                <Link key={commune.id} href={"/communes/" + commune.slug + "/"} className="commune-card">
+                  <span className="commune-card__name">{commune.name}</span>
+                  <small className="commune-card__latin">{commune.name_fr}</small>
+                  <span className="commune-card__wilaya">{commune.wilayaName}</span>
+                  <span className="commune-card__action">عرض توقعات الطقس <ArrowLeft size={15} aria-hidden="true" /></span>
+                  <small className="commune-card__postcode">الرمز البريدي: {commune.postCode || "غير متاح"}</small>
+                </Link>
+              ))}
+            </div>
+            {results.length === 0 && <div className="empty-state" role="status">لا توجد بلدية مطابقة. جرّب اسماً آخر أو غيّر الولاية.</div>}
+            {results.length > visibleCount && (
+              <div className="region-actions">
+                <button type="button" className="secondary-button" onClick={() => setVisibleCount((count) => count + 36)}>
+                  إظهار المزيد ({(results.length - visibleCount).toLocaleString("ar-DZ")})
+                </button>
+              </div>
+            )}
+          </>
+        )}
       </section>
       <PublicFooter />
     </main>
