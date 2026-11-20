@@ -861,13 +861,12 @@ h1,h2,h3,.brand,.directory-card__title,.section-intro h2 { font-family: var(--fo
 @media (max-width: 640px) { .city-related-links { padding-inline: 1rem; } }
 
 
-.commune-search{display:flex;align-items:center;gap:.6rem;max-width:44rem;margin:0 0 1.2rem;padding:.8rem 1rem;border:1px solid #b8cecf;border-radius:.65rem;background:#fffdf8;color:#0c5b8c}
+.commune-search{display:flex;align-items:center;gap:.6rem;padding:.8rem 1rem;border:1px solid #b8cecf;border-radius:.65rem;background:#fffdf8;color:#0c5b8c}
 .commune-search input{flex:1;min-width:0;border:0;outline:0;background:transparent;color:#132a38;font:inherit;font-size:.85rem}
 .commune-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:.65rem}
 .commune-card{display:flex;min-width:0;flex-direction:column;gap:.35rem;padding:.85rem;border:1px solid #cedbd7;border-radius:.65rem;background:#fffdf8;color:#132a38;text-decoration:none}
 .commune-card__name{overflow-wrap:anywhere;font-size:.95rem;font-weight:800}
 .commune-card__latin{color:#60727a;font-size:.68rem}
-.commune-card__action{display:flex;align-items:center;gap:.25rem;margin-top:.25rem;color:#0c5b8c;font-size:.7rem;font-weight:700}
 @media(max-width:900px){.commune-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
 @media(max-width:600px){.commune-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:.5rem}.commune-card{padding:.7rem}.commune-card__name{font-size:.85rem}.commune-card__latin{font-size:.62rem}}
 @media(max-width:360px){.commune-grid{grid-template-columns:1fr}}
