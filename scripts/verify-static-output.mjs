@@ -69,6 +69,14 @@ assert.ok(worldHeroStart >= 0 && worldHeroEnd > worldHeroStart && worldAd > worl
 assert.match(homepage, /og:image" content="https:\/\/imadtbn.github.io\/meteo-dz\/social-preview.png"/);
 assert.match(homepage, /twitter:card" content="summary_large_image"/);
 
+const htmlSitemap = await load("sitemap.html");
+const communeCount = places.filter((place) => place.kind === "commune").length;
+assert.ok(htmlSitemap.includes(communeCount + " بلدية جزائرية"), "HTML sitemap must report the commune total");
+const htmlCommuneLinks = [...htmlSitemap.matchAll(/href="https:\/\/imadtbn\.github\.io\/meteo-dz\/communes\/[^"]+\//g)];
+assert.equal(htmlCommuneLinks.length, communeCount, "HTML sitemap must link every commune exactly once");
+const searchIndex = JSON.parse(await load("data/global-search-index.json"));
+assert.equal(searchIndex.filter((item) => item.kind === "commune").length, communeCount, "Global search index must include every commune");
+
 const manifest = JSON.parse(await load("manifest.webmanifest"));
 assert.equal(manifest.start_url, "/meteo-dz/");
 assert.equal(manifest.scope, "/meteo-dz/");
@@ -118,7 +126,11 @@ for (const place of places) {
   assert.equal(webPageNode?.about?.["@type"], "Place", "Place entity missing from WebPage: " + place.slug);
   assert.equal(webPageNode?.about?.geo?.latitude, place.latitude, "Place latitude mismatch: " + place.slug);
   assert.equal(webPageNode?.about?.geo?.longitude, place.longitude, "Place longitude mismatch: " + place.slug);
-  assert.equal(breadcrumbNode?.itemListElement?.length, 3, "Breadcrumb depth mismatch: " + place.slug);
+  assert.equal(breadcrumbNode?.itemListElement?.length, place.kind === "commune" ? 4 : 3, "Breadcrumb depth mismatch: " + place.slug);
+  if (place.kind === "commune") {
+    assert.ok(place.wilayaSlug && place.wilayaId, "Commune must be linked to a known wilaya: " + place.slug);
+    assert.ok(html.includes("/weather/" + place.wilayaSlug + "/"), "Commune page must link to its wilaya: " + place.slug);
+  }
   assert.ok(html.includes("related-place-link"), "Related internal links missing: " + place.slug);
   if (place.image) {
     assert.ok(html.includes('fetchpriority="high"') && html.includes(place.image), "Primary city image missing: " + place.slug);
