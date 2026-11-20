@@ -47,8 +47,6 @@ export function loadAlgerianCommunes(): Promise<AlgerianCommune[]> {
           region: source.wilaya_name,
           latitude: Number(source.latitude),
           longitude: Number(source.longitude),
-          countryCode: "DZ",
-          countryPhone: "+213",
           id: source.id,
           postCode: source.post_code,
           wilayaId: source.wilaya_id,
