@@ -148,6 +148,36 @@ export function WorldSearchPage() {
     }, { enableHighAccuracy: false, timeout: 12000, maximumAge: 300000 });
   };
 
+  useEffect(() => {
+    if (query.trim().length < 2 || communeRecords.length > 0) return;
+    let active = true;
+    loadAlgerianCommunes().then((records) => {
+      if (active) setCommuneRecords(records);
+    }).catch(() => {
+      // The international geocoder remains available if the local catalog is offline.
+    });
+    return () => { active = false; };
+  }, [query, communeRecords.length]);
+
+  const localCommuneResults = useMemo(() => {
+    const cleaned = normalizePlaceSearch(query);
+    if (cleaned.length < 2) return [];
+    return communeRecords.filter((commune) =>
+      normalizePlaceSearch([commune.name, commune.name_fr, commune.name_en, commune.wilayaName, commune.postCode, commune.id].filter(Boolean).join(" "))
+        .includes(cleaned),
+    ).slice(0, 12);
+  }, [communeRecords, query]);
+
+  const globalSuggestions = useMemo(() => suggestions.filter((place) => {
+    if (place.country_code !== "DZ") return true;
+    const remoteName = normalizePlaceSearch(place.name);
+    return !localCommuneResults.some((commune) =>
+      (normalizePlaceSearch(commune.name) === remoteName || normalizePlaceSearch(commune.name_fr) === remoteName)
+      && Math.abs(commune.latitude - place.latitude) < 0.08
+      && Math.abs(commune.longitude - place.longitude) < 0.08,
+    );
+  }), [suggestions, localCommuneResults]);
+
   const address = myLocation?.address;
   const myLocationName = address?.municipality || address?.region || address?.country || "موقعي الحالي";
 
