@@ -7,6 +7,7 @@ import { ThemeProvider } from "./contexts/ThemeContext";
 import City from "./pages/City";
 import Home from "./pages/Home";
 const WilayasWeatherIndex = lazy(() => import("./pages/Directories").then((module) => ({ default: module.WeatherDirectoryPage })));
+const CommunesPage = lazy(() => import("./pages/Directories").then((module) => ({ default: module.CommunesPage })));
 const WilayasPage = lazy(() => import("./pages/Directories").then((module) => ({ default: module.WilayasPage })));
 const ArabCapitalsPage = lazy(() => import("./pages/Directories").then((module) => ({ default: module.ArabCapitalsPage })));
 const GlobalWeatherPage = lazy(() => import("./pages/GlobalWeather"));
@@ -29,6 +30,7 @@ function Router() {
       <Route path={"/"} component={() => <Home />} />
       <Route path={"/weather"} component={WilayasWeatherIndex} />
       <Route path={"/weather/:slug"} component={City} />
+      <Route path={"/communes"} component={CommunesPage} />
       <Route path={"/communes/:slug"} component={CommunePage} />
       <Route path={"/wilayas"} component={WilayasPage} />
       <Route path={"/arab-capitals"} component={ArabCapitalsPage} />
