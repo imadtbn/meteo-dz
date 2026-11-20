@@ -5,6 +5,7 @@ import { AlertTriangle, ArrowLeft, Compass, Info, RefreshCw, Search, Star, Waves
 import { Link, useLocation } from "wouter";
 import { WeatherCard } from "@/components/WeatherCard";
 import { WilayaCard } from "@/components/WilayaCard";
+import { WilayaCommunes } from "@/components/WilayaCommunes";
 import { CitySearch } from "@/components/CitySearch";
 import { filterWilayas, globalWeatherLink, type GlobalPlace } from "@/lib/citySearch";
 const WeatherInsights = lazy(() => import("@/components/WeatherInsights").then((module) => ({ default: module.WeatherInsights })));
@@ -69,9 +70,9 @@ export default function Home({ forcedCity, detail = false }: HomeProps) {
 
   useEffect(() => {
     const place = city.name;
-    document.title = detail ? `طقس ${place} اليوم في الجزائر | توقعات الطقس | مرصد الأطلس` : "Weather Today | الطقس اليوم";
+    document.title = detail ? (city.administrativeLevel === "commune" ? "طقس بلدية " + place + " اليوم في ولاية " + (city.wilayaName || city.region) + " | مرصد الأطلس" : "طقس " + place + " اليوم في الجزائر | توقعات الطقس | مرصد الأطلس") : "Weather Today | الطقس اليوم";
     const description = document.querySelector('meta[name="description"]');
-    description?.setAttribute("content", detail ? `حالة الطقس في ${place} بالجزائر اليوم، توقعات الأيام القادمة ودرجات الحرارة والرياح والأمطار، مع تحديثات الطقس المحلية من مرصد الأطلس.` : `حالة الطقس الحالية وتوقعات الأيام القادمة في ${place}، مع قراءة بحرية للسواحل ووقت تحديث واضح.`);
+    description?.setAttribute("content", detail ? (city.administrativeLevel === "commune" ? "حالة الطقس في بلدية " + place + " بولاية " + (city.wilayaName || city.region) + "، درجات الحرارة الحالية وتوقعات الأيام القادمة والرياح والأمطار وفق إحداثيات البلدية." : "حالة الطقس في " + place + " بالجزائر اليوم، توقعات الأيام القادمة ودرجات الحرارة والرياح والأمطار، مع تحديثات الطقس المحلية من مرصد الأطلس.") : "حالة الطقس الحالية وتوقعات الأيام القادمة في " + place + "، مع قراءة بحرية للسواحل ووقت تحديث واضح.");
   }, [city.name, detail]);
 
   useEffect(() => setVisibleCount(12), [citySearch]);
@@ -182,7 +183,7 @@ export default function Home({ forcedCity, detail = false }: HomeProps) {
       <div className="section-intro"><span>01 — القراءة المحلية</span><h2>الآن في {city.name}</h2><button type="button" className={isFavorite ? "favorite-toggle is-active" : "favorite-toggle"} onClick={() => toggleFavorite(city.slug)} aria-pressed={isFavorite}><Star size={16} fill={isFavorite ? "currentColor" : "none"} />{isFavorite ? "في المفضلة" : "أضف للمفضلة"}</button><button className="refresh-button" onClick={refresh} disabled={loading}><RefreshCw size={16} className={loading ? "spin" : ""} /> تحديث القراءة</button></div>
       {loading && <div className="loading-card" aria-live="polite"><span className="loading-orb" />جارٍ جلب قراءة موثقة للطقس…</div>}
       {error && <div className="error-card" role="alert"><b>تعذر تحديث القراءة.</b><span>{error}</span><button onClick={refresh}>أعد المحاولة</button></div>}
-      {reading?.isStale && <div className="weather-stale-note" role="status"><AlertTriangle size={19} aria-hidden="true" /><span>تعذّر الاتصال بمصدر الطقس، لذلك نعرض آخر قراءة محفوظة لهذه الولاية. قد لا تمثل الأحوال الحالية. يمكنك الضغط على «تحديث القراءة» للمحاولة مجددًا، والرجوع للنشرة الرسمية عند الضرورة.</span></div>}
+      {reading?.isStale && <div className="weather-stale-note" role="status"><AlertTriangle size={19} aria-hidden="true" /><span>تعذّر الاتصال بمصدر الطقس، لذلك نعرض آخر قراءة محفوظة لهذا الموقع. قد لا تمثل الأحوال الحالية. يمكنك الضغط على «تحديث القراءة» للمحاولة مجددًا، والرجوع للنشرة الرسمية عند الضرورة.</span></div>}
       {locationError && <p className="location-error" role="status">{locationError}</p>}\n      {reading && <div className="now-grid"><WeatherCard reading={reading} onShare={() => setShareOpen(true)} onLocate={locate} locationLoading={locationLoading} /><aside className="decision-panel"><span className="eyebrow"><Compass size={15} /> ملخص اليوم</span><h3>{getAdvice(reading)}</h3><div className="decision-points"><span>المحسوس <b>{Math.round(reading.current.apparentTemperature)}°</b></span><span>السحب <b>{Math.round(reading.current.cloudCover)}%</b></span><span>الرياح <b>{windDirectionArabic(reading.current.windDirection)}</b></span></div><small><Info size={14} /> إرشاد آلي مبني على القراءة الحالية، وليس تحذيراً رسمياً.</small></aside></div>}
     </section>
 
@@ -254,7 +255,9 @@ export default function Home({ forcedCity, detail = false }: HomeProps) {
       </div>
     </section>
 
-    {detail && <section className="city-related-links" aria-label="أدلة الطقس ذات الصلة">
+    {detail && city.administrativeLevel !== "commune" && city.code !== "GPS" && <WilayaCommunes wilayaCode={city.code} wilayaName={city.name} />}
+    {detail && city.administrativeLevel === "commune" && city.wilayaSlug && <section className="city-related-links" aria-label="العودة إلى الولاية"><div><h2>طقس بلديات ولاية {city.wilayaName}</h2><p>استعرض بقية البلديات التابعة للولاية.</p></div><nav><Link href={"/weather/" + city.wilayaSlug + "/"}>صفحة ولاية {city.wilayaName}</Link><Link href="/wilayas/">جميع ولايات الجزائر</Link><Link href="/world-search/">البحث العالمي عن الطقس</Link></nav></section>}
+    {detail && city.administrativeLevel !== "commune" && <section className="city-related-links" aria-label="أدلة الطقس ذات الصلة">
       <div><h2>استكشف الطقس في مدن ودول أخرى</h2><p>انتقل من نشرة الولاية إلى أدلة العواصم والبحث العالمي.</p></div>
       <nav><Link href="/wilayas/">جميع ولايات الجزائر</Link><Link href="/arab-capitals/">العواصم العربية</Link><Link href="/world-capitals/">عواصم العالم</Link><Link href="/world-search/">البحث العالمي عن الطقس</Link></nav>
     </section>}
