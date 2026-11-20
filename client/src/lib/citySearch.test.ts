@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { ALGERIAN_CITIES } from "@/data/cities";
-import { filterWilayas, findLocalCities, globalWeatherLink, normalizePlaceSearch, parseGlobalPlaces } from "@/lib/citySearch";
+import { filterCommunes, filterWilayas, findLocalCities, globalWeatherLink, normalizePlaceSearch, parseGlobalPlaces } from "@/lib/citySearch";
+import type { AlgerianCommune } from "@/data/communes";
 
 describe("homepage city search", () => {
   it("normalizes common Arabic spellings and Latin accents", () => {
@@ -32,6 +33,19 @@ describe("homepage city search", () => {
 
   it("limits results to a phone-friendly selection", () => {
     expect(findLocalCities(ALGERIAN_CITIES, "ال", 5).length).toBeLessThanOrEqual(5);
+  });
+
+
+  it("filters the national commune directory by Arabic, French, postal code, and wilaya", () => {
+    const communes = [
+      { id: "16001", slug: "bab-el-oued", name: "باب الوادي", name_fr: "Bab El Oued", postCode: "16003", wilayaId: "16", wilayaName: "الجزائر", wilayaSlug: "algiers" },
+      { id: "31001", slug: "oran", name: "وهران", name_fr: "Oran", postCode: "31000", wilayaId: "31", wilayaName: "وهران", wilayaSlug: "oran" },
+    ] as unknown as AlgerianCommune[];
+
+    expect(filterCommunes(communes, "باب الوادي").map((item) => item.slug)).toEqual(["bab-el-oued"]);
+    expect(filterCommunes(communes, "Bab El Oued").map((item) => item.slug)).toEqual(["bab-el-oued"]);
+    expect(filterCommunes(communes, "16003").map((item) => item.slug)).toEqual(["bab-el-oued"]);
+    expect(filterCommunes(communes, "", "oran").map((item) => item.slug)).toEqual(["oran"]);
   });
 
   it("ignores invalid remote coordinates and accepts valid worldwide results", () => {
