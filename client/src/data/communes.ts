@@ -1,13 +1,16 @@
-import { ALGERIAN_CITIES, type AlgerianCity } from "@/data/cities";
+import type { AlgerianCity } from "@/data/cities";
 
-type RawCommune = {
+type PublicCommune = {
   id: string;
-  post_code?: string;
+  slug: string;
   name: string;
+  name_fr: string;
+  post_code: string;
   wilaya_id: string;
-  ar_name?: string;
-  longitude: string;
-  latitude: string;
+  wilaya_name: string;
+  wilaya_slug: string;
+  latitude: number;
+  longitude: number;
 };
 
 export type AlgerianCommune = AlgerianCity & {
@@ -19,71 +22,49 @@ export type AlgerianCommune = AlgerianCity & {
   administrativeLevel: "commune";
 };
 
-const inAlgeria = (latitude: number, longitude: number) =>
-  Number.isFinite(latitude) && Number.isFinite(longitude)
-  && latitude >= 18 && latitude <= 38
-  && longitude >= -9 && longitude <= 12;
-
 let communesPromise: Promise<AlgerianCommune[]> | null = null;
 
-function normalizeCommune(source: RawCommune): AlgerianCommune {
-  const first = Number(source.longitude);
-  const second = Number(source.latitude);
-  const normalOrder = inAlgeria(first, second);
-  const swappedOrder = inAlgeria(second, first);
-  if (normalOrder === swappedOrder) {
-    throw new Error("إحداثيات البلدية غير صالحة أو ملتبسة: " + source.id);
-  }
-
-  const latitude = normalOrder ? first : second;
-  const longitude = normalOrder ? second : first;
-  const wilayaId = String(source.wilaya_id).padStart(2, "0");
-  const wilaya = ALGERIAN_CITIES.find((item) => String(item.code).padStart(2, "0") === wilayaId);
-  if (!wilaya) throw new Error("الولاية غير موجودة للبلدية: " + source.id);
-
-  const latinName = String(source.name || "").trim();
-  const arabicName = String(source.ar_name || "").trim();
-  const slug = (latinName.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[’']/g, "").replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "") || "commune") + "-" + source.id;
-  return {
-    code: String(source.id),
-    slug,
-    name: arabicName || latinName,
-    name_fr: latinName,
-    name_en: latinName,
-    region: wilaya.name,
-    latitude,
-    longitude,
-    countryCode: "DZ",
-    countryPhone: "+213",
-    id: String(source.id),
-    postCode: String(source.post_code || ""),
-    wilayaId,
-    wilayaName: wilaya.name,
-    wilayaSlug: wilaya.slug,
-    administrativeLevel: "commune",
-    municipality: arabicName || latinName,
-    administrativeArea: wilaya.name,
-    country: "الجزائر",
-    timezone: "Africa/Algiers",
-    coastal: false,
-  };
-}
-
 /**
- * Load the commune matrix on demand so the 1,708-row catalog does not inflate
- * the initial weather application bundle. The same cached promise is shared
- * by search, wilaya directories, commune routes and favorites.
+ * Load the compact, normalized public catalog only when needed. The original
+ * data/communes.json remains the single source; the public copy is generated
+ * and checked by scripts/build-commune-public.mjs.
  */
 export function loadAlgerianCommunes(): Promise<AlgerianCommune[]> {
   if (!communesPromise) {
     communesPromise = fetch(import.meta.env.BASE_URL + "data/communes.json")
       .then((response) => {
         if (!response.ok) throw new Error("تعذر تحميل دليل البلديات.");
-        return response.json() as Promise<RawCommune[]>;
+        return response.json() as Promise<PublicCommune[]>;
       })
       .then((records) => {
         if (!Array.isArray(records)) throw new Error("ملف البلديات غير صالح.");
-        const normalized = records.map(normalizeCommune);
+        const normalized = records.map((source): AlgerianCommune => ({
+          code: source.id,
+          slug: source.slug,
+          name: source.name,
+          name_fr: source.name_fr,
+          name_en: source.name_fr,
+          region: source.wilaya_name,
+          latitude: Number(source.latitude),
+          longitude: Number(source.longitude),
+          countryCode: "DZ",
+          countryPhone: "+213",
+          id: source.id,
+          postCode: source.post_code,
+          wilayaId: source.wilaya_id,
+          wilayaName: source.wilaya_name,
+          wilayaSlug: source.wilaya_slug,
+          administrativeLevel: "commune",
+          municipality: source.name,
+          administrativeArea: source.wilaya_name,
+          country: "الجزائر",
+          timezone: "Africa/Algiers",
+          coastal: false,
+        }));
+        if (normalized.some((item) =>
+          !Number.isFinite(item.latitude) || item.latitude < 18 || item.latitude > 38
+          || !Number.isFinite(item.longitude) || item.longitude < -9 || item.longitude > 12
+        )) throw new Error("توجد إحداثيات بلديات خارج النطاق الجغرافي للجزائر.");
         if (new Set(normalized.map((item) => item.id)).size !== normalized.length) {
           throw new Error("توجد معرفات بلديات مكررة في المصدر.");
         }
