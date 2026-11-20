@@ -80,7 +80,7 @@ export default function Home({ forcedCity, detail = false }: HomeProps) {
       document.querySelector('link[rel="canonical"]')?.setAttribute("href", canonicalUrl);
       document.querySelector('meta[property="og:url"]')?.setAttribute("content", canonicalUrl);
       document.querySelector('meta[property="og:title"]')?.setAttribute("content", document.title);
-      document.querySelector('meta[property="og:description"]')?.setAttribute("content", description?.content || "");
+      document.querySelector('meta[property="og:description"]')?.setAttribute("content", description?.getAttribute("content") || "");
     }
   }, [city.name, detail]);
 
