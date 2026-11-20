@@ -4,6 +4,7 @@ import { Link } from "wouter";
 import { ALGERIAN_CITIES, type AlgerianCity } from "@/data/cities";
 import { flagForCountry } from "@/lib/placeVisuals";
 import { findLocalCities, parseGlobalPlaces, type GlobalPlace } from "@/lib/citySearch";
+import { ALGERIAN_COMMUNES } from "@/data/communes";
 
 type SearchChoice =
   | { kind: "local"; city: AlgerianCity; key: string }
@@ -14,10 +15,11 @@ const featuredSlugs = ["algiers", "oran", "constantine", "annaba", "bejaia", "se
 type CitySearchProps = {
   city: AlgerianCity;
   onSelectCity: (slug: string) => void;
+  onSelectCommune: (slug: string) => void;
   onSelectGlobal: (place: GlobalPlace) => void;
 };
 
-export function CitySearch({ city, onSelectCity, onSelectGlobal }: CitySearchProps) {
+export function CitySearch({ city, onSelectCity, onSelectCommune, onSelectGlobal }: CitySearchProps) {
   const [query, setQuery] = useState("");
   const [open, setOpen] = useState(false);
   const [globalResults, setGlobalResults] = useState<GlobalPlace[]>([]);
@@ -31,8 +33,8 @@ export function CitySearch({ city, onSelectCity, onSelectGlobal }: CitySearchPro
   const cleaned = query.trim();
   const localResults = useMemo(() =>
     cleaned
-      ? findLocalCities(ALGERIAN_CITIES, cleaned, 6)
-      : featuredSlugs.map((slug) => ALGERIAN_CITIES.find((item) => item.slug === slug)).filter((item): item is AlgerianCity => Boolean(item)),
+      ? findLocalCities([...ALGERIAN_CITIES, ...ALGERIAN_COMMUNES], cleaned, 4)
+      : featuredSlugs.map((slug) => ALGERIAN_CITIES.find((item) => item.slug === slug)).filter((item): item is AlgerianCity => Boolean(item)).slice(0, 4),
     [cleaned],
   );
 
@@ -74,7 +76,7 @@ export function CitySearch({ city, onSelectCity, onSelectGlobal }: CitySearchPro
           for (const place of merged) {
             if (!unique.has(place.id)) unique.set(place.id, place);
           }
-          setGlobalResults(Array.from(unique.values()).slice(0, 10));
+          setGlobalResults(Array.from(unique.values()).slice(0, Math.max(0, 4 - localResults.length)));
         }
       } catch {
         if (!controller.signal.aborted) {
@@ -90,12 +92,12 @@ export function CitySearch({ city, onSelectCity, onSelectGlobal }: CitySearchPro
       controller.abort();
       window.clearTimeout(timer);
     };
-  }, [cleaned]);
+  }, [cleaned, localResults.length]);
 
   const suggestions = useMemo<SearchChoice[]>(() => [
     ...localResults.map((item) => ({ kind: "local" as const, city: item, key: "dz-" + item.slug })),
     ...globalResults.map((item) => ({ kind: "global" as const, place: item, key: "world-" + item.id })),
-  ], [localResults, globalResults]);
+  ].slice(0, 4), [localResults, globalResults]);
 
   useEffect(() => setActiveIndex(0), [cleaned, globalResults]);
 
@@ -113,7 +115,8 @@ export function CitySearch({ city, onSelectCity, onSelectGlobal }: CitySearchPro
     setGlobalResults([]);
     setOpen(false);
     if (choice.kind === "local") {
-      onSelectCity(choice.city.slug);
+      if (choice.city.administrativeLevel === "commune") onSelectCommune(choice.city.slug);
+      else onSelectCity(choice.city.slug);
     } else {
       onSelectGlobal(choice.place);
     }
@@ -192,8 +195,8 @@ export function CitySearch({ city, onSelectCity, onSelectGlobal }: CitySearchPro
           </div>
           <div id={listboxId} role="listbox" aria-label="اقتراحات الولايات والمدن" className="city-picker__results">
             {localResults.length > 0 && (
-              <div role="group" aria-label="ولايات الجزائر">
-                <span className="city-picker__group-label">ولايات الجزائر</span>
+              <div role="group" aria-label="ولايات وبلديات الجزائر">
+                <span className="city-picker__group-label">ولايات وبلديات الجزائر</span>
                 {localResults.map((item, index) => (
                   <button
                     type="button"
@@ -207,7 +210,7 @@ export function CitySearch({ city, onSelectCity, onSelectGlobal }: CitySearchPro
                     onClick={() => choose({ kind: "local", city: item, key: "dz-" + item.slug })}
                   >
                     <MapPin size={17} aria-hidden="true" />
-                    <span><strong>{item.name}</strong><small>الجزائر · {item.region}</small></span>
+                    <span><strong>{item.name}</strong><small>الجزائر · {item.administrativeLevel === "commune" ? "بلدية · ولاية " + item.wilayaName : item.region}</small></span>
                     <ArrowLeft size={15} aria-hidden="true" />
                   </button>
                 ))}
