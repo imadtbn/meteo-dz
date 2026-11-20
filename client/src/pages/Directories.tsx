@@ -1,3 +1,4 @@
+import "./Directories.css";
 import { AdSlot } from "@/components/AdSlot";
 import { useEffect, useMemo, useState } from "react";
 import { ArrowLeft, MapPin, Search } from "lucide-react";
