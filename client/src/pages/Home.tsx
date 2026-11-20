@@ -175,7 +175,7 @@ export default function Home({ forcedCity, detail = false }: HomeProps) {
 
     <section className="hero-band">
       <div className="hero-content"><span className="eyebrow">محرك الطقس العالمي · Weather Today</span><h1>{detail ? <>حالة {city.name}<br />بوضوح، قبل أن تتحرك.</> : <>الطقس الذي تحتاجه<br />قبل أن تتحرك.</>}</h1><p>ابحث عن المدن حول العالم بالعربية أو الفرنسية أو الإنجليزية، واعرض حالة الطقس والتوقعات أو استخدم موقعك الجغرافي.</p></div>
-      <CitySearch city={city} onSelectCity={selectCity} onSelectGlobal={(place: GlobalPlace) => navigate(globalWeatherLink(place))}  />
+      <CitySearch city={city} onSelectCity={selectCity} onSelectCommune={(slug) => navigate("/communes/" + slug + "/")} onSelectGlobal={(place: GlobalPlace) => navigate(globalWeatherLink(place))} />
     </section>
       <AdSlot position="header" />
 
