@@ -4,7 +4,7 @@ import { Link } from "wouter";
 import { ALGERIAN_CITIES, type AlgerianCity } from "@/data/cities";
 import { flagForCountry } from "@/lib/placeVisuals";
 import { findLocalCities, parseGlobalPlaces, type GlobalPlace } from "@/lib/citySearch";
-import { ALGERIAN_COMMUNES } from "@/data/communes";
+import { loadAlgerianCommunes, type AlgerianCommune } from "@/data/communes";
 
 type SearchChoice =
   | { kind: "local"; city: AlgerianCity; key: string }
@@ -23,6 +23,7 @@ export function CitySearch({ city, onSelectCity, onSelectCommune, onSelectGlobal
   const [query, setQuery] = useState("");
   const [open, setOpen] = useState(false);
   const [globalResults, setGlobalResults] = useState<GlobalPlace[]>([]);
+  const [communeRecords, setCommuneRecords] = useState<AlgerianCommune[]>([]);
   const [loadingGlobal, setLoadingGlobal] = useState(false);
   const [globalError, setGlobalError] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
@@ -33,10 +34,22 @@ export function CitySearch({ city, onSelectCity, onSelectCommune, onSelectGlobal
   const cleaned = query.trim();
   const localResults = useMemo(() =>
     cleaned
-      ? findLocalCities([...ALGERIAN_CITIES, ...ALGERIAN_COMMUNES], cleaned, 4)
+      ? findLocalCities([...ALGERIAN_CITIES, ...communeRecords], cleaned, 4)
       : featuredSlugs.map((slug) => ALGERIAN_CITIES.find((item) => item.slug === slug)).filter((item): item is AlgerianCity => Boolean(item)).slice(0, 4),
-    [cleaned],
+    [cleaned, communeRecords],
   );
+
+  useEffect(() => {
+    if (cleaned.length >= 2 && communeRecords.length === 0) {
+      let active = true;
+      loadAlgerianCommunes().then((records) => {
+        if (active) setCommuneRecords(records);
+      }).catch(() => {
+        // The remote global search remains available if the local catalog cannot load.
+      });
+      return () => { active = false; };
+    }
+  }, [cleaned, communeRecords.length]);
 
   useEffect(() => {
     if (cleaned.length < 2) {
