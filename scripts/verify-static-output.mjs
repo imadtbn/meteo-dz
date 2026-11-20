@@ -37,7 +37,7 @@ const appSource = await readFile("client/src/App.tsx", "utf8");
 assert.match(appSource, /const WeatherMapPage = lazy\(/, "Weather map route must remain lazy-loaded");
 assert.match(appSource, /const ClimateObservatoryPage = lazy\(/, "Climate observatory must be lazy-loaded");
 assert.match(appSource, /const AgricultureWeatherPage = lazy\(/, "Agriculture weather page must be lazy-loaded");
-assert.match(appSource, /Route path=\{\"\\/communes\\/:slug\"\}/, "Commune weather route must be registered");
+assert.ok(appSource.includes('path={"/communes/:slug"}'), "Commune weather route must be registered");
 assert.ok(!homepage.includes(mapBundle), "Weather map bundle must not load with the homepage");
 console.log("Performance budgets: initial JS " + initialJsBytes + " B, total JS " + totalJsBytes + " B, initial CSS " + initialCssBytes + " B.");
 const builtScripts = (await Promise.all(staticScripts.map((name) => load(path.join("assets", name))))).join("\n");
