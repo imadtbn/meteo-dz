@@ -2,23 +2,28 @@
 import { readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { buildPlaceCatalog } from "./place-catalog.mjs";
-import { buildSitemap, sitemapUrls } from "./sitemap-core.mjs";
+import { buildSitemap, buildSitemapHtml, sitemapUrls } from "./sitemap-core.mjs";
 
 const root = path.resolve(".");
-const targets = [path.join(root, "sitemap.xml"), path.join(root, "client/public/sitemap.xml")];
+const targets = [
+  [path.join(root, "sitemap.xml"), buildSitemap(site, places)],
+  [path.join(root, "client/public/sitemap.xml"), buildSitemap(site, places)],
+  [path.join(root, "sitemap.html"), buildSitemapHtml(site, places)],
+  [path.join(root, "client/public/sitemap.html"), buildSitemapHtml(site, places)],
+];
 const site = "https://imadtbn.github.io/meteo-dz/";
 const places = buildPlaceCatalog();
 const sitemap = buildSitemap(site, places);
 const checking = process.argv.includes("--check");
-for (const file of targets) {
+for (const [file, expected] of targets) {
   if (checking) {
-    const existing = await readFile(file, "utf8");
-    if (existing !== sitemap) {
+    const existing = await readFile(file, "utf8").catch(() => "");
+    if (existing !== expected) {
       console.error("Sitemap needs regeneration: " + path.relative(root, file));
       process.exitCode = 1;
     }
   } else {
-    await writeFile(file, sitemap);
+    await writeFile(file, expected);
   }
 }
 if (!process.exitCode) {
