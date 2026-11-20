@@ -44,7 +44,7 @@ await writeFile(path.join(dist, "index.html"), setSeo(template, {
 await cp(path.resolve("images"), path.join(dist, "images"), { recursive: true, force: true });
 await mkdir(path.join(dist, "data"), { recursive: true });
 await cp(path.resolve("data/global-search-index.json"), path.join(dist, "data/global-search-index.json"), { force: true });
-await cp(path.resolve("data/communes.json"), path.join(dist, "data/communes.json"), { force: true });
+await cp(path.resolve("client/public/data/communes.json"), path.join(dist, "data/communes.json"), { force: true });
 
 for (const place of places) {
   const canonical = siteRoot + place.canonicalPath + "/";
