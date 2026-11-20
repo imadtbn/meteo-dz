@@ -5,14 +5,15 @@ import { AlertTriangle, ArrowLeft, Compass, Info, RefreshCw, Search, Star, Waves
 import { Link, useLocation } from "wouter";
 import { WeatherCard } from "@/components/WeatherCard";
 import { WilayaCard } from "@/components/WilayaCard";
-const WilayaCommunes = lazy(() => import("@/components/WilayaCommunes").then((module) => ({ default: module.WilayaCommunes })));
 import { CitySearch } from "@/components/CitySearch";
 import { filterWilayas, globalWeatherLink, type GlobalPlace } from "@/lib/citySearch";
-const WeatherInsights = lazy(() => import("@/components/WeatherInsights").then((module) => ({ default: module.WeatherInsights })));
 import { PublicFooter, PublicHeader } from "@/components/PublicChrome";
 import { ALGERIAN_CITIES, getCityBySlug, type AlgerianCity } from "@/data/cities";
 import { fetchWeather, formatDay, formatHour, getAdvice, getWeatherCondition, type WeatherReading, windDirectionArabic } from "@/lib/weather";
 import { useFavoriteCities } from "@/hooks/useFavoriteCities";
+
+const WilayaCommunes = lazy(() => import("@/components/WilayaCommunes").then((module) => ({ default: module.WilayaCommunes })));
+const WeatherInsights = lazy(() => import("@/components/WeatherInsights").then((module) => ({ default: module.WeatherInsights })));
 
 const WeatherShareDialog = lazy(() => import("@/components/WeatherShareDialog"));
 
