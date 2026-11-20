@@ -42,7 +42,7 @@ export type GlobalWeatherReading = {
     weather_code: number[];
     temperature_2m_max: number[];
     temperature_2m_min: number[];
-    precipitation_probability_max: number[];
+    precipitation_probability_max: Array<number | null>;
   };
 };
 
@@ -198,10 +198,15 @@ function validGlobalWeather(data: any): data is GlobalWeatherReading {
     Array.isArray(daily.temperature_2m_min) &&
     Array.isArray(daily.precipitation_probability_max) &&
     daily.time.length > 0 &&
+    daily.time.every((value: unknown) => typeof value === "string" && value.length > 0) &&
     daily.time.length === daily.weather_code.length &&
     daily.time.length === daily.temperature_2m_max.length &&
     daily.time.length === daily.temperature_2m_min.length &&
-    daily.time.length === daily.precipitation_probability_max.length
+    daily.time.length === daily.precipitation_probability_max.length &&
+    daily.weather_code.every((value: unknown) => Number.isFinite(value)) &&
+    daily.temperature_2m_max.every((value: unknown) => Number.isFinite(value)) &&
+    daily.temperature_2m_min.every((value: unknown) => Number.isFinite(value)) &&
+    daily.precipitation_probability_max.every((value: unknown) => value === null || Number.isFinite(value))
   );
 }
 
