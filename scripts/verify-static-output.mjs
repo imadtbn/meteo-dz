@@ -8,7 +8,7 @@ const places = buildPlaceCatalog();
 
 const root = path.resolve("dist/public");
 const load = (relative) => readFile(path.join(root, relative), "utf8");
-const landing = ["wilayas", "communes", "arab-capitals", "world-capitals", "world-search", "global-weather", "weather-map", "alerts", "favorites", "climate-observatory", "agriculture-weather"];
+const landing = ["weather", "wilayas", "communes", "arab-capitals", "world-capitals", "world-search", "global-weather", "weather-map", "alerts", "favorites", "climate-observatory", "agriculture-weather"];
 
 const homepage = await load("index.html");
 assert.match(homepage, /<html lang="ar" dir="rtl">/);
