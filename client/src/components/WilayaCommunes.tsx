@@ -62,7 +62,7 @@ export function WilayaCommunes({ wilayaCode, wilayaName }: { wilayaCode: string;
             {results.slice(0, visibleCount).map((commune) => (
               <Link key={commune.id} href={"/communes/" + commune.slug + "/"} className="commune-card">
                 <span className="commune-card__name">{commune.name}</span>
-                <span className="commune-card__latin">{commune.name_fr} · {commune.postCode || "—"}</span>
+                <small className="commune-card__latin">{commune.name_fr} · {commune.postCode || "—"}</small>
                 <span className="commune-card__action">توقعات الطقس <ArrowLeft size={15} aria-hidden="true" /></span>
               </Link>
             ))}

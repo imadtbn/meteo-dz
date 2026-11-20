@@ -68,7 +68,6 @@ const homeHeroEnd = homeSource.indexOf("</section>", homeHeroStart);
 const homeAd = homeSource.indexOf('<AdSlot position="header" />');
 assert.ok(homeHeroStart >= 0 && homeHeroEnd > homeHeroStart && homeAd > homeHeroEnd, "Homepage top ad must be placed after the complete hero");
 
-const worldSearchSource = await readFile("client/src/pages/WorldSearch.tsx", "utf8");
 const worldHeroStart = worldSearchSource.indexOf('<section className="directory-hero">');
 const worldHeroEnd = worldSearchSource.indexOf("</section>", worldHeroStart);
 const worldAd = worldSearchSource.indexOf('<AdSlot position="header" />');
