@@ -18,6 +18,11 @@ export type AlgerianCity = {
   administrativeArea?: string;
   country?: string;
   timezone?: string;
+  administrativeLevel?: "wilaya" | "commune";
+  wilayaId?: string;
+  wilayaName?: string;
+  wilayaSlug?: string;
+  postCode?: string;
 };
 
 export const ALGERIAN_CITIES = cityData as AlgerianCity[];
