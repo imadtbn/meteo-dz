@@ -1,4 +1,3 @@
-import rawCommunes from "../../../data/communes.json";
 import { ALGERIAN_CITIES, type AlgerianCity } from "@/data/cities";
 
 type RawCommune = {
@@ -25,11 +24,9 @@ const inAlgeria = (latitude: number, longitude: number) =>
   && latitude >= 18 && latitude <= 38
   && longitude >= -9 && longitude <= 12;
 
-/**
- * The source matrix has two coordinate conventions. Normalize each row against
- * Algeria's geographic bounds instead of blindly swapping the entire dataset.
- */
-export const ALGERIAN_COMMUNES: AlgerianCommune[] = (rawCommunes as RawCommune[]).map((source) => {
+let communesPromise: Promise<AlgerianCommune[]> | null = null;
+
+function normalizeCommune(source: RawCommune): AlgerianCommune {
   const first = Number(source.longitude);
   const second = Number(source.latitude);
   const normalOrder = inAlgeria(first, second);
@@ -46,16 +43,16 @@ export const ALGERIAN_COMMUNES: AlgerianCommune[] = (rawCommunes as RawCommune[]
 
   const latinName = String(source.name || "").trim();
   const arabicName = String(source.ar_name || "").trim();
+  const slug = (latinName.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[’']/g, "").replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "") || "commune") + "-" + source.id;
   return {
     code: String(source.id),
-    slug: (latinName.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[’']/g, "").replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "") || "commune") + "-" + source.id,
+    slug,
     name: arabicName || latinName,
     name_fr: latinName,
     name_en: latinName,
     region: wilaya.name,
     latitude,
     longitude,
-    phone_code: undefined,
     countryCode: "DZ",
     countryPhone: "+213",
     id: String(source.id),
@@ -70,7 +67,32 @@ export const ALGERIAN_COMMUNES: AlgerianCommune[] = (rawCommunes as RawCommune[]
     timezone: "Africa/Algiers",
     coastal: false,
   };
-});
+}
 
-export const getCommunesByWilaya = (wilayaCode: string) =>
-  ALGERIAN_COMMUNES.filter((commune) => commune.wilayaId === String(wilayaCode).padStart(2, "0"));
+/**
+ * Load the commune matrix on demand so the 1,708-row catalog does not inflate
+ * the initial weather application bundle. The same cached promise is shared
+ * by search, wilaya directories, commune routes and favorites.
+ */
+export function loadAlgerianCommunes(): Promise<AlgerianCommune[]> {
+  if (!communesPromise) {
+    communesPromise = fetch(import.meta.env.BASE_URL + "data/communes.json")
+      .then((response) => {
+        if (!response.ok) throw new Error("تعذر تحميل دليل البلديات.");
+        return response.json() as Promise<RawCommune[]>;
+      })
+      .then((records) => {
+        if (!Array.isArray(records)) throw new Error("ملف البلديات غير صالح.");
+        const normalized = records.map(normalizeCommune);
+        if (new Set(normalized.map((item) => item.id)).size !== normalized.length) {
+          throw new Error("توجد معرفات بلديات مكررة في المصدر.");
+        }
+        return normalized;
+      })
+      .catch((error) => {
+        communesPromise = null;
+        throw error;
+      });
+  }
+  return communesPromise;
+}
