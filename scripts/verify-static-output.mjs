@@ -40,6 +40,8 @@ assert.ok(mapBundle, "Weather map must remain a separately emitted route chunk")
 assert.ok((await stat(path.join(root, "assets", mapBundle))).size < 180000, "Weather map route chunk budget exceeded");
 const appSource = await readFile("client/src/App.tsx", "utf8");
 assert.match(appSource, /const WeatherMapPage = lazy\(/, "Weather map route must remain lazy-loaded");
+assert.match(appSource, /const WilayasWeatherIndex = lazy\(/, "Weather directory route must remain lazy-loaded");
+assert.doesNotMatch(appSource, /import \{ WeatherDirectoryPage as WilayasWeatherIndex \}/, "Weather directory must not be statically imported into the initial bundle");
 assert.match(appSource, /const ClimateObservatoryPage = lazy\(/, "Climate observatory must be lazy-loaded");
 assert.match(appSource, /const AgricultureWeatherPage = lazy\(/, "Agriculture weather page must be lazy-loaded");
 assert.ok(appSource.includes('path={"/communes/:slug"}'), "Commune weather route must be registered");
