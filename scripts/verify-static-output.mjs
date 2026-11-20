@@ -19,6 +19,11 @@ assert.ok(Buffer.byteLength(homepage, "utf8") < 100000, "Production homepage HTM
 assert.ok(!(await readdir(root)).includes("__manus__"), "Development debug collector must not be published");
 const adsenseLoader = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5656416032906373';
 assert.equal(homepage.split(adsenseLoader).length - 1, 1, "Load AdSense exactly once per page");
+const gtmContainerId = "GTM-K3DQR9RT";
+assert.ok(homepage.includes(gtmContainerId), "Configured Google Tag Manager container is missing");
+assert.ok(homepage.includes("gtm.start") && homepage.includes("gtm.js"), "Google Tag Manager bootstrap event is missing");
+assert.ok(homepage.includes("googletagmanager.com/ns.html?id=" + gtmContainerId), "Google Tag Manager noscript fallback is missing");
+assert.ok(!homepage.includes("GTM-M58X5KJ8"), "Unexpected legacy Google Tag Manager container remains");
 const assetNames = await readdir(path.join(root, "assets"));
 const staticScripts = assetNames.filter((name) => name.endsWith(".js"));
 const initialAssetNames = [...homepage.matchAll(/(?:src|href)="[^"]*assets\/([^"]+\.js)"/g)].map((match) => match[1]);
