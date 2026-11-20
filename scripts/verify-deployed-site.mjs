@@ -37,6 +37,7 @@ assert.ok(robots.includes("Sitemap: " + sitemapUrl), "robots.txt does not refere
 const requiredRoutes = [
   "weather/",
   "wilayas/",
+  "communes/",
   "arab-capitals/",
   "world-capitals/",
   "world-search/",
