@@ -123,7 +123,7 @@ a, button, input, select { -webkit-tap-highlight-color: transparent; }
 .city-command:focus-within { box-shadow: 0 0 0 3px rgba(12,91,140,.18), 0 16px 44px rgba(12,91,140,.13); }
 .hourly-rail { scroll-padding-inline: 1rem; }
 .site-footer, .directory-shell, .dashboard-shell, .map-shell { min-width: 0; }
-@media (max-width: 1120px) {
+@media (max-width: 1320px) {
   .site-header { grid-template-columns: minmax(0, 1fr) auto; }
   .header-actions .header-source { display: inline-flex; font-size: .7rem; }
   .menu-toggle { display: inline-flex; }
