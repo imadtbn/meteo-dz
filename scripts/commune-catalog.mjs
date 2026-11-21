@@ -1,10 +1,12 @@
 /**
- * Normalize the national commune matrix into stable, validated weather-page records.
- * The source contains mixed coordinate column order; the Algerian bounding box
- * is used to identify and correct swapped latitude/longitude values safely.
+ * Normalize the national commune matrix into stable, human-readable weather routes.
+ * Names are used directly when unique. Duplicate names are disambiguated by wilaya
+ * and, only when needed, postal code; source IDs remain data identifiers, not URL suffixes.
  */
 import rawCommunes from "../data/communes.json" with { type: "json" };
 import wilayas from "../data/cities.json" with { type: "json" };
+import arabCapitals from "../data/arab-capitals.json" with { type: "json" };
+import worldCapitals from "../data/world-capitals.json" with { type: "json" };
 
 const wilayaByCode = new Map(wilayas.map((wilaya) => [String(wilaya.code).padStart(2, "0"), wilaya]));
 const inAlgeria = (latitude, longitude) =>
@@ -20,10 +22,25 @@ const slugify = (value) => String(value || "")
   .replace(/[^a-z0-9]+/g, "-")
   .replace(/^-+|-+$/g, "");
 
+const alphaSuffix = (index) => {
+  let value = index + 1;
+  let suffix = "";
+  while (value > 0) {
+    value -= 1;
+    suffix = String.fromCharCode(97 + (value % 26)) + suffix;
+    value = Math.floor(value / 26);
+  }
+  return suffix;
+};
+
 export function buildCommuneCatalog() {
   const ids = new Set();
-  const slugs = new Set();
   const records = [];
+  const reservedSlugs = new Set([
+    ...wilayas.map((item) => item.slug),
+    ...arabCapitals.map((item) => item.slug),
+    ...worldCapitals.map((item) => item.slug),
+  ]);
 
   for (const source of rawCommunes) {
     const id = String(source.id ?? "").trim();
@@ -50,14 +67,11 @@ export function buildCommuneCatalog() {
     if (!displayName) throw new Error("Missing display name for commune " + id);
 
     const baseSlug = slugify(latinName) || "commune";
-    const slug = baseSlug + "-" + id;
-    if (slugs.has(slug)) throw new Error("Duplicate commune slug: " + slug);
-    slugs.add(slug);
-
     records.push({
       id,
-      slug,
-      postCode: String(source.post_code || ""),
+      baseSlug,
+      legacySlug: baseSlug + "-" + id,
+      postCode: String(source.post_code || "").trim(),
       displayName,
       arabicName,
       englishName: latinName,
@@ -70,8 +84,41 @@ export function buildCommuneCatalog() {
       latitude,
       longitude,
       kind: "commune",
-      canonicalPath: "communes/" + slug,
     });
+  }
+
+  const baseCounts = new Map();
+  const wilayaNameCounts = new Map();
+  for (const record of records) {
+    baseCounts.set(record.baseSlug, (baseCounts.get(record.baseSlug) || 0) + 1);
+    const key = record.baseSlug + "|" + record.wilayaId;
+    wilayaNameCounts.set(key, (wilayaNameCounts.get(key) || 0) + 1);
+  }
+
+  const usedSlugs = new Set(reservedSlugs);
+  for (const record of records) {
+    const sameNameCount = baseCounts.get(record.baseSlug);
+    const sameWilayaCount = wilayaNameCounts.get(record.baseSlug + "|" + record.wilayaId);
+    let candidate = sameNameCount === 1
+      ? record.baseSlug
+      : record.baseSlug + "-" + record.wilayaSlug;
+
+    if (sameWilayaCount > 1) {
+      candidate += "-" + (slugify(record.postCode) || "postal");
+    }
+    if (reservedSlugs.has(candidate)) candidate += "-commune";
+
+    let slug = candidate;
+    let suffix = 0;
+    while (usedSlugs.has(slug)) {
+      slug = candidate + "-" + alphaSuffix(suffix++);
+    }
+    usedSlugs.add(slug);
+
+    record.slug = slug;
+    record.canonicalPath = "communes/" + slug;
+    record.legacyCanonicalPath = "communes/" + record.legacySlug;
+    delete record.baseSlug;
   }
 
   return records;
@@ -85,6 +132,7 @@ export function communeDiagnostics(records = buildCommuneCatalog()) {
     total: records.length,
     uniqueIds: new Set(records.map((item) => item.id)).size,
     uniqueSlugs: new Set(records.map((item) => item.slug)).size,
+    legacyAliases: records.filter((item) => item.slug !== item.legacySlug).length,
     missingArabicNames: records.filter((item) => !item.arabicName).map((item) => item.id),
     rowsWithSwappedFieldLabels: mislabeledCoordinateRows,
     rowsWithDeclaredCoordinateOrder: records.length - mislabeledCoordinateRows,
