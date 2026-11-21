@@ -127,7 +127,7 @@ const urls = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map((item) => item[1]
 assert.equal(urls.length, 1 + INDEXABLE_LANDING_ROUTES.length + places.length);
 assert.equal(new Set(urls).size, urls.length);
 assert.deepEqual(urls, sitemapUrls(expectedRoot, places));
-assert.equal(await readFile("submet-url.xml", "utf8"), sitemapUrls(expectedRoot, places).join("\\n") + "\\n", "Submitted URL list must match canonical sitemap routes");
+assert.equal(await readFile("submet-url.xml", "utf8"), sitemapUrls(expectedRoot, places).join("\n") + "\n", "Submitted URL list must match canonical sitemap routes");
 assert.equal(sitemap, buildSitemap(expectedRoot, places), "Deployed sitemap must match the canonical generator");
 assert.equal(sitemap, await readFile("sitemap.xml", "utf8"), "Repository root sitemap must match deployment");
 assert.equal(sitemap, await readFile("client/public/sitemap.xml", "utf8"), "Public sitemap must match deployment");
