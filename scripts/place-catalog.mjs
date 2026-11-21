@@ -1,6 +1,6 @@
 /**
  * One canonical geographic catalog for static pages, sitemap and client routes.
- * Source precedence is intentional: Algerian wilayas, their communes, then Arab capitals and world capitals.
+ * Route identity includes the directory, so identical slugs in different page types do not collide.
  */
 import { existsSync } from "node:fs";
 import path from "node:path";
@@ -12,7 +12,6 @@ import { buildCommuneCatalog } from "./commune-catalog.mjs";
 const IMAGE_ROOT = path.resolve("images");
 const IMAGE_PREFIX = "images/";
 const COORDINATE_OVERRIDES = {
-  // The Arab-capitals dataset is the selected reference for Bahrain's capital.
   manama: { latitude: 26.2235, longitude: 50.5876 },
 };
 
@@ -27,16 +26,18 @@ function validCoordinates(record) {
 }
 
 export function buildPlaceCatalog() {
-  const bySlug = new Map();
+  const byRoute = new Map();
   const add = (record, kind, displayName, routePrefix, country, englishName) => {
     if (!record.slug || !/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(record.slug)) {
       throw new Error("Invalid geographic slug: " + String(record.slug));
     }
     if (!validCoordinates(record)) throw new Error("Invalid coordinates for " + record.slug);
+    const canonicalPath = routePrefix + "/" + record.slug;
     const override = COORDINATE_OVERRIDES[record.slug];
     const normalized = {
       slug: record.slug,
       legacySlug: record.legacySlug || "",
+      legacySlugs: record.legacySlugs || (record.legacySlug ? [record.legacySlug] : []),
       kind,
       displayName,
       englishName: englishName || record.englishName || record.name_en || "",
@@ -47,16 +48,20 @@ export function buildPlaceCatalog() {
       latitude: override?.latitude ?? record.latitude,
       longitude: override?.longitude ?? record.longitude,
       image: imageFor(record),
-      canonicalPath: routePrefix + "/" + record.slug,
+      canonicalPath,
       categories: [kind],
       wilayaId: record.wilayaId || "",
       wilayaSlug: record.wilayaSlug || "",
       postCode: record.postCode || "",
+      locations: record.locations || [],
+      aliases: record.aliases || [],
+      englishAliases: record.englishAliases || [],
     };
-    const existing = bySlug.get(record.slug);
+    const existing = byRoute.get(canonicalPath);
     if (existing) {
-      if (existing.countryCode && normalized.countryCode && existing.countryCode !== normalized.countryCode) {
-        throw new Error("Slug collision across countries: " + record.slug);
+      if (existing.kind !== kind) throw new Error("Canonical route collision: " + canonicalPath);
+      if (kind === "commune") {
+        throw new Error("Duplicate commune route must be grouped before place catalog: " + canonicalPath);
       }
       existing.categories.push(kind);
       existing.image ||= normalized.image;
@@ -65,11 +70,11 @@ export function buildPlaceCatalog() {
       existing.countryCode ||= normalized.countryCode;
       return;
     }
-    bySlug.set(record.slug, normalized);
+    byRoute.set(canonicalPath, normalized);
   };
 
   for (const city of algerianCities) {
-    add(city, "wilaya", city.name, "weather", "الجزائر", city.name_en);
+    add(city, "wilaya", city.name, "wilayas", "الجزائر", city.name_en);
   }
   for (const commune of buildCommuneCatalog()) {
     add(commune, "commune", commune.displayName, "communes", "الجزائر", commune.englishName);
@@ -81,15 +86,15 @@ export function buildPlaceCatalog() {
     add(capital, "world-capital", capital.capital, "world-capitals", capital.country, capital.englishName);
   }
 
-  return [...bySlug.values()];
+  return [...byRoute.values()];
 }
 
 export function catalogDiagnostics(catalog = buildPlaceCatalog()) {
-  const slugs = catalog.map((place) => place.slug);
+  const routes = catalog.map((place) => place.canonicalPath);
   const missingImages = catalog.filter((place) => !place.image).map((place) => place.slug);
   return {
     total: catalog.length,
-    duplicateSlugs: slugs.length - new Set(slugs).size,
+    duplicateRoutes: routes.length - new Set(routes).size,
     missingImages,
     invalidCoordinates: catalog.filter((place) => !Number.isFinite(place.latitude) || !Number.isFinite(place.longitude)).map((place) => place.slug),
   };

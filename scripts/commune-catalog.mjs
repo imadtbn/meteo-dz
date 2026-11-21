@@ -1,7 +1,7 @@
 /**
- * Normalize the national commune matrix into stable, human-readable weather routes.
- * Names are used directly when unique. Duplicate names are disambiguated by wilaya
- * and, only when needed, postal code; source IDs remain data identifiers, not URL suffixes.
+ * Build canonical commune pages from the official source matrix.
+ * A page identity is strictly the normalized commune name + wilaya name.
+ * Repeated source rows share one page and retain independent weather coordinates.
  */
 import rawCommunes from "../data/communes.json" with { type: "json" };
 import wilayas from "../data/cities.json" with { type: "json" };
@@ -35,12 +35,7 @@ const alphaSuffix = (index) => {
 
 export function buildCommuneCatalog() {
   const ids = new Set();
-  const records = [];
-  const reservedSlugs = new Set([
-    ...wilayas.map((item) => item.slug),
-    ...arabCapitals.map((item) => item.slug),
-    ...worldCapitals.map((item) => item.slug),
-  ]);
+  const sourceRecords = [];
 
   for (const source of rawCommunes) {
     const id = String(source.id ?? "").trim();
@@ -66,11 +61,12 @@ export function buildCommuneCatalog() {
     const displayName = arabicName || latinName;
     if (!displayName) throw new Error("Missing display name for commune " + id);
 
-    const baseSlug = slugify(latinName) || "commune";
-    records.push({
+    const nameSlug = slugify(latinName) || slugify(arabicName);
+    if (!nameSlug) throw new Error("Commune has no usable name for URL: " + id);
+    sourceRecords.push({
       id,
-      baseSlug,
-      legacySlug: baseSlug + "-" + id,
+      nameSlug,
+      oldBaseSlug: nameSlug,
       postCode: String(source.post_code || "").trim(),
       displayName,
       arabicName,
@@ -87,55 +83,94 @@ export function buildCommuneCatalog() {
     });
   }
 
-  const baseCounts = new Map();
+  // Reconstruct the previously published slug scheme so every old URL can redirect.
+  const globalNameCounts = new Map();
   const wilayaNameCounts = new Map();
-  for (const record of records) {
-    baseCounts.set(record.baseSlug, (baseCounts.get(record.baseSlug) || 0) + 1);
-    const key = record.baseSlug + "|" + record.wilayaId;
+  for (const record of sourceRecords) {
+    globalNameCounts.set(record.nameSlug, (globalNameCounts.get(record.nameSlug) || 0) + 1);
+    const key = record.nameSlug + "|" + record.wilayaId;
     wilayaNameCounts.set(key, (wilayaNameCounts.get(key) || 0) + 1);
   }
-
-  const usedSlugs = new Set(reservedSlugs);
-  for (const record of records) {
-    const sameNameCount = baseCounts.get(record.baseSlug);
-    const sameWilayaCount = wilayaNameCounts.get(record.baseSlug + "|" + record.wilayaId);
-    let candidate = sameNameCount === 1
-      ? record.baseSlug
-      : record.baseSlug + "-" + record.wilayaSlug;
-
-    if (sameWilayaCount > 1) {
-      candidate += "-" + (slugify(record.postCode) || "postal");
+  const oldUsed = new Set([
+    ...wilayas.map((item) => item.slug),
+    ...arabCapitals.map((item) => item.slug),
+    ...worldCapitals.map((item) => item.slug),
+  ]);
+  for (const record of sourceRecords) {
+    let candidate = globalNameCounts.get(record.nameSlug) === 1
+      ? record.nameSlug
+      : record.nameSlug + "-" + record.wilayaSlug;
+    if (wilayaNameCounts.get(record.nameSlug + "|" + record.wilayaId) > 1) {
+      candidate += "-" + (record.postCode || "postal");
     }
-    if (reservedSlugs.has(candidate)) candidate += "-commune";
-
-    let slug = candidate;
+    if (oldUsed.has(candidate)) candidate += "-commune";
+    let oldSlug = candidate;
     let suffix = 0;
-    while (usedSlugs.has(slug)) {
-      slug = candidate + "-" + alphaSuffix(suffix++);
-    }
-    usedSlugs.add(slug);
+    while (oldUsed.has(oldSlug)) oldSlug = candidate + "-" + alphaSuffix(suffix++);
+    oldUsed.add(oldSlug);
+    record.oldSlug = oldSlug;
+    record.idLegacySlug = record.nameSlug + "-" + record.id;
+  }
 
-    record.slug = slug;
-    record.canonicalPath = "communes/" + slug;
-    record.legacyCanonicalPath = "communes/" + record.legacySlug;
-    delete record.baseSlug;
+  const groups = new Map();
+  for (const record of sourceRecords) {
+    const slug = record.nameSlug + "-" + record.wilayaSlug;
+    const key = record.wilayaId + "|" + slug;
+    const existing = groups.get(key);
+    const location = {
+      id: record.id,
+      postCode: record.postCode,
+      displayName: record.displayName,
+      arabicName: record.arabicName,
+      englishName: record.englishName,
+      latitude: record.latitude,
+      longitude: record.longitude,
+    };
+    if (existing) {
+      existing.locations.push(location);
+      if (record.arabicName && !existing.aliases.includes(record.arabicName)) existing.aliases.push(record.arabicName);
+      if (record.englishName && !existing.englishAliases.includes(record.englishName)) existing.englishAliases.push(record.englishName);
+      existing.legacySlugs.push(record.oldSlug, record.idLegacySlug);
+      continue;
+    }
+    groups.set(key, {
+      ...record,
+      slug,
+      locations: [location],
+      aliases: record.arabicName ? [record.arabicName] : [],
+      englishAliases: record.englishName ? [record.englishName] : [],
+      legacySlugs: [record.oldSlug, record.idLegacySlug],
+    });
+  }
+
+  const records = [...groups.values()];
+  const routePaths = new Set();
+  for (const record of records) {
+    if (/\d/.test(record.slug)) throw new Error("Numeric suffix is forbidden in commune slug: " + record.slug);
+    if (routePaths.has(record.slug)) throw new Error("Duplicate commune route: " + record.slug);
+    routePaths.add(record.slug);
+    record.canonicalPath = "communes/" + record.slug;
+    record.legacySlug = record.legacySlugs.find((slug) => slug !== record.slug) || "";
+    record.legacySlugs = [...new Set(record.legacySlugs)].filter((slug) => slug && slug !== record.slug);
+    delete record.nameSlug;
+    delete record.oldBaseSlug;
+    delete record.oldSlug;
+    delete record.idLegacySlug;
   }
 
   return records;
 }
 
 export function communeDiagnostics(records = buildCommuneCatalog()) {
-  const mislabeledCoordinateRows = rawCommunes.filter((source) =>
-    inAlgeria(Number(source.longitude), Number(source.latitude)),
-  ).length;
+  const sourceCount = records.reduce((sum, item) => sum + item.locations.length, 0);
   return {
     total: records.length,
-    uniqueIds: new Set(records.map((item) => item.id)).size,
+    sourceRecords: sourceCount,
+    groupedRecords: sourceCount - records.length,
+    uniqueIds: new Set(records.flatMap((item) => item.locations.map((location) => location.id))).size,
     uniqueSlugs: new Set(records.map((item) => item.slug)).size,
-    legacyAliases: records.filter((item) => item.slug !== item.legacySlug).length,
-    missingArabicNames: records.filter((item) => !item.arabicName).map((item) => item.id),
-    rowsWithSwappedFieldLabels: mislabeledCoordinateRows,
-    rowsWithDeclaredCoordinateOrder: records.length - mislabeledCoordinateRows,
+    numericSlugs: records.filter((item) => /\d/.test(item.slug)).map((item) => item.slug),
+    multiLocationPages: records.filter((item) => item.locations.length > 1).map((item) => ({ slug: item.slug, locations: item.locations.length })),
     wilayas: new Set(records.map((item) => item.wilayaId)).size,
   };
 }

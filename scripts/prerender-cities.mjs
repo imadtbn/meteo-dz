@@ -12,6 +12,17 @@ const siteRoot = `${siteUrl.replace(/\/$/, "")}/`;
 const places = buildPlaceCatalog();
 const escapeHtml = (value = "") => String(value).replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll('"', "&quot;").replaceAll("'", "&#39;");
 const escapeXml = (value) => escapeHtml(value);
+const writtenRedirects = new Set();
+async function writeLegacyRedirect(relativePath, canonical, displayName) {
+  if (!relativePath || relativePath === canonical.replace(siteRoot, "").replace(/\/$/, "")) return;
+  if (writtenRedirects.has(relativePath)) throw new Error("Duplicate legacy redirect path: " + relativePath);
+  writtenRedirects.add(relativePath);
+  const output = path.join(dist, relativePath);
+  const redirectPage = '<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>تم تحديث رابط ' + escapeHtml(displayName) + '</title><link rel="canonical" href="' + escapeHtml(canonical) + '"><meta name="robots" content="noindex,follow"><meta http-equiv="refresh" content="0;url=' + escapeHtml(canonical) + '"><script>window.location.replace(' + JSON.stringify(canonical) + ');</script></head><body><main><h1>تم تحديث الرابط</h1><p>الرابط الجديد لـ ' + escapeHtml(displayName) + ':</p><p><a href="' + escapeHtml(canonical) + '">' + escapeHtml(canonical) + '</a></p></main></body></html>';
+  await mkdir(output, { recursive: true });
+  await writeFile(path.join(output, "index.html"), redirectPage);
+}
+
 
 function setSeo(html, { title, description, canonical, image = siteRoot + "social-preview.png" }) {
   const replaceMeta = (source, attr, key, value) => {
@@ -95,7 +106,7 @@ for (const place of places) {
         itemListElement: place.kind === "commune" ? [
           { "@type": "ListItem", position: 1, name: "الرئيسية", item: siteRoot },
           { "@type": "ListItem", position: 2, name: "دليل البلديات", item: siteRoot + "communes/" },
-          { "@type": "ListItem", position: 3, name: "ولاية " + place.region, item: siteRoot + "weather/" + place.wilayaSlug + "/" },
+          { "@type": "ListItem", position: 3, name: "ولاية " + place.region, item: siteRoot + "wilayas/" + place.wilayaSlug + "/" },
           { "@type": "ListItem", position: 4, name: place.displayName, item: canonical },
         ] : [
           { "@type": "ListItem", position: 1, name: "الرئيسية", item: siteRoot },
@@ -123,12 +134,12 @@ for (const place of places) {
   await mkdir(output, { recursive: true });
   await writeFile(path.join(output, "index.html"), page);
 
-  // GitHub Pages cannot emit HTTP 301 rules. Preserve old numeric URLs with lightweight HTML redirects.
-  if (place.kind === "commune" && place.legacySlug && place.legacySlug !== place.slug) {
-    const legacyOutput = path.join(dist, "communes", place.legacySlug);
-    const redirectPage = '<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>تم تحديث رابط بلدية ' + escapeHtml(place.displayName) + '</title><link rel="canonical" href="' + escapeHtml(canonical) + '"><meta name="robots" content="noindex,follow"><meta http-equiv="refresh" content="0;url=' + escapeHtml(canonical) + '"><script>window.location.replace(' + JSON.stringify(canonical) + ');</script></head><body><main><h1>تم تحديث رابط البلدية</h1><p>الرابط الجديد لصفحة ' + escapeHtml(place.displayName) + ':</p><p><a href="' + escapeHtml(canonical) + '">' + escapeHtml(canonical) + '</a></p></main></body></html>';
-    await mkdir(legacyOutput, { recursive: true });
-    await writeFile(path.join(legacyOutput, "index.html"), redirectPage);
+  // GitHub Pages cannot emit HTTP 301 rules. Keep old commune and wilaya paths as noindex HTML redirects.
+  const legacyPaths = place.kind === "commune"
+    ? (place.legacySlugs || []).map((slug) => "communes/" + slug)
+    : place.kind === "wilaya" ? ["weather/" + place.slug] : [];
+  for (const legacyPath of legacyPaths) {
+    await writeLegacyRedirect(legacyPath, canonical, place.displayName);
   }
 }
 

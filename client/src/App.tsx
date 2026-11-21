@@ -1,7 +1,7 @@
 /** Style reminder: Atlas Observatory uses route-level pages that always preserve a clear route back to the current reading. */
-import { lazy, Suspense } from "react";
+import { lazy, Suspense, useEffect } from "react";
 import NotFound from "@/pages/NotFound";
-import { Route, Router as WouterRouter, Switch } from "wouter";
+import { Route, Router as WouterRouter, Switch, useLocation, useRoute } from "wouter";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import City from "./pages/City";
@@ -20,7 +20,7 @@ const ClimateObservatoryPage = lazy(() => import("./pages/ClimateObservatory"));
 const AgricultureWeatherPage = lazy(() => import("./pages/AgricultureWeather"));
 const CommunePage = lazy(() => import("./pages/Commune"));
 
-function Router() {
+function LegacyWilayaRedirect() {\n  const [, params] = useRoute("/weather/:slug");\n  const [, navigate] = useLocation();\n  useEffect(() => { if (params?.slug) navigate("/wilayas/" + params.slug + "/", { replace: true }); }, [params?.slug, navigate]);\n  return <div className="loading-card" dir="rtl">جارٍ تحديث رابط الولاية…</div>;\n}\n\nfunction Router() {
   // make sure to consider if you need authentication for certain routes
   const base = import.meta.env.BASE_URL.replace(/\/$/, "") || "/";
   return (
@@ -29,7 +29,8 @@ function Router() {
       <Switch>
       <Route path={"/"} component={() => <Home />} />
       <Route path={"/weather"} component={WilayasWeatherIndex} />
-      <Route path={"/weather/:slug"} component={City} />
+      <Route path={"/wilayas/:slug"} component={City} />
+      <Route path={"/weather/:slug"} component={LegacyWilayaRedirect} />
       <Route path={"/communes"} component={CommunesPage} />
       <Route path={"/communes/:slug"} component={CommunePage} />
       <Route path={"/wilayas"} component={WilayasPage} />
