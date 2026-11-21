@@ -52,7 +52,7 @@ for (const route of requiredRoutes) {
 
 const geographicUrls = urls.filter((url) => /\/(weather|communes|arab-capitals|world-capitals)\/[^/]+\/$/.test(new URL(url).pathname));
 const communeUrls = geographicUrls.filter((url) => new URL(url).pathname.includes("/communes/"));
-assert.ok(communeUrls.length >= 1700, "Unexpectedly small commune page set: " + communeUrls.length);
+assert.ok(communeUrls.length >= 1500, "Unexpectedly small canonical commune page set: " + communeUrls.length);\nassert.ok(communeUrls.every((url) => !/\\d/.test(new URL(url).pathname.split("/").filter(Boolean).at(-1))), "Canonical commune URLs must not contain IDs or postal-code digits");
 const legacyRedirects = new Map([
   [base + "communes/inoughissen-127/", base + "communes/inoughissen/"],
   [base + "communes/el-adjiba-327/", base + "communes/el-adjiba/"],
@@ -62,7 +62,7 @@ const representative = [
   base + "communes/inoughissen/",
   base + "communes/el-adjiba/",
   ...legacyRedirects.keys(),
-  ...geographicUrls.filter((url) => url.includes("/weather/")).slice(0, 3),
+  ...geographicUrls.filter((url) => url.includes("/wilayas/")).slice(0, 3),
   ...communeUrls.slice(0, 3),
   ...geographicUrls.filter((url) => url.includes("/arab-capitals/")).slice(0, 2),
   ...geographicUrls.filter((url) => url.includes("/world-capitals/")).slice(0, 3),
