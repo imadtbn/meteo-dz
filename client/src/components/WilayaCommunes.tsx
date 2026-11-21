@@ -41,7 +41,7 @@ export function WilayaCommunes({ wilayaCode, wilayaName }: { wilayaCode: string;
       <div className="section-intro">
         <span>دليل البلديات</span>
         <h2 id="wilaya-communes-title">بلديات ولاية {wilayaName}</h2>
-        <p>{loading ? "جارٍ تحميل دليل البلديات…" : communes.length + " بلدية، لكل منها صفحة طقس مستقلة تعتمد على إحداثياتها الجغرافية."}</p>
+        <p>{loading ? "جارٍ تحميل دليل البلديات…" : communes.length + " صفحة بلدية؛ وقد تضم الصفحة أكثر من موقع جغرافي عند تكرار الاسم داخل الولاية."}</p>
       </div>
       <label className="commune-search">
         <Search size={18} aria-hidden="true" />
