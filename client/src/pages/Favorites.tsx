@@ -40,7 +40,7 @@ export default function FavoritesPage() {
           <div className="directory-grid">
             {favorites.map((city) => (
               <article className="favorite-city-item" key={city.slug}>
-                <Link className="directory-card favorite-city-link" href={city.administrativeLevel === "commune" ? `/communes/${city.slug}/` : `/weather/${city.slug}/`}>
+                <Link className="directory-card favorite-city-link" href={city.administrativeLevel === "commune" ? `/communes/${city.slug}/` : `/wilayas/${city.slug}/`}>
                   <span>{city.region}</span>
                   <b>{city.name}</b>
                   <small>فتح توقعات الطقس</small>
