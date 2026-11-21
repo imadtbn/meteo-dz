@@ -31,7 +31,7 @@ export function WilayaCommunes({ wilayaCode, wilayaName }: { wilayaCode: string;
     const cleaned = normalizePlaceSearch(query);
     if (!cleaned) return communes;
     return communes.filter((commune) =>
-      normalizePlaceSearch([commune.name, commune.name_fr, commune.name_en, commune.postCode, commune.id].filter(Boolean).join(" "))
+      normalizePlaceSearch([commune.name, commune.name_fr, commune.name_en, commune.postCode, commune.id, ...(commune.aliases || []), ...(commune.englishAliases || []), ...commune.locations.flatMap((location) => [location.displayName, location.arabicName, location.englishName, location.postCode, location.id])].filter(Boolean).join(" "))
         .includes(cleaned),
     );
   }, [communes, query]);
