@@ -94,7 +94,7 @@ export default function Home({ forcedCity, detail = false, communeLocations, pri
   const selectCity = (next: string) => {
     const found = getCityBySlug(next);
     if (detail) {
-      navigate(`/weather/${found.slug}`);
+      navigate(`/wilayas/${found.slug}/`);
       return;
     }
     setCity(found);
