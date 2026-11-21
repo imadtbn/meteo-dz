@@ -33,7 +33,7 @@ export function getPlaceWeatherTarget(kind: PlaceRouteKind, slug?: string): Plac
 }
 
 export function getCanonicalPlacePath(slug: string): string {
-  if (cities.some((place) => place.slug === slug)) return "/weather/" + slug + "/";
+  if (cities.some((place) => place.slug === slug)) return "/wilayas/" + slug + "/";
   if (arabCapitals.some((place) => place.slug === slug)) return "/arab-capitals/" + slug + "/";
   if (worldCapitals.some((place) => place.slug === slug)) return "/world-capitals/" + slug + "/";
   return "/world-search/";
