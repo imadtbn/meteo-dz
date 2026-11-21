@@ -59,6 +59,8 @@ const legacyRedirects = new Map([
 ]);
 const representative = [
   ...requiredRoutes.map((route) => new URL(route, base).href),
+  base + "communes/inoughissen/",
+  base + "communes/el-adjiba/",
   ...legacyRedirects.keys(),
   ...geographicUrls.filter((url) => url.includes("/weather/")).slice(0, 3),
   ...communeUrls.slice(0, 3),
