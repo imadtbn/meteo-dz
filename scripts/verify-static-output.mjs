@@ -2,9 +2,14 @@ import assert from "node:assert/strict";
 import { readFile, readdir, stat } from "node:fs/promises";
 import path from "node:path";
 import { buildPlaceCatalog } from "./place-catalog.mjs";
+import { buildCommuneCatalog } from "./commune-catalog.mjs";
 import { buildSitemap, sitemapUrls, INDEXABLE_LANDING_ROUTES } from "./sitemap-core.mjs";
 
 const places = buildPlaceCatalog();
+const communeCatalog = buildCommuneCatalog();
+assert.ok(communeCatalog.every((commune) => !/\\d/.test(commune.slug)), "Commune slugs must not contain IDs or postal-code digits");
+assert.equal(new Set(communeCatalog.map((commune) => commune.slug)).size, communeCatalog.length, "Commune routes must be unique after grouping");
+assert.ok(communeCatalog.every((commune) => commune.locations.length >= 1), "Every canonical commune page must retain source locations");
 
 const root = path.resolve("dist/public");
 const load = (relative) => readFile(path.join(root, relative), "utf8");
@@ -74,7 +79,7 @@ const homeSource = await readFile("client/src/pages/Home.tsx", "utf8");
 assert.ok(homeSource.includes("CommuneInternalLinks"), "Commune contextual links must be rendered inside the hero");
 assert.ok(!homeSource.includes('aria-label="العودة إلى الولاية"'), "Do not append a separate wilaya-only section to commune pages");
 const communeLinksSource = await readFile("client/src/components/CommuneInternalLinks.tsx", "utf8");
-assert.ok(communeLinksSource.includes("commune-context-nav__siblings") && communeLinksSource.includes('href={"/weather/" + city.wilayaSlug + "/"}'), "Commune pages must link to the parent wilaya and sibling communes");
+assert.ok(communeLinksSource.includes("commune-context-nav__siblings") && communeLinksSource.includes('href={"/wilayas/" + city.wilayaSlug + "/"}'), "Commune pages must link to the parent wilaya and sibling communes");
 const homeHeroStart = homeSource.indexOf('<section className="hero-band">');
 const homeHeroEnd = homeSource.indexOf("</section>", homeHeroStart);
 const homeAd = homeSource.indexOf('<AdSlot position="header" />');
@@ -94,15 +99,15 @@ assert.ok(htmlSitemap.includes(communeCount + " بلدية جزائرية"), "HT
 const htmlCommuneLinks = [...htmlSitemap.matchAll(/href="https:\/\/imadtbn\.github\.io\/meteo-dz\/communes\/[^"]+\//g)];
 assert.equal(htmlCommuneLinks.length, communeCount, "HTML sitemap must link every commune exactly once");
 const communeSource = JSON.parse(await load("data/communes.json"));
-assert.equal(communeSource.length, communeCount, "Published commune source must match the canonical catalog");
-assert.equal(new Set(communeSource.map((item) => item.id)).size, communeCount, "Published commune IDs must be unique");
+assert.equal(communeSource.length, communeCount, "Published commune pages must match the canonical catalog");
+const sourceLocationIds = communeSource.flatMap((item) => item.locations.map((location) => location.id));
+assert.equal(new Set(sourceLocationIds).size, sourceLocationIds.length, "Source commune IDs must remain unique across grouped pages");
 assert.equal(new Set(communeSource.map((item) => item.slug)).size, communeCount, "Published canonical commune slugs must be unique");
-assert.ok(communeSource.every((item) => item.slug && item.legacy_slug && item.slug !== item.legacy_slug && item.wilaya_slug && item.latitude >= 18 && item.latitude <= 38 && item.longitude >= -9 && item.longitude <= 12), "Published commune records must have unique readable routes, legacy aliases, wilaya links and normalized Algerian coordinates");
-assert.equal(communeSource.find((item) => item.id === "127")?.slug, "inoughissen", "Inoughissen must use its clean name slug");
-assert.equal(communeSource.find((item) => item.id === "327")?.slug, "el-adjiba", "El Adjiba must use its clean name slug");
+assert.ok(communeSource.every((item) => item.slug && !/\\d/.test(item.slug) && item.legacy_slugs?.length >= 1 && item.wilaya_slug && item.locations?.length >= 1 && item.locations.every((location) => location.latitude >= 18 && location.latitude <= 38 && location.longitude >= -9 && location.longitude <= 12)), "Published commune records must use name-only routes and retain valid independent locations");
+assert.ok(communeSource.some((item) => item.locations.length > 1), "Duplicate source records must be grouped into multi-location pages");
 const searchIndex = JSON.parse(await load("data/global-search-index.json"));
 const communeSearchEntries = searchIndex.filter((item) => item.kind === "commune");
-assert.equal(communeSearchEntries.length, communeCount, "Global search index must include every commune exactly once");
+assert.equal(communeSearchEntries.length, communeCount, "Global search index must include each canonical commune page exactly once");
 assert.ok(communeSearchEntries.every((item) => communeSource.some((commune) => item.path === "/communes/" + commune.slug + "/")), "Global search index must contain only canonical commune URLs");
 
 const manifest = JSON.parse(await load("manifest.webmanifest"));
@@ -157,17 +162,24 @@ for (const place of places) {
   assert.equal(breadcrumbNode?.itemListElement?.length, place.kind === "commune" ? 4 : 3, "Breadcrumb depth mismatch: " + place.slug);
   if (place.kind === "commune") {
     assert.ok(place.wilayaSlug && place.wilayaId, "Commune must be linked to a known wilaya: " + place.slug);
-    assert.ok(html.includes("/weather/" + place.wilayaSlug + "/"), "Commune page must link to its wilaya: " + place.slug);
+    assert.ok(html.includes("/wilayas/" + place.wilayaSlug + "/"), "Commune page must link to its wilaya: " + place.slug);
     assert.ok(html.includes("دليل البلديات"), "Commune breadcrumb must link to the national commune directory: " + place.slug);
     assert.ok(place.latitude >= 18 && place.latitude <= 38 && place.longitude >= -9 && place.longitude <= 12, "Commune coordinates must fall within Algeria: " + place.slug);
-    assert.ok(place.legacySlug && place.legacySlug !== place.slug, "Legacy route must be retained for " + place.slug);
-    const legacyHtml = await load(path.join("communes", place.legacySlug, "index.html"));
-    assert.ok(legacyHtml.includes('rel="canonical" href="https://imadtbn.github.io/meteo-dz/' + place.canonicalPath + '/"'), "Legacy route must canonicalize to the clean URL: " + place.legacySlug);
-    assert.ok(legacyHtml.includes('http-equiv="refresh"') && legacyHtml.includes("window.location.replace"), "Legacy route must redirect to the clean URL: " + place.legacySlug);
-    assert.ok(legacyHtml.includes('name="robots" content="noindex,follow"'), "Legacy route must not be indexed: " + place.legacySlug);
-    assert.ok(!urls.includes("https://imadtbn.github.io/meteo-dz/" + "communes/" + place.legacySlug + "/"), "Legacy route must not appear in the sitemap: " + place.legacySlug);
+    assert.ok(place.locations.length >= 1, "Grouped commune page must retain source locations: " + place.slug);
+    for (const legacySlug of place.legacySlugs) {
+      const legacyHtml = await load(path.join("communes", legacySlug, "index.html"));
+      assert.ok(legacyHtml.includes('rel="canonical" href="https://imadtbn.github.io/meteo-dz/' + place.canonicalPath + '/"'), "Legacy route must canonicalize to the name-only URL: " + legacySlug);
+      assert.ok(legacyHtml.includes('http-equiv="refresh"') && legacyHtml.includes("window.location.replace"), "Legacy route must redirect to the canonical URL: " + legacySlug);
+      assert.ok(legacyHtml.includes('name="robots" content="noindex,follow"'), "Legacy route must not be indexed: " + legacySlug);
+      assert.ok(!urls.includes("https://imadtbn.github.io/meteo-dz/communes/" + legacySlug + "/"), "Legacy route must not appear in the sitemap: " + legacySlug);
+    }
   }
   assert.ok(html.includes("related-place-link"), "Related internal links missing: " + place.slug);
+  if (place.kind === "wilaya") {
+    const legacyWilaya = await load(path.join("weather", place.slug, "index.html"));
+    assert.ok(legacyWilaya.includes('rel="canonical" href="https://imadtbn.github.io/meteo-dz/' + place.canonicalPath + '/"'), "Old wilaya route must canonicalize to /wilayas/:slug: " + place.slug);
+    assert.ok(legacyWilaya.includes('http-equiv="refresh"') && legacyWilaya.includes("window.location.replace"), "Old wilaya route must redirect: " + place.slug);
+  }
   if (place.image) {
     assert.ok(html.includes('fetchpriority="high"') && html.includes(place.image), "Primary city image missing: " + place.slug);
     assert.equal(webPageNode?.primaryImageOfPage?.contentUrl, "https://imadtbn.github.io/meteo-dz/" + place.image, "JSON-LD image URL mismatch: " + place.slug);
