@@ -27,9 +27,16 @@ export const normalizePlaceSearch = (text: string): string => text
 export function filterWilayas(cities: AlgerianCity[], query: string): AlgerianCity[] {
   const cleaned = normalizePlaceSearch(query);
   if (!cleaned) return cities;
-  return cities.filter((city) =>
-    normalizePlaceSearch([city.name, city.name_fr, city.name_en, city.region, city.code, city.slug, city.phone_code].filter(Boolean).join(" "))
-      .includes(cleaned));
+  return cities.filter((city) => {
+    const commune = city as AlgerianCommune;
+    const locationTerms = commune.locations?.flatMap((location) => [
+      location.displayName, location.arabicName, location.englishName, location.postCode, location.id,
+    ]) || [];
+    return normalizePlaceSearch([
+      city.name, city.name_fr, city.name_en, city.region, city.code, city.slug, city.phone_code,
+      ...(commune.aliases || []), ...(commune.englishAliases || []), ...locationTerms,
+    ].filter(Boolean).join(" ")).includes(cleaned);
+  });
 }
 
 export function findLocalCities(cities: AlgerianCity[], query: string, limit = 6): AlgerianCity[] {
