@@ -50,6 +50,7 @@ assert.doesNotMatch(appSource, /import \{ WeatherDirectoryPage as WilayasWeather
 assert.match(appSource, /const ClimateObservatoryPage = lazy\(/, "Climate observatory must be lazy-loaded");
 assert.match(appSource, /const AgricultureWeatherPage = lazy\(/, "Agriculture weather page must be lazy-loaded");
 assert.ok(appSource.includes('path={"/communes/:slug"}'), "Commune weather route must be registered");
+assert.ok(appSource.includes('path={"/wilayas/:slug"}'), "Canonical wilaya weather route must be registered");
 assert.ok(appSource.includes('path={"/communes"}'), "National communes directory route must be registered");
 assert.ok(!homepage.includes(mapBundle), "Weather map bundle must not load with the homepage");
 console.log("Performance budgets: initial JS " + initialJsBytes + " B, total JS " + totalJsBytes + " B, initial CSS " + initialCssBytes + " B.");
@@ -77,6 +78,9 @@ assert.ok(chromeSource.indexOf('<AdSlot position="footer" />') < chromeSource.in
 
 const homeSource = await readFile("client/src/pages/Home.tsx", "utf8");
 assert.ok(homeSource.includes("CommuneInternalLinks"), "Commune contextual links must be rendered inside the hero");
+assert.ok(homeSource.includes("CommuneLocationsWeather"), "Grouped commune pages must render additional independent weather locations");
+const communeLocationsSource = await readFile("client/src/components/CommuneLocationsWeather.tsx", "utf8");
+assert.ok(communeLocationsSource.includes("fetchWeather") && communeLocationsSource.includes("location.latitude") && communeLocationsSource.includes("location.longitude"), "Additional commune locations must fetch weather from their own coordinates");
 assert.ok(!homeSource.includes('aria-label="العودة إلى الولاية"'), "Do not append a separate wilaya-only section to commune pages");
 const communeLinksSource = await readFile("client/src/components/CommuneInternalLinks.tsx", "utf8");
 assert.ok(communeLinksSource.includes("commune-context-nav__siblings") && communeLinksSource.includes('href={"/wilayas/" + city.wilayaSlug + "/"}'), "Commune pages must link to the parent wilaya and sibling communes");
