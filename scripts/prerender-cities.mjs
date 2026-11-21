@@ -136,7 +136,7 @@ for (const place of places) {
 
   // GitHub Pages cannot emit HTTP 301 rules. Keep old commune and wilaya paths as noindex HTML redirects.
   const legacyPaths = place.kind === "commune"
-    ? (place.legacySlugs || [])
+    ? (place.legacySlugs || []).map((slug) => "communes/" + slug)
     : place.kind === "wilaya" ? ["weather/" + place.slug] : [];
   for (const legacyPath of legacyPaths) {
     await writeLegacyRedirect(legacyPath, canonical, place.displayName);
