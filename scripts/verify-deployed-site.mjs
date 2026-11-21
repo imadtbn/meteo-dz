@@ -53,8 +53,13 @@ for (const route of requiredRoutes) {
 const geographicUrls = urls.filter((url) => /\/(weather|communes|arab-capitals|world-capitals)\/[^/]+\/$/.test(new URL(url).pathname));
 const communeUrls = geographicUrls.filter((url) => new URL(url).pathname.includes("/communes/"));
 assert.ok(communeUrls.length >= 1700, "Unexpectedly small commune page set: " + communeUrls.length);
+const legacyRedirects = new Map([
+  [base + "communes/inoughissen-127/", base + "communes/inoughissen/"],
+  [base + "communes/el-adjiba-327/", base + "communes/el-adjiba/"],
+]);
 const representative = [
   ...requiredRoutes.map((route) => new URL(route, base).href),
+  ...legacyRedirects.keys(),
   ...geographicUrls.filter((url) => url.includes("/weather/")).slice(0, 3),
   ...communeUrls.slice(0, 3),
   ...geographicUrls.filter((url) => url.includes("/arab-capitals/")).slice(0, 2),
@@ -73,6 +78,14 @@ for (const url of [...new Set([base, ...representative])]) {
   }
   const canonical = html.match(/<link rel="canonical" href="([^"]+)"\s*\/?\s*>/i);
   assert.ok(canonical, "Missing canonical: " + url);
+  if (legacyRedirects.has(url)) {
+    const target = legacyRedirects.get(url);
+    assert.equal(canonical[1], target, "Legacy commune canonical target mismatch: " + url);
+    assert.match(html, /http-equiv="refresh"/, "Legacy commune URL must contain a meta refresh: " + url);
+    assert.ok(html.includes("window.location.replace"), "Legacy commune URL must contain a client redirect: " + url);
+    assert.match(html, /name="robots" content="noindex,follow"/, "Legacy commune URL must be noindex: " + url);
+    continue;
+  }
   assert.equal(canonical[1], url, "Canonical mismatch: " + url);
   if (/\/(weather|communes|arab-capitals|world-capitals)\/[^/]+\/$/.test(new URL(url).pathname)) {
     assert.match(html, /<script type="application\/ld\+json">[\s\S]*?"@type":"Place"/, "Place JSON-LD missing: " + url);
