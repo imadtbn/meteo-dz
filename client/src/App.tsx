@@ -20,7 +20,14 @@ const ClimateObservatoryPage = lazy(() => import("./pages/ClimateObservatory"));
 const AgricultureWeatherPage = lazy(() => import("./pages/AgricultureWeather"));
 const CommunePage = lazy(() => import("./pages/Commune"));
 
-function LegacyWilayaRedirect() {\n  const [, params] = useRoute("/weather/:slug");\n  const [, navigate] = useLocation();\n  useEffect(() => { if (params?.slug) navigate("/wilayas/" + params.slug + "/", { replace: true }); }, [params?.slug, navigate]);\n  return <div className="loading-card" dir="rtl">جارٍ تحديث رابط الولاية…</div>;\n}\n\nfunction Router() {
+function LegacyWilayaRedirect() {
+  const [, params] = useRoute("/weather/:slug");
+  const [, navigate] = useLocation();
+  useEffect(() => { if (params?.slug) navigate("/wilayas/" + params.slug + "/", { replace: true }); }, [params?.slug, navigate]);
+  return <div className="loading-card" dir="rtl">جارٍ تحديث رابط الولاية…</div>;
+}
+
+function Router() {
   // make sure to consider if you need authentication for certain routes
   const base = import.meta.env.BASE_URL.replace(/\/$/, "") || "/";
   return (
