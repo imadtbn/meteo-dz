@@ -72,7 +72,7 @@ assert.ok(directorySource.includes("image={item.countryImages}"), "Capital direc
 const wilayaCardSource = await readFile("client/src/components/WilayaCard.tsx", "utf8");
 assert.ok(wilayaCardSource.includes("image={city.countryImages}"), "Wilaya directory cards must use available city photography");
 const weatherMapSource = await readFile("client/src/pages/WeatherMap.tsx", "utf8");
-assert.match(weatherMapSource, /href: `\\/wilayas\\/\\$\\{city\\.slug\\}\\/`/, "Weather map city links must use canonical wilaya URLs");
+assert.match(weatherMapSource, /href: `\/wilayas\/\$\{city\.slug\}\/`/, "Weather map city links must use canonical wilaya URLs");
 assert.ok(!chromeSource.includes('<AdSlot position="header" />'), "Top ad must not be rendered by the shared header");
 assert.ok(chromeSource.indexOf('<AdSlot position="footer" />') < chromeSource.indexOf('<footer className="site-footer">'), "Footer ad must remain before the shared footer");
 
