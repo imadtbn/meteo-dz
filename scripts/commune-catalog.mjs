@@ -158,6 +158,17 @@ export function buildCommuneCatalog() {
     delete record.idLegacySlug;
   }
 
+  const canonicalSlugs = new Set(records.map((record) => record.slug));
+  const legacyOwners = new Map();
+  for (const record of records) {
+    for (const alias of record.legacySlugs) {
+      if (canonicalSlugs.has(alias)) throw new Error("Legacy alias collides with a canonical commune route: " + alias);
+      const owner = legacyOwners.get(alias);
+      if (owner && owner !== record.slug) throw new Error("Legacy alias is assigned to multiple commune pages: " + alias);
+      legacyOwners.set(alias, record.slug);
+    }
+  }
+
   return records;
 }
 
