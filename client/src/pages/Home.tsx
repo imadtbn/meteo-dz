@@ -11,6 +11,8 @@ import { PublicFooter, PublicHeader } from "@/components/PublicChrome";
 import { ALGERIAN_CITIES, getCityBySlug, type AlgerianCity } from "@/data/cities";
 import { fetchWeather, formatDay, formatHour, getAdvice, getWeatherCondition, type WeatherReading, windDirectionArabic } from "@/lib/weather";
 import { useFavoriteCities } from "@/hooks/useFavoriteCities";
+import { CommuneLocationsWeather } from "@/components/CommuneLocationsWeather";
+import type { AlgerianCommune } from "@/data/communes";
 
 const WilayaCommunes = lazy(() => import("@/components/WilayaCommunes").then((module) => ({ default: module.WilayaCommunes })));
 const CommuneInternalLinks = lazy(() => import("@/components/CommuneInternalLinks").then((module) => ({ default: module.CommuneInternalLinks })));
@@ -18,7 +20,7 @@ const WeatherInsights = lazy(() => import("@/components/WeatherInsights").then((
 
 const WeatherShareDialog = lazy(() => import("@/components/WeatherShareDialog"));
 
-type HomeProps = { forcedCity?: AlgerianCity; detail?: boolean };
+type HomeProps = { forcedCity?: AlgerianCity; detail?: boolean; communeLocations?: AlgerianCommune["locations"]; primaryCommuneLocationId?: string };
 
 function readSavedLocation(): AlgerianCity | null {
   try {
@@ -52,7 +54,7 @@ function useWeather(city: AlgerianCity) {
   return { reading, loading, error, refresh: () => { forceNextRefresh.current = true; setRefreshKey((value) => value + 1); } };
 }
 
-export default function Home({ forcedCity, detail = false }: HomeProps) {
+export default function Home({ forcedCity, detail = false, communeLocations, primaryCommuneLocationId }: HomeProps) {
   const [, navigate] = useLocation();
   const initial = useMemo(() => forcedCity ?? readSavedLocation() ?? getCityBySlug(new URLSearchParams(window.location.search).get("city") ?? "algiers"), [forcedCity]);
   const [city, setCity] = useState(initial);
@@ -189,6 +191,7 @@ export default function Home({ forcedCity, detail = false }: HomeProps) {
       {detail && city.administrativeLevel === "commune" && <Suspense fallback={null}><CommuneInternalLinks city={city} /></Suspense>}
     </section>
       <AdSlot position="header" />
+      {detail && city.administrativeLevel === "commune" && communeLocations && <CommuneLocationsWeather locations={communeLocations} primaryLocationId={primaryCommuneLocationId || city.code} />}
 
     <section className="dashboard-shell" id="now">
       <div className="section-intro"><span>01 — القراءة المحلية</span><h2>الآن في {city.name}</h2><button type="button" className={isFavorite ? "favorite-toggle is-active" : "favorite-toggle"} onClick={() => toggleFavorite(city.slug)} aria-pressed={isFavorite}><Star size={16} fill={isFavorite ? "currentColor" : "none"} />{isFavorite ? "في المفضلة" : "أضف للمفضلة"}</button><button className="refresh-button" onClick={refresh} disabled={loading}><RefreshCw size={16} className={loading ? "spin" : ""} /> تحديث القراءة</button></div>
