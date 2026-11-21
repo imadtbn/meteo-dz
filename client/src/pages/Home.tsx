@@ -13,6 +13,7 @@ import { fetchWeather, formatDay, formatHour, getAdvice, getWeatherCondition, ty
 import { useFavoriteCities } from "@/hooks/useFavoriteCities";
 
 const WilayaCommunes = lazy(() => import("@/components/WilayaCommunes").then((module) => ({ default: module.WilayaCommunes })));
+const CommuneInternalLinks = lazy(() => import("@/components/CommuneInternalLinks").then((module) => ({ default: module.CommuneInternalLinks })));
 const WeatherInsights = lazy(() => import("@/components/WeatherInsights").then((module) => ({ default: module.WeatherInsights })));
 
 const WeatherShareDialog = lazy(() => import("@/components/WeatherShareDialog"));
@@ -185,6 +186,7 @@ export default function Home({ forcedCity, detail = false }: HomeProps) {
     <section className="hero-band">
       <div className="hero-content"><span className="eyebrow">محرك الطقس العالمي · Weather Today</span><h1>{detail ? <>حالة {city.name}<br />بوضوح، قبل أن تتحرك.</> : <>الطقس الذي تحتاجه<br />قبل أن تتحرك.</>}</h1><p>ابحث عن المدن حول العالم بالعربية أو الفرنسية أو الإنجليزية، واعرض حالة الطقس والتوقعات أو استخدم موقعك الجغرافي.</p></div>
       <CitySearch city={city} onSelectCity={selectCity} onSelectCommune={(slug) => navigate("/communes/" + slug + "/")} onSelectGlobal={(place: GlobalPlace) => navigate(globalWeatherLink(place))} />
+      {detail && city.administrativeLevel === "commune" && <Suspense fallback={null}><CommuneInternalLinks city={city} /></Suspense>}
     </section>
       <AdSlot position="header" />
 
@@ -266,7 +268,6 @@ export default function Home({ forcedCity, detail = false }: HomeProps) {
       </div>
     </section>
 
-    {detail && city.administrativeLevel === "commune" && city.wilayaSlug && <section className="city-related-links" aria-label="العودة إلى الولاية"><div><h2>طقس بلديات ولاية {city.wilayaName}</h2><p>استعرض بقية البلديات التابعة للولاية.</p></div><nav><Link href={"/weather/" + city.wilayaSlug + "/"}>صفحة ولاية {city.wilayaName}</Link><Link href="/wilayas/">جميع ولايات الجزائر</Link><Link href="/world-search/">البحث العالمي عن الطقس</Link></nav></section>}
     {detail && city.administrativeLevel !== "commune" && <section className="city-related-links" aria-label="أدلة الطقس ذات الصلة">
       <div><h2>استكشف الطقس في مدن ودول أخرى</h2><p>انتقل من نشرة الولاية إلى أدلة العواصم والبحث العالمي.</p></div>
       <nav><Link href="/wilayas/">جميع ولايات الجزائر</Link><Link href="/arab-capitals/">العواصم العربية</Link><Link href="/world-capitals/">عواصم العالم</Link><Link href="/world-search/">البحث العالمي عن الطقس</Link></nav>
