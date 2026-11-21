@@ -63,7 +63,8 @@ for (const place of places) {
     return candidate.kind === "arab-capital";
   });
   const relatedPlaces = (relatedCandidates.length ? relatedCandidates : places.filter((candidate) => candidate.slug !== place.slug && candidate.kind === place.kind)).slice(0, 6);
-  const directoryPath = place.kind === "commune" || place.kind === "wilaya" ? "wilayas/" : place.kind === "arab-capital" ? "arab-capitals/" : "world-capitals/";
+  const directoryPath = place.kind === "commune" ? "communes/" : place.kind === "wilaya" ? "wilayas/" : place.kind === "arab-capital" ? "arab-capitals/" : "world-capitals/";
+  const directoryLabel = place.kind === "commune" ? "دليل البلديات" : place.kind === "wilaya" ? "دليل الولايات" : place.kind === "arab-capital" ? "العواصم العربية" : "عواصم العالم";
   const structuredData = JSON.stringify({
     "@context": "https://schema.org",
     "@graph": [
@@ -93,7 +94,7 @@ for (const place of places) {
         "@id": canonical + "#breadcrumb",
         itemListElement: place.kind === "commune" ? [
           { "@type": "ListItem", position: 1, name: "الرئيسية", item: siteRoot },
-          { "@type": "ListItem", position: 2, name: "ولايات الجزائر", item: siteRoot + "wilayas/" },
+          { "@type": "ListItem", position: 2, name: "دليل البلديات", item: siteRoot + "communes/" },
           { "@type": "ListItem", position: 3, name: "ولاية " + place.region, item: siteRoot + "weather/" + place.wilayaSlug + "/" },
           { "@type": "ListItem", position: 4, name: place.displayName, item: canonical },
         ] : [
@@ -106,15 +107,29 @@ for (const place of places) {
   });
   const photo = place.image ? `<img src="${escapeHtml(siteRoot + place.image)}" alt="صورة ${escapeHtml(place.displayName)}" width="960" height="540" loading="eager" fetchpriority="high">` : "";
   const liveUrl = siteRoot + "global-weather/?lat=" + place.latitude + "&lon=" + place.longitude + "&name=" + encodeURIComponent(place.displayName);
-  const relatedLinks = relatedPlaces.map((candidate) => `<li><a class="related-place-link" href="${siteRoot}${candidate.canonicalPath}/">${escapeHtml(candidate.displayName)} — ${escapeHtml(candidate.country)}</a></li>`).join("");
-  const regionText = place.region ? ` وتقع ضمن ${place.region}` : "";
-  const parentLink = place.kind === "commune" ? ` · <a href="${siteRoot}weather/${place.wilayaSlug}/">ولاية ${escapeHtml(place.region)}</a>` : "";
-  const noscript = `<noscript><main dir="rtl" lang="ar"><nav aria-label="مسار التنقل"><a href="${siteRoot}">الرئيسية</a> / <a href="${siteRoot}${directoryPath}">دليل المواقع</a>${parentLink} / ${escapeHtml(place.displayName)}</nav><article><h1>${escapeHtml(title)}</h1>${photo}<p>${escapeHtml(description)} تقع ${escapeHtml(place.displayName)} في ${escapeHtml(place.country)}${escapeHtml(regionText)}، وإحداثياتها ${place.latitude} شمالاً/جنوباً و${place.longitude} شرقاً/غرباً.</p><p>تعرض صفحة البلدية نشرة الطقس والتوقعات المباشرة وفق إحداثياتها الجغرافية، ويمكن استخدام الاسم العربي أو اللاتيني للعثور على الموقع.</p><p><a href="${escapeHtml(liveUrl)}">عرض النشرة الجوية والتوقعات المباشرة</a></p><section aria-labelledby="related-places"><h2 id="related-places">بلديات ومناطق أخرى في الدليل</h2><ul>${relatedLinks}</ul></section><p><a href="${siteRoot}world-search/">البحث العالمي عن مدينة أخرى</a> · <a href="${siteRoot}weather-map/">استكشاف خريطة الطقس</a></p></article></main></noscript>`;
+  const relatedLinks = relatedPlaces.map((candidate) =>
+    '<li><a class="related-place-link" href="' + siteRoot + candidate.canonicalPath + '/">' + escapeHtml(candidate.displayName) + '</a></li>',
+  ).join("");
+  const regionText = place.region ? " وتقع ضمن " + place.region : "";
+  const parentLink = place.kind === "commune" ? ' · <a href="' + siteRoot + "weather/" + place.wilayaSlug + '/">ولاية ' + escapeHtml(place.region) + "</a>" : "";
+  const relatedHeading = place.kind === "commune" ? "بلديات أخرى في ولاية " + escapeHtml(place.region) : "مواقع ذات صلة";
+  const relatedNav = place.kind === "commune"
+    ? '<nav aria-label="' + relatedHeading + '"><strong>' + relatedHeading + "</strong><ul>" + relatedLinks + "</ul></nav>"
+    : '<section aria-labelledby="related-places"><h2 id="related-places">' + relatedHeading + "</h2><ul>" + relatedLinks + "</ul></section>";
+  const noscript = '<noscript><main dir="rtl" lang="ar"><nav aria-label="مسار التنقل"><a href="' + siteRoot + '">الرئيسية</a> / <a href="' + siteRoot + directoryPath + '">' + directoryLabel + "</a>" + parentLink + " / " + escapeHtml(place.displayName) + "</nav><article><h1>" + escapeHtml(title) + "</h1>" + photo + "<p>" + escapeHtml(description) + " تقع " + escapeHtml(place.displayName) + " في " + escapeHtml(place.country) + escapeHtml(regionText) + "، وإحداثياتها " + place.latitude + " شمالاً/جنوباً و" + place.longitude + " شرقاً/غرباً.</p><p>تعرض صفحة البلدية نشرة الطقس والتوقعات المباشرة وفق إحداثياتها الجغرافية، ويمكن استخدام الاسم العربي أو اللاتيني للعثور على الموقع.</p><p><a href="' + escapeHtml(liveUrl) + '">عرض النشرة الجوية والتوقعات المباشرة</a></p>' + relatedNav + '<p><a href="' + siteRoot + 'world-search/">البحث العالمي عن مدينة أخرى</a> · <a href="' + siteRoot + 'weather-map/">استكشاف خريطة الطقس</a></p></article></main></noscript>';
   const page = setSeo(template, { title, description, canonical, image })
-    .replace("<body>", `<body>${noscript}<script type="application/ld+json">${structuredData}</script>`);
+    .replace("<body>", '<body>' + noscript + '<script type="application/ld+json">' + structuredData + "</script>");
   const output = path.join(dist, place.canonicalPath);
   await mkdir(output, { recursive: true });
   await writeFile(path.join(output, "index.html"), page);
+
+  // GitHub Pages cannot emit HTTP 301 rules. Preserve old numeric URLs with lightweight HTML redirects.
+  if (place.kind === "commune" && place.legacySlug && place.legacySlug !== place.slug) {
+    const legacyOutput = path.join(dist, "communes", place.legacySlug);
+    const redirectPage = '<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>تم تحديث رابط بلدية ' + escapeHtml(place.displayName) + '</title><link rel="canonical" href="' + escapeHtml(canonical) + '"><meta name="robots" content="noindex,follow"><meta http-equiv="refresh" content="0;url=' + escapeHtml(canonical) + '"><script>window.location.replace(' + JSON.stringify(canonical) + ');</script></head><body><main><h1>تم تحديث رابط البلدية</h1><p>الرابط الجديد لصفحة ' + escapeHtml(place.displayName) + ':</p><p><a href="' + escapeHtml(canonical) + '">' + escapeHtml(canonical) + '</a></p></main></body></html>';
+    await mkdir(legacyOutput, { recursive: true });
+    await writeFile(path.join(legacyOutput, "index.html"), redirectPage);
+  }
 }
 
 const landingPages = [
