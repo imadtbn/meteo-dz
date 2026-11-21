@@ -55,6 +55,10 @@ const communeUrls = geographicUrls.filter((url) => new URL(url).pathname.include
 assert.ok(communeUrls.length >= 1500, "Unexpectedly small canonical commune page set: " + communeUrls.length);
 assert.ok(communeUrls.every((url) => !/\d/.test(new URL(url).pathname.split("/").filter(Boolean).at(-1))), "Canonical commune URLs must not contain IDs or postal-code digits");
 const legacyRedirects = new Map([
+  [base + "communes/tinerkouk-timimoun-49016/", base + "communes/tinerkouk-timimoun/"],
+  [base + "communes/deldoul-timimoun-49017/", base + "communes/deldoul-timimoun/"],
+  [base + "communes/ouled-aissa-timimoun-49027/", base + "communes/ouled-aissa-timimoun/"],
+  [base + "communes/timiaouine-bordj-badji-mokhtar-50028/", base + "communes/timiaouine-bordj-badji-mokhtar/"],
   [base + "communes/inoughissen-127/", base + "communes/inoughissen-batna/"],
   [base + "communes/el-adjiba-327/", base + "communes/el-adjiba-bouira/"],
   [base + "weather/algiers/", base + "wilayas/algiers/"],
@@ -63,6 +67,10 @@ const representative = [
   ...requiredRoutes.map((route) => new URL(route, base).href),
   base + "communes/inoughissen-batna/",
   base + "communes/el-adjiba-bouira/",
+  base + "communes/tinerkouk-timimoun/",
+  base + "communes/deldoul-timimoun/",
+  base + "communes/ouled-aissa-timimoun/",
+  base + "communes/timiaouine-bordj-badji-mokhtar/",
   ...legacyRedirects.keys(),
   ...geographicUrls.filter((url) => url.includes("/wilayas/")).slice(0, 3),
   ...communeUrls.slice(0, 3),
@@ -91,7 +99,7 @@ for (const url of [...new Set([base, ...representative])]) {
     continue;
   }
   assert.equal(canonical[1], url, "Canonical mismatch: " + url);
-  if (/\/(weather|communes|arab-capitals|world-capitals)\/[^/]+\/$/.test(new URL(url).pathname)) {
+  if (/\/(wilayas|communes|arab-capitals|world-capitals)\/[^/]+\/$/.test(new URL(url).pathname)) {
     assert.match(html, /<script type="application\/ld\+json">[\s\S]*?"@type":"Place"/, "Place JSON-LD missing: " + url);
     assert.match(html, /"@type":"BreadcrumbList"/, "Breadcrumb JSON-LD missing: " + url);
   }
