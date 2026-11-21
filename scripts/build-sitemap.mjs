@@ -13,7 +13,7 @@ const targets = [
   [path.join(root, "sitemap.xml"), sitemap],
   [path.join(root, "client/public/sitemap.xml"), sitemap],
   [path.join(root, "sitemap.html"), htmlSitemap],
-  [path.join(root, "client/public/sitemap.html"), htmlSitemap],
+  [path.join(root, "client/public/sitemap.html"), htmlSitemap],\n  [path.join(root, "submet-url.xml"), sitemapUrls(site, places).join("\\n") + "\\n"],
 ];
 const checking = process.argv.includes("--check");
 for (const [file, expected] of targets) {
