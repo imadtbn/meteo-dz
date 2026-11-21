@@ -6,15 +6,18 @@ const outputPath = path.resolve("client/public/data/communes.json");
 const expected = JSON.stringify(buildCommuneCatalog().map((commune) => ({
   id: commune.id,
   slug: commune.slug,
-  legacy_slug: commune.legacySlug,
+  legacy_slugs: commune.legacySlugs,
   name: commune.displayName,
+  aliases: commune.aliases,
   name_fr: commune.englishName,
+  english_aliases: commune.englishAliases,
   post_code: commune.postCode,
   wilaya_id: commune.wilayaId,
   wilaya_name: commune.wilayaName,
   wilaya_slug: commune.wilayaSlug,
   latitude: commune.latitude,
   longitude: commune.longitude,
+  locations: commune.locations,
 }))) + "\n";
 
 if (process.argv.includes("--check")) {
@@ -23,7 +26,7 @@ if (process.argv.includes("--check")) {
     console.error("Published commune data is stale. Run: pnpm communes:build");
     process.exitCode = 1;
   } else {
-    console.log("Verified normalized public data for " + buildCommuneCatalog().length + " communes.");
+    console.log("Verified " + buildCommuneCatalog().length + " canonical commune pages.");
   }
 } else {
   await mkdir(path.dirname(outputPath), { recursive: true });
