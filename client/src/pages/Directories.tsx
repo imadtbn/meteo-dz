@@ -224,7 +224,7 @@ export function CommunesPage() {
     <main dir="rtl">
       <PublicHeader />
       <section className="directory-hero directory-hero--communes">
-        <span className="eyebrow"><MapPin size={15} aria-hidden="true" /> الدليل الوطني · 1,708 بلدية</span>
+        <span className="eyebrow"><MapPin size={15} aria-hidden="true" /> الدليل الوطني · صفحات البلديات</span>
         <h1>الطقس في بلديتك، من عنوانها إلى توقعاتها.</h1>
         <p>ابحث في البلديات الجزائرية بالعربية أو الفرنسية أو الرمز البريدي، واختر بلديتك لفتح صفحة طقس مستقلة بإحداثياتها.</p>
         <DirectorySearch value={query} onChange={changeQuery} placeholder="اسم البلدية، الاسم الفرنسي، أو الرمز البريدي" />
