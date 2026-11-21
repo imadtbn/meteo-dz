@@ -226,7 +226,7 @@ export function CommunesPage() {
       <section className="directory-hero directory-hero--communes">
         <span className="eyebrow"><MapPin size={15} aria-hidden="true" /> الدليل الوطني · صفحات البلديات</span>
         <h1>الطقس في بلديتك، من عنوانها إلى توقعاتها.</h1>
-        <p>ابحث في البلديات الجزائرية بالعربية أو الفرنسية أو الرمز البريدي، واختر بلديتك لفتح صفحة طقس مستقلة بإحداثياتها.</p>
+        <p>ابحث باسم البلدية أو الولاية أو الرمز البريدي. عند تكرار الاسم داخل الولاية، تجمع الصفحة المواقع وتعرض توقعات مستقلة لكل موقع.</p>
         <DirectorySearch value={query} onChange={changeQuery} placeholder="اسم البلدية، الاسم الفرنسي، أو الرمز البريدي" />
       </section>
       <AdSlot position="header" />
