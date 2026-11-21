@@ -57,6 +57,9 @@ export function filterCommunes(communes: AlgerianCommune[], query: string, wilay
       commune.wilayaName,
       commune.postCode,
       commune.id,
+      ...(commune.aliases || []),
+      ...(commune.englishAliases || []),
+      ...(commune.locations || []).flatMap((location) => [location.displayName, location.arabicName, location.englishName, location.postCode, location.id]),
     ].filter(Boolean).join(" ")).includes(cleaned);
   });
 }
