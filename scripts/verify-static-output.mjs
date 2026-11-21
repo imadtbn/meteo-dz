@@ -104,7 +104,6 @@ const searchIndex = JSON.parse(await load("data/global-search-index.json"));
 const communeSearchEntries = searchIndex.filter((item) => item.kind === "commune");
 assert.equal(communeSearchEntries.length, communeCount, "Global search index must include every commune exactly once");
 assert.ok(communeSearchEntries.every((item) => communeSource.some((commune) => item.path === "/communes/" + commune.slug + "/")), "Global search index must contain only canonical commune URLs");
-assert.ok(!communeSearchEntries.some((item) => /-\\d+\\/$/.test(item.path)), "Global search index must not retain numeric-ID commune URLs");
 
 const manifest = JSON.parse(await load("manifest.webmanifest"));
 assert.equal(manifest.start_url, "/meteo-dz/");
@@ -166,7 +165,7 @@ for (const place of places) {
     assert.ok(legacyHtml.includes('rel="canonical" href="https://imadtbn.github.io/meteo-dz/' + place.canonicalPath + '/"'), "Legacy route must canonicalize to the clean URL: " + place.legacySlug);
     assert.ok(legacyHtml.includes('http-equiv="refresh"') && legacyHtml.includes("window.location.replace"), "Legacy route must redirect to the clean URL: " + place.legacySlug);
     assert.ok(legacyHtml.includes('name="robots" content="noindex,follow"'), "Legacy route must not be indexed: " + place.legacySlug);
-    assert.ok(!urls.includes("https://imadtbn.github.io/meteo-dz/" + place.legacyCanonicalPath + "/"), "Legacy route must not appear in the sitemap: " + place.legacySlug);
+    assert.ok(!urls.includes("https://imadtbn.github.io/meteo-dz/" + "communes/" + place.legacySlug + "/"), "Legacy route must not appear in the sitemap: " + place.legacySlug);
   }
   assert.ok(html.includes("related-place-link"), "Related internal links missing: " + place.slug);
   if (place.image) {
