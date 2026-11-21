@@ -91,7 +91,7 @@ for (const url of [...new Set([base, ...representative])]) {
     continue;
   }
   assert.equal(canonical[1], url, "Canonical mismatch: " + url);
-  if (/\/(weather|communes|arab-capitals|world-capitals)\/[^/]+\/$/.test(new URL(url).pathname)) {
+  if (/\/(wilayas|communes|arab-capitals|world-capitals)\/[^/]+\/$/.test(new URL(url).pathname)) {
     assert.match(html, /<script type="application\/ld\+json">[\s\S]*?"@type":"Place"/, "Place JSON-LD missing: " + url);
     assert.match(html, /"@type":"BreadcrumbList"/, "Breadcrumb JSON-LD missing: " + url);
   }
