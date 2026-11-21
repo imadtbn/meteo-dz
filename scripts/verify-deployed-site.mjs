@@ -53,7 +53,7 @@ for (const route of requiredRoutes) {
 const geographicUrls = urls.filter((url) => /\/(wilayas|communes|arab-capitals|world-capitals)\/[^/]+\/$/.test(new URL(url).pathname));
 const communeUrls = geographicUrls.filter((url) => new URL(url).pathname.includes("/communes/"));
 assert.ok(communeUrls.length >= 1500, "Unexpectedly small canonical commune page set: " + communeUrls.length);
-assert.ok(communeUrls.every((url) => !/\\d/.test(new URL(url).pathname.split("/").filter(Boolean).at(-1))), "Canonical commune URLs must not contain IDs or postal-code digits");
+assert.ok(communeUrls.every((url) => !/\d/.test(new URL(url).pathname.split("/").filter(Boolean).at(-1))), "Canonical commune URLs must not contain IDs or postal-code digits");
 const legacyRedirects = new Map([
   [base + "communes/inoughissen-127/", base + "communes/inoughissen-batna/"],
   [base + "communes/el-adjiba-327/", base + "communes/el-adjiba-bouira/"],
