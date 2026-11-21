@@ -36,6 +36,7 @@ export function buildPlaceCatalog() {
     const override = COORDINATE_OVERRIDES[record.slug];
     const normalized = {
       slug: record.slug,
+      legacySlug: record.legacySlug || "",
       kind,
       displayName,
       englishName: englishName || record.englishName || record.name_en || "",

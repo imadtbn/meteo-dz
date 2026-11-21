@@ -6,6 +6,7 @@ const outputPath = path.resolve("client/public/data/communes.json");
 const expected = JSON.stringify(buildCommuneCatalog().map((commune) => ({
   id: commune.id,
   slug: commune.slug,
+  legacy_slug: commune.legacySlug,
   name: commune.displayName,
   name_fr: commune.englishName,
   post_code: commune.postCode,
