@@ -5,7 +5,8 @@ const file = new URL("../data/global-search-index.json", import.meta.url);
 const existing = JSON.parse(await readFile(file, "utf8"));
 if (!Array.isArray(existing)) throw new Error("Global search index must be a JSON array.");
 
-const paths = new Set(existing.map((item) => item.path));
+const nonCommuneEntries = existing.filter((item) => item.kind !== "commune");
+const paths = new Set(nonCommuneEntries.map((item) => item.path));
 const communes = buildCommuneCatalog();
 const entries = communes.map((commune) => ({
   type: "city",
@@ -40,7 +41,7 @@ const entries = communes.map((commune) => ({
   path: "/" + commune.canonicalPath + "/",
 })).filter((entry) => !paths.has(entry.path));
 
-const result = [...existing, ...entries];
+const result = [...nonCommuneEntries, ...entries];
 const output = JSON.stringify(result, null, 2) + "\n";
 const check = process.argv.includes("--check");
 if (check) {
