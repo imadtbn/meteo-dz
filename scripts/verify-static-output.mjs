@@ -7,7 +7,7 @@ import { buildSitemap, sitemapUrls, INDEXABLE_LANDING_ROUTES } from "./sitemap-c
 
 const places = buildPlaceCatalog();
 const communeCatalog = buildCommuneCatalog();
-assert.ok(communeCatalog.every((commune) => !/\\d/.test(commune.slug)), "Commune slugs must not contain IDs or postal-code digits");
+assert.ok(communeCatalog.every((commune) => !/\d/.test(commune.slug)), "Commune slugs must not contain IDs or postal-code digits");
 assert.equal(new Set(communeCatalog.map((commune) => commune.slug)).size, communeCatalog.length, "Commune routes must be unique after grouping");
 assert.ok(communeCatalog.every((commune) => commune.locations.length >= 1), "Every canonical commune page must retain source locations");
 
@@ -103,7 +103,7 @@ assert.equal(communeSource.length, communeCount, "Published commune pages must m
 const sourceLocationIds = communeSource.flatMap((item) => item.locations.map((location) => location.id));
 assert.equal(new Set(sourceLocationIds).size, sourceLocationIds.length, "Source commune IDs must remain unique across grouped pages");
 assert.equal(new Set(communeSource.map((item) => item.slug)).size, communeCount, "Published canonical commune slugs must be unique");
-assert.ok(communeSource.every((item) => item.slug && !/\\d/.test(item.slug) && item.legacy_slugs?.length >= 1 && item.wilaya_slug && item.locations?.length >= 1 && item.locations.every((location) => location.latitude >= 18 && location.latitude <= 38 && location.longitude >= -9 && location.longitude <= 12)), "Published commune records must use name-only routes and retain valid independent locations");
+assert.ok(communeSource.every((item) => item.slug && !/\d/.test(item.slug) && item.legacy_slugs?.length >= 1 && item.wilaya_slug && item.locations?.length >= 1 && item.locations.every((location) => location.latitude >= 18 && location.latitude <= 38 && location.longitude >= -9 && location.longitude <= 12)), "Published commune records must use name-only routes and retain valid independent locations");
 assert.ok(communeSource.some((item) => item.locations.length > 1), "Duplicate source records must be grouped into multi-location pages");
 const searchIndex = JSON.parse(await load("data/global-search-index.json"));
 const communeSearchEntries = searchIndex.filter((item) => item.kind === "commune");
