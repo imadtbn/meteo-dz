@@ -24,5 +24,5 @@ export default function CommunePage() {
 
   if (!loaded) return <main dir="rtl"><div className="loading-card" role="status">جارٍ تحميل بيانات البلدية…</div></main>;
   if (!commune) return <NotFound />;
-  return <Home forcedCity={commune} detail />;
+  return <Home forcedCity={commune} detail communeLocations={commune.locations} primaryCommuneLocationId={commune.locations[0]?.id || commune.id} />;
 }
