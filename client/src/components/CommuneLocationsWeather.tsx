@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
+import "./CommuneLocationsWeather.css";
 import { fetchWeather, formatDay, getWeatherCondition } from "@/lib/weather";
 import type { WeatherReading } from "@/lib/weather";
 import type { AlgerianCommuneLocation } from "@/data/communes";
