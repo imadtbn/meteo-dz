@@ -1,3 +1,4 @@
+import "./CommuneInternalLinks.css";
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "wouter";
 import { loadAlgerianCommunes, type AlgerianCommune } from "@/data/communes";
