@@ -28,7 +28,7 @@ export function CommuneInternalLinks({ city }: { city: AlgerianCity }) {
       <div className="commune-context-nav__breadcrumb">
         <Link href="/communes/">دليل البلديات</Link>
         <span aria-hidden="true">/</span>
-        <Link href={"/weather/" + city.wilayaSlug + "/"}>ولاية {city.wilayaName}</Link>
+        <Link href={"/wilayas/" + city.wilayaSlug + "/"}>ولاية {city.wilayaName}</Link>
         <span aria-hidden="true">/</span>
         <strong aria-current="page">{city.name}</strong>
       </div>
