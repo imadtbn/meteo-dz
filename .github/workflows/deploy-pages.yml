@@ -13,7 +13,7 @@ permissions:
   id-token: write
 
 concurrency:
-  group: github-pages
+  group: github-pages-${{ github.event.pull_request.number || 'main' }}
   cancel-in-progress: true
 
 jobs:
