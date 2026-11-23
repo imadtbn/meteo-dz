@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import arabCapitals from "../../../data/arab-capitals.json";
 import worldCapitals from "../../../data/world-capitals.json";
-import { getPlaceWeatherTarget } from "@/data/places";
+import { getCanonicalPlacePath, getPlaceWeatherTarget } from "@/data/places";
 
 describe("independent capital directory routes", () => {
   it("resolves every Arabic capital from its own directory route", () => {
@@ -38,6 +38,13 @@ describe("independent capital directory routes", () => {
       expect(getPlaceWeatherTarget("arab-capitals", slug)).not.toBeNull();
       expect(getPlaceWeatherTarget("world-capitals", slug)).not.toBeNull();
     }
+  });
+
+  it("keeps canonical URLs inside the requested directory namespace", () => {
+    expect(getCanonicalPlacePath("algiers", "arab-capitals")).toBe("/arab-capitals/algiers/");
+    expect(getCanonicalPlacePath("algiers", "world-capitals")).toBe("/world-capitals/algiers/");
+    expect(getCanonicalPlacePath("cairo", "world-capitals")).toBe("/world-capitals/cairo/");
+    expect(getCanonicalPlacePath("not-a-capital", "world-capitals")).toBe("/world-search/");
   });
 
   it("returns null for unknown slugs and missing route parameters", () => {
