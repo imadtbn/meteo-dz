@@ -6,7 +6,6 @@ import { Link } from "wouter";
 import { ALGERIAN_CITIES } from "@/data/cities";
 import { loadAlgerianCommunes, type AlgerianCommune } from "@/data/communes";
 import { ARAB_CAPITALS } from "@/data/arab-capitals";
-import { getCanonicalPlacePath } from "@/data/places";
 import worldCapitals from "../../../data/world-capitals.json";
 import { PlaceIllustration } from "@/components/PlaceIllustration";
 import { WilayaCard } from "@/components/WilayaCard";
@@ -112,7 +111,7 @@ export function ArabCapitalsPage() {
             <Link
               className="directory-card directory-card--visual"
               key={item.slug}
-              href={item.slug === "algiers" ? "/wilayas/algiers/" : "/arab-capitals/" + item.slug + "/"}
+              href={"/arab-capitals/" + item.slug + "/"}
             >
               <PlaceIllustration scene={getCapitalScene(item.slug)} label={item.capital} badge={item.englishName} image={item.countryImages} />
               <span className="directory-card__body">
@@ -153,11 +152,11 @@ export function WorldCapitalsPage() {
         <div className="section-intro">
           <span>01 — الدليل العالمي</span>
           <h2>{results.length} عاصمة مطابقة</h2>
-          <p>تُحال المدن المشتركة مع دليل الولايات أو العواصم العربية إلى رابطها الأساسي لتجنب الصفحات المكررة.</p>
+          <p>لكل عاصمة رابط مستقل ضمن هذا الدليل، حتى عندما تشترك في الاسم مع دليل الولايات أو العواصم العربية.</p>
         </div>
         <div className="directory-grid directory-grid--visual">
           {results.map((item) => (
-            <Link className="directory-card directory-card--visual" key={item.slug} href={getCanonicalPlacePath(item.slug)}>
+            <Link className="directory-card directory-card--visual" key={item.slug} href={"/world-capitals/" + item.slug + "/"}>
               <PlaceIllustration scene="city" label={item.capital} badge={item.englishName} image={item.countryImages} />
               <span className="directory-card__body">
                 <span className="directory-card__meta">
