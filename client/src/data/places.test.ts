@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
-import arabCapitals from "../../../../data/arab-capitals.json";
-import worldCapitals from "../../../../data/world-capitals.json";
+import arabCapitals from "../../../data/arab-capitals.json";
+import worldCapitals from "../../../data/world-capitals.json";
 import { getPlaceWeatherTarget } from "@/data/places";
 
 describe("independent capital directory routes", () => {
