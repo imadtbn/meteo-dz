@@ -1,4 +1,3 @@
-import cities from "../../../data/cities.json";
 import arabCapitals from "../../../data/arab-capitals.json";
 import worldCapitals from "../../../data/world-capitals.json";
 
