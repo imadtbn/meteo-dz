@@ -1,19 +1,55 @@
 import assert from "node:assert/strict";
+import { buildPlaceCatalog } from "./place-catalog.mjs";
+import { buildCommuneCatalog } from "./commune-catalog.mjs";
+import { sitemapUrls, INDEXABLE_LANDING_ROUTES } from "./sitemap-core.mjs";
 
 const siteUrl = process.env.SITE_URL || "https://imadtbn.github.io/meteo-dz/";
 const site = new URL(siteUrl);
 assert.equal(site.protocol, "https:", "Deployed site must use HTTPS");
 const base = site.href.endsWith("/") ? site.href : site.href + "/";
+const places = buildPlaceCatalog();
+const communes = buildCommuneCatalog();
+const expectedUrls = sitemapUrls(base, places);
+const expectedRoot = base;
 
 async function fetchPage(url) {
-  const response = await fetch(url, {
-    redirect: "manual",
-    signal: AbortSignal.timeout(20000),
-    headers: { "user-agent": "meteo-dz-deployment-verifier/1.0" },
-  });
-  assert.equal(response.status, 200, url + " returned HTTP " + response.status);
-  assert.equal(response.url, url, "Unexpected response URL: " + url);
-  return response;
+  let lastError;
+  for (let attempt = 0; attempt < 3; attempt += 1) {
+    try {
+      const response = await fetch(url, {
+        redirect: "manual",
+        signal: AbortSignal.timeout(20000),
+        headers: { "user-agent": "meteo-dz-deployment-verifier/2.0" },
+      });
+      if ((response.status === 429 || response.status >= 500) && attempt < 2) {
+        await new Promise((resolve) => setTimeout(resolve, 300 * (attempt + 1)));
+        continue;
+      }
+      assert.equal(response.status, 200, url + " returned HTTP " + response.status);
+      assert.equal(response.url, url, "Unexpected response URL: " + url);
+      return response;
+    } catch (error) {
+      lastError = error;
+      if (attempt < 2) {
+        await new Promise((resolve) => setTimeout(resolve, 300 * (attempt + 1)));
+        continue;
+      }
+    }
+  }
+  throw lastError || new Error("Unable to fetch " + url);
+}
+
+async function mapLimit(items, limit, task) {
+  const results = new Array(items.length);
+  let nextIndex = 0;
+  await Promise.all(Array.from({ length: Math.min(limit, items.length) }, async () => {
+    while (true) {
+      const index = nextIndex++;
+      if (index >= items.length) return;
+      results[index] = await task(items[index], index);
+    }
+  }));
+  return results;
 }
 
 const sitemapUrl = new URL("sitemap.xml", base).href;
@@ -23,10 +59,38 @@ assert.match(sitemapXml, /^<\?xml version="1\.0" encoding="UTF-8"\?>/);
 assert.match(sitemapXml, /<urlset xmlns="http:\/\/www\.sitemaps\.org\/schemas\/sitemap\/0\.9">/);
 
 const urls = [...sitemapXml.matchAll(/<loc>([^<]+)<\/loc>/g)].map((match) => match[1]);
-assert.ok(urls.length >= 250, "Unexpectedly small deployed sitemap: " + urls.length);
+assert.equal(urls.length, 1906, "Unexpected number of canonical sitemap URLs");
 assert.equal(new Set(urls).size, urls.length, "Deployed sitemap contains duplicate URLs");
-assert.ok(urls.every((url) => url.startsWith(base) && !/[?#]/.test(url)), "Sitemap contains a URL outside the canonical site path");
+assert.deepEqual(urls, expectedUrls, "Deployed sitemap differs from the canonical geographic catalog");
+assert.ok(urls.every((url) => url.startsWith(base) && !/[?#]/.test(url)), "Sitemap contains a noncanonical URL");
 assert.ok(urls.includes(base), "Homepage is missing from sitemap");
+
+const byKind = {
+  wilaya: places.filter((place) => place.kind === "wilaya"),
+  commune: places.filter((place) => place.kind === "commune"),
+  arabCapital: places.filter((place) => place.kind === "arab-capital"),
+  worldCapital: places.filter((place) => place.kind === "world-capital"),
+};
+assert.equal(byKind.wilaya.length, 69, "Expected 69 wilaya pages");
+assert.equal(byKind.commune.length, 1609, "Expected 1,609 unique commune pages");
+assert.equal(byKind.arabCapital.length, 22, "Expected 22 Arabic capital pages");
+assert.equal(byKind.worldCapital.length, 195, "Expected 195 world capital pages");
+const sourceCommuneCount = communes.reduce((sum, commune) => sum + commune.locations.length, 0);
+assert.equal(sourceCommuneCount, 1708, "Every source commune record must be represented in the canonical catalog");
+assert.equal(byKind.commune.reduce((sum, commune) => sum + commune.locations.length, 0), 1708);
+
+const geographicUrls = urls.filter((url) => /\/(wilayas|communes|arab-capitals|world-capitals)\/[^/]+\/$/.test(new URL(url).pathname));
+const communeUrls = geographicUrls.filter((url) => new URL(url).pathname.includes("/communes/"));
+assert.equal(geographicUrls.length, places.length, "Every geographic page must have one sitemap URL");
+assert.equal(communeUrls.length, 1609, "Every canonical commune page must have one sitemap URL");
+assert.ok(communeUrls.every((url) => !/\d/.test(new URL(url).pathname.split("/").filter(Boolean).at(-1))), "Canonical commune URLs must not contain IDs or postal-code digits");
+
+const requiredRoutes = [
+  ...INDEXABLE_LANDING_ROUTES,
+];
+for (const route of requiredRoutes) {
+  assert.ok(urls.includes(new URL(route + "/", base).href), "Required directory missing from sitemap: " + route);
+}
 
 const robotsUrl = new URL("robots.txt", base).href;
 const robotsResponse = await fetchPage(robotsUrl);
@@ -34,26 +98,21 @@ const robots = await robotsResponse.text();
 assert.match(robots, /^User-agent:\s*\*/m);
 assert.ok(robots.includes("Sitemap: " + sitemapUrl), "robots.txt does not reference the deployed sitemap");
 
-const requiredRoutes = [
-  "weather/",
-  "wilayas/",
-  "communes/",
-  "arab-capitals/",
-  "world-capitals/",
-  "world-search/",
-  "weather-map/",
-  "climate-observatory/",
-  "agriculture-weather/",
-  "alerts/",
-];
-for (const route of requiredRoutes) {
-  assert.ok(urls.includes(new URL(route, base).href), "Required directory missing from sitemap: " + route);
-}
+const sitemapHtmlUrl = new URL("sitemap.html", base).href;
+const sitemapHtmlResponse = await fetchPage(sitemapHtmlUrl);
+const sitemapHtml = await sitemapHtmlResponse.text();
+assert.match(sitemapHtml, /<title>خريطة الموقع/);
+const htmlLinks = [...sitemapHtml.matchAll(/href="([^"]+)"/g)].map((match) => new URL(match[1], base).href);
+const htmlGeographicLinks = htmlLinks.filter((url) => /\/(wilayas|communes|arab-capitals|world-capitals)\/[^/]+\/$/.test(new URL(url).pathname));
+assert.equal(htmlGeographicLinks.length, places.length, "HTML sitemap must link every geographic page exactly once");
+assert.equal(new Set(htmlGeographicLinks).size, places.length, "HTML sitemap contains duplicate geographic links");
+assert.deepEqual(
+  [...htmlGeographicLinks].sort(),
+  geographicUrls.slice().sort(),
+  "HTML and XML sitemaps must contain the same geographic page URLs",
+);
 
-const geographicUrls = urls.filter((url) => /\/(wilayas|communes|arab-capitals|world-capitals)\/[^/]+\/$/.test(new URL(url).pathname));
-const communeUrls = geographicUrls.filter((url) => new URL(url).pathname.includes("/communes/"));
-assert.ok(communeUrls.length >= 1500, "Unexpectedly small canonical commune page set: " + communeUrls.length);
-assert.ok(communeUrls.every((url) => !/\d/.test(new URL(url).pathname.split("/").filter(Boolean).at(-1))), "Canonical commune URLs must not contain IDs or postal-code digits");
+const placeByUrl = new Map(places.map((place) => [expectedRoot + place.canonicalPath + "/", place]));
 const legacyRedirects = new Map([
   [base + "communes/tinerkouk-timimoun-49016/", base + "communes/tinerkouk-timimoun/"],
   [base + "communes/deldoul-timimoun-49017/", base + "communes/deldoul-timimoun/"],
@@ -63,50 +122,60 @@ const legacyRedirects = new Map([
   [base + "communes/el-adjiba-327/", base + "communes/el-adjiba-bouira/"],
   [base + "weather/algiers/", base + "wilayas/algiers/"],
 ]);
-const representative = [
-  ...requiredRoutes.map((route) => new URL(route, base).href),
-  base + "communes/inoughissen-batna/",
-  base + "communes/el-adjiba-bouira/",
-  base + "communes/tinerkouk-timimoun/",
-  base + "communes/deldoul-timimoun/",
-  base + "communes/ouled-aissa-timimoun/",
-  base + "communes/timiaouine-bordj-badji-mokhtar/",
-  ...legacyRedirects.keys(),
-  ...geographicUrls.filter((url) => url.includes("/wilayas/")).slice(0, 3),
-  ...communeUrls.slice(0, 3),
-  ...geographicUrls.filter((url) => url.includes("/arab-capitals/")).slice(0, 2),
-  ...geographicUrls.filter((url) => url.includes("/world-capitals/")).slice(0, 3),
-];
-assert.ok(geographicUrls.length >= 200, "Geographic pages missing from sitemap");
 
-for (const url of [...new Set([base, ...representative])]) {
+await mapLimit(urls, 12, async (url) => {
   const response = await fetchPage(url);
   const html = await response.text();
   assert.match(html, /<title>[^<]+<\/title>/, "Missing title: " + url);
+  const canonical = html.match(/<link rel="canonical" href="([^"]+)"\s*\/?\s*>/i);
+  assert.ok(canonical, "Missing canonical: " + url);
+  assert.equal(canonical[1], url, "Canonical mismatch: " + url);
+
   if (url === base) {
     assert.ok(html.includes("GTM-K3DQR9RT"), "Configured GTM container missing from the live homepage");
     assert.ok(html.includes("gtm.start") && html.includes("gtm.js"), "Live homepage GTM bootstrap event is missing");
     assert.ok(html.includes("googletagmanager.com/ns.html?id=GTM-K3DQR9RT"), "Live homepage GTM noscript fallback is missing");
   }
+
+  const place = placeByUrl.get(url);
+  if (!place) return;
+  assert.ok(html.includes(place.displayName), "Missing place-specific HTML content: " + place.canonicalPath);
+  assert.match(html, /<script type="application\/ld\+json">[\s\S]*?<\/script>/, "Place JSON-LD missing: " + url);
+  const jsonLdMatch = html.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/);
+  const jsonLd = JSON.parse(jsonLdMatch[1]);
+  assert.equal(jsonLd["@context"], "https://schema.org", "Unexpected JSON-LD context: " + url);
+  const webPageNode = jsonLd["@graph"]?.find((node) => node["@type"] === "WebPage");
+  const placeNode = webPageNode?.about;
+  const breadcrumbNode = jsonLd["@graph"]?.find((node) => node["@type"] === "BreadcrumbList");
+  assert.equal(webPageNode?.url, url, "WebPage structured URL mismatch: " + url);
+  assert.equal(placeNode?.["@type"], "Place", "Place entity missing: " + url);
+  assert.equal(placeNode?.geo?.latitude, place.latitude, "Latitude mismatch: " + url);
+  assert.equal(placeNode?.geo?.longitude, place.longitude, "Longitude mismatch: " + url);
+  assert.equal(breadcrumbNode?.itemListElement?.length, place.kind === "commune" ? 4 : 3, "Breadcrumb depth mismatch: " + url);
+
+  if (place.kind === "commune") {
+    assert.ok(place.wilayaSlug && place.wilayaId, "Commune is missing its parent wilaya: " + place.slug);
+    assert.ok(html.includes("/wilayas/" + place.wilayaSlug + "/"), "Commune page is not linked to its parent wilaya: " + place.slug);
+    assert.ok(html.includes("دليل البلديات"), "Commune page is missing its national directory link: " + place.slug);
+    assert.ok(place.latitude >= 18 && place.latitude <= 38 && place.longitude >= -9 && place.longitude <= 12, "Commune coordinates are outside Algeria: " + place.slug);
+  }
+});
+
+for (const [legacyUrl, targetUrl] of legacyRedirects) {
+  const response = await fetchPage(legacyUrl);
+  const html = await response.text();
   const canonical = html.match(/<link rel="canonical" href="([^"]+)"\s*\/?\s*>/i);
-  assert.ok(canonical, "Missing canonical: " + url);
-  if (legacyRedirects.has(url)) {
-    const target = legacyRedirects.get(url);
-    assert.equal(canonical[1], target, "Legacy commune canonical target mismatch: " + url);
-    assert.match(html, /http-equiv="refresh"/, "Legacy commune URL must contain a meta refresh: " + url);
-    assert.ok(html.includes("window.location.replace"), "Legacy commune URL must contain a client redirect: " + url);
-    assert.match(html, /name="robots" content="noindex,follow"/, "Legacy commune URL must be noindex: " + url);
-    continue;
-  }
-  assert.equal(canonical[1], url, "Canonical mismatch: " + url);
-  if (/\/(wilayas|communes|arab-capitals|world-capitals)\/[^/]+\/$/.test(new URL(url).pathname)) {
-    assert.match(html, /<script type="application\/ld\+json">[\s\S]*?"@type":"Place"/, "Place JSON-LD missing: " + url);
-    assert.match(html, /"@type":"BreadcrumbList"/, "Breadcrumb JSON-LD missing: " + url);
-  }
+  assert.equal(canonical?.[1], targetUrl, "Legacy URL canonical target mismatch: " + legacyUrl);
+  assert.match(html, /http-equiv="refresh"/, "Legacy URL must contain a meta refresh: " + legacyUrl);
+  assert.ok(html.includes("window.location.replace"), "Legacy URL must contain a client redirect: " + legacyUrl);
+  assert.match(html, /name="robots" content="noindex,follow"/, "Legacy URL must be noindex: " + legacyUrl);
+  assert.ok(!urls.includes(legacyUrl), "Legacy URL must not appear in sitemap: " + legacyUrl);
 }
 
 console.log(
-  "Live deployment verified: " + urls.length + " unique sitemap URLs, " +
-  geographicUrls.length + " geographic pages including " + communeUrls.length + " communes, " + new Set([base, ...representative]).size +
-  " representative pages, and robots.txt sitemap reference."
+  "Full deployment verification passed: " + urls.length + " sitemap URLs, " +
+  byKind.wilaya.length + " wilayas, " + sourceCommuneCount + " source commune records grouped into " +
+  byKind.commune.length + " canonical commune pages, " + byKind.arabCapital.length +
+  " Arabic capitals, " + byKind.worldCapital.length + " world capitals, and " +
+  htmlGeographicLinks.length + " matching HTML sitemap links. All sitemap pages returned HTTP 200 with valid canonical metadata."
 );
