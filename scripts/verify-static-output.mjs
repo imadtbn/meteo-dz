@@ -3,7 +3,7 @@ import { readFile, readdir, stat } from "node:fs/promises";
 import path from "node:path";
 import { buildPlaceCatalog } from "./place-catalog.mjs";
 import { buildCommuneCatalog } from "./commune-catalog.mjs";
-import { buildSitemap, sitemapUrls, INDEXABLE_LANDING_ROUTES } from "./sitemap-core.mjs";
+import { buildSitemap, buildSitemapHtml, sitemapUrls, INDEXABLE_LANDING_ROUTES } from "./sitemap-core.mjs";
 
 const places = buildPlaceCatalog();
 const communeCatalog = buildCommuneCatalog();
@@ -131,6 +131,17 @@ assert.equal(await readFile("submet-url.xml", "utf8"), sitemapUrls(expectedRoot,
 assert.equal(sitemap, buildSitemap(expectedRoot, places), "Deployed sitemap must match the canonical generator");
 assert.equal(sitemap, await readFile("sitemap.xml", "utf8"), "Repository root sitemap must match deployment");
 assert.equal(sitemap, await readFile("client/public/sitemap.xml", "utf8"), "Public sitemap must match deployment");
+const expectedHtmlSitemap = buildSitemapHtml(expectedRoot, places);
+const htmlSitemapRoot = await load("sitemap.html");
+assert.equal(htmlSitemapRoot, expectedHtmlSitemap, "Root HTML sitemap must match the canonical generator");
+assert.equal(await readFile("client/public/sitemap.html", "utf8"), expectedHtmlSitemap, "Public HTML sitemap must match the canonical generator");
+assert.equal(places.filter((place) => place.kind === "wilaya").length, 69, "All 69 wilaya pages must be generated");
+assert.equal(places.filter((place) => place.kind === "commune").length, 1609, "All canonical commune pages must be generated");
+assert.equal(places.filter((place) => place.kind === "arab-capital").length, 22, "All 22 Arabic capital pages must be generated");
+assert.equal(places.filter((place) => place.kind === "world-capital").length, 195, "All 195 world capital pages must be generated");
+for (const place of places.filter((item) => item.kind === "arab-capital" || item.kind === "world-capital")) {
+  assert.ok(urls.includes(expectedRoot + place.canonicalPath + "/"), "Every capital directory route must remain independently indexable: " + place.canonicalPath);
+}
 assert.ok(urls.every((url) => url.startsWith(expectedRoot) && !/[?#]/.test(url)), "Only canonical pages belong in sitemap");
 assert.ok(!urls.includes(expectedRoot + "global-weather/"), "Empty parameter-based page must not be indexed");
 for (const page of landing) {
