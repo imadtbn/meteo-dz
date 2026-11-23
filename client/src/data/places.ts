@@ -28,9 +28,8 @@ export function getPlaceWeatherTarget(kind: PlaceRouteKind, slug?: string): Plac
   };
 }
 
-export function getCanonicalPlacePath(slug: string): string {
-  if (cities.some((place) => place.slug === slug)) return "/wilayas/" + slug + "/";
-  if (arabCapitals.some((place) => place.slug === slug)) return "/arab-capitals/" + slug + "/";
-  if (worldCapitals.some((place) => place.slug === slug)) return "/world-capitals/" + slug + "/";
-  return "/world-search/";
+export function getCanonicalPlacePath(slug: string, kind: PlaceRouteKind = "world-capitals"): string {
+  const records = kind === "arab-capitals" ? arabCapitals : worldCapitals;
+  if (!records.some((place) => place.slug === slug)) return "/world-search/";
+  return "/" + kind + "/" + slug + "/";
 }
