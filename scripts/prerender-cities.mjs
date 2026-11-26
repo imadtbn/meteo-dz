@@ -118,6 +118,17 @@ for (const place of places) {
   });
   const photo = place.image ? `<img src="${escapeHtml(siteRoot + place.image)}" alt="صورة ${escapeHtml(place.displayName)}" width="960" height="540" loading="eager" fetchpriority="high">` : "";
   const liveUrl = siteRoot + "global-weather/?lat=" + place.latitude + "&lon=" + place.longitude + "&name=" + encodeURIComponent(place.displayName);
+  const communeLocations = place.kind === "commune" ? place.locations.map((location, index) => {
+    const locationName = location.displayName || place.displayName;
+    const locationUrl = siteRoot + "global-weather/?lat=" + location.latitude + "&lon=" + location.longitude + "&name=" + encodeURIComponent(locationName);
+    const postalText = location.postCode ? " · الرمز البريدي " + location.postCode : "";
+    return '<li data-source-id="' + escapeHtml(location.id) + '"><h3>الموقع ' + (index + 1) + ': ' + escapeHtml(locationName) + '</h3><p>' + escapeHtml(location.englishName || "") + postalText + ' · الإحداثيات: ' + location.latitude + ', ' + location.longitude + '</p><a href="' + escapeHtml(locationUrl) + '">عرض الطقس والتوقعات لهذا الموقع</a></li>';
+  }).join("") : "";
+  const communeLocationsSection = communeLocations
+    ? '<section aria-labelledby="commune-weather-sites"><h2 id="commune-weather-sites">مواقع الطقس داخل البلدية</h2><p>تحتفظ هذه الصفحة ببيانات كل موقع جغرافي بصورة مستقلة، ويمكن فتح نشرة الطقس لكل موقع على حدة.</p><ul>' + communeLocations + '</ul></section>'
+    : "";
+  const liveWeatherLink = place.kind === "commune" ? communeLocationsSection
+    : '<p><a href="' + escapeHtml(liveUrl) + '">عرض النشرة الجوية والتوقعات المباشرة</a></p>';
   const relatedLinks = relatedPlaces.map((candidate) =>
     '<li><a class="related-place-link" href="' + siteRoot + candidate.canonicalPath + '/">' + escapeHtml(candidate.displayName) + '</a></li>',
   ).join("");
@@ -127,7 +138,7 @@ for (const place of places) {
   const relatedNav = place.kind === "commune"
     ? '<nav aria-label="' + relatedHeading + '"><strong>' + relatedHeading + "</strong><ul>" + relatedLinks + "</ul></nav>"
     : '<section aria-labelledby="related-places"><h2 id="related-places">' + relatedHeading + "</h2><ul>" + relatedLinks + "</ul></section>";
-  const noscript = '<noscript><main dir="rtl" lang="ar"><nav aria-label="مسار التنقل"><a href="' + siteRoot + '">الرئيسية</a> / <a href="' + siteRoot + directoryPath + '">' + directoryLabel + '</a>' + parentLink + ' / ' + escapeHtml(place.displayName) + '</nav><article><h1>' + escapeHtml(title) + '</h1>' + photo + '<p>' + escapeHtml(description) + ' تقع ' + escapeHtml(place.displayName) + ' في ' + escapeHtml(place.country) + escapeHtml(regionText) + '، وإحداثياتها ' + place.latitude + ' شمالاً/جنوباً و' + place.longitude + ' شرقاً/غرباً.</p><p>تعرض صفحة البلدية نشرة الطقس والتوقعات المباشرة وفق إحداثياتها الجغرافية، ويمكن استخدام الاسم العربي أو اللاتيني للعثور على الموقع.</p><p><a href="' + escapeHtml(liveUrl) + '">عرض النشرة الجوية والتوقعات المباشرة</a></p>' + relatedNav + '<p><a href="' + siteRoot + 'world-search/">البحث العالمي عن مدينة أخرى</a> · <a href="' + siteRoot + 'weather-map/">استكشاف خريطة الطقس</a></p></article></main></noscript>';
+  const noscript = '<noscript><main dir="rtl" lang="ar"><nav aria-label="مسار التنقل"><a href="' + siteRoot + '">الرئيسية</a> / <a href="' + siteRoot + directoryPath + '">' + directoryLabel + '</a>' + parentLink + ' / ' + escapeHtml(place.displayName) + '</nav><article><h1>' + escapeHtml(title) + '</h1>' + photo + '<p>' + escapeHtml(description) + ' تقع ' + escapeHtml(place.displayName) + ' في ' + escapeHtml(place.country) + escapeHtml(regionText) + '، وإحداثياتها المرجعية ' + place.latitude + ' شمالاً/جنوباً و' + place.longitude + ' شرقاً/غرباً.</p><p>تعرض الصفحة المواقع الجغرافية المسجلة للبلدية وروابط مستقلة لقراءة الطقس والتوقعات وفق إحداثيات كل موقع، ويمكن استخدام الاسم العربي أو اللاتيني للعثور عليها.</p>' + liveWeatherLink + relatedNav + '<p><a href="' + siteRoot + 'world-search/">البحث العالمي عن مدينة أخرى</a> · <a href="' + siteRoot + 'weather-map/">استكشاف خريطة الطقس</a></p></article></main></noscript>';
   const page = setSeo(template, { title, description, canonical, image })
     .replace("<body>", '<body>' + noscript + '<script type="application/ld+json">' + structuredData + "</script>");
   const output = path.join(dist, place.canonicalPath);
@@ -160,8 +171,20 @@ const landingPages = [
 for (const [slug, title, description] of landingPages) {
   const canonical = siteRoot + slug + "/";
   const structuredData = JSON.stringify({ "@context": "https://schema.org", "@type": "WebPage", name: title, description, url: canonical, inLanguage: "ar-DZ" });
+  let landingContent = '<h1>' + escapeHtml(title) + '</h1><p>' + escapeHtml(description) + '</p>';
+  if (slug === "arab-capitals") {
+    const capitalLinks = places.filter((place) => place.kind === "arab-capital").map((place) =>
+      '<li><a href="' + siteRoot + place.canonicalPath + '/">' + escapeHtml(place.displayName) + '</a> — ' + escapeHtml(place.country) + '</li>',
+    ).join("");
+    landingContent += '<section aria-labelledby="arab-capitals-list"><h2 id="arab-capitals-list">قائمة العواصم العربية الـ22</h2><p>اختر العاصمة لفتح صفحة مستقلة تتضمن الموقع الجغرافي ومعلومات الطقس والتوقعات.</p><ul>' + capitalLinks + '</ul></section>';
+  } else if (slug === "world-search") {
+    const featuredWorldCapitals = places.filter((place) => place.kind === "world-capital").slice(0, 15).map((place) =>
+      '<li><a href="' + siteRoot + place.canonicalPath + '/">' + escapeHtml(place.displayName) + '</a> — ' + escapeHtml(place.country) + '</li>',
+    ).join("");
+    landingContent += '<section aria-labelledby="world-search-guide"><h2 id="world-search-guide">استكشف الطقس حسب المدينة والمنطقة</h2><p>تتيح أداة البحث العثور على المدن والدول بالاسم العربي أو اللاتيني، ثم فتح قراءة الطقس وفق الموقع الجغرافي. ويمكن الوصول مباشرة إلى الأدلة الجغرافية التالية:</p><ul><li><a href="' + siteRoot + 'world-capitals/">دليل عواصم العالم</a> — صفحات مستقلة لعواصم الدول</li><li><a href="' + siteRoot + 'arab-capitals/">دليل العواصم العربية</a> — 22 عاصمة عربية</li><li><a href="' + siteRoot + 'wilayas/">دليل الولايات الجزائرية</a> — 69 ولاية</li><li><a href="' + siteRoot + 'communes/">دليل البلديات الجزائرية</a> — صفحات مستقلة للبلديات</li></ul><h2>نماذج من المدن العالمية</h2><ul>' + featuredWorldCapitals + '</ul></section>';
+  }
   const page = setSeo(template, { title: `${title} | مرصد الأطلس`, description, canonical })
-    .replace("<body>", `<body><noscript><main dir="rtl"><h1>${escapeHtml(title)}</h1><p>${escapeHtml(description)}</p></main></noscript><script type="application/ld+json">${structuredData}</script>`);
+    .replace("<body>", `<body><noscript><main dir="rtl">${landingContent}</main></noscript><script type="application/ld+json">${structuredData}</script>`);
   const indexablePage = !["global-weather", "favorites"].includes(slug);
   const safePage = indexablePage ? page : page.replace("</head>", '<meta name="robots" content="noindex,follow" /></head>');
   const output = path.join(dist, slug);
