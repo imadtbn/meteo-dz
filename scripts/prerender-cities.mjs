@@ -122,7 +122,7 @@ for (const place of places) {
     '<li><a class="related-place-link" href="' + siteRoot + candidate.canonicalPath + '/">' + escapeHtml(candidate.displayName) + '</a></li>',
   ).join("");
   const regionText = place.region ? " وتقع ضمن " + place.region : "";
-  const parentLink = place.kind === "commune" ? ' · <a href="' + siteRoot + "weather/" + place.wilayaSlug + '/">ولاية ' + escapeHtml(place.region) + "</a>" : "";
+  const parentLink = place.kind === "commune" ? ' · <a href="' + siteRoot + "wilayas/" + place.wilayaSlug + '/">ولاية ' + escapeHtml(place.region) + "</a>" : "";
   const relatedHeading = place.kind === "commune" ? "بلديات أخرى في ولاية " + escapeHtml(place.region) : "مواقع ذات صلة";
   const relatedNav = place.kind === "commune"
     ? '<nav aria-label="' + relatedHeading + '"><strong>' + relatedHeading + "</strong><ul>" + relatedLinks + "</ul></nav>"
