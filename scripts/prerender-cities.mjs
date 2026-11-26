@@ -7,6 +7,15 @@ import { buildSitemap, buildSitemapHtml, sitemapUrls } from "./sitemap-core.mjs"
 const dist = path.resolve("dist/public");
 await rm(path.join(dist, "__manus__"), { recursive: true, force: true });
 const template = await readFile(path.join(dist, "index.html"), "utf8");
+const gtmHeadStart = template.indexOf("<!-- Google Tag Manager:");
+const gtmHeadEnd = template.indexOf("</script>", gtmHeadStart) + "</script>".length;
+const gtmNoScriptStart = template.indexOf("<!-- Google Tag Manager (noscript) -->");
+const gtmNoScriptEnd = template.indexOf("<!-- End Google Tag Manager (noscript) -->") + "<!-- End Google Tag Manager (noscript) -->".length;
+const gtmHead = gtmHeadStart >= 0 && gtmHeadEnd > gtmHeadStart ? template.slice(gtmHeadStart, gtmHeadEnd) : "";
+const gtmNoScript = gtmNoScriptStart >= 0 && gtmNoScriptEnd > gtmNoScriptStart ? template.slice(gtmNoScriptStart, gtmNoScriptEnd) : "";
+if (!gtmHead.includes("GTM-M58X5KJ8") || !gtmNoScript.includes("GTM-M58X5KJ8")) {
+  throw new Error("The canonical GTM installation is missing or invalid in the HTML template.");
+}
 const siteUrl = process.env.SITE_URL || (process.env.DEPLOY_TARGET === "github" ? "https://imadtbn.github.io/meteo-dz" : "https://meteo-dz-modernized.manus.space");
 const siteRoot = `${siteUrl.replace(/\/$/, "")}/`;
 const places = buildPlaceCatalog();
@@ -20,7 +29,7 @@ async function writeLegacyRedirect(relativePath, canonical, displayName) {
   const output = path.join(dist, relativePath);
   const redirectPage = '<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>تم تحديث رابط ' + escapeHtml(displayName) + '</title><link rel="canonical" href="' + escapeHtml(canonical) + '"><meta name="robots" content="noindex,follow"><meta http-equiv="refresh" content="0;url=' + escapeHtml(canonical) + '"><script>window.location.replace(' + JSON.stringify(canonical) + ');</script></head><body><main><h1>تم تحديث الرابط</h1><p>الرابط الجديد لـ ' + escapeHtml(displayName) + ':</p><p><a href="' + escapeHtml(canonical) + '">' + escapeHtml(canonical) + '</a></p></main></body></html>';
   await mkdir(output, { recursive: true });
-  await writeFile(path.join(output, "index.html"), redirectPage);
+  const trackedRedirectPage = redirectPage.replace("</head>", gtmHead + "</head>").replace("<body>", "<body>" + gtmNoScript);\n  await writeFile(path.join(output, "index.html"), trackedRedirectPage);
 }
 
 
