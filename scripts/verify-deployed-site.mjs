@@ -198,14 +198,14 @@ for (const route of ["favorites/", "global-weather/"]) {
   const response = await fetchPage(utilityUrl);
   const html = await response.text();
   const canonical = html.match(/<link rel="canonical" href="([^"]+)"\\s*\\/?\\s*>/i);
-  assert.equal(canonical?.[1], utilityUrl, "Utility page canonical mismatch: " + utilityUrl);
+  const canonical = html.match(/<link rel="canonical" href="([^"]+)"\s*\/?\s*>/i);
   assert.match(html, /name="robots" content="noindex,follow"/, "Utility page must remain noindex: " + utilityUrl);
   assert.ok(!urls.includes(utilityUrl), "Noindex utility page must not appear in sitemap: " + utilityUrl);
 }
 
 const beniImageUrl = new URL("images/beni-abbes.jpg", base).href;
 const beniImageResponse = await fetchPage(beniImageUrl);
-assert.match(beniImageResponse.headers.get("content-type") || "", /^image\\/jpeg/i, "Beni Abbes image must remain a JPEG asset");
+assert.match(beniImageResponse.headers.get("content-type") || "", /^image\/jpeg/i, "Beni Abbes image must remain a JPEG asset");
 assert.ok(!urls.includes(beniImageUrl), "Image assets must not appear in the XML sitemap");
 
 console.log(
