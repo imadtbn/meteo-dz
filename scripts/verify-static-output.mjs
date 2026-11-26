@@ -179,6 +179,7 @@ for (const place of places) {
   if (place.kind === "commune") {
     assert.ok(place.wilayaSlug && place.wilayaId, "Commune must be linked to a known wilaya: " + place.slug);
     assert.ok(html.includes("/wilayas/" + place.wilayaSlug + "/"), "Commune page must link to its wilaya: " + place.slug);
+    assert.ok(html.includes('href="https://imadtbn.github.io/meteo-dz/wilayas/' + place.wilayaSlug + '/">ولاية '), "Commune breadcrumb/parent link must use the canonical wilaya URL: " + place.slug);
     assert.ok(html.includes("دليل البلديات"), "Commune breadcrumb must link to the national commune directory: " + place.slug);
     assert.ok(place.latitude >= 18 && place.latitude <= 38 && place.longitude >= -9 && place.longitude <= 12, "Commune coordinates must fall within Algeria: " + place.slug);
     assert.ok(place.locations.length >= 1, "Grouped commune page must retain source locations: " + place.slug);
