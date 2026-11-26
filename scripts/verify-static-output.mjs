@@ -13,6 +13,29 @@ assert.ok(communeCatalog.every((commune) => commune.locations.length >= 1), "Eve
 
 const root = path.resolve("dist/public");
 const load = (relative) => readFile(path.join(root, relative), "utf8");
+const stripInjectedGtm = (html) => html
+  .replace(/<!-- Google Tag Manager: canonical container bootstrap shared by the app and prerendered pages\\. -->[\\s\\S]*?<\\/script>/, "")
+  .replace(/<!-- Google Tag Manager \\(noscript\\) -->[\\s\\S]*?<!-- End Google Tag Manager \\(noscript\\) -->/, "");
+
+async function verifyGtmAcrossHtml(directory) {
+  const entries = await readdir(directory, { withFileTypes: true });
+  for (const entry of entries) {
+    const filePath = path.join(directory, entry.name);
+    if (entry.isDirectory()) {
+      await verifyGtmAcrossHtml(filePath);
+      continue;
+    }
+    if (!entry.isFile() || !entry.name.endsWith(".html")) continue;
+    const html = await readFile(filePath, "utf8");
+    const relative = path.relative(root, filePath);
+    assert.equal(html.split("https://www.googletagmanager.com/gtm.js").length - 1, 1, "Each HTML page must load GTM exactly once: " + relative);
+    assert.equal(html.split("https://www.googletagmanager.com/ns.html").length - 1, 1, "Each HTML page must include one GTM noscript fallback: " + relative);
+    assert.ok(html.includes("GTM-M58X5KJ8"), "Active GTM container missing from " + relative);
+    assert.ok(html.includes("gtm.start") && html.includes("gtm.js"), "GTM bootstrap missing from " + relative);
+    assert.ok(!html.includes("GTM-K3DQR9RT"), "Legacy GTM container remains in " + relative);
+  }
+}
+
 const landing = ["weather", "wilayas", "communes", "arab-capitals", "world-capitals", "world-search", "global-weather", "weather-map", "alerts", "favorites", "climate-observatory", "agriculture-weather"];
 
 const homepage = await load("index.html");
@@ -97,6 +120,9 @@ assert.ok(worldHeroStart >= 0 && worldHeroEnd > worldHeroStart && worldAd > worl
 assert.match(homepage, /og:image" content="https:\/\/imadtbn.github.io\/meteo-dz\/social-preview.png"/);
 assert.match(homepage, /twitter:card" content="summary_large_image"/);
 
+await verifyGtmAcrossHtml(root);
+console.log("Verified one active GTM loader and noscript fallback across every generated HTML page.");
+
 const htmlSitemap = await load("sitemap.html");
 const communeCount = places.filter((place) => place.kind === "commune").length;
 assert.ok(htmlSitemap.includes(communeCount + " بلدية جزائرية"), "HTML sitemap must report the commune total");
@@ -138,7 +164,7 @@ assert.equal(sitemap, await readFile("sitemap.xml", "utf8"), "Repository root si
 assert.equal(sitemap, await readFile("client/public/sitemap.xml", "utf8"), "Public sitemap must match deployment");
 const expectedHtmlSitemap = buildSitemapHtml(expectedRoot, places);
 const htmlSitemapRoot = await load("sitemap.html");
-assert.equal(htmlSitemapRoot, expectedHtmlSitemap, "Root HTML sitemap must match the canonical generator");
+assert.equal(stripInjectedGtm(htmlSitemapRoot), expectedHtmlSitemap, "Root HTML sitemap content must match the canonical generator after removing the shared GTM injection");
 assert.equal(await readFile("client/public/sitemap.html", "utf8"), expectedHtmlSitemap, "Public HTML sitemap must match the canonical generator");
 assert.equal(places.filter((place) => place.kind === "wilaya").length, 69, "All 69 wilaya pages must be generated");
 assert.equal(places.filter((place) => place.kind === "commune").length, 1609, "All canonical commune pages must be generated");
