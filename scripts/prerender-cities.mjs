@@ -29,7 +29,8 @@ async function writeLegacyRedirect(relativePath, canonical, displayName) {
   const output = path.join(dist, relativePath);
   const redirectPage = '<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>تم تحديث رابط ' + escapeHtml(displayName) + '</title><link rel="canonical" href="' + escapeHtml(canonical) + '"><meta name="robots" content="noindex,follow"><meta http-equiv="refresh" content="0;url=' + escapeHtml(canonical) + '"><script>window.location.replace(' + JSON.stringify(canonical) + ');</script></head><body><main><h1>تم تحديث الرابط</h1><p>الرابط الجديد لـ ' + escapeHtml(displayName) + ':</p><p><a href="' + escapeHtml(canonical) + '">' + escapeHtml(canonical) + '</a></p></main></body></html>';
   await mkdir(output, { recursive: true });
-  const trackedRedirectPage = redirectPage.replace("</head>", gtmHead + "</head>").replace("<body>", "<body>" + gtmNoScript);\n  await writeFile(path.join(output, "index.html"), trackedRedirectPage);
+  const trackedRedirectPage = redirectPage.replace("</head>", gtmHead + "</head>").replace("<body>", "<body>" + gtmNoScript);
+  await writeFile(path.join(output, "index.html"), trackedRedirectPage);
 }
 
 
