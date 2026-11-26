@@ -197,8 +197,8 @@ for (const route of ["favorites/", "global-weather/"]) {
   const utilityUrl = new URL(route, base).href;
   const response = await fetchPage(utilityUrl);
   const html = await response.text();
-  const canonical = html.match(/<link rel="canonical" href="([^"]+)"\\s*\\/?\\s*>/i);
   const canonical = html.match(/<link rel="canonical" href="([^"]+)"\s*\/?\s*>/i);
+  assert.equal(canonical?.[1], utilityUrl, "Utility page canonical mismatch: " + utilityUrl);
   assert.match(html, /name="robots" content="noindex,follow"/, "Utility page must remain noindex: " + utilityUrl);
   assert.ok(!urls.includes(utilityUrl), "Noindex utility page must not appear in sitemap: " + utilityUrl);
 }
