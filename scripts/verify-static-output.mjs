@@ -153,6 +153,7 @@ for (const page of landing) {
     assert.ok(html.includes('name="robots" content="noindex,follow"'));
     assert.ok(!urls.includes(expectedRoot + page + "/"));
   } else {
+    assert.ok(!html.includes('name="robots" content="noindex'), "Indexable landing page must not carry noindex: " + page);
     assert.ok(urls.includes(expectedRoot + page + "/"));
   }
 }
@@ -196,6 +197,8 @@ for (const place of places) {
     const legacyWilaya = await load(path.join("weather", place.slug, "index.html"));
     assert.ok(legacyWilaya.includes('rel="canonical" href="https://imadtbn.github.io/meteo-dz/' + place.canonicalPath + '/"'), "Old wilaya route must canonicalize to /wilayas/:slug: " + place.slug);
     assert.ok(legacyWilaya.includes('http-equiv="refresh"') && legacyWilaya.includes("window.location.replace"), "Old wilaya route must redirect: " + place.slug);
+    assert.ok(legacyWilaya.includes('name="robots" content="noindex,follow"'), "Legacy wilaya redirects must remain noindex: " + place.slug);
+    assert.ok(!urls.includes(expectedRoot + "weather/" + place.slug + "/"), "Legacy wilaya redirects must not appear in the sitemap: " + place.slug);
   }
   if (place.image) {
     assert.ok(html.includes('fetchpriority="high"') && html.includes(place.image), "Primary city image missing: " + place.slug);
