@@ -121,6 +121,9 @@ const legacyRedirects = new Map([
   [base + "communes/inoughissen-127/", base + "communes/inoughissen-batna/"],
   [base + "communes/el-adjiba-327/", base + "communes/el-adjiba-bouira/"],
   [base + "weather/algiers/", base + "wilayas/algiers/"],
+  [base + "weather/djanet/", base + "wilayas/djanet/"],
+  [base + "weather/oran/", base + "wilayas/oran/"],
+  [base + "weather/ain-temouchent/", base + "wilayas/ain-temouchent/"],
 ]);
 
 await mapLimit(urls, 12, async (url) => {
@@ -135,6 +138,17 @@ await mapLimit(urls, 12, async (url) => {
     assert.ok(html.includes("GTM-K3DQR9RT"), "Configured GTM container missing from the live homepage");
     assert.ok(html.includes("gtm.start") && html.includes("gtm.js"), "Live homepage GTM bootstrap event is missing");
     assert.ok(html.includes("googletagmanager.com/ns.html?id=GTM-K3DQR9RT"), "Live homepage GTM noscript fallback is missing");
+  }
+
+  if (url === base + "arab-capitals/") {
+    for (const capital of byKind.arabCapital) {
+      assert.ok(html.includes('href="' + base + capital.canonicalPath + '/"'), "Arabic capitals page is missing a crawlable capital link: " + capital.slug);
+    }
+  }
+  if (url === base + "world-search/") {
+    for (const route of ["world-capitals/", "arab-capitals/", "wilayas/", "communes/"]) {
+      assert.ok(html.includes('href="' + base + route + '"'), "World search is missing a crawlable directory link: " + route);
+    }
   }
 
   const place = placeByUrl.get(url);
@@ -158,6 +172,12 @@ await mapLimit(urls, 12, async (url) => {
     assert.ok(html.includes("/wilayas/" + place.wilayaSlug + "/"), "Commune page is not linked to its parent wilaya: " + place.slug);
     assert.ok(html.includes("دليل البلديات"), "Commune page is missing its national directory link: " + place.slug);
     assert.ok(place.latitude >= 18 && place.latitude <= 38 && place.longitude >= -9 && place.longitude <= 12, "Commune coordinates are outside Algeria: " + place.slug);
+    if (place.slug === "tamtert-beni-abbes" || place.slug === "tamtert-bechar") {
+      assert.equal(place.locations.length, 1, "Same-named Tamtert communes must retain separate wilaya-specific records");
+      const location = place.locations[0];
+      assert.ok(html.includes('data-source-id="' + location.id + '"'), "Tamtert live page is missing its source location: " + place.slug);
+      assert.ok(html.includes("lat=" + location.latitude + "&amp;lon=" + location.longitude), "Tamtert live page is missing its separate weather link: " + place.slug);
+    }
   }
 });
 
@@ -170,7 +190,23 @@ for (const [legacyUrl, targetUrl] of legacyRedirects) {
   assert.ok(html.includes("window.location.replace"), "Legacy URL must contain a client redirect: " + legacyUrl);
   assert.match(html, /name="robots" content="noindex,follow"/, "Legacy URL must be noindex: " + legacyUrl);
   assert.ok(!urls.includes(legacyUrl), "Legacy URL must not appear in sitemap: " + legacyUrl);
+  assert.ok(urls.includes(targetUrl), "Legacy URL destination must be present in sitemap: " + targetUrl);
 }
+
+for (const route of ["favorites/", "global-weather/"]) {
+  const utilityUrl = new URL(route, base).href;
+  const response = await fetchPage(utilityUrl);
+  const html = await response.text();
+  const canonical = html.match(/<link rel="canonical" href="([^"]+)"\\s*\\/?\\s*>/i);
+  assert.equal(canonical?.[1], utilityUrl, "Utility page canonical mismatch: " + utilityUrl);
+  assert.match(html, /name="robots" content="noindex,follow"/, "Utility page must remain noindex: " + utilityUrl);
+  assert.ok(!urls.includes(utilityUrl), "Noindex utility page must not appear in sitemap: " + utilityUrl);
+}
+
+const beniImageUrl = new URL("images/beni-abbes.jpg", base).href;
+const beniImageResponse = await fetchPage(beniImageUrl);
+assert.match(beniImageResponse.headers.get("content-type") || "", /^image\\/jpeg/i, "Beni Abbes image must remain a JPEG asset");
+assert.ok(!urls.includes(beniImageUrl), "Image assets must not appear in the XML sitemap");
 
 console.log(
   "Full deployment verification passed: " + urls.length + " sitemap URLs, " +
