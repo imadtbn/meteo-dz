@@ -157,6 +157,21 @@ for (const page of landing) {
     assert.ok(urls.includes(expectedRoot + page + "/"));
   }
 }
+const arabCapitalsHtml = await load("arab-capitals/index.html");
+const arabCapitalPlaces = places.filter((place) => place.kind === "arab-capital");
+assert.equal(arabCapitalPlaces.length, 22);
+for (const capital of arabCapitalPlaces) {
+  assert.ok(arabCapitalsHtml.includes('href="https://imadtbn.github.io/meteo-dz/' + capital.canonicalPath + '/"'), "Arabic capitals landing page must link every capital: " + capital.slug);
+}
+const worldSearchHtml = await load("world-search/index.html");
+for (const route of ["/world-capitals/", "/arab-capitals/", "/wilayas/", "/communes/"]) {
+  assert.ok(worldSearchHtml.includes('href="https://imadtbn.github.io/meteo-dz' + route + '"'), "World search must provide crawlable directory links: " + route);
+}
+assert.ok(worldSearchHtml.includes("استكشف الطقس حسب المدينة والمنطقة"));
+assert.ok(worldSearchHtml.includes('href="https://imadtbn.github.io/meteo-dz/world-capitals/dakar/"'), "World search must link to featured world-capital pages");
+assert.ok(!urls.includes(expectedRoot + "images/beni-abbes.jpg"), "Image assets must not be submitted as standalone sitemap pages");
+await stat(path.join(root, "images/beni-abbes.jpg"));
+
 for (const place of places) {
   const relative = path.join(place.canonicalPath, "index.html");
   const html = await load(relative);
@@ -184,6 +199,15 @@ for (const place of places) {
     assert.ok(html.includes("دليل البلديات"), "Commune breadcrumb must link to the national commune directory: " + place.slug);
     assert.ok(place.latitude >= 18 && place.latitude <= 38 && place.longitude >= -9 && place.longitude <= 12, "Commune coordinates must fall within Algeria: " + place.slug);
     assert.ok(place.locations.length >= 1, "Grouped commune page must retain source locations: " + place.slug);
+    if (place.slug === "tamtert-beni-abbes") {
+      assert.equal(place.locations.length, 2, "Tamtert must retain both independent source locations");
+      for (const location of place.locations) {
+        assert.ok(html.includes('data-source-id="' + location.id + '"'), "Tamtert page must expose each source location: " + location.id);
+        assert.ok(html.includes(String(location.latitude) + ", " + String(location.longitude)), "Tamtert page must include each location's own coordinates: " + location.id);
+        assert.ok(html.includes("lat=" + location.latitude + "&amp;lon=" + location.longitude), "Tamtert page must link to a separate weather reading for each location: " + location.id);
+      }
+      assert.ok(!html.includes('name="robots" content="noindex'), "Canonical Tamtert commune page must remain indexable");
+    }
     for (const legacySlug of place.legacySlugs) {
       const legacyHtml = await load(path.join("communes", legacySlug, "index.html"));
       assert.ok(legacyHtml.includes('rel="canonical" href="https://imadtbn.github.io/meteo-dz/' + place.canonicalPath + '/"'), "Legacy route must canonicalize to the name-only URL: " + legacySlug);
