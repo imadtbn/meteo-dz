@@ -13,9 +13,26 @@ assert.ok(communeCatalog.every((commune) => commune.locations.length >= 1), "Eve
 
 const root = path.resolve("dist/public");
 const load = (relative) => readFile(path.join(root, relative), "utf8");
-const stripInjectedGtm = (html) => html
-  .replace(/<!-- Google Tag Manager: canonical container bootstrap shared by the app and prerendered pages\\. -->[\\s\\S]*?<\\/script>/, "")
-  .replace(/<!-- Google Tag Manager \\(noscript\\) -->[\\s\\S]*?<!-- End Google Tag Manager \\(noscript\\) -->/, "");
+const stripInjectedGtm = (html) => {
+  const headStart = "<!-- Google Tag Manager: canonical container bootstrap shared by the app and prerendered pages. -->";
+  const scriptEnd = "</script>";
+  const headIndex = html.indexOf(headStart);
+  if (headIndex >= 0) {
+    const endIndex = html.indexOf(scriptEnd, headIndex);
+    if (endIndex < 0) throw new Error("GTM bootstrap script is not closed");
+    html = html.slice(0, headIndex) + html.slice(endIndex + scriptEnd.length);
+  }
+
+  const bodyStart = "<!-- Google Tag Manager (noscript) -->";
+  const bodyEnd = "<!-- End Google Tag Manager (noscript) -->";
+  const bodyIndex = html.indexOf(bodyStart);
+  if (bodyIndex >= 0) {
+    const endIndex = html.indexOf(bodyEnd, bodyIndex);
+    if (endIndex < 0) throw new Error("GTM noscript block is not closed");
+    html = html.slice(0, bodyIndex) + html.slice(endIndex + bodyEnd.length);
+  }
+  return html;
+};
 
 async function verifyGtmAcrossHtml(directory) {
   const entries = await readdir(directory, { withFileTypes: true });
