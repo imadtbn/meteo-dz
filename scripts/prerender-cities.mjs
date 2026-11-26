@@ -221,8 +221,8 @@ async function ensureGtmOnEveryHtml(directory) {
     }
     if (!entry.isFile() || !entry.name.endsWith(".html")) continue;
     let html = await readFile(filePath, "utf8");
-    const loaderCount = (html.match(/googletagmanager\\.com\\/gtm\\.js/g) || []).length;
-    const noScriptCount = (html.match(/googletagmanager\\.com\\/ns\\.html/g) || []).length;
+    const loaderCount = html.split("https://www.googletagmanager.com/gtm.js").length - 1;
+    const noScriptCount = html.split("https://www.googletagmanager.com/ns.html").length - 1;
     if (loaderCount > 1 || noScriptCount > 1) {
       throw new Error("Duplicate GTM installation detected in " + path.relative(dist, filePath));
     }
