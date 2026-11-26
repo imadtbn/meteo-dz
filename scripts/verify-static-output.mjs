@@ -124,9 +124,14 @@ assert.ok(manifest.icons?.some((icon) => icon.sizes === "512x512" && icon.type =
 const sitemap = await load("sitemap.xml");
 const expectedRoot = "https://imadtbn.github.io/meteo-dz/";
 const urls = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map((item) => item[1]);
+assert.equal(urls.length, 1906, "Canonical XML sitemap must contain exactly 1,906 URLs");
 assert.equal(urls.length, 1 + INDEXABLE_LANDING_ROUTES.length + places.length);
 assert.equal(new Set(urls).size, urls.length);
 assert.deepEqual(urls, sitemapUrls(expectedRoot, places));
+assert.ok(urls.every((url) => new URL(url).pathname.endsWith("/")), "Every canonical sitemap URL must use a trailing slash");
+assert.ok(!urls.some((url) => /\\/weather\\/[^/]+\\/$/.test(new URL(url).pathname)), "Legacy wilaya weather routes must not appear in the sitemap");
+assert.ok(!urls.some((url) => new URL(url).pathname.startsWith("/images/")), "Image assets must not appear as sitemap pages");
+assert.ok(!urls.some((url) => /\\/(favorites|global-weather)\\/$/.test(new URL(url).pathname)), "Utility routes marked noindex must not appear in the sitemap");
 assert.equal(await readFile("submet-url.xml", "utf8"), sitemapUrls(expectedRoot, places).join("\n") + "\n", "Submitted URL list must match canonical sitemap routes");
 assert.equal(sitemap, buildSitemap(expectedRoot, places), "Deployed sitemap must match the canonical generator");
 assert.equal(sitemap, await readFile("sitemap.xml", "utf8"), "Repository root sitemap must match deployment");
