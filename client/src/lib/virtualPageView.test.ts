@@ -2,10 +2,21 @@ import { describe, expect, it } from "vitest";
 import {
   createVirtualPageViewPayload,
   pushVirtualPageView,
+  shouldTrackVirtualPageView,
   VIRTUAL_PAGE_VIEW_EVENT,
 } from "@/lib/virtualPageView";
 
 describe("SPA virtual page view tracking", () => {
+  it("does not track the initial render or a repeated pathname", () => {
+    const initialPath = "/meteo-dz/";
+    expect(shouldTrackVirtualPageView(initialPath, initialPath)).toBe(false);
+    expect(shouldTrackVirtualPageView("/meteo-dz/alerts/", "/meteo-dz/alerts/")).toBe(false);
+  });
+
+  it("tracks a real client-side navigation exactly when the pathname changes", () => {
+    expect(shouldTrackVirtualPageView("/meteo-dz/", "/meteo-dz/wilayas/algiers/")).toBe(true);
+  });
+
   it("uses a custom event instead of a duplicate page_view event", () => {
     const payload = createVirtualPageViewPayload(
       "/meteo-dz/wilayas/algiers/",
