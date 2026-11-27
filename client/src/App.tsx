@@ -4,7 +4,7 @@ import NotFound from "@/pages/NotFound";
 import { Route, Router as WouterRouter, Switch, useLocation, useRoute } from "wouter";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
-import { pushVirtualPageView, type AnalyticsDataLayer } from "./lib/virtualPageView";
+import { pushVirtualPageView, shouldTrackVirtualPageView, type AnalyticsDataLayer } from "./lib/virtualPageView";
 import City from "./pages/City";
 import Home from "./pages/Home";
 const WilayasWeatherIndex = lazy(() => import("./pages/Directories").then((module) => ({ default: module.WeatherDirectoryPage })));
@@ -32,7 +32,7 @@ function SpaPageViewTracker() {
 
   useEffect(() => {
     const pathname = window.location.pathname;
-    if (lastTrackedPath.current === pathname) return;
+    if (!shouldTrackVirtualPageView(lastTrackedPath.current, pathname)) return;
     lastTrackedPath.current = pathname;
 
     const analyticsWindow = window as Window & { dataLayer?: AnalyticsDataLayer };
