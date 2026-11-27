@@ -8,10 +8,15 @@ const dist = path.resolve("dist/public");
 await rm(path.join(dist, "__manus__"), { recursive: true, force: true });
 const template = await readFile(path.join(dist, "index.html"), "utf8");
 const gtmHeadStart = template.indexOf("<!-- Google Tag Manager:");
-const gtmHeadEnd = template.indexOf("</head>", gtmHeadStart);
 const gtmNoScriptStart = template.indexOf("<!-- Google Tag Manager (noscript) -->");
 const gtmNoScriptEnd = template.indexOf("<!-- End Google Tag Manager (noscript) -->") + "<!-- End Google Tag Manager (noscript) -->".length;
-const gtmHead = gtmHeadStart >= 0 && gtmHeadEnd > gtmHeadStart ? template.slice(gtmHeadStart, gtmHeadEnd) : "";
+let gtmHeadEnd = gtmHeadStart;
+for (let script = 0; script < 2; script += 1) {
+  gtmHeadEnd = template.indexOf("</script>", gtmHeadEnd);
+  if (gtmHeadEnd < 0) throw new Error("The canonical GTM bootstrap script is incomplete.");
+  gtmHeadEnd += "</script>".length;
+}
+const gtmHead = gtmHeadStart >= 0 ? template.slice(gtmHeadStart, gtmHeadEnd) : "";
 const gtmNoScript = gtmNoScriptStart >= 0 && gtmNoScriptEnd > gtmNoScriptStart ? template.slice(gtmNoScriptStart, gtmNoScriptEnd) : "";
 if (!gtmHead.includes("GTM-WGLLH4S2") || !gtmHead.includes("gtag('js', new Date())") || !gtmNoScript.includes("GTM-WGLLH4S2")) {
   throw new Error("The canonical GTM installation is missing or invalid in the HTML template.");
