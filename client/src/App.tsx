@@ -1,9 +1,10 @@
 /** Style reminder: Atlas Observatory uses route-level pages that always preserve a clear route back to the current reading. */
-import { lazy, Suspense, useEffect } from "react";
+import { lazy, Suspense, useEffect, useRef } from "react";
 import NotFound from "@/pages/NotFound";
 import { Route, Router as WouterRouter, Switch, useLocation, useRoute } from "wouter";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
+import { pushVirtualPageView, type AnalyticsDataLayer } from "./lib/virtualPageView";
 import City from "./pages/City";
 import Home from "./pages/Home";
 const WilayasWeatherIndex = lazy(() => import("./pages/Directories").then((module) => ({ default: module.WeatherDirectoryPage })));
@@ -20,6 +21,28 @@ const ClimateObservatoryPage = lazy(() => import("./pages/ClimateObservatory"));
 const AgricultureWeatherPage = lazy(() => import("./pages/AgricultureWeather"));
 const CommunePage = lazy(() => import("./pages/Commune"));
 
+/**
+ * Tracks client-side route changes with a custom GTM event.
+ * It deliberately does not emit the GA4 "page_view" event; GTM remains
+ * responsible for any configured automatic page-view behavior.
+ */
+function SpaPageViewTracker() {
+  const [location] = useLocation();
+  const lastTrackedPath = useRef<string | null>(null);
+
+  useEffect(() => {
+    const pathname = window.location.pathname;
+    if (lastTrackedPath.current === pathname) return;
+    lastTrackedPath.current = pathname;
+
+    const analyticsWindow = window as Window & { dataLayer?: AnalyticsDataLayer };
+    const dataLayer = analyticsWindow.dataLayer ?? (analyticsWindow.dataLayer = []);
+    pushVirtualPageView(dataLayer, pathname, document.title, window.location.origin);
+  }, [location]);
+
+  return null;
+}
+
 function LegacyWilayaRedirect() {
   const [, params] = useRoute("/weather/:slug");
   const [, navigate] = useLocation();
@@ -32,6 +55,7 @@ function Router() {
   const base = import.meta.env.BASE_URL.replace(/\/$/, "") || "/";
   return (
     <WouterRouter base={base}>
+      <SpaPageViewTracker />
       <Suspense fallback={<div className="loading-card" dir="rtl">جارٍ فتح صفحة المرصد…</div>}>
       <Switch>
       <Route path={"/"} component={() => <Home />} />
@@ -64,7 +88,7 @@ function Router() {
 // NOTE: About Theme
 // - First choose a default theme according to your design style (dark or light bg), than change color palette in index.css
 //   to keep consistent foreground/background color across components
-// - If you want to make theme switchable, pass `switchable` ThemeProvider and use `useTheme` hook
+// - If you want to make theme switchable, pass switchable ThemeProvider and use useTheme hook
 
 function App() {
   return (
