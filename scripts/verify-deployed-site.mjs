@@ -155,7 +155,7 @@ await mapLimit(urls, 12, async (url) => {
       html = await response.text();
       const checks = {
         newContainer: html.includes("GTM-WGLLH4S2"),
-        noLegacyContainer: !html.includes("GTM-WGLLH4S2") && !html.includes("GTM-K3DQR9RT"),
+        noLegacyContainer: !html.includes("GTM-M58X5KJ8") && !html.includes("GTM-K3DQR9RT"),
         bootstrap: html.includes("new Date()") && html.includes("gtm.js?id=GTM-WGLLH4S2"),
         noscript: html.includes("googletagmanager.com/ns.html?id=GTM-WGLLH4S2"),
       };
