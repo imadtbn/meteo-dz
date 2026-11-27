@@ -18,9 +18,15 @@ const stripInjectedGtm = (html) => {
   const scriptEnd = "</script>";
   const headIndex = html.indexOf(headStart);
   if (headIndex >= 0) {
-    const endIndex = html.indexOf(scriptEnd, headIndex);
-    if (endIndex < 0) throw new Error("GTM bootstrap script is not closed");
-    html = html.slice(0, headIndex) + html.slice(endIndex + scriptEnd.length);
+    // The canonical installation consists of the async GTM loader and a
+    // separate inline gtag initialization script. Strip both as one block.
+    let endIndex = headIndex;
+    for (let script = 0; script < 2; script += 1) {
+      endIndex = html.indexOf(scriptEnd, endIndex);
+      if (endIndex < 0) throw new Error("GTM bootstrap script is not closed");
+      endIndex += scriptEnd.length;
+    }
+    html = html.slice(0, headIndex) + html.slice(endIndex);
   }
 
   const bodyStart = "<!-- Google Tag Manager (noscript) -->";
