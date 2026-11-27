@@ -293,17 +293,17 @@ const robots = await load("robots.txt");
 assert.ok(robots.includes("Sitemap: " + expectedRoot + "sitemap.xml"));
 
 const responsiveCss = await readFile("client/src/index.css", "utf8");
-assert.match(responsiveCss, /@media\\s*\\(max-width:\\s*\\d+px\\)/, "Responsive mobile breakpoints must be present");
-assert.match(responsiveCss, /min-width:\\s*0/, "Responsive layouts must allow children to shrink without horizontal overflow");
-assert.match(responsiveCss, /grid-template-columns:\\s*repeat\\(1,\\s*minmax\\(0,\\s*1fr\\)\\)/, "At least one narrow-screen layout must collapse to a single column");
+assert.match(responsiveCss, /@media\s*\(max-width:\s*\d+px\)/, "Responsive mobile breakpoints must be present");
+assert.match(responsiveCss, /min-width:\s*0/, "Responsive layouts must allow children to shrink without horizontal overflow");
+assert.match(responsiveCss, /grid-template-columns:\s*repeat\(1,\s*minmax\(0,\s*1fr\)\)/, "At least one narrow-screen layout must collapse to a single column");
 
 const serviceWorkerSource = await readFile("client/public/sw.js", "utf8");
 const serviceWorkerOutput = await load("sw.js");
 assert.equal(serviceWorkerOutput, serviceWorkerSource, "Published service worker must match the single canonical source in client/public/sw.js");
 assert.match(serviceWorkerSource, /const CACHE = "meteo-dz-shell-v6"/, "Service worker cache version must be explicitly versioned");
-assert.match(serviceWorkerSource, /if \\(request\\.mode === "navigate"\\)[\\s\\S]*?fetch\\(request\\)[\\s\\S]*?caches\\.match\\(request\\)[\\s\\S]*?caches\\.match\\(BASE\\)/, "Offline navigation must use network-first with cached page and shell fallbacks");
-assert.match(serviceWorkerSource, /\\["script", "style", "font", "image"\\][\\s\\S]*?caches\\.match\\(request\\)[\\s\\S]*?fetch\\(request\\)/, "Static assets must use cache-first with a network fallback");
-assert.match(serviceWorkerSource, /self\\.clients\\.claim\\(\\)/, "Activated service worker must claim existing clients");
+assert.match(serviceWorkerSource, /if \(request\.mode === "navigate"\)[\s\S]*?fetch\(request\)[\s\S]*?caches\.match\(request\)[\s\S]*?caches\.match\(BASE\)/, "Offline navigation must use network-first with cached page and shell fallbacks");
+assert.match(serviceWorkerSource, /\["script", "style", "font", "image"\][\s\S]*?caches\.match\(request\)[\s\S]*?fetch\(request\)/, "Static assets must use cache-first with a network fallback");
+assert.match(serviceWorkerSource, /self\.clients\.claim\(\)/, "Activated service worker must claim existing clients");
 
 for (const asset of ["icons/icon-192.png", "icons/icon-512.png"]) {
   assert.ok(serviceWorkerSource.includes('BASE + "' + asset + '"'), "PWA install shell is missing " + asset);
