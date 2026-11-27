@@ -192,6 +192,12 @@ await mapLimit(urls, 12, async (url) => {
     response = await fetchPage(url);
     html = await response.text();
   }
+  const gtmLoaderCount = html.split("https://www.googletagmanager.com/gtm.js").length - 1;
+  const gtmNoscriptCount = html.split("https://www.googletagmanager.com/ns.html").length - 1;
+  assert.equal(gtmLoaderCount, 1, "Every canonical page must load GTM exactly once: " + url);
+  assert.equal(gtmNoscriptCount, 1, "Every canonical page must include one GTM noscript block: " + url);
+  assert.ok(html.includes("GTM-WGLLH4S2"), "Active GTM container missing: " + url);
+  assert.ok(!html.includes("GTM-M58X5KJ8") && !html.includes("GTM-K3DQR9RT"), "Legacy GTM container found: " + url);
   assert.match(html, /<title>[^<]+<\/title>/, "Missing title: " + url);
   const canonical = html.match(/<link rel="canonical" href="([^"]+)"\s*\/?\s*>/i);
   assert.ok(canonical, "Missing canonical: " + url);
