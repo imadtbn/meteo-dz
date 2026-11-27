@@ -7,7 +7,7 @@ export interface VirtualPageViewPayload {
   page_title: string;
 }
 
-export type AnalyticsDataLayer = Array<Record<string, unknown>>;
+export type AnalyticsDataLayer = Array<Record<string, unknown> | VirtualPageViewPayload>;
 
 /**
  * Build a privacy-conscious SPA navigation event.
