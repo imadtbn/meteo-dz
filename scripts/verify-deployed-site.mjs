@@ -135,9 +135,10 @@ await mapLimit(urls, 12, async (url) => {
   assert.equal(canonical[1], url, "Canonical mismatch: " + url);
 
   if (url === base) {
-    assert.ok(html.includes("GTM-K3DQR9RT"), "Configured GTM container missing from the live homepage");
+    assert.ok(html.includes("GTM-M58X5KJ8"), "Configured GTM container missing from the live homepage");
+    assert.ok(!html.includes("GTM-K3DQR9RT"), "Legacy GTM container must not appear on the live homepage");
     assert.ok(html.includes("gtm.start") && html.includes("gtm.js"), "Live homepage GTM bootstrap event is missing");
-    assert.ok(html.includes("googletagmanager.com/ns.html?id=GTM-K3DQR9RT"), "Live homepage GTM noscript fallback is missing");
+    assert.ok(html.includes("googletagmanager.com/ns.html?id=GTM-M58X5KJ8"), "Live homepage GTM noscript fallback is missing");
   }
 
   if (url === base + "arab-capitals/") {
