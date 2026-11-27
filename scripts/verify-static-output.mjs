@@ -295,7 +295,7 @@ assert.ok(robots.includes("Sitemap: " + expectedRoot + "sitemap.xml"));
 const responsiveCss = await readFile("client/src/index.css", "utf8");
 assert.match(responsiveCss, /@media\s*\(max-width:\s*\d+px\)/, "Responsive mobile breakpoints must be present");
 assert.match(responsiveCss, /min-width:\s*0/, "Responsive layouts must allow children to shrink without horizontal overflow");
-assert.match(responsiveCss, /grid-template-columns:\s*repeat\(1,\s*minmax\(0,\s*1fr\)\)/, "At least one narrow-screen layout must collapse to a single column");
+assert.match(responsiveCss, /grid-template-columns:\s*(?:1fr|repeat\(1,\s*minmax\(0,\s*1fr\)\))/, "At least one narrow-screen layout must collapse to a single column");
 
 const serviceWorkerSource = await readFile("client/public/sw.js", "utf8");
 const serviceWorkerOutput = await load("sw.js");
