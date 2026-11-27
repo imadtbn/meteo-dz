@@ -28,7 +28,7 @@ const CommunePage = lazy(() => import("./pages/Commune"));
  */
 function SpaPageViewTracker() {
   const [location] = useLocation();
-  const lastTrackedPath = useRef<string | null>(window.location.pathname);
+  const lastTrackedPath = useRef<string>(window.location.pathname);
 
   useEffect(() => {
     const pathname = window.location.pathname;
