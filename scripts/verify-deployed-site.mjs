@@ -12,31 +12,38 @@ const communes = buildCommuneCatalog();
 const expectedUrls = sitemapUrls(base, places);
 const expectedRoot = base;
 
-async function fetchPage(url) {
+async function fetchPage(url, { cacheBust = false, cacheKey = "" } = {}) {
   let lastError;
+  const requestUrl = new URL(url);
+  if (cacheBust) requestUrl.searchParams.set("__meteo_verify", cacheKey || String(Date.now()));
   for (let attempt = 0; attempt < 3; attempt += 1) {
     try {
-      const response = await fetch(url, {
+      const response = await fetch(requestUrl.href, {
         redirect: "manual",
+        cache: "no-store",
         signal: AbortSignal.timeout(20000),
-        headers: { "user-agent": "meteo-dz-deployment-verifier/2.0" },
+        headers: {
+          "user-agent": "meteo-dz-deployment-verifier/2.1",
+          "cache-control": "no-cache, no-store, max-age=0",
+          pragma: "no-cache",
+        },
       });
       if ((response.status === 429 || response.status >= 500) && attempt < 2) {
-        await new Promise((resolve) => setTimeout(resolve, 300 * (attempt + 1)));
+        await new Promise((resolve) => setTimeout(resolve, 500 * (attempt + 1)));
         continue;
       }
-      assert.equal(response.status, 200, url + " returned HTTP " + response.status);
-      assert.equal(response.url, url, "Unexpected response URL: " + url);
+      assert.equal(response.status, 200, requestUrl.href + " returned HTTP " + response.status);
+      assert.equal(response.url, requestUrl.href, "Unexpected response URL: " + requestUrl.href);
       return response;
     } catch (error) {
       lastError = error;
       if (attempt < 2) {
-        await new Promise((resolve) => setTimeout(resolve, 300 * (attempt + 1)));
+        await new Promise((resolve) => setTimeout(resolve, 500 * (attempt + 1)));
         continue;
       }
     }
   }
-  throw lastError || new Error("Unable to fetch " + url);
+  throw lastError || new Error("Unable to fetch " + requestUrl.href);
 }
 
 async function mapLimit(items, limit, task) {
@@ -127,19 +134,68 @@ const legacyRedirects = new Map([
 ]);
 
 await mapLimit(urls, 12, async (url) => {
-  const response = await fetchPage(url);
-  const html = await response.text();
+  let response;
+  let html;
+  if (url === base) {
+    const retryDelays = [0, 2000, 5000, 10000];
+    const diagnostics = [];
+    let gtmValid = false;
+    for (let attempt = 0; attempt < retryDelays.length; attempt += 1) {
+      if (retryDelays[attempt] > 0) {
+        await new Promise((resolve) => setTimeout(resolve, retryDelays[attempt]));
+      }
+      response = await fetchPage(url, {
+        cacheBust: true,
+        cacheKey: [
+          process.env.GITHUB_RUN_ID || "local",
+          process.env.GITHUB_RUN_ATTEMPT || "1",
+          attempt,
+        ].join("-"),
+      });
+      html = await response.text();
+      const checks = {
+        newContainer: html.includes("GTM-M58X5KJ8"),
+        noLegacyContainer: !html.includes("GTM-K3DQR9RT"),
+        bootstrap: html.includes("gtm.start") && html.includes("gtm.js"),
+        noscript: html.includes("googletagmanager.com/ns.html?id=GTM-M58X5KJ8"),
+      };
+      diagnostics.push({
+        attempt: attempt + 1,
+        status: response.status,
+        bytes: Buffer.byteLength(html, "utf8"),
+        checks,
+        cache: {
+          age: response.headers.get("age"),
+          cacheControl: response.headers.get("cache-control"),
+          cdnCache: response.headers.get("x-cache") || response.headers.get("cf-cache-status"),
+          etag: response.headers.get("etag"),
+          lastModified: response.headers.get("last-modified"),
+          via: response.headers.get("via"),
+        },
+      });
+      gtmValid = Object.values(checks).every(Boolean);
+      if (gtmValid) break;
+    }
+    if (!gtmValid) {
+      console.error(
+        "[verify-live] Homepage GTM diagnostics:",
+        JSON.stringify({
+          url,
+          attempts: diagnostics,
+          bodyStart: html.slice(0, 700),
+          bodyEnd: html.slice(-300),
+        }),
+      );
+    }
+    assert.ok(gtmValid, "Live homepage GTM verification failed after cache-bypassed retries; inspect [verify-live] diagnostics");
+  } else {
+    response = await fetchPage(url);
+    html = await response.text();
+  }
   assert.match(html, /<title>[^<]+<\/title>/, "Missing title: " + url);
   const canonical = html.match(/<link rel="canonical" href="([^"]+)"\s*\/?\s*>/i);
   assert.ok(canonical, "Missing canonical: " + url);
   assert.equal(canonical[1], url, "Canonical mismatch: " + url);
-
-  if (url === base) {
-    assert.ok(html.includes("GTM-M58X5KJ8"), "Configured GTM container missing from the live homepage");
-    assert.ok(!html.includes("GTM-K3DQR9RT"), "Legacy GTM container must not appear on the live homepage");
-    assert.ok(html.includes("gtm.start") && html.includes("gtm.js"), "Live homepage GTM bootstrap event is missing");
-    assert.ok(html.includes("googletagmanager.com/ns.html?id=GTM-M58X5KJ8"), "Live homepage GTM noscript fallback is missing");
-  }
 
   if (url === base + "arab-capitals/") {
     for (const capital of byKind.arabCapital) {
