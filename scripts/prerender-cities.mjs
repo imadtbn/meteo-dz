@@ -239,4 +239,4 @@ async function ensureGtmOnEveryHtml(directory) {
 }
 
 await ensureGtmOnEveryHtml(dist);
-console.log("Verified the single GTM-M58X5KJ8 container on every generated HTML page.");
+console.log("Verified the single GTM-WGLLH4S2 container on every generated HTML page.");
