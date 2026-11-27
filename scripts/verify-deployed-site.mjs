@@ -192,8 +192,8 @@ await mapLimit(urls, 12, async (url) => {
     response = await fetchPage(url);
     html = await response.text();
   }
-  assert.match(html, /<title>[^<]+<\\/title>/, "Missing title: " + url);
-  const canonical = html.match(/<link rel="canonical" href="([^"]+)"\\s*\\/?\\s*>/i);
+  assert.match(html, /<title>[^<]+<\/title>/, "Missing title: " + url);
+  const canonical = html.match(/<link rel="canonical" href="([^"]+)"\s*\/?\s*>/i);
   assert.ok(canonical, "Missing canonical: " + url);
   assert.equal(canonical[1], url, "Canonical mismatch: " + url);
 
