@@ -35,3 +35,9 @@ export function pushVirtualPageView(
 ): void {
   dataLayer.push(createVirtualPageViewPayload(pathname, title, origin));
 }
+
+
+/** Returns true only when the pathname actually changes after initial render. */
+export function shouldTrackVirtualPageView(previousPath: string, nextPath: string): boolean {
+  return previousPath !== nextPath;
+}
