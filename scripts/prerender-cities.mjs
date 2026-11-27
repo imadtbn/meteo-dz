@@ -8,12 +8,12 @@ const dist = path.resolve("dist/public");
 await rm(path.join(dist, "__manus__"), { recursive: true, force: true });
 const template = await readFile(path.join(dist, "index.html"), "utf8");
 const gtmHeadStart = template.indexOf("<!-- Google Tag Manager:");
-const gtmHeadEnd = template.indexOf("</script>", gtmHeadStart) + "</script>".length;
+const gtmHeadEnd = template.indexOf("</head>", gtmHeadStart);
 const gtmNoScriptStart = template.indexOf("<!-- Google Tag Manager (noscript) -->");
 const gtmNoScriptEnd = template.indexOf("<!-- End Google Tag Manager (noscript) -->") + "<!-- End Google Tag Manager (noscript) -->".length;
 const gtmHead = gtmHeadStart >= 0 && gtmHeadEnd > gtmHeadStart ? template.slice(gtmHeadStart, gtmHeadEnd) : "";
 const gtmNoScript = gtmNoScriptStart >= 0 && gtmNoScriptEnd > gtmNoScriptStart ? template.slice(gtmNoScriptStart, gtmNoScriptEnd) : "";
-if (!gtmHead.includes("GTM-M58X5KJ8") || !gtmNoScript.includes("GTM-M58X5KJ8")) {
+if (!gtmHead.includes("GTM-WGLLH4S2") || !gtmHead.includes("gtag('js', new Date())") || !gtmNoScript.includes("GTM-WGLLH4S2")) {
   throw new Error("The canonical GTM installation is missing or invalid in the HTML template.");
 }
 const siteUrl = process.env.SITE_URL || (process.env.DEPLOY_TARGET === "github" ? "https://imadtbn.github.io/meteo-dz" : "https://meteo-dz-modernized.manus.space");
