@@ -47,9 +47,9 @@ async function verifyGtmAcrossHtml(directory) {
     const relative = path.relative(root, filePath);
     assert.equal(html.split("https://www.googletagmanager.com/gtm.js").length - 1, 1, "Each HTML page must load GTM exactly once: " + relative);
     assert.equal(html.split("https://www.googletagmanager.com/ns.html").length - 1, 1, "Each HTML page must include one GTM noscript fallback: " + relative);
-    assert.ok(html.includes("GTM-M58X5KJ8"), "Active GTM container missing from " + relative);
-    assert.ok(html.includes("gtm.start") && html.includes("gtm.js"), "GTM bootstrap missing from " + relative);
-    assert.ok(!html.includes("GTM-K3DQR9RT"), "Legacy GTM container remains in " + relative);
+    assert.ok(html.includes("GTM-WGLLH4S2"), "Active GTM container missing from " + relative);
+    assert.ok(html.includes("new Date()") && html.includes("gtm.js?id=GTM-WGLLH4S2"), "GTM bootstrap missing from " + relative);
+    assert.ok(!html.includes("GTM-M58X5KJ8") && !html.includes("GTM-K3DQR9RT"), "Legacy GTM container remains in " + relative);
   }
 }
 
@@ -64,11 +64,11 @@ assert.ok(Buffer.byteLength(homepage, "utf8") < 100000, "Production homepage HTM
 assert.ok(!(await readdir(root)).includes("__manus__"), "Development debug collector must not be published");
 const adsenseLoader = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5656416032906373';
 assert.equal(homepage.split(adsenseLoader).length - 1, 1, "Load AdSense exactly once per page");
-const gtmContainerId = "GTM-M58X5KJ8";
+const gtmContainerId = "GTM-WGLLH4S2";
 assert.ok(homepage.includes(gtmContainerId), "Configured Google Tag Manager container is missing");
-assert.ok(homepage.includes("gtm.start") && homepage.includes("gtm.js"), "Google Tag Manager bootstrap event is missing");
+assert.ok(homepage.includes("new Date()") && homepage.includes("gtm.js?id=GTM-WGLLH4S2"), "Google Tag Manager bootstrap event is missing");
 assert.ok(homepage.includes("googletagmanager.com/ns.html?id=" + gtmContainerId), "Google Tag Manager noscript fallback is missing");
-assert.ok(!homepage.includes("GTM-K3DQR9RT"), "Unexpected legacy Google Tag Manager container remains");
+assert.ok(!homepage.includes("GTM-M58X5KJ8") && !homepage.includes("GTM-K3DQR9RT"), "Unexpected legacy Google Tag Manager container remains");
 const assetNames = await readdir(path.join(root, "assets"));
 const staticScripts = assetNames.filter((name) => name.endsWith(".js"));
 const initialAssetNames = [...homepage.matchAll(/(?:src|href)="[^"]*assets\/([^"]+\.js)"/g)].map((match) => match[1]);
