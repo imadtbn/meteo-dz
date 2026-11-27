@@ -23,12 +23,12 @@ const CommunePage = lazy(() => import("./pages/Commune"));
 
 /**
  * Tracks client-side route changes with a custom GTM event.
- * It deliberately does not emit the GA4 "page_view" event; GTM remains
- * responsible for any configured automatic page-view behavior.
+ * The initial page view remains under GTM's normal page-load tracking.
+ * This tracker never emits the GA4 "page_view" event itself.
  */
 function SpaPageViewTracker() {
   const [location] = useLocation();
-  const lastTrackedPath = useRef<string | null>(null);
+  const lastTrackedPath = useRef<string | null>(window.location.pathname);
 
   useEffect(() => {
     const pathname = window.location.pathname;
